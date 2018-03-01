@@ -15,8 +15,6 @@ public class Layouts extends CommonLayout implements ILayouts
 
 	protected String			searchName;
 	
-	protected String			searchSubName;
-
 	protected int				searchOrder;
 
 	protected String			baseBeanNameWithFullPackage;

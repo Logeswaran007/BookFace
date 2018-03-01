@@ -19,6 +19,6 @@ public class ProducerUsers extends Users
 	@Transient
 	public String getBusinessKey()
 	{
-		return EKey.Auto("PRDUR");
+		return EKey.Auto("PRUR");
 	}
 }
