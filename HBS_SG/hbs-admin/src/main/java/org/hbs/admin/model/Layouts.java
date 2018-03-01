@@ -18,6 +18,17 @@ public class Layouts extends CommonLayout implements ILayouts
 	protected int				searchOrder;
 
 	protected String			baseBeanNameWithFullPackage;
+	
+	public Layouts() {
+		super();
+	}
+
+	public Layouts(String searchName, int searchOrder, String baseBeanNameWithFullPackage) {
+		super();
+		this.searchName = searchName;
+		this.searchOrder = searchOrder;
+		this.baseBeanNameWithFullPackage = baseBeanNameWithFullPackage;
+	}
 
 	@Column(name = "baseBeanNameWithFullPackage")
 	public String getBaseBeanNameWithFullPackage()
