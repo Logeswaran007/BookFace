@@ -1,0 +1,111 @@
+<?xml version="1.0"?>
+<project
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
+	xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>HBS_SG</groupId>
+		<artifactId>HBS_SG</artifactId>
+		<version>0.0.1-SNAPSHOT</version>
+	</parent>
+
+	<url>http://maven.apache.org</url>
+
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<start-class>org.hbs.message.sender.action.SGMessageDispatcherMain</start-class>
+	</properties>
+
+	<dependencies>
+
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter</artifactId>
+		</dependency>
+		<!-- MYSQL JDBC -->
+		<dependency>
+			<groupId>mysql</groupId>
+			<artifactId>mysql-connector-java</artifactId>
+			<!-- scope>provided</scope -->
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-data-jpa</artifactId>
+			<!-- scope>provided</scope -->
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-autoconfigure</artifactId>
+			<!-- scope>provided</scope -->
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-mail</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.velocity</groupId>
+			<artifactId>velocity</artifactId>
+			<version>1.7</version>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/com.itextpdf/itextpdf -->
+		<dependency>
+			<groupId>com.itextpdf</groupId>
+			<artifactId>itextpdf</artifactId>
+			<version>5.5.12</version>
+		</dependency>
+
+		<!-- https://mvnrepository.com/artifact/com.itextpdf.tool/xmlworker -->
+		<dependency>
+			<groupId>com.itextpdf.tool</groupId>
+			<artifactId>xmlworker</artifactId>
+			<version>5.5.12</version>
+		</dependency>
+
+		<dependency>
+			<groupId>HBS_SG</groupId>
+			<artifactId>hbs-admin</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+			<!-- scope>provided</scope -->
+		</dependency>
+		<dependency>
+			<groupId>HBS_SG</groupId>
+			<artifactId>hbs-util</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+			<!-- scope>provided</scope -->
+		</dependency>
+		<dependency>
+			<groupId>HBS_SG</groupId>
+			<artifactId>hbs-image</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+			<!-- scope>provided</scope -->
+		</dependency>
+		<dependency>
+			<groupId>HBS_SG</groupId>
+			<artifactId>hbs-sg-beans</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
+	</dependencies>
+
+	<build>
+		<plugins>
+			<!-- Package as an executable jar/war -->
+			<plugin>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
+				<executions>
+					<execution>
+						<goals>
+							<goal>repackage</goal>
+						</goals>
+						<configuration>
+							<classifier>exec</classifier>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+
+		</plugins>
+	</build>
+	<packaging>jar</packaging>
+	<artifactId>hbs-message-sender</artifactId>
+</project>
