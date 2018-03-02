@@ -18,6 +18,7 @@ import org.hbs.admin.controller.param.UserParam;
 import org.hbs.admin.model.ILayouts;
 import org.hbs.admin.model.ILayouts.EDataTable;
 import org.hbs.admin.model.IUsers;
+import org.hbs.admin.model.IUsers.EUserType;
 import org.hbs.admin.model.IUsers.EUsers;
 import org.hbs.edutel.model.AuthKeyGen;
 import org.hbs.edutel.model.IAuthKeyGen;
@@ -56,6 +57,7 @@ public class AuthKeyGenController extends SGControllerBaseBo implements IAdminPa
 {
 	private static final long	serialVersionUID	= 1580742167460496210L;
 	private final Font			normalFont			= FontFactory.getFont("Calibri", BaseFont.IDENTITY_H, true, 10, Font.NORMAL);
+	
 
 	@RequestMapping(PRE_SEARCH_AUTH_KEYGEN)
 	public ModelAndView preSearchAuthKeyGen(HttpServletRequest request)
@@ -72,7 +74,7 @@ public class AuthKeyGenController extends SGControllerBaseBo implements IAdminPa
 
 			// Add AuthKey Gen
 			modelView.addObject("authKeyGenForm", createAuthKeyGenForm());
-			modelView.addObject("employeeList", userBo.getComboBoxEmployeeMap(new UserParam(request)));
+			modelView.addObject("employeeList", userBo.getComboBoxUserMap(new UserParam(request, EUserType.Employee)));
 			modelView.addObject("schemeList", sgBo.getComboBoxSchemeMap(new SchemeParam(request)));
 
 			return modelView;
@@ -83,7 +85,7 @@ public class AuthKeyGenController extends SGControllerBaseBo implements IAdminPa
 			return new ModelAndView(LOGIN);
 		}
 	}
-
+	
 	@SuppressWarnings("unchecked")
 	@RequestMapping(SEARCH_AUTH_KEYGEN)
 	public @ResponseBody String searchAuthKeyGen(HttpServletRequest request)

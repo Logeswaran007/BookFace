@@ -16,30 +16,48 @@ import javax.persistence.Transient;
 
 import org.hbs.admin.model.CommonBeanFields;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+
 @Entity
 @Table(name = "courses")
 public class Courses extends CommonBeanFields implements ICourses
 {
-	private static final long	serialVersionUID	= 4727089353440139880L;
+	private static final long			serialVersionUID	= 4727089353440139880L;
 
-	protected Set<IChapters>	chapters			= new LinkedHashSet<IChapters>(0);
+	protected Set<IChapters>			chapters			= new LinkedHashSet<IChapters>(0);
 
-	protected ICourseGroup		courseGroup;
+	protected Set<ICourseAttachments>	courseAttachments	= new LinkedHashSet<ICourseAttachments>(0);
 
-	protected String			courseId;
+	protected ICourseGroup				courseGroup;
+
+	protected String					courseId;
+
+	protected String					courseName;
 
 	public Courses()
 	{
 		super();
 		this.courseId = getBusinessKey();
+		this.courseGroup = new CourseGroup();
 	}
 
-	public Courses(String courseId, ICourseGroup courseGroup, String courseDesc, Set<IChapters> chapters)
+	public Courses(String courseId, String courseName, ICourseGroup courseGroup, String courseDesc, Set<IChapters> chapters)
 	{
 		super();
 		this.courseId = getBusinessKey();
+		this.courseName = courseName;
 		this.courseGroup = courseGroup;
 		this.chapters = chapters;
+	}
+
+	public Courses(Set<IChapters> chapters, String courseName, Set<ICourseAttachments> courseAttachments, ICourseGroup courseGroup, String courseId)
+	{
+		super();
+		this.chapters = chapters;
+		this.courseAttachments = courseAttachments;
+		this.courseGroup = courseGroup;
+		this.courseId = courseId;
+		this.courseName = courseName;
 	}
 
 	@Transient
@@ -56,6 +74,7 @@ public class Courses extends CommonBeanFields implements ICourses
 
 	@ManyToOne(cascade = CascadeType.ALL, targetEntity = CourseGroup.class)
 	@JoinColumn(name = "courseGroupId")
+	@JsonDeserialize(as = CourseGroup.class)
 	public ICourseGroup getCourseGroup()
 	{
 		return courseGroup;
@@ -82,4 +101,27 @@ public class Courses extends CommonBeanFields implements ICourses
 	{
 		this.courseId = courseId;
 	}
+
+	@OneToMany(targetEntity = CourseAttachments.class, fetch = FetchType.EAGER, mappedBy = "courses", cascade = CascadeType.ALL)
+	public Set<ICourseAttachments> getCourseAttachments()
+	{
+		return courseAttachments;
+	}
+
+	public void setCourseAttachments(Set<ICourseAttachments> courseAttachments)
+	{
+		this.courseAttachments = courseAttachments;
+	}
+
+	@Column(name = "courseName")
+	public String getCourseName()
+	{
+		return courseName;
+	}
+
+	public void setCourseName(String courseName)
+	{
+		this.courseName = courseName;
+	}
+
 }

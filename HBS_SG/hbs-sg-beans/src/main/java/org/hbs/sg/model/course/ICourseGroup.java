@@ -3,7 +3,9 @@ package org.hbs.sg.model.course;
 import java.io.Serializable;
 import java.util.Set;
 
-public interface ICourseGroup extends Serializable
+import org.hbs.admin.model.IProducersBase;
+
+public interface ICourseGroup extends IProducersBase, Serializable
 {
 	public String getCourseBatch();
 

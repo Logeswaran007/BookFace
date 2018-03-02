@@ -8,7 +8,10 @@ import org.hbs.admin.model.IAddress.AddressType;
 import org.hbs.edutel.model.AuthKeyGen;
 import org.hbs.sg.model.AlertsAndNotifications;
 import org.hbs.sg.model.concern.Organisation;
+import org.hbs.sg.model.course.ICourses.ECourseUploadType;
+import org.hbs.sg.model.exam.Assessment;
 import org.hbs.sg.web.dao.AssessmentDAO;
+import org.hbs.sg.web.dao.CoursesDAO;
 import org.hbs.sg.web.dao.InfoAlertDAO;
 import org.hbs.sg.web.dao.KeyGenDAO;
 import org.hbs.sg.web.dao.OrganisationDAO;
@@ -23,7 +26,40 @@ import org.springframework.stereotype.Component;
 @Component
 public class SGBoImpl extends SGBoComboBoxImpl implements SGBo
 {
-	private static final long serialVersionUID = -7942529344878869154L;
+	private static final long	serialVersionUID	= -7942529344878869154L;
+
+	@Autowired
+	protected AssessmentDAO		assessmentDAO;
+
+	@Autowired
+	protected CoursesDAO		coursesDAO;
+
+	@Autowired
+	protected GeoDAO			geoDAO;
+
+	@Autowired
+	protected InfoAlertDAO		infoAlertDAO;
+
+	@Autowired
+	protected KeyGenDAO			keyGenDAO;
+
+	@Autowired
+	protected OrganisationDAO	organisationDAO;
+
+	@Autowired
+	protected SchemeDAO			schemeDAO;
+
+	@Autowired
+	protected UserDAO			userDAO;
+
+	@Override
+	public DataTableParam getAssessmentList(DataTableParam dtParam, boolean isCount)
+	{
+
+		ENamed.EqualTo.param_AND(dtParam, "status", true);
+		dtParam._OrderBy = " Order By createdDate Desc";
+		return assessmentDAO.getAssessmentList(dtParam, isCount);
+	}
 
 	@Override
 	public DataTableParam getAuthKeyGenList(DataTableParam dtParam, boolean isCount)
@@ -72,6 +108,14 @@ public class SGBoImpl extends SGBoComboBoxImpl implements SGBo
 		return userDAO.getUsersList(dtParam, isCount);
 	}
 
+	public DataTableParam getCourseAttachmentList(DataTableParam dtParam, boolean isCount)
+	{
+		ENamed.EqualTo.param_AND(dtParam, "uploadDocumentForType", ECourseUploadType.EBooks.name());
+		ENamed.EqualTo.param_AND(dtParam, "status", true);
+		dtParam._OrderBy = " Order By createdDate Desc";
+		return coursesDAO.getCourseAttachmentList(dtParam, isCount);
+	}
+
 	@Override
 	public DataTableParam getInformationAlertList(DataTableParam dtParam, boolean isCount)
 	{
@@ -92,32 +136,10 @@ public class SGBoImpl extends SGBoComboBoxImpl implements SGBo
 	}
 
 	@Override
-	public DataTableParam getAssessmentList(DataTableParam dtParam, boolean isCount)
+	public boolean saveOrUpdate(Assessment assessment)
 	{
 
-		ENamed.EqualTo.param_AND(dtParam, "status", true);
-		dtParam._OrderBy = " Order By createdDate Desc";
-		return assessmentDAO.getAssessmentList(dtParam, isCount);
+		return assessmentDAO.saveOrUpdate(assessment);
 	}
 
-	@Autowired
-	protected GeoDAO			geoDAO;
-
-	@Autowired
-	protected SchemeDAO			schemeDAO;
-
-	@Autowired
-	protected KeyGenDAO			keyGenDAO;
-
-	@Autowired
-	protected OrganisationDAO	organisationDAO;
-
-	@Autowired
-	protected UserDAO			userDAO;
-
-	@Autowired
-	protected InfoAlertDAO		infoAlertDAO;
-
-	@Autowired
-	protected AssessmentDAO		assessmentDAO;
 }

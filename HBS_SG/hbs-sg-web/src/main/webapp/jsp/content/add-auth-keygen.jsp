@@ -24,6 +24,7 @@
 				</div>
 				<div class="modal-body">
 					<div class="bootbox-body">
+
 						<form:errors path="*" cssClass="errorblock" element="div" />
 						<div class="form-body">
 							<div class="row">
@@ -117,27 +118,31 @@
 	</form:form>
 </div>
 <script>
-
 	$(document).ready(function() {
 		$("#noOfKeys").val("");
 	});
-	
-	
+
 	$("#authKeyGenForm").submit(function(e) {
+
 		// for stopping the default action of element
 		e.preventDefault();
+
 		var scheme = {};
 		scheme["schemeId"] = $("#schemeId").val().split("-")[0];
+
 		var users = {};
 		users["usEmployeeId"] = $("#employeeId").val();
+
 		var authKey = {};
 		authKey["scheme"] = scheme;
 		authKey["users"] = users;
 		authKey["sellingPrice"] = $("#sellingPrice").val();
+
 		var data = {};
 		data["authKey"] = authKey;
 		data["noOfKeys"] = parseInt($("#noOfKeys").val());
 		data["totalSellingCost"] = parseInt($("#totalSellingCost").val());
+
 		$.ajax({
 			type : "POST",
 			url : "${root}/c54b280767442e7485d0fd640980cfc1",
@@ -149,10 +154,12 @@
 				reset();
 				$("#addAuthKeyGenId").modal('hide');
 				//$("#addAuthKeyGenResultId").modal('show');
+				
 				authKeyTable.ajax.reload();
 			}
 		});
 	});
+
 	$("#cancel").click(function() {
 		reset();
 	});
@@ -169,8 +176,10 @@
 		$("#noOfKeys").attr("disabled", true);
 		$("#totalCostSpanId").text("");
 	}
+
 	$("#schemeId").change(function() {
 		var schemeId = $("#schemeId").val();
+
 		if (schemeId != "") {
 			var data = schemeId.split("-");
 			$("#schemeCost").val(data[1]);
@@ -184,26 +193,35 @@
 			reset();
 		}
 	});
+
 	$("#sellingPrice").change(function() {
+
 		calculateSellingCost();
 	});
+
 	$("#noOfKeys").change(function() {
+
 		calculateSellingCost();
 	});
+
 	$("#employeeId").change(function() {
+
 		calculateSellingCost();
 	});
 
 	function calculateSellingCost() {
+
 		var schemeId = $("#schemeId").val();
 		var sellingPrice = $("#sellingPrice").val();
 		var noOfKeys = $("#noOfKeys").val();
 		var employeeId = $("#employeeId").val();
+
 		if (schemeId != "" && sellingPrice != "" && noOfKeys != ""
 				&& employeeId != "") {
 			sellingPrice = parseFloat(sellingPrice) * parseFloat(noOfKeys);
 			sellingPrice = parseFloat(Math.round(sellingPrice * 100) / 100)
 					.toFixed(2);
+
 			$("#totalCostSpanId").text(
 					"Total Key Selling Price : " + sellingPrice);
 			$("#totalSellingCost").val(sellingPrice);

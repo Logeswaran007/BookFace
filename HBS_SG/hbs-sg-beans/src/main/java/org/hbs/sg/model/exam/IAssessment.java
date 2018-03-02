@@ -7,8 +7,9 @@ import org.hbs.sg.model.accessors.IConsumerAssessment;
 import org.hbs.sg.model.accessors.IProducersAssessment;
 import org.hbs.sg.model.course.IChapters;
 import org.hbs.sg.model.course.ICourses;
+import org.hbs.util.EBusinessKey;
 
-public interface IAssessment extends ICommonBeanFields
+public interface IAssessment extends ICommonBeanFields, EBusinessKey
 {
 
 	public String getAssessmentId();
@@ -19,7 +20,7 @@ public interface IAssessment extends ICommonBeanFields
 
 	public ICourses getCourse();
 
-	public IAssessmentInformation getInfo();
+	public AssessmentInformation getInfo();
 
 	public String getName();
 
@@ -41,7 +42,7 @@ public interface IAssessment extends ICommonBeanFields
 
 	public void setCourse(ICourses course);
 
-	public void setInfo(IAssessmentInformation info);
+	public void setInfo(AssessmentInformation info);
 
 	public void setName(String assessmentName);
 

@@ -51,14 +51,13 @@ public class AssessmentInformation implements IAssessmentInformation
 		return broadCast;
 	}
 
-	@Transient
+	@Override
 	public boolean isDateElapsed()
 	{
 		return dateElapsed;
 	}
 
 	@Override
-	@Transient
 	public boolean isDateReached()
 	{
 		return dateReached;
@@ -76,6 +75,7 @@ public class AssessmentInformation implements IAssessmentInformation
 		this.assessmentDate = assessmentDate;
 	}
 
+	@Override
 	public void setDateElapsed(boolean dateElapsed)
 	{
 		this.dateElapsed = dateElapsed;

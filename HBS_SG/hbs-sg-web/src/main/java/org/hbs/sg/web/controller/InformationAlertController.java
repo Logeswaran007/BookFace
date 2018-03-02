@@ -14,6 +14,7 @@ import org.hbs.admin.model.IUsers;
 import org.hbs.admin.model.IUsers.EUsers;
 import org.hbs.sg.model.AlertsAndNotifications;
 import org.hbs.sg.model.IAlertsAndNotifications;
+import org.hbs.sg.model.IAlertsAndNotifications.EMessageStatus;
 import org.hbs.sg.web.bo.SGBo;
 import org.hbs.util.CommonValidator;
 import org.hbs.util.DataTableDynamicColumnDefs;
@@ -61,7 +62,7 @@ public class InformationAlertController implements IAdminPath, ISGPath
 
 			// InformationAlert Form
 			modelView.addObject("informationAlertForm", createInformationAlertForm());
-			modelView.addObject("typeList");
+			modelView.addObject("typeList", EMessageStatus.getTypeList());
 
 			return modelView;
 		}

@@ -12,6 +12,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import org.hbs.admin.model.CommonBeanFields;
 import org.hbs.sg.model.accessors.ConsumerAssessment;
@@ -23,6 +24,8 @@ import org.hbs.sg.model.course.Courses;
 import org.hbs.sg.model.course.IChapters;
 import org.hbs.sg.model.course.ICourses;
 import org.hbs.util.EnumInterface;
+
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
 @Entity
 @Table(name = "assessment")
@@ -45,7 +48,7 @@ public class Assessment extends CommonBeanFields implements IAssessment
 	protected IChapters					chapter;
 	protected Set<IConsumerAssessment>	consumerAssessments	= new LinkedHashSet<IConsumerAssessment>(0);
 	protected ICourses					course;
-	protected IAssessmentInformation	info;
+	protected AssessmentInformation		info;
 	protected String					name;
 	protected IAssessmentPattern		pattern;
 	protected Set<IProducersAssessment>	producers			= new LinkedHashSet<IProducersAssessment>(0);
@@ -56,6 +59,9 @@ public class Assessment extends CommonBeanFields implements IAssessment
 	public Assessment()
 	{
 		super();
+		this.assessmentId = getBusinessKey();
+		this.pattern = new AssessmentPattern();
+
 	}
 
 	@Override
@@ -69,6 +75,7 @@ public class Assessment extends CommonBeanFields implements IAssessment
 	@Override
 	@ManyToOne(targetEntity = Chapters.class)
 	@JoinColumn(name = "chapterId", nullable = false)
+	@JsonDeserialize(as = Chapters.class)
 	public IChapters getChapter()
 	{
 		return chapter;
@@ -84,6 +91,7 @@ public class Assessment extends CommonBeanFields implements IAssessment
 	@Override
 	@ManyToOne(targetEntity = Courses.class)
 	@JoinColumn(name = "courseId", nullable = false)
+	@JsonDeserialize(as = Courses.class)
 	public ICourses getCourse()
 	{
 		return course;
@@ -91,7 +99,7 @@ public class Assessment extends CommonBeanFields implements IAssessment
 
 	@Override
 	@Embedded
-	public IAssessmentInformation getInfo()
+	public AssessmentInformation getInfo()
 	{
 		return info;
 	}
@@ -163,7 +171,7 @@ public class Assessment extends CommonBeanFields implements IAssessment
 	}
 
 	@Override
-	public void setInfo(IAssessmentInformation info)
+	public void setInfo(AssessmentInformation info)
 	{
 		this.info = info;
 	}
@@ -201,4 +209,11 @@ public class Assessment extends CommonBeanFields implements IAssessment
 	{
 		this.type = type;
 	}
+
+	@Transient
+	public String getBusinessKey(String... combination)
+	{
+		return EKey.Auto("AST");
+	}
+
 }

@@ -11,7 +11,6 @@ import org.hbs.admin.dao.GeoDAO;
 import org.hbs.admin.dao.UserDAO;
 import org.hbs.admin.model.Country;
 import org.hbs.admin.model.IUsers;
-import org.hbs.admin.model.IUsers.EUserType;
 import org.hbs.admin.model.IUsers.EUsers;
 import org.hbs.admin.model.State;
 import org.hbs.util.CommonValidator;
@@ -36,15 +35,15 @@ public abstract class UserBoComboBoxImpl implements UserBo
 	}
 
 	@Override
-	public Map<String, String> getComboBoxEmployeeMap(UserParam userParam) throws Exception
+	public Map<String, String> getComboBoxUserMap(UserParam userParam) throws Exception
 	{
 		IUsers users = EUsers.getSessionUser(userParam.request);
 
-		Map<String, String> hmEmployeeMap = new LinkedHashMap<String, String>();
+		Map<String, String> hmUserMap = new LinkedHashMap<String, String>();
 		userParam.searchColumns = " usEmployeeId, usUserName ";
 
 		ENamed.EqualTo.param_AND(userParam, "status", true);
-		ENamed.EqualTo.param_AND(userParam, "usUsersType", EUserType.Employee.name());
+		ENamed.EqualTo.param_AND(userParam, "usUsersType", userParam.userType.name());
 		ENamed.EqualTo.param_AND(userParam, "producer.producerId", users.getProducer().getProducerId());
 
 		userDAO.getUsersList(userParam);
@@ -53,10 +52,10 @@ public abstract class UserBoComboBoxImpl implements UserBo
 		for (Object data : userParam.dataList)
 		{
 			datum = (Object[]) data;
-			hmEmployeeMap.put(datum[0].toString(), datum[1].toString());
+			hmUserMap.put(datum[0].toString(), datum[1].toString());
 		}
 
-		return hmEmployeeMap;
+		return hmUserMap;
 	}
 
 	@SuppressWarnings("unchecked")

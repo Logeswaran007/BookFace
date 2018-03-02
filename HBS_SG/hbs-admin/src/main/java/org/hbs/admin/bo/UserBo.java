@@ -35,6 +35,6 @@ public interface UserBo extends Serializable
 
 	public boolean userUpdate(IUsers users);
 
-	public Map<String, String> getComboBoxEmployeeMap(UserParam userParam) throws Exception;
+	public Map<String, String> getComboBoxUserMap(UserParam userParam) throws Exception;
 
 }

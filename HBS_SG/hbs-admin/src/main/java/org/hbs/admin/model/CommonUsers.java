@@ -24,7 +24,7 @@ public abstract class CommonUsers extends CommonUsersBase
 		Users user = new Users(userType);
 		user.setProducer(producer);
 		user.setAddressList(new LinkedHashSet<IUsersAddress>(1));
-		user.getAddressList().add(new UsersAddress());
+		user.getAddressList().add(new UsersAddress(AddressType.CommunicationAddress));
 		return user;
 	}
 

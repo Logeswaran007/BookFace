@@ -6,6 +6,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.hbs.admin.model.IUsers;
 import org.hbs.admin.model.IUsers.EUserStatus;
+import org.hbs.admin.model.IUsers.EUserType;
 import org.hbs.util.Param;
 
 public class UserParam extends Param
@@ -28,12 +29,19 @@ public class UserParam extends Param
 	public Timestamp			usUserPwdModDate;
 	public String				email;
 	public EUserStatus			eUserStatus;
+	public EUserType			userType;
 
 	public UserParam()
 	{
 
 	}
 
+	public UserParam(HttpServletRequest request, EUserType userType)
+	{
+		this.request = request;
+		this.userType = userType;
+	}
+	
 	public UserParam(HttpServletRequest request)
 	{
 		this.request = request;

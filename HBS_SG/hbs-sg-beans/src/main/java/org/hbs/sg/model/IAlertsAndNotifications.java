@@ -12,19 +12,21 @@ public interface IAlertsAndNotifications extends ICommonBeanFields, IProducersBa
 	public enum EMessageStatus implements EnumInterface
 	{
 		Alerts, Notifications, Banner, Discussion, NewsFeed, PopUp, UpcomingEvents;
-	}
 
-	public static Map<String, String> getTypeList()
-	{
-		Map<String, String> hmTypeList = new LinkedHashMap<String, String>();
-
-		for (EMessageStatus msg : EMessageStatus.values())
+		public static Map<String, String> getTypeList()
 		{
-			hmTypeList.put(msg.name(), msg.name());
-		}
+			Map<String, String> hmTypeList = new LinkedHashMap<String, String>();
 
-		return hmTypeList;
+			for (EMessageStatus msg : EMessageStatus.values())
+			{
+				hmTypeList.put(msg.name(), msg.name());
+			}
+
+			return hmTypeList;
+			
 	}
+
+	}	
 
 	public int getAutoId();
 

@@ -3,6 +3,7 @@ package org.hbs.sg.model.course;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -39,6 +40,16 @@ public class Chapters extends CommonBeanFields implements IChapters
 		this.chapterId = getBusinessKey();
 	}
 
+	public Chapters(Set<IChapterAttachments> attachments, String chapterId, String chapterName, ICourses courses, boolean trialMode)
+	{
+		super();
+		this.attachments = attachments;
+		this.chapterId = chapterId;
+		this.chapterName = chapterName;
+		this.courses = courses;
+		this.trialMode = trialMode;
+	}
+
 	@Column(name = "trialMode")
 	public boolean isTrialMode()
 	{
@@ -50,7 +61,7 @@ public class Chapters extends CommonBeanFields implements IChapters
 		this.trialMode = trialMode;
 	}
 
-	@OneToMany(targetEntity = ChapterAttachments.class, fetch = FetchType.EAGER, mappedBy = "chapters")
+	@OneToMany(targetEntity = ChapterAttachments.class, fetch = FetchType.EAGER, mappedBy = "chapters", cascade = CascadeType.ALL)
 	public Set<IChapterAttachments> getAttachments()
 	{
 		return attachments;

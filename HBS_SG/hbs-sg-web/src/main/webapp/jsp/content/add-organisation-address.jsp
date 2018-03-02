@@ -46,6 +46,7 @@
 		<div class="fileinput fileinput-new" data-provides="fileinput">
 			<input type="hidden" id="ProfileImage" value="ProfileImage" name="docTypes[]"
 				id="docTypes">
+
 			<div class="col-md-6 fileinput-new thumbnail"
 				style="width: 120px; height: 90px;">
 				<img src="${root}/common/no-image.png" alt="" />
@@ -57,6 +58,7 @@
 					class="btn btn-success fileinput-new"><i class="fa fa-user fa-2x"></i></span> <span
 					class="btn btn-info fileinput-exists"><i class="fa fa-edit fa-2x"></i></span> <input
 					type="file" id="uploadMultiPartFiles" name="uploadMultiPartFiles[]">
+					
 				</span>
 			</div>
 			<div class="col-md-4">

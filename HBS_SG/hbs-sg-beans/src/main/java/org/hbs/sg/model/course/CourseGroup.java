@@ -7,10 +7,14 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
+import org.hbs.admin.model.IProducers;
+import org.hbs.admin.model.Producers;
 import org.hbs.util.EBusinessKey;
 
 @Entity
@@ -33,6 +37,8 @@ public class CourseGroup implements ICourseGroup, EBusinessKey
 	private Set<ICourses>		coursesList			= new LinkedHashSet<ICourses>(0);
 
 	protected int				endMonth;
+
+	protected IProducers		producer;
 
 	protected int				startMonth;
 
@@ -115,6 +121,13 @@ public class CourseGroup implements ICourseGroup, EBusinessKey
 		return endMonth;
 	}
 
+	@ManyToOne(targetEntity = Producers.class, fetch = FetchType.EAGER)
+	@JoinColumn(name = "producerId")
+	public IProducers getProducer()
+	{
+		return producer;
+	}
+
 	@Column(name = "startMonth")
 	public int getStartMonth()
 	{
@@ -157,6 +170,12 @@ public class CourseGroup implements ICourseGroup, EBusinessKey
 	public void setEndMonth(int endMonth)
 	{
 		this.endMonth = endMonth;
+	}
+
+	@Override
+	public void setProducer(IProducers producer)
+	{
+		this.producer = producer;
 	}
 
 	public void setStartMonth(int startMonth)
