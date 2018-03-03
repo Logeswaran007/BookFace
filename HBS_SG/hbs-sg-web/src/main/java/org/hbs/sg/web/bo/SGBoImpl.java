@@ -69,45 +69,6 @@ public class SGBoImpl extends SGBoComboBoxImpl implements SGBo
 		return keyGenDAO.getAuthKeyGenList(dtParam, isCount);
 	}
 
-	@Override
-	public boolean saveOrUpdate(List<AuthKeyGen> authKeyList)
-	{
-		return keyGenDAO.saveOrUpdate(authKeyList);
-
-	}
-
-	@Override
-	public boolean saveOrUpdate(AlertsAndNotifications alerts)
-	{
-		return infoAlertDAO.saveOrUpdate(alerts);
-
-	}
-
-	@Override
-	public boolean saveOrUpdate(Organisation organisation)
-	{
-		return organisationDAO.saveOrUpdate(organisation);
-	}
-
-	@Override
-	public DataTableParam getOrganisationList(DataTableParam dtParam, boolean isCount)
-	{
-		ENamed.EqualTo.param_AND(dtParam, "addressType", AddressType.CommunicationAddress.name());
-		ENamed.EqualTo.param_AND(dtParam, "organisation.status", true);
-		dtParam._OrderBy = " Order By organisation.createdDate Desc";
-
-		return organisationDAO.getOrganisationList(dtParam, isCount);
-	}
-
-	@Override
-	public DataTableParam getUserList(DataTableParam dtParam, boolean isCount)
-	{
-		ENamed.EqualTo.param_AND(dtParam, "users.status", true);
-		dtParam._OrderBy = " Order By users.createdDate Desc";
-
-		return userDAO.getUsersList(dtParam, isCount);
-	}
-
 	public DataTableParam getCourseAttachmentList(DataTableParam dtParam, boolean isCount)
 	{
 		ENamed.EqualTo.param_AND(dtParam, "uploadDocumentForType", ECourseUploadType.EBooks.name());
@@ -136,10 +97,49 @@ public class SGBoImpl extends SGBoComboBoxImpl implements SGBo
 	}
 
 	@Override
+	public DataTableParam getOrganisationList(DataTableParam dtParam, boolean isCount)
+	{
+		ENamed.EqualTo.param_AND(dtParam, "addressType", AddressType.CommunicationAddress.name());
+		ENamed.EqualTo.param_AND(dtParam, "organisation.status", true);
+		dtParam._OrderBy = " Order By organisation.createdDate Desc";
+
+		return organisationDAO.getOrganisationList(dtParam, isCount);
+	}
+
+	@Override
+	public DataTableParam getUserList(DataTableParam dtParam, boolean isCount)
+	{
+		ENamed.EqualTo.param_AND(dtParam, "users.status", true);
+		dtParam._OrderBy = " Order By users.createdDate Desc";
+
+		return userDAO.getUsersList(dtParam, isCount);
+	}
+
+	@Override
+	public boolean saveOrUpdate(AlertsAndNotifications alerts)
+	{
+		return infoAlertDAO.saveOrUpdate(alerts);
+
+	}
+
+	@Override
 	public boolean saveOrUpdate(Assessment assessment)
 	{
 
 		return assessmentDAO.saveOrUpdate(assessment);
+	}
+
+	@Override
+	public boolean saveOrUpdate(List<AuthKeyGen> authKeyList)
+	{
+		return keyGenDAO.saveOrUpdate(authKeyList);
+
+	}
+
+	@Override
+	public boolean saveOrUpdate(Organisation organisation)
+	{
+		return organisationDAO.saveOrUpdate(organisation);
 	}
 
 }
