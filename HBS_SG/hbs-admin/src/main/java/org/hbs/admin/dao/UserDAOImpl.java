@@ -52,14 +52,14 @@ public class UserDAOImpl extends CommonHibernateSessionFactorySupport implements
 			}
 			if (isCount)
 			{
-				query = session.createQuery((sbSelectQry.toString()));
+				query = session.createQuery(sbSelectQry.toString());
 			}
 			else
 			{
 				sbSelectQry.append(dtParam._OrderBy);
 				if (dtParam.iDisplayLength != 0)
 				{
-					query = session.createQuery((sbSelectQry.toString())).setMaxResults(dtParam.iDisplayLength).setFirstResult(dtParam.iDisplayStart);
+					query = session.createQuery(sbSelectQry.toString()).setMaxResults(dtParam.iDisplayLength).setFirstResult(dtParam.iDisplayStart);
 				}
 				else
 				{
