@@ -7,15 +7,15 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 
 import org.hbs.admin.controller.param.UserParam;
-import org.hbs.admin.dao.GeoDAO;
 import org.hbs.admin.dao.UserDAO;
 import org.hbs.admin.model.Country;
 import org.hbs.admin.model.IUsers;
 import org.hbs.admin.model.IUsers.EUsers;
 import org.hbs.admin.model.State;
+import org.hbs.admin.model.Users;
 import org.hbs.util.CommonValidator;
-import org.hbs.util.DataTableParam;
 import org.hbs.util.IParam.ENamed;
+import org.hbs.util.dao.IBaseDAO;
 import org.springframework.beans.factory.annotation.Autowired;
 
 public abstract class UserBoComboBoxImpl implements UserBo
@@ -24,8 +24,8 @@ public abstract class UserBoComboBoxImpl implements UserBo
 	private static final long	serialVersionUID	= 1160466715298198052L;
 
 	@Autowired
-	protected GeoDAO			geoDAO;
-
+	protected IBaseDAO			iBaseDAO;
+	
 	@Autowired
 	protected UserDAO			userDAO;
 
@@ -34,68 +34,76 @@ public abstract class UserBoComboBoxImpl implements UserBo
 		super();
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
-	public Map<String, String> getComboBoxUserMap(UserParam userParam) throws Exception
+	public Map<String, String> getComboBoxUserMap(UserParam param) throws Exception
 	{
-		IUsers users = EUsers.getSessionUser(userParam.request);
+		IUsers users = EUsers.getSessionUser(param.request);
 
-		Map<String, String> hmUserMap = new LinkedHashMap<String, String>();
-		userParam.searchColumns = " usEmployeeId, usUserName ";
+		Map<String, String> hmComboMap = new LinkedHashMap<String, String>();
+		
+		param.searchBeanClass = Users.class;
+		param.searchColumns = " usEmployeeId, usUserName ";
 
-		ENamed.EqualTo.param_AND(userParam, "status", true);
-		ENamed.EqualTo.param_AND(userParam, "usUsersType", userParam.userType.name());
-		ENamed.EqualTo.param_AND(userParam, "producer.producerId", users.getProducer().getProducerId());
+		ENamed.EqualTo.param_AND(param, "status", true);
+		ENamed.EqualTo.param_AND(param, "usUsersType", param.userType.name());
+		ENamed.EqualTo.param_AND(param, "producer.producerId", users.getProducer().getProducerId());
 
-		userDAO.getUsersList(userParam);
+		List<Object[]> objectList = (List<Object[]>) iBaseDAO.getDataList(param).getDataList();
 
-		Object[] datum = null;
-		for (Object data : userParam.dataList)
+		for (Object[] object : objectList)
 		{
-			datum = (Object[]) data;
-			hmUserMap.put(datum[0].toString(), datum[1].toString());
+			hmComboMap.put(object[0].toString() ,  object[1].toString());
 		}
 
-		return hmUserMap;
+		return hmComboMap;
 	}
 
 	@SuppressWarnings("unchecked")
 	@Override
 	public Map<String, String> getCountryList()
 	{
-		Map<String, String> hmCountryMap = new LinkedHashMap<String, String>();
-		DataTableParam dtParam = new DataTableParam();
-		ENamed.EqualTo.param_AND(dtParam, "status", true);
-		dtParam._OrderBy = " Order By displayOrder Asc";
+		Map<String, String> hmComboMap = new LinkedHashMap<String, String>();
+		UserParam param = new UserParam();
+		
+		param.searchBeanClass = Country.class;
+		param.searchColumns = " country, countryName ";
+		
+		ENamed.EqualTo.param_AND(param, "status", true);
+		param._OrderBy = " Order By displayOrder Asc";
 
-		List<Country> countryList = (List<Country>) geoDAO.getCountryList(dtParam).dataList;
+		List<Object[]> objectList = (List<Object[]>) iBaseDAO.getDataList(param).getDataList();
 
-		for (Country cty : countryList)
+		for (Object[] object : objectList)
 		{
-			hmCountryMap.put(cty.getCountry(), cty.getCountryName());
+			hmComboMap.put(object[0].toString() ,  object[1].toString());
 		}
 
-		return hmCountryMap;
+		return hmComboMap;
 	}
 
 	@SuppressWarnings("unchecked")
 	@Override
 	public Map<String, String> getStateList(HttpServletRequest request)
 	{
-		Map<String, String> hmStateMap = new LinkedHashMap<String, String>();
-		DataTableParam dtParam = new DataTableParam(request);
+		Map<String, String> hmComboMap = new LinkedHashMap<String, String>();
+		UserParam param = new UserParam();
 
-		Object country = dtParam.searchValueMap.get("country");
+		Object country = param.searchValueMap.get("country");
+		
+		param.searchBeanClass = State.class;
+		param.searchColumns = " state ";
 
-		ENamed.EqualTo.param_AND(dtParam, "country.country", CommonValidator.isNotNullNotEmpty(country) ? country : "IN");
+		ENamed.EqualTo.param_AND(param, "country.country", CommonValidator.isNotNullNotEmpty(country) ? country : "IN");
 
-		List<State> stateList = (List<State>) geoDAO.getStateList(dtParam).dataList;
+		List<String> objectList = (List<String>) iBaseDAO.getDataList(param).getDataList();
 
-		for (State state : stateList)
+		for (String object : objectList)
 		{
-			hmStateMap.put(state.getState(), state.getState());
+			hmComboMap.put(object.toString() ,  object.toString());
 		}
 
-		return hmStateMap;
+		return hmComboMap;
 	}
 
 }

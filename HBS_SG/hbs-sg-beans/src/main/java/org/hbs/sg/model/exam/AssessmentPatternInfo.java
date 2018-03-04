@@ -9,11 +9,13 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import org.hbs.util.dao.ICRUDBean;
+
 @Entity
 @Table(name = "assessmentpatterninfo")
-public class AssessmentPatternInfo implements IAssessmentPatternInfo
+public class AssessmentPatternInfo implements IAssessmentPatternInfo, ICRUDBean
 {
-
+	
 	private static final long		serialVersionUID	= 3948412843084086L;
 	protected int					autoId;
 	protected String				infoName;
@@ -21,12 +23,12 @@ public class AssessmentPatternInfo implements IAssessmentPatternInfo
 	protected String				percentage;
 	protected boolean				status;
 	protected String				weightage;
-
+	
 	public AssessmentPatternInfo()
 	{
 		super();
 	}
-
+	
 	public AssessmentPatternInfo(int autoId, IAssessmentPattern pattern, String infoName, String percentage, String weightage, boolean status)
 	{
 		super();
@@ -37,7 +39,7 @@ public class AssessmentPatternInfo implements IAssessmentPatternInfo
 		this.weightage = weightage;
 		this.status = status;
 	}
-
+	
 	@Override
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -46,14 +48,14 @@ public class AssessmentPatternInfo implements IAssessmentPatternInfo
 	{
 		return autoId;
 	}
-
+	
 	@Override
 	@Column(name = "infoName")
 	public String getInfoName()
 	{
 		return infoName;
 	}
-
+	
 	@Override
 	@ManyToOne(targetEntity = AssessmentPattern.class)
 	@JoinColumn(name = "patternId", nullable = false)
@@ -61,62 +63,62 @@ public class AssessmentPatternInfo implements IAssessmentPatternInfo
 	{
 		return pattern;
 	}
-
+	
 	@Override
 	@Column(name = "percentage")
 	public String getPercentage()
 	{
 		return percentage;
 	}
-
+	
 	@Override
 	@Column(name = "weightage")
 	public String getWeightage()
 	{
 		return weightage;
 	}
-
+	
 	@Override
 	@Column(name = "status")
 	public boolean isStatus()
 	{
 		return status;
 	}
-
+	
 	@Override
 	public void setAutoId(int autoId)
 	{
 		this.autoId = autoId;
 	}
-
+	
 	@Override
 	public void setInfoName(String infoName)
 	{
 		this.infoName = infoName;
 	}
-
+	
 	@Override
 	public void setPattern(IAssessmentPattern pattern)
 	{
 		this.pattern = pattern;
 	}
-
+	
 	@Override
 	public void setPercentage(String percentage)
 	{
 		this.percentage = percentage;
 	}
-
+	
 	@Override
 	public void setStatus(boolean status)
 	{
 		this.status = status;
 	}
-
+	
 	@Override
 	public void setWeightage(String weightage)
 	{
 		this.weightage = weightage;
 	}
-
+	
 }

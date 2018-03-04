@@ -1,9 +1,10 @@
-package org.hbs.sg.web.dao;
+package org.hbs.util.dao;
 
-import org.hbs.sg.model.AlertsAndNotifications;
 import org.hbs.util.CommonHibernateSessionFactorySupport;
 import org.hbs.util.CommonValidator;
+import org.hbs.util.CustomLogger;
 import org.hbs.util.DataTableParam;
+import org.hbs.util.IParam;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
@@ -11,28 +12,79 @@ import org.hibernate.query.Query;
 import org.springframework.stereotype.Component;
 
 @Component
-public class InfoAlertDAOImpl extends CommonHibernateSessionFactorySupport implements InfoAlertDAO
+public class BaseDAOImpl extends CommonHibernateSessionFactorySupport implements IBaseDAO
 {
-
-	private static final long	serialVersionUID	= 1L;
-
+	
+	private static final long	serialVersionUID	= -4146239461295369929L;
+	private final CustomLogger	logger				= new CustomLogger(this.getClass());
+	
 	@Override
-	public DataTableParam getInformationAlertList(DataTableParam dtParam, boolean isCount)
+	public IParam getDataList(IParam param)
 	{
 		Session session = getSessionFactory().openSession();
 		try
 		{
 			Query<?> query = null;
-
+			
 			StringBuffer sbSelectQry = new StringBuffer();
-
+			
+			if (CommonValidator.isNotNullNotEmpty(param.getSearchColumns()))
+				sbSelectQry.append(SELECT_DISTINCT + param.getSearchColumns());
+			
+			sbSelectQry.append(FROM + param.getSearchBeanClass().getCanonicalName() + WHERE_1_1);
+			
+			for (String condKey : param.getSearchCondtionMap().keySet())
+			{
+				sbSelectQry.append(param.getSearchCondtionMap().get(condKey));
+			}
+			sbSelectQry.append(param.get_OrderBy());
+			
+			if (param.getMaxResults() != 0)
+			{
+				query = session.createQuery(sbSelectQry.toString()).setMaxResults(param.getMaxResults()).setFirstResult(param.getMinResults());
+			}
+			else
+			{
+				query = session.createQuery((sbSelectQry.toString()));
+			}
+			
+			_SetNamedParameterValueFromSearchValueMap(param, query);
+			
+			param.setDataList(query.list());
+		}
+		catch (Exception excep)
+		{
+			logger.error(excep);
+		}
+		finally
+		{
+			if (session != null)
+			{
+				session.clear();
+				session.close();
+			}
+		}
+		return param;
+		
+	}
+	
+	@Override
+	public DataTableParam getDataTableList(DataTableParam dtParam, boolean isCount)
+	{
+		Session session = getSessionFactory().openSession();
+		try
+		{
+			Query<?> query = null;
+			
+			StringBuffer sbSelectQry = new StringBuffer();
+			
 			sbSelectQry.append(isCount ? "Select Count(*)" : "");
-
+			
 			if (CommonValidator.isNotNullNotEmpty(dtParam.searchColumns))
 				sbSelectQry.append(SELECT + dtParam.searchColumns);
-
-			sbSelectQry.append(FROM + AlertsAndNotifications.class.getCanonicalName() + WHERE_1_1);
-
+			
+			sbSelectQry.append(FROM + dtParam.searchBeanClass.getCanonicalName() + WHERE_1_1);
+			
 			for (String condKey : dtParam.searchCondtionMap.keySet())
 			{
 				sbSelectQry.append(dtParam.searchCondtionMap.get(condKey));
@@ -53,9 +105,9 @@ public class InfoAlertDAOImpl extends CommonHibernateSessionFactorySupport imple
 					query = session.createQuery((sbSelectQry.toString()));
 				}
 			}
-
+			
 			_SetNamedParameterValueFromSearchValueMap(dtParam, query);
-
+			
 			if (isCount)
 				dtParam.dataListCount = ((Long) query.uniqueResult()).longValue();
 			else
@@ -63,7 +115,7 @@ public class InfoAlertDAOImpl extends CommonHibernateSessionFactorySupport imple
 		}
 		catch (Exception excep)
 		{
-			excep.printStackTrace();
+			logger.error(excep);
 		}
 		finally
 		{
@@ -75,23 +127,29 @@ public class InfoAlertDAOImpl extends CommonHibernateSessionFactorySupport imple
 		}
 		return dtParam;
 	}
-
+	
 	@Override
-	public boolean saveOrUpdate(AlertsAndNotifications alerts)
+	public boolean saveOrUpdate(String beanName, ICRUDBean... beans)
 	{
-
 		Transaction _Txn = null;
 		Session session = null;
 		try
 		{
 			session = getSessionFactory().openSession();
 			_Txn = session.beginTransaction();
-			session.saveOrUpdate("AlertsAndNotifications", alerts);
+			
+			for (ICRUDBean bean : beans)
+			{
+				session.saveOrUpdate(beanName, bean);
+			}
+			
 			_Txn.commit();
+			
 			return true;
 		}
 		catch (Exception excep)
 		{
+			logger.error(excep);
 			if (_Txn != null && _Txn.isActive())
 			{
 				try
@@ -100,6 +158,7 @@ public class InfoAlertDAOImpl extends CommonHibernateSessionFactorySupport imple
 				}
 				catch (HibernateException hibExcep)
 				{
+					logger.error(hibExcep);
 				}
 			}
 		}
@@ -112,7 +171,6 @@ public class InfoAlertDAOImpl extends CommonHibernateSessionFactorySupport imple
 			}
 		}
 		return false;
-
 	}
-
+	
 }

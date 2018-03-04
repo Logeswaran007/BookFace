@@ -15,22 +15,23 @@ import javax.persistence.Table;
 import org.hbs.admin.model.CommonBeanFields;
 import org.hbs.admin.model.IProducers;
 import org.hbs.admin.model.Producers;
+import org.hbs.util.dao.ICRUDBean;
 
 @Entity
 @Table(name = "assessmentpattern")
-public class AssessmentPattern extends CommonBeanFields implements IAssessmentPattern
+public class AssessmentPattern extends CommonBeanFields implements IAssessmentPattern, ICRUDBean
 {
 	private static final long				serialVersionUID	= -3686008815972891689L;
 	protected String						patternId			= "DEFAULT";
 	protected String						patternName;
 	protected IProducers					producer;
 	protected Set<IAssessmentPatternInfo>	patternInfoSet		= new LinkedHashSet<IAssessmentPatternInfo>(0);
-
+	
 	public AssessmentPattern()
 	{
 		super();
 	}
-
+	
 	public AssessmentPattern(String patternId, String patternName, IProducers producer, Set<IAssessmentPatternInfo> patternInfoSet)
 	{
 		super();
@@ -39,7 +40,7 @@ public class AssessmentPattern extends CommonBeanFields implements IAssessmentPa
 		this.producer = producer;
 		this.patternInfoSet = patternInfoSet;
 	}
-
+	
 	@Override
 	@ManyToOne(targetEntity = Producers.class)
 	@JoinColumn(name = "producerId", nullable = false)
@@ -47,24 +48,24 @@ public class AssessmentPattern extends CommonBeanFields implements IAssessmentPa
 	{
 		return producer;
 	}
-
+	
 	public void setProducer(IProducers producer)
 	{
 		this.producer = producer;
 	}
-
+	
 	@Override
 	@OneToMany(targetEntity = AssessmentPatternInfo.class, fetch = FetchType.EAGER, mappedBy = "pattern")
 	public Set<IAssessmentPatternInfo> getPatternInfoSet()
 	{
 		return patternInfoSet;
 	}
-
+	
 	public void setPatternInfoSet(Set<IAssessmentPatternInfo> patternInfoSet)
 	{
 		this.patternInfoSet = patternInfoSet;
 	}
-
+	
 	@Override
 	@Id
 	@Column(name = "patternId")
@@ -72,24 +73,24 @@ public class AssessmentPattern extends CommonBeanFields implements IAssessmentPa
 	{
 		return patternId;
 	}
-
+	
 	@Override
 	@Column(name = "patternName")
 	public String getPatternName()
 	{
 		return patternName;
 	}
-
+	
 	@Override
 	public void setPatternId(String patternId)
 	{
 		this.patternId = patternId;
 	}
-
+	
 	@Override
 	public void setPatternName(String patternName)
 	{
 		this.patternName = patternName;
 	}
-
+	
 }

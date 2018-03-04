@@ -8,22 +8,23 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import org.hbs.admin.model.CommonFileUploadBase;
+import org.hbs.util.dao.ICRUDBean;
 
 @Entity
 @Table(name = "assessmentanswer")
-public class AssessmentAnswer extends CommonFileUploadBase implements IAssessmentAnswer
+public class AssessmentAnswer extends CommonFileUploadBase implements IAssessmentAnswer, ICRUDBean
 {
 	private static final long		serialVersionUID	= -6214771334313143012L;
 	protected String				textAnswer;
 	protected String				answerId;
 	protected IAssessmentQuestion	assessmentQuestion;
 	protected String				patternMode			= EPatternMode.Option.name();
-
+	
 	public AssessmentAnswer()
 	{
 		super();
 	}
-
+	
 	public AssessmentAnswer(String textAnswer, String answerId, IAssessmentQuestion assessmentQuestion, String patternMode)
 	{
 		super();
@@ -32,21 +33,21 @@ public class AssessmentAnswer extends CommonFileUploadBase implements IAssessmen
 		this.assessmentQuestion = assessmentQuestion;
 		this.patternMode = patternMode;
 	}
-
+	
 	@Override
 	@Column(name = "textAnswer")
 	public String getTextAnswer()
 	{
 		return textAnswer;
 	}
-
+	
 	@Id
 	@Column(name = "answerId")
 	public String getAnswerId()
 	{
 		return answerId;
 	}
-
+	
 	@Override
 	@ManyToOne(targetEntity = AssessmentQuestion.class)
 	@JoinColumn(name = "questionId", nullable = false)
@@ -54,35 +55,35 @@ public class AssessmentAnswer extends CommonFileUploadBase implements IAssessmen
 	{
 		return assessmentQuestion;
 	}
-
+	
 	@Override
 	@Column(name = "patternMode")
 	public String getPatternMode()
 	{
 		return patternMode;
 	}
-
+	
 	@Override
 	public void setTextAnswer(String textAnswer)
 	{
 		this.textAnswer = textAnswer;
 	}
-
+	
 	@Override
 	public void setAnswerId(String answerId)
 	{
 		this.answerId = answerId;
 	}
-
+	
 	@Override
 	public void setAssessmentQuestion(IAssessmentQuestion assessmentQuestion)
 	{
 		this.assessmentQuestion = assessmentQuestion;
 	}
-
+	
 	public void setPatternMode(String patternMode)
 	{
 		this.patternMode = patternMode;
 	}
-
+	
 }

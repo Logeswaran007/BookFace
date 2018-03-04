@@ -31,10 +31,11 @@ import javax.sql.rowset.serial.SerialException;
 
 import org.hbs.admin.model.IMessages.EAddress;
 import org.hbs.util.CommonValidator;
+import org.hbs.util.dao.ICRUDBean;
 
 @Entity
 @Table(name = "messagesusermapping")
-public class MessagesUserMapping extends CommonBeanFields
+public class MessagesUserMapping extends CommonBeanFields implements ICRUDBean
 {
 	private static final long	serialVersionUID	= 3261842931089188964L;
 	public static int			MAX_RETRY_COUNT		= 3;
@@ -47,12 +48,12 @@ public class MessagesUserMapping extends CommonBeanFields
 	protected Blob				dataObject;
 	protected Blob				attachmentObject;
 	protected boolean			selfDelete			= false;
-
+	
 	public MessagesUserMapping()
 	{
 		super();
 	}
-
+	
 	@Transient
 	public static void getClassFields(List<Field> fields, Class<?> clazz)
 	{
@@ -66,32 +67,32 @@ public class MessagesUserMapping extends CommonBeanFields
 			getClassFields(fields, clazz.getSuperclass());
 		}
 	}
-
+	
 	@Transient
 	public static void getClassMethods(List<Method> method, Class<?> clazz)
 	{
 		method.addAll(Arrays.asList(clazz.getDeclaredMethods()));
-
+		
 		if (clazz.getSuperclass() != null && clazz.getSuperclass() != Object.class)
 		{
 			getClassMethods(method, clazz.getSuperclass());
 		}
 	}
-
+	
 	@Transient
 	public Object deserialize(Blob blob) throws IOException, ClassNotFoundException, SQLException
 	{
 		ObjectInputStream ois = new ObjectInputStream(blob.getBinaryStream());
 		return ois.readObject();
 	}
-
+	
 	@Transient
 	public void extractValuesFromObject(Object obj, HashMap<String, Object> hmBlob, String clazzName) throws IllegalArgumentException, IllegalAccessException, InvocationTargetException
 	{
 		String[] clazzes = "".split(",");
 		List<String> clazzList = Arrays.asList(clazzes);
 		boolean clazzDepth = clazzName.split("\\.").length < 4;
-
+		
 		if (clazzDepth)
 		{
 			List<Field> fieldList = new LinkedList<Field>();
@@ -134,17 +135,17 @@ public class MessagesUserMapping extends CommonBeanFields
 						}
 					}
 				}
-
+				
 			}
 		}
 	}
-
+	
 	@Column(name = "attachmentObject")
 	public Blob getAttachmentObject()
 	{
 		return attachmentObject;
 	}
-
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = "autoId")
@@ -152,45 +153,45 @@ public class MessagesUserMapping extends CommonBeanFields
 	{
 		return autoId;
 	}
-
+	
 	@Column(name = "dataObject")
 	public Blob getDataObject()
 	{
 		return dataObject;
 	}
-
+	
 	@Column(name = "deliveryDateTime")
 	public String getDeliveryDateTime()
 	{
 		return deliveryDateTime;
 	}
-
+	
 	@Transient
 	public EAddress[] getEAddress()
 	{
 		EAddress.To.append(getReceiptantUser().getCommunicationAddress());
 		return EAddress.values();
 	}
-
+	
 	@ManyToOne(targetEntity = Messages.class)
 	@JoinColumn(name = "messageId", nullable = false)
 	public IMessages getMessages()
 	{
 		return messages;
 	}
-
+	
 	@Column(name = "messageStatus")
 	public String getMessageStatus()
 	{
 		return messageStatus;
 	}
-
+	
 	@Transient
 	public Object getObject() throws ClassNotFoundException, IOException, SQLException
 	{
 		return deserialize(this.receiptant);
 	}
-
+	
 	@Transient
 	public IUsers getReceiptantUser()
 	{
@@ -203,9 +204,9 @@ public class MessagesUserMapping extends CommonBeanFields
 					return (IUsers) object;
 				else if (object instanceof IUsersAddress)
 					return ((IUsersAddress) object).getUsers();
-
+				
 			}
-
+			
 		}
 		catch (ClassNotFoundException | IOException | SQLException e)
 		{
@@ -213,25 +214,25 @@ public class MessagesUserMapping extends CommonBeanFields
 		}
 		return null;
 	}
-
+	
 	@Column(name = "receiptant")
 	public Blob getReceiptantAddress()
 	{
 		return receiptant;
 	}
-
+	
 	@Column(name = "retryCount")
 	public int getRetryCount()
 	{
 		return retryCount;
 	}
-
+	
 	@Column(name = "selfDelete")
 	public boolean isSelfDelete()
 	{
 		return selfDelete;
 	}
-
+	
 	@Transient
 	public Blob serialize(Object... objects) throws IllegalArgumentException, IllegalAccessException, InvocationTargetException, IOException, SerialException, SQLException
 	{
@@ -246,7 +247,7 @@ public class MessagesUserMapping extends CommonBeanFields
 		o.writeObject(hmBlob);
 		return new SerialBlob(b.toByteArray());
 	}
-
+	
 	@Transient
 	public Blob serializeObject(Object obj) throws IllegalArgumentException, IllegalAccessException, InvocationTargetException, IOException, SerialException, SQLException
 	{
@@ -255,50 +256,50 @@ public class MessagesUserMapping extends CommonBeanFields
 		o.writeObject(obj);
 		return new SerialBlob(b.toByteArray());
 	}
-
+	
 	public void setAttachmentObject(Blob attachmentObject)
 	{
 		this.attachmentObject = attachmentObject;
 	}
-
+	
 	public void setAutoId(int autoId)
 	{
 		this.autoId = autoId;
 	}
-
+	
 	public void setDataObject(Blob dataObject)
 	{
 		this.dataObject = dataObject;
 	}
-
+	
 	public void setDeliveryDateTime(String deliveryDateTime)
 	{
 		this.deliveryDateTime = deliveryDateTime;
 	}
-
+	
 	public void setMessages(IMessages messages)
 	{
 		this.messages = messages;
 	}
-
+	
 	public void setMessageStatus(String messageStatus)
 	{
 		this.messageStatus = messageStatus;
 	}
-
+	
 	public void setReceiptantAddress(Blob receiptant)
 	{
 		this.receiptant = receiptant;
 	}
-
+	
 	public void setRetryCount(int retryCount)
 	{
 		this.retryCount = retryCount;
 	}
-
+	
 	public void setSelfDelete(boolean selfDelete)
 	{
 		this.selfDelete = selfDelete;
 	}
-
+	
 }

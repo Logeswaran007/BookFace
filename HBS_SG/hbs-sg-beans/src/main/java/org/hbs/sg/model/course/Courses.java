@@ -66,7 +66,7 @@ public class Courses extends CommonBeanFields implements ICourses
 		return EKey.Auto("CRS");
 	}
 
-	@OneToMany(targetEntity = Chapters.class, fetch = FetchType.EAGER, mappedBy = "courses")
+	@OneToMany(targetEntity = Chapters.class, fetch = FetchType.EAGER, mappedBy = "course")
 	public Set<IChapters> getChapters()
 	{
 		return chapters;

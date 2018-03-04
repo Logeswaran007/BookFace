@@ -1,6 +1,7 @@
 package org.hbs.util;
 
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Random;
 
 import javax.servlet.http.HttpServletRequest;
@@ -11,8 +12,8 @@ public interface IParam
 {
 	public enum ENamed implements EnumInterface
 	{
-		Like(" Like :"), LikePrepend(" Like :"), LikePost(" Like :"), EqualTo(" = :"), NotEqualTo(" <> :"), GreaterThan(" > :"), LessThan(" < :"), GreaterThanEqualTo(" >= :"), LessThanEqualTo(
-				" <= :"), Between(" Between "), Is_Null(""), In(" In "), NotIn(" Not In "), OrderBy(" Order By ");
+		Between(" Between "), EqualTo(" = :"), GreaterThan(" > :"), GreaterThanEqualTo(" >= :"), In(" In "), Is_Null(""), LessThan(" < :"), LessThanEqualTo(" <= :"), Like(" Like :"), LikePost(
+				" Like :"), LikePrepend(" Like :"), NotEqualTo(" <> :"), NotIn(" Not In "), OrderBy(" Order By ");
 
 		public static String create(String param)
 		{
@@ -215,8 +216,8 @@ public interface IParam
 
 	public enum IWrap implements EnumInterface
 	{
-		AND(" AND "), OR(" OR "), ST_BRACE1(" ( "), ED_BRACE1(" ) "), ST_BRACE2(" (( "), ED_BRACE2(" )) "), ST_BRACE3(" ((( "), ED_BRACE3(" ))) "), ST_BRACE4(" (((( "), ED_BRACE4(" )))) "), ST_BRACE5(
-				" ((((( "), ED_BRACE5(" ))))) ");
+		AND(" AND "), ED_BRACE1(" ) "), ED_BRACE2(" )) "), ED_BRACE3(" ))) "), ED_BRACE4(" )))) "), ED_BRACE5(" ))))) "), OR(" OR "), ST_BRACE1(" ( "), ST_BRACE2(" (( "), ST_BRACE3(
+				" ((( "), ST_BRACE4(" (((( "), ST_BRACE5(" ((((( ");
 
 		private String append;
 
@@ -234,13 +235,27 @@ public interface IParam
 
 	public EnumInterface get_AddEntityBean();
 
+	public String get_OrderBy();
+
 	public String get_ProcedureName();
+
+	public List<?> getDataList();
+
+	public String getImageVirtualUrl(Object traverseObject);
+
+	public int getMaxResults();
+
+	public int getMinResults();
 
 	public void getParamMapFromRequest(HttpServletRequest request);
 
 	public HttpServletRequest getRequest();
 
 	public LinkedHashMap<String, Object> getRequestParamMap();
+
+	public Class<?> getSearchBeanClass();
+
+	public String getSearchColumns();
 
 	public LinkedHashMap<String, Object> getSearchCondtionMap();
 
@@ -250,18 +265,27 @@ public interface IParam
 
 	public void set_AddEntityBean(EnumInterface _AddEntityBean);
 
+	public void set_OrderBy(String _OrderBy);
+
 	public void set_ProcedureName(String _ProcedureName);
+
+	public void setDataList(List<?> dataList);
+
+	public void setMaxResults(int maxResults);
+
+	public void setMinResults(int minResults);
 
 	public void setRequest(HttpServletRequest request);
 
 	public void setRequestParamMap(LinkedHashMap<String, Object> requestParamMap);
+
+	public void setSearchBeanClass(Class<?> searchBeanClass);
+
+	public void setSearchColumns(String searchColumns);
 
 	public void setSearchCondtionMap(LinkedHashMap<String, Object> searchCondtionMap);
 
 	public void setSearchValueMap(LinkedHashMap<String, Object> searchValueMap);
 
 	public void setSessionFilterValueMap(LinkedHashMap<String, Object> sessionFilterValueMap);
-
-	public String getImageVirtualUrl(Object traverseObject);
-
 }

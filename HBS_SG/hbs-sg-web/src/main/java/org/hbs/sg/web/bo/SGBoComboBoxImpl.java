@@ -8,14 +8,13 @@ import java.util.Map;
 import org.hbs.admin.model.IUsers;
 import org.hbs.admin.model.IUsers.EUsers;
 import org.hbs.sg.model.Scheme;
-import org.hbs.sg.model.course.IChapters;
-import org.hbs.sg.model.course.ICourseGroup;
-import org.hbs.sg.model.course.ICourses;
+import org.hbs.sg.model.course.Chapters;
+import org.hbs.sg.model.course.CourseGroup;
+import org.hbs.sg.model.course.Courses;
 import org.hbs.sg.web.controller.AssessmentParam;
 import org.hbs.sg.web.controller.SchemeParam;
-import org.hbs.sg.web.dao.CoursesDAO;
-import org.hbs.sg.web.dao.SchemeDAO;
 import org.hbs.util.IParam.ENamed;
+import org.hbs.util.dao.IBaseDAO;
 import org.hbs.util.model.LabelValueBean;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -29,82 +28,91 @@ public abstract class SGBoComboBoxImpl implements SGBo
 	}
 
 	@Autowired
-	protected SchemeDAO		schemeDAO;
-
-	@Autowired
-	protected CoursesDAO	coursesDAO;
+	protected IBaseDAO			iBaseDAO;
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public Map<String, String> getComboBoxSchemeMap(SchemeParam sParam) throws Exception
+	public Map<String, String> getComboBoxSchemeMap(SchemeParam param) throws Exception
 	{
-		Map<String, String> hmSchemeMap = new LinkedHashMap<String, String>();
-		IUsers users = EUsers.getSessionUser(sParam.request);
-		ENamed.EqualTo.param_AND(sParam, "producer.producerId", users.getProducer().getProducerId());
-		ENamed.EqualTo.param_AND(sParam, "status", true);
+		Map<String, String> hmComboMap = new LinkedHashMap<String, String>();
+		IUsers users = EUsers.getSessionUser(param.request);
+		
+		param.searchBeanClass = Scheme.class;
+		param.searchColumns = "schemeId, schemeCost, schemeName" ;
+		ENamed.EqualTo.param_AND(param, "producer.producerId", users.getProducer().getProducerId());
+		ENamed.EqualTo.param_AND(param, "status", true);
 
-		List<Scheme> shemeList = (List<Scheme>) schemeDAO.getSchemeList(sParam).dataList;
+		List<Object[]> objectList = (List<Object[]>) iBaseDAO.getDataList(param).getDataList();
 
-		for (Scheme sch : shemeList)
+		for (Object[] object : objectList)
 		{
-			hmSchemeMap.put(sch.getSchemeId() + "-" + sch.getSchemeCost(), sch.getSchemeName());
+			hmComboMap.put(object[0].toString() + "-" + object[1].toString(), object[2].toString());
 		}
 
-		return hmSchemeMap;
+		return hmComboMap;
 	}
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public Map<String, String> getComboBoxCourseGroupMap(AssessmentParam assessmentParam) throws Exception
+	public Map<String, String> getComboBoxCourseGroupMap(AssessmentParam param) throws Exception
 	{
-		Map<String, String> hmCourseGroupMap = new LinkedHashMap<String, String>();
-		IUsers sessionUser = EUsers.getSessionUser(assessmentParam.request);
-		ENamed.EqualTo.param_AND(assessmentParam, "producer.producerId", sessionUser.getProducer().getProducerId());
+		Map<String, String> hmComboMap = new LinkedHashMap<String, String>();
+		IUsers sessionUser = EUsers.getSessionUser(param.request);
+		
+		param.searchBeanClass = CourseGroup.class;
+		param.searchColumns = "courseGroupId, courseDesc" ;
+		
+		ENamed.EqualTo.param_AND(param, "producer.producerId", sessionUser.getProducer().getProducerId());
 
-		List<ICourseGroup> courseGroupList = (List<ICourseGroup>) coursesDAO.getCourseGroupList(assessmentParam).dataList;
+		List<Object[]> objectList = (List<Object[]>) iBaseDAO.getDataList(param).getDataList();
 
-		for (ICourseGroup courseGroup : courseGroupList)
+		for (Object[] object : objectList)
 		{
-			hmCourseGroupMap.put(courseGroup.getCourseGroupId(), courseGroup.getCourseDesc());
+			hmComboMap.put(object[0].toString() , object[1].toString());
 		}
 
-		return hmCourseGroupMap;
+		return hmComboMap;
 	}
 
 	@SuppressWarnings("unchecked")
-	public List<LabelValueBean> getComboBoxCourseList(AssessmentParam assessmentParam) throws Exception
+	public List<LabelValueBean> getComboBoxCourseList(AssessmentParam param) throws Exception
 	{
 		List<LabelValueBean> lbList = new ArrayList<LabelValueBean>();
-		IUsers sessionUser = EUsers.getSessionUser(assessmentParam.request);
-		ENamed.EqualTo.param_AND(assessmentParam, "courseGroup.producer.producerId", sessionUser.getProducer().getProducerId());
-		ENamed.EqualTo.param_AND(assessmentParam, "courseGroup.courseGroupId", assessmentParam.courseGroupId);
-		ENamed.EqualTo.param_AND(assessmentParam, "status", true);
+		IUsers sessionUser = EUsers.getSessionUser(param.request);
+		
+		param.searchBeanClass = Courses.class;
+		param.searchColumns = "courseId, courseName" ;
+		
+		ENamed.EqualTo.param_AND(param, "courseGroup.producer.producerId", sessionUser.getProducer().getProducerId());
+		ENamed.EqualTo.param_AND(param, "courseGroup.courseGroupId", param.courseGroupId);
+		ENamed.EqualTo.param_AND(param, "status", true);
 
-		List<ICourses> courseList = (List<ICourses>) coursesDAO.getCoursesList(assessmentParam).dataList;
+		List<Object[]> objectList = (List<Object[]>) iBaseDAO.getDataList(param).getDataList();
 
-		for (ICourses course : courseList)
+		for (Object[] object : objectList)
 		{
-			lbList.add(new LabelValueBean(course.getCourseId(), course.getCourseName()));
+			lbList.add(new LabelValueBean(object[0].toString(), object[1].toString()));
 		}
 
 		return lbList;
 	}
 
 	@SuppressWarnings("unchecked")
-	public List<LabelValueBean> getComboBoxChaptersList(AssessmentParam assessmentParam) throws Exception
+	public List<LabelValueBean> getComboBoxChaptersList(AssessmentParam param) throws Exception
 	{
 		List<LabelValueBean> lbList = new ArrayList<LabelValueBean>();
-		ENamed.EqualTo.param_AND(assessmentParam, "courseId", assessmentParam.courseId);
-		ENamed.EqualTo.param_AND(assessmentParam, "status", true);
+		
+		param.searchBeanClass = Chapters.class;
+		param.searchColumns = "chapterId, chapterName" ;
+		
+		ENamed.EqualTo.param_AND(param, "course.courseId", param.courseId);
+		ENamed.EqualTo.param_AND(param, "status", true);
 
-		List<ICourses> courseList = (List<ICourses>) coursesDAO.getCoursesList(assessmentParam).dataList;
+		List<Object[]> objectList = (List<Object[]>) iBaseDAO.getDataList(param).getDataList();
 
-		for (ICourses course : courseList)
+		for (Object[] object : objectList)
 		{
-			for (IChapters chapter : course.getChapters())
-			{
-				lbList.add(new LabelValueBean(chapter.getChapterId(), chapter.getChapterName()));
-			}
+			lbList.add(new LabelValueBean(object[0].toString(), object[1].toString()));
 		}
 
 		return lbList;

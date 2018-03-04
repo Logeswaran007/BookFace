@@ -1,7 +1,6 @@
 package org.hbs.admin.bo;
 
 import java.io.Serializable;
-import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -9,6 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.hbs.admin.controller.param.UserParam;
 import org.hbs.admin.model.IUserActivity;
 import org.hbs.admin.model.IUsers;
+import org.hbs.admin.model.Producers;
 import org.hbs.util.DataTableParam;
 
 public interface UserBo extends Serializable
@@ -23,8 +23,6 @@ public interface UserBo extends Serializable
 
 	public DataTableParam getUsersList(DataTableParam dtParam, boolean isCount);
 
-	public List<IUsers> getUsersList(UserParam userParam);
-
 	public void saveUserActivity(IUserActivity userActivity);
 
 	public void userLogAtLogin(IUsers user, String ipAddr);
@@ -36,5 +34,7 @@ public interface UserBo extends Serializable
 	public boolean userUpdate(IUsers users);
 
 	public Map<String, String> getComboBoxUserMap(UserParam userParam) throws Exception;
+	
+	public Producers getProducers(HttpServletRequest request);
 
 }

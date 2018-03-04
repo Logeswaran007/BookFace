@@ -1,7 +1,6 @@
 package org.hbs.admin.controller;
 
 import org.hbs.admin.bo.LayoutBo;
-import org.hbs.admin.bo.ProducerBo;
 import org.hbs.admin.bo.RolesBo;
 import org.hbs.admin.bo.UserBo;
 import org.hbs.admin.menucomponent.bo.MenuBo;
@@ -24,6 +23,4 @@ public abstract class ControllerBaseBo implements IConstProperty
 	@Autowired
 	public LayoutBo				layoutBo;
 
-	@Autowired
-	public ProducerBo			producerBo;
 }

@@ -14,6 +14,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.OrderBy;
 import javax.persistence.Table;
 
+import org.hbs.util.dao.ICRUDBean;
 import org.hibernate.annotations.Where;
 
 /**
@@ -21,24 +22,24 @@ import org.hibernate.annotations.Where;
  */
 @Entity
 @Table(name = "userroles")
-public class UserRoles implements IUserRoles
+public class UserRoles implements IUserRoles, ICRUDBean
 {
-
+	
 	private static final long			serialVersionUID	= 8909239704346625769L;
-
+	
 	protected int						urAutoId;
-
+	
 	protected IUsers					users;
-
+	
 	protected IRoles					roles;
-
+	
 	protected Set<IPortletsUsersRoles>	userRolePortlets;
-
+	
 	public UserRoles()
 	{
 		super();
 	}
-
+	
 	@OneToMany(targetEntity = PortletsUsersRoles.class, fetch = FetchType.EAGER, mappedBy = "userRoles")
 	@Where(clause = "status = true")
 	@OrderBy("order ASC")
@@ -46,19 +47,19 @@ public class UserRoles implements IUserRoles
 	{
 		return userRolePortlets;
 	}
-
+	
 	public void setUserRolePortlets(Set<IPortletsUsersRoles> userRolePortlets)
 	{
 		this.userRolePortlets = userRolePortlets;
 	}
-
+	
 	@ManyToOne(targetEntity = Roles.class)
 	@JoinColumn(name = "rlRoleId", nullable = false)
 	public IRoles getRoles()
 	{
 		return roles;
 	}
-
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "urAutoId")
@@ -66,27 +67,27 @@ public class UserRoles implements IUserRoles
 	{
 		return urAutoId;
 	}
-
+	
 	@ManyToOne(targetEntity = Users.class)
 	@JoinColumn(name = "usEmployeeId", nullable = false)
 	public IUsers getUsers()
 	{
 		return users;
 	}
-
+	
 	public void setRoles(IRoles roles)
 	{
 		this.roles = roles;
 	}
-
+	
 	public void setUrAutoId(int urAutoId)
 	{
 		this.urAutoId = urAutoId;
 	}
-
+	
 	public void setUsers(IUsers users)
 	{
 		this.users = users;
 	}
-
+	
 }

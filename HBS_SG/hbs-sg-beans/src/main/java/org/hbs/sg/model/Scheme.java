@@ -17,23 +17,24 @@ import javax.persistence.Table;
 import org.hbs.admin.model.ProducersBase;
 import org.hbs.sg.model.course.CourseGroup;
 import org.hbs.sg.model.course.ICourseGroup;
+import org.hbs.util.dao.ICRUDBean;
 
 @Entity
 @Table(name = "scheme")
-public class Scheme extends ProducersBase implements IScheme
+public class Scheme extends ProducersBase implements IScheme, ICRUDBean
 {
-
+	
 	private static final long	serialVersionUID	= 5432094430635127068L;
 	private Double				schemeCost;
 	private String				schemeId;
 	private String				schemeName;
 	private Set<ICourseGroup>	courseGroupList		= new LinkedHashSet<ICourseGroup>(0);
-
+	
 	public Scheme()
 	{
 		super();
 	}
-
+	
 	public Scheme(Double schemeCost, String schemeId, String schemeName, Set<ICourseGroup> courseGroupList)
 	{
 		super();
@@ -42,14 +43,14 @@ public class Scheme extends ProducersBase implements IScheme
 		this.schemeName = schemeName;
 		this.courseGroupList = courseGroupList;
 	}
-
+	
 	@Override
 	@Column(name = "schemeCost")
 	public Double getSchemeCost()
 	{
 		return schemeCost;
 	}
-
+	
 	@Override
 	@Id
 	@Column(name = "schemeId")
@@ -57,7 +58,7 @@ public class Scheme extends ProducersBase implements IScheme
 	{
 		return schemeId;
 	}
-
+	
 	@ManyToMany(cascade = { CascadeType.ALL }, targetEntity = CourseGroup.class)
 	@JoinTable(name = "schemecoursegroup", joinColumns = { @JoinColumn(name = "schemeId") }, inverseJoinColumns = { @JoinColumn(name = "courseGroupId") })
 	public Set<ICourseGroup> getCourseGroupList()
@@ -67,34 +68,34 @@ public class Scheme extends ProducersBase implements IScheme
 		{
 			year = cGrp.updateCourseYear(year, courseGroupList.size());
 		}
-
+		
 		return courseGroupList;
 	}
-
+	
 	public void setCourseGroupList(Set<ICourseGroup> courseGroupList)
 	{
 		this.courseGroupList = courseGroupList;
 	}
-
+	
 	@Override
 	@Column(name = "schemeName")
 	public String getSchemeName()
 	{
 		return schemeName;
 	}
-
+	
 	@Override
 	public void setSchemeCost(Double schemeCost)
 	{
 		this.schemeCost = schemeCost;
 	}
-
+	
 	@Override
 	public void setSchemeId(String schemeId)
 	{
 		this.schemeId = schemeId;
 	}
-
+	
 	@Override
 	public void setSchemeName(String schemeName)
 	{

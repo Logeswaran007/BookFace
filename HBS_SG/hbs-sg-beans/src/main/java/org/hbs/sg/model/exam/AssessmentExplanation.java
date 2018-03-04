@@ -8,21 +8,22 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import org.hbs.admin.model.CommonFileUploadBase;
+import org.hbs.util.dao.ICRUDBean;
 
 @Entity
 @Table(name = "assessmentexplanation")
-public class AssessmentExplanation extends CommonFileUploadBase implements IAssessmentExplanation
+public class AssessmentExplanation extends CommonFileUploadBase implements IAssessmentExplanation, ICRUDBean
 {
 	private static final long		serialVersionUID	= 1303472021452590415L;
 	protected IAssessmentQuestion	assessmentQuestion;
 	protected String				explanation;
 	protected String				explanationId;
-
+	
 	public AssessmentExplanation()
 	{
 		super();
 	}
-
+	
 	public AssessmentExplanation(IAssessmentQuestion assessmentQuestion, String explanation, String explanationId)
 	{
 		super();
@@ -30,7 +31,7 @@ public class AssessmentExplanation extends CommonFileUploadBase implements IAsse
 		this.explanation = explanation;
 		this.explanationId = explanationId;
 	}
-
+	
 	@Override
 	@ManyToOne(targetEntity = AssessmentQuestion.class)
 	@JoinColumn(name = "questionId", nullable = false)
@@ -38,36 +39,36 @@ public class AssessmentExplanation extends CommonFileUploadBase implements IAsse
 	{
 		return assessmentQuestion;
 	}
-
+	
 	@Override
 	@Column(name = "explanation")
 	public String getExplanation()
 	{
 		return explanation;
 	}
-
+	
 	@Id
 	@Column(name = "explanationId")
 	public String getExplanationId()
 	{
 		return explanationId;
 	}
-
+	
 	@Override
 	public void setAssessmentQuestion(IAssessmentQuestion assessmentQuestion)
 	{
 		this.assessmentQuestion = assessmentQuestion;
 	}
-
+	
 	@Override
 	public void setExplanation(String explanation)
 	{
 		this.explanation = explanation;
 	}
-
+	
 	public void setExplanationId(String explanationId)
 	{
 		this.explanationId = explanationId;
 	}
-
+	
 }

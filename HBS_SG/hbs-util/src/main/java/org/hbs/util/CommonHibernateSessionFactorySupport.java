@@ -23,25 +23,25 @@ public abstract class CommonHibernateSessionFactorySupport implements IConstProp
 {
 	private static final long	serialVersionUID	= -2515673438608913557L;
 	private final CustomLogger	logger				= new CustomLogger(this.getClass());
-
+	
 	protected PropFactory		propFactory;
-
+	
 	@Autowired
 	EntityManagerFactory		entityManagerFactory;
-
+	
 	protected SessionFactory	sessionFactory;
-
-	public void _SetNamedParameterValueFromSearchValueMap(IParam param, Query query) throws Exception
+	
+	public void _SetNamedParameterValueFromSearchValueMap(IParam param, Query<?> query) throws Exception
 	{
 		if (param.getSearchCondtionMap().isEmpty() == false)
 		{
 			for (String condKey : param.getSearchValueMap().keySet())
 			{
 				String namedParam = (String) param.getSearchCondtionMap().get(condKey);
-
+				
 				if (namedParam == null || namedParam.indexOf(ENamed.OrderBy.paramCode()) < 0)
 				{
-
+					
 					Object valueObject = param.getSearchValueMap().get(condKey);
 					Object valueCondition = param.getSearchCondtionMap().get(condKey);
 					if (valueCondition != null)
@@ -57,7 +57,7 @@ public abstract class CommonHibernateSessionFactorySupport implements IConstProp
 						else if (valueObject instanceof ArrayList)
 						{
 							ArrayList<?> range = (ArrayList<?>) valueObject;
-
+							
 							if (CommonValidator.isListFirstNotEmpty(range))
 							{
 								if (namedParam.indexOf(ENamed.Between.name()) >= 0)
@@ -84,7 +84,7 @@ public abstract class CommonHibernateSessionFactorySupport implements IConstProp
 			}
 		}
 	}
-
+	
 	public List<ILayoutElements> getLayoutElementList(List<? extends ICommonLayout> commonLayoutList)
 	{
 		List<ILayoutElements> iLayoutElementList = new ArrayList<ILayoutElements>(0);
@@ -93,39 +93,39 @@ public abstract class CommonHibernateSessionFactorySupport implements IConstProp
 			iLayoutElementList.add(iCL.getLayoutElements());
 		}
 		return iLayoutElementList;
-
+		
 	}
-
+	
 	public PropFactory getPropFactory()
 	{
 		return propFactory;
 	}
-
+	
 	public Object getUpdatedDataObject(Class<?> returnClass, String primaryKey, Object inObject)
 	{
 		Session session = null;
-
+		
 		try
 		{
 			if (inObject != null)
 			{
 				Class<?> dataClass = inObject.getClass();
 				Field[] fields = returnClass.getDeclaredFields();
-
+				
 				if (CommonValidator.isNotNullNotEmpty(fields) == false)
 				{
 					fields = returnClass.getSuperclass().getDeclaredFields();
 				}
-
+				
 				session = (Session) sessionFactory.openSession();
 				Object returnObj = session.load(returnClass, primaryKey);
-
+				
 				for (Field field : fields)
 				{
 					String mtdGetterName1 = (GET + field.getName()).toUpperCase();
 					String mtdGetterName2 = (IS + field.getName()).toUpperCase();
 					String mtdSetterName = (SET + field.getName()).toUpperCase();
-
+					
 					for (Method method : dataClass.getMethods())
 					{
 						if (method.getName().equalsIgnoreCase(mtdGetterName1) || method.getName().equalsIgnoreCase(mtdGetterName2))
@@ -163,22 +163,22 @@ public abstract class CommonHibernateSessionFactorySupport implements IConstProp
 		}
 		return null;
 	}
-
+	
 	public void setPropFactory(PropFactory propFactory)
 	{
 		this.propFactory = propFactory;
 	}
-
+	
 	public SessionFactory getSessionFactory()
 	{
 		if (sessionFactory == null)
 			sessionFactory = entityManagerFactory.createEntityManager().unwrap(Session.class).getSessionFactory();
 		return sessionFactory;
 	}
-
+	
 	public void setSessionFactory(SessionFactory sessionFactory)
 	{
 		this.sessionFactory = sessionFactory;
 	}
-
+	
 }

@@ -24,19 +24,21 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 public abstract class Param implements IParam, IConstProperty
 {
 	private static final long				serialVersionUID		= -7820466140069794475L;
-	public Class<?>							searchBeanClass;
-	public HttpServletRequest				request;
-	public HttpServletResponse				response;
-	public String							_ProcedureName			= "";
-	public String							_OrderBy				= "";
 	public EnumInterface					_AddEntityBean;
-	public long								dataListCount			= 0L;
+	public String							_OrderBy				= "";
+	public String							_ProcedureName			= "";
 	public List<?>							dataList				= new ArrayList<>(0);
-	public String							searchColumns			= "";
+	public long								dataListCount			= 0L;
+	public int								maxResults			= 0;
+	public int								minResults			= 0;
+	public HttpServletRequest				request;
 	public LinkedHashMap<String, Object>	requestParamMap			= new LinkedHashMap<String, Object>(0);
-	public LinkedHashMap<String, Object>	sessionFilterValueMap	= new LinkedHashMap<String, Object>(0);
-	public LinkedHashMap<String, Object>	searchValueMap			= new LinkedHashMap<String, Object>(0);
+	public HttpServletResponse				response;
+	public Class<?>							searchBeanClass;
+	public String							searchColumns			= "";
 	public LinkedHashMap<String, Object>	searchCondtionMap		= new LinkedHashMap<String, Object>(0);
+	public LinkedHashMap<String, Object>	searchValueMap			= new LinkedHashMap<String, Object>(0);
+	public LinkedHashMap<String, Object>	sessionFilterValueMap	= new LinkedHashMap<String, Object>(0);
 
 	public EnumInterface get_AddEntityBean()
 	{
@@ -61,6 +63,12 @@ public abstract class Param implements IParam, IConstProperty
 	public long getDataListCount()
 	{
 		return dataListCount;
+	}
+
+	@Override
+	public String getImageVirtualUrl(Object traverseObject)
+	{
+		return null;
 	}
 
 	public List<ILayoutElements> getLayoutElements(List<? extends ICommonLayout> iCLList)
@@ -184,6 +192,16 @@ public abstract class Param implements IParam, IConstProperty
 		}
 	}
 
+	public int getMaxResults()
+	{
+		return maxResults;
+	}
+
+	public int getMinResults()
+	{
+		return minResults;
+	}
+
 	public void getParamMapFromRequest(HttpServletRequest request)
 	{
 		this.request = request;
@@ -228,6 +246,16 @@ public abstract class Param implements IParam, IConstProperty
 	public HttpServletResponse getResponse()
 	{
 		return response;
+	}
+
+	public Class<?> getSearchBeanClass()
+	{
+		return searchBeanClass;
+	}
+
+	public String getSearchColumns()
+	{
+		return searchColumns;
 	}
 
 	public LinkedHashMap<String, Object> getSearchCondtionMap()
@@ -299,6 +327,16 @@ public abstract class Param implements IParam, IConstProperty
 		this.dataListCount = dataListCount;
 	}
 
+	public void setMaxResults(int maxResults)
+	{
+		this.maxResults = maxResults;
+	}
+
+	public void setMinResults(int minResults)
+	{
+		this.minResults = minResults;
+	}
+
 	public void setRequest(HttpServletRequest request)
 	{
 		this.request = request;
@@ -314,6 +352,16 @@ public abstract class Param implements IParam, IConstProperty
 		this.response = response;
 	}
 
+	public void setSearchBeanClass(Class<?> searchBeanClass)
+	{
+		this.searchBeanClass = searchBeanClass;
+	}
+
+	public void setSearchColumns(String searchColumns)
+	{
+		this.searchColumns = searchColumns;
+	}
+
 	public void setSearchCondtionMap(LinkedHashMap<String, Object> searchCondtionMap)
 	{
 		this.searchCondtionMap = searchCondtionMap;
@@ -327,32 +375,6 @@ public abstract class Param implements IParam, IConstProperty
 	public void setSessionFilterValueMap(LinkedHashMap<String, Object> sessionFilterValueMap)
 	{
 		this.sessionFilterValueMap = sessionFilterValueMap;
-	}
-
-	public Class<?> getSearchBeanClass()
-	{
-		return searchBeanClass;
-	}
-
-	public void setSearchBeanClass(Class<?> searchBeanClass)
-	{
-		this.searchBeanClass = searchBeanClass;
-	}
-
-	public String getSearchColumns()
-	{
-		return searchColumns;
-	}
-
-	public void setSearchColumns(String searchColumns)
-	{
-		this.searchColumns = searchColumns;
-	}
-
-	@Override
-	public String getImageVirtualUrl(Object traverseObject)
-	{
-		return null;
 	}
 
 }

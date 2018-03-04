@@ -12,7 +12,7 @@ public interface IChapters extends ICommonBeanFields
 
 	public String getChapterName();
 
-	public ICourses getCourses();
+	public ICourses getCourse();
 
 	public void setAttachments(Set<IChapterAttachments> attachments);
 
@@ -20,5 +20,5 @@ public interface IChapters extends ICommonBeanFields
 
 	public void setChapterName(String chapterName);
 
-	public void setCourses(ICourses courses);
+	public void setCourse(ICourses course);
 }

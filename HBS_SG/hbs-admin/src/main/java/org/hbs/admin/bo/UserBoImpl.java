@@ -1,8 +1,8 @@
 package org.hbs.admin.bo;
 
-import java.util.ArrayList;
 import java.util.LinkedHashSet;
-import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
 
 import org.hbs.admin.controller.param.UserParam;
 import org.hbs.admin.dao.UserDAO;
@@ -12,6 +12,7 @@ import org.hbs.admin.model.IUserActivity;
 import org.hbs.admin.model.IUserRoles;
 import org.hbs.admin.model.IUsers;
 import org.hbs.admin.model.IUsers.EUserStatus;
+import org.hbs.admin.model.Producers;
 import org.hbs.admin.model.Roles;
 import org.hbs.admin.model.UserRoles;
 import org.hbs.admin.model.Users;
@@ -21,6 +22,7 @@ import org.hbs.util.DataTableParam;
 import org.hbs.util.IConstProperty;
 import org.hbs.util.IParam.ENamed;
 import org.hbs.util.IParam.IWrap;
+import org.hbs.util.dao.IBaseDAO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -28,43 +30,76 @@ import org.springframework.stereotype.Component;
 public class UserBoImpl extends UserBoComboBoxImpl implements UserBo, IConstProperty
 {
 	private static final long	serialVersionUID	= 2685542022188828413L;
-
+	
+	@Autowired
+	protected IBaseDAO			iBaseDAO;
+	
 	@Autowired
 	protected UserDAO			userDAO;
-
-	public IUsers getUserByEmailOrMobileNo(UserParam userParam)
+	
+	@Override
+	public Producers getProducers(HttpServletRequest request)
 	{
-		return userDAO.getUser(userParam, UsersAddress.class);
+		DataTableParam param = new DataTableParam();
+		
+		param.searchBeanClass = Producers.class;
+		
+		ENamed.EqualTo.param_AND(param, "domainContext", request.getServletContext().getContextPath());
+		ENamed.EqualTo.param_AND(param, "status", true);
+		
+		iBaseDAO.getDataList(param);
+		if (CommonValidator.isListFirstNotEmpty(param.dataList))
+			return (Producers) param.dataList.iterator().next();
+		else
+			return null;
 	}
-
+	
+	public IUsers getUserByEmailOrMobileNo(UserParam param)
+	{
+		param.searchBeanClass = UsersAddress.class;
+		iBaseDAO.getDataList(param);
+		return ((UsersAddress) param.dataList.iterator().next()).getUsers();
+	}
+	
 	public void getUser(UserParam userParam) throws Exception
 	{
-
 		if (userParam.userId.indexOf("@") > 0)
 		{
+			userParam.searchBeanClass = UsersAddress.class;
 			ENamed.EqualTo.param_AND(userParam, "email", userParam.userId);
 			ENamed.EqualTo.param_AND(userParam, "addressType", AddressType.CommunicationAddress.name());
-
-			userParam.user = userDAO.getUser(userParam, UsersAddress.class);
 		}
 		else if (userParam.userId.matches("[0-9]+") && userParam.userId.length() == 10)
 		{
+			userParam.searchBeanClass = UsersAddress.class;
 			ENamed.EqualTo.param_AND(userParam, "mobileNo", Long.parseLong(userParam.userId));
 			ENamed.EqualTo.param_AND(userParam, "addressType", AddressType.CommunicationAddress.name());
-
-			userParam.user = userDAO.getUser(userParam, UsersAddress.class);
 		}
 		else
 		{
+			userParam.searchBeanClass = Users.class;
 			ENamed.EqualTo.param_AND(userParam, "usUserId", userParam.userId);
-			userParam.user = userDAO.getUser(userParam, Users.class);
 		}
-
+		
+		iBaseDAO.getDataList(userParam);
+		
+		if (CommonValidator.isListFirstNotEmpty(userParam.dataList))
+		{
+			if (CommonValidator.isEqual(userParam.searchBeanClass.getCanonicalName(), UsersAddress.class.getCanonicalName()))
+			{
+				userParam.user = ((UsersAddress) userParam.dataList.iterator().next()).getUsers();
+			}
+			else
+			{
+				userParam.user = (Users) userParam.dataList.iterator().next();
+			}
+		}
+		
 		if (userParam.eUserStatus == EUserStatus.Validate)
 			validateAuthenticate(userParam);
-
+		
 	}
-
+	
 	private void validateAuthenticate(UserParam userParam) throws Exception
 	{
 		if (CommonValidator.isNullOrEmpty(userParam.user))
@@ -95,80 +130,70 @@ public class UserBoImpl extends UserBoComboBoxImpl implements UserBo, IConstProp
 			}
 		}
 	}
-
+	
 	@Override
 	public DataTableParam getUsersList(DataTableParam dtParam, boolean isCount)
 	{
-
-		ENamed.EqualTo.param_AND(dtParam, "status", true);
+		dtParam.searchBeanClass = UsersAddress.class;
+		
 		if (CommonValidator.isNotNullNotEmpty(dtParam.sSearch) && isCount == false)
 		{
-			ENamed.Like.param_AND(dtParam, "usEmployeeId", dtParam.sSearch, IWrap.ST_BRACE1);
-			ENamed.Like.param_OR(dtParam, "usUserId", dtParam.sSearch);
-			ENamed.Like.param_OR(dtParam, "usUserName", dtParam.sSearch);
-			ENamed.Like.param_OR(dtParam, "usLastName", dtParam.sSearch);
-			ENamed.Like.param_OR(dtParam, "usDob", dtParam.sSearch);
-			ENamed.Like.param_OR(dtParam, "usSex", dtParam.sSearch);
-			ENamed.Like.param_OR(dtParam, "usUsersType", dtParam.sSearch);
-			ENamed.Like.param_OR(dtParam, "usDob", dtParam.sSearch);
-			ENamed.Like.param_OR(dtParam, "usSex", dtParam.sSearch);
-			ENamed.Like.param_OR(dtParam, "usUsersType", dtParam.sSearch, IWrap.ED_BRACE1);
+			ENamed.Like.param_AND(dtParam, "users.usEmployeeId", dtParam.sSearch, IWrap.ST_BRACE1);
+			ENamed.Like.param_OR(dtParam, "users.usUserId", dtParam.sSearch);
+			ENamed.Like.param_OR(dtParam, "users.usUserName", dtParam.sSearch);
+			ENamed.Like.param_OR(dtParam, "users.usLastName", dtParam.sSearch);
+			ENamed.Like.param_OR(dtParam, "users.usDob", dtParam.sSearch);
+			ENamed.Like.param_OR(dtParam, "users.usSex", dtParam.sSearch);
+			ENamed.Like.param_OR(dtParam, "users.usUsersType", dtParam.sSearch);
+			ENamed.Like.param_OR(dtParam, "users.usDob", dtParam.sSearch);
+			ENamed.Like.param_OR(dtParam, "users.usSex", dtParam.sSearch);
+			ENamed.Like.param_OR(dtParam, "users.usUsersType", dtParam.sSearch, IWrap.ED_BRACE1);
 		}
 		if (CommonValidator.isNotNullNotEmpty(dtParam.sSortDirection))
 		{
-			dtParam._OrderBy = ENamed.OrderBy.param("createdDate") + SPACE + dtParam.sSortDirection;
+			dtParam._OrderBy = ENamed.OrderBy.param("users.createdDate") + SPACE + dtParam.sSortDirection;
 		}
 		else
 		{
-			dtParam._OrderBy = ENamed.OrderBy.param("createdDate") + DESC;
+			dtParam._OrderBy = ENamed.OrderBy.param("users.createdDate") + DESC;
 		}
-		return userDAO.getUsersList(dtParam, isCount);
+		
+		return iBaseDAO.getDataTableList(dtParam, isCount);
 	}
-
-	@SuppressWarnings("unchecked")
-	@Override
-	public List<IUsers> getUsersList(UserParam userParam)
-	{
-		userParam = userDAO.getUsersList(userParam);
-		if (CommonValidator.isListFirstNotEmpty(userParam.dataList))
-			return (List<IUsers>) userParam.dataList;
-		return new ArrayList<IUsers>(0);
-
-	}
-
+	
 	@Override
 	public void saveUserActivity(IUserActivity userActivity)
 	{
 		userDAO.saveUserActivity(userActivity);
 	}
-
+	
 	public void setUserDAO(UserDAO userDAO)
 	{
 		this.userDAO = userDAO;
 	}
-
+	
 	public void userLogAtLogin(IUsers user, String ipAddr)
 	{
 		userDAO.userLogAtLogin(user, ipAddr);
-
+		
 	}
-
+	
 	public void userLogAtLogOut(UserParam userParam)
 	{
 		userDAO.userLogAtLogOut(userParam);
 	}
-
+	
 	@Override
 	public boolean userSave(IUsers users, String... iRoles) throws InstantiationException, IllegalAccessException
 	{
 		if (CommonValidator.isNotNullNotEmpty(users.getUsEmployeeId()) && CommonValidator.isArrayFirstNotNull(iRoles))
 		{
 			users.setUserRoleses(new LinkedHashSet<IUserRoles>(iRoles.length));
-
+			
 			IUserRoles iUR = null;
-
+			
 			IRoles iR = null;
-
+			
 			for (String rlRoleId : iRoles)
 			{
 				iUR = new UserRoles();
@@ -176,18 +201,18 @@ public class UserBoImpl extends UserBoComboBoxImpl implements UserBo, IConstProp
 				iR = new Roles();
 				iR.setRlRoleId(rlRoleId);
 				iUR.setRoles(iR);
-
+				
 				users.getUserRoleses().add(iUR);
 			}
 			return userDAO.userSave(users);
 		}
 		return false;
 	}
-
+	
 	@Override
 	public boolean userUpdate(IUsers users)
 	{
 		return userDAO.userUpdate(users);
 	}
-
+	
 }

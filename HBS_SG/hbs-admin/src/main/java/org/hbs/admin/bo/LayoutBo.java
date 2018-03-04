@@ -1,11 +1,11 @@
 package org.hbs.admin.bo;
 
+import java.io.Serializable;
 import java.util.List;
 
 import org.hbs.admin.model.ILayouts;
-import org.hbs.util.bo.LayoutComboBo;
 
-public interface LayoutBo extends LayoutComboBo
+public interface LayoutBo extends Serializable
 {
 	public List<ILayouts> getResultLayouts(String layoutName);
 

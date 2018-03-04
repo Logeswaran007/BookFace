@@ -21,35 +21,36 @@ import org.hbs.admin.model.IUploadImageOrDocuments;
 import org.hbs.admin.model.IUsers;
 import org.hbs.sg.model.accessors.ConsumerUsers;
 import org.hbs.util.CommonValidator;
+import org.hbs.util.dao.ICRUDBean;
 
 @Entity
 @Table(name = "organisation")
-public class Organisation extends CountryBase implements IOrganisation
+public class Organisation extends CountryBase implements IOrganisation, ICRUDBean
 {
 	private static final long				serialVersionUID	= 94388478378397721L;
-
+	
 	protected Set<IOrganisationAddress>		addressList			= new LinkedHashSet<IOrganisationAddress>(0);
-
+	
 	protected Set<IOrganisationAttachments>	attachmentList		= new LinkedHashSet<IOrganisationAttachments>(0);
-
+	
 	protected IOrganisationAddress			communicationAddress;
-
+	
 	protected IUploadImageOrDocuments		profileImage;
-
+	
 	protected String						organisationId;
-
+	
 	protected String						organisationName;
-
+	
 	protected String						organisationType;
-
+	
 	protected Set<IUsers>					usersList			= new LinkedHashSet<IUsers>(0);
-
+	
 	public Organisation()
 	{
 		super();
 		this.organisationId = getBusinessKey();
 	}
-
+	
 	public Organisation(Set<IOrganisationAddress> addressList, Set<IOrganisationAttachments> attachmentList, IOrganisationAddress communicationAddress, String organisationId, String organisationName,
 			String organisationType, Set<IUsers> usersList)
 	{
@@ -63,17 +64,17 @@ public class Organisation extends CountryBase implements IOrganisation
 		this.organisationType = organisationType;
 		this.usersList = usersList;
 	}
-
+	
 	@OneToMany(targetEntity = OrganisationAddress.class, fetch = FetchType.EAGER, mappedBy = "organisation", cascade = CascadeType.ALL)
 	public Set<IOrganisationAddress> getAddressList()
 	{
 		return addressList;
 	}
-
+	
 	@Transient
 	public IOrganisationAddress getAddressToDisplay(AddressType addressType)
 	{
-
+		
 		if (CommonValidator.isSetFirstNotEmpty(addressList))
 		{
 			for (IAddress address : addressList)
@@ -84,86 +85,86 @@ public class Organisation extends CountryBase implements IOrganisation
 		}
 		return null;
 	}
-
+	
 	@OneToMany(targetEntity = OrganisationAttachments.class, fetch = FetchType.EAGER, mappedBy = "organisation", cascade = CascadeType.ALL)
 	public Set<IOrganisationAttachments> getAttachmentList()
 	{
 		return attachmentList;
 	}
-
+	
 	@Transient
 	public String getBusinessKey(String... combination)
 	{
 		return EKey.Auto("ORG");
 	}
-
+	
 	@Transient
 	public IOrganisationAddress getCommunicationAddress()
 	{
 		this.communicationAddress = getAddressToDisplay(AddressType.CommunicationAddress);
 		return communicationAddress;
 	}
-
+	
 	@Id
 	@Column(name = "organisationId")
 	public String getOrganisationId()
 	{
 		return organisationId;
 	}
-
+	
 	@Column(name = "organisationName")
 	public String getOrganisationName()
 	{
 		return organisationName;
 	}
-
+	
 	@Column(name = "organisationType")
 	public String getOrganisationType()
 	{
 		return organisationType;
 	}
-
+	
 	@ManyToMany(targetEntity = ConsumerUsers.class, mappedBy = "organisations")
 	public Set<IUsers> getUsersList()
 	{
 		return usersList;
 	}
-
+	
 	public void setAddressList(Set<IOrganisationAddress> addressList)
 	{
 		this.addressList = addressList;
 	}
-
+	
 	public void setAttachmentList(Set<IOrganisationAttachments> attachmentList)
 	{
 		this.attachmentList = attachmentList;
 	}
-
+	
 	public void setCommunicationAddress(IOrganisationAddress communicationAddress)
 	{
 		this.communicationAddress = communicationAddress;
 	}
-
+	
 	public void setOrganisationId(String organisationId)
 	{
 		this.organisationId = organisationId;
 	}
-
+	
 	public void setOrganisationName(String organisationName)
 	{
 		this.organisationName = organisationName;
 	}
-
+	
 	public void setOrganisationType(String organisationType)
 	{
 		this.organisationType = organisationType;
 	}
-
+	
 	public void setUsersList(Set<IUsers> usersList)
 	{
 		this.usersList = usersList;
 	}
-
+	
 	@Transient
 	public IUploadImageOrDocuments getProfileImage()
 	{
@@ -177,10 +178,10 @@ public class Organisation extends CountryBase implements IOrganisation
 		}
 		return null;
 	}
-
+	
 	public void setProfileImage(IUploadImageOrDocuments profileImage)
 	{
 		this.profileImage = profileImage;
 	}
-
+	
 }

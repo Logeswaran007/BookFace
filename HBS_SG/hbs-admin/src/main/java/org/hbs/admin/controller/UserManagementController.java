@@ -65,7 +65,7 @@ public class UserManagementController extends ControllerBaseBo implements IAdmin
 {
 	private static final long	serialVersionUID	= 7482526278838998688L;
 	private final CustomLogger	logger				= new CustomLogger(this.getClass());
-
+	
 	@RequestMapping(value = ADD_USER_DETAILS, method = RequestMethod.POST)
 	public @ResponseBody String addUserInformation(@RequestParam("userForm") String formData, @RequestParam("docTypes") String[] docTypes,
 			@RequestParam("uploadMultiPartFiles") MultipartFile[] multiPartFiles, HttpServletRequest request)
@@ -73,17 +73,18 @@ public class UserManagementController extends ControllerBaseBo implements IAdmin
 		try
 		{
 			IUsers sessionUser = EUsers.getSessionUser(request);
-
+			
 			if (CommonValidator.isNotNullNotEmpty(sessionUser))
 			{
 				ObjectMapper mapper = new ObjectMapper();
 				UserForm userForm = mapper.readValue(formData, UserForm.class);
-
+				
 				UserParam userParam = new UserParam();
+				userParam.searchBeanClass = UsersAddress.class;
 				ENamed.EqualTo.param_AND(userParam, "email", userForm.users.getCommunicationAddress().getEmail(), IWrap.ST_BRACE1);
 				ENamed.EqualTo.param_OR(userParam, "mobileNo", userForm.users.getCommunicationAddress().getMobileNo(), IWrap.ED_BRACE1);
 				ENamed.EqualTo.param_AND(userParam, "addressType", AddressType.CommunicationAddress.name());
-
+				
 				if (CommonValidator.isNotNullNotEmpty(userBo.getUserByEmailOrMobileNo(userParam)))
 				{
 					return "false";
@@ -97,46 +98,46 @@ public class UserManagementController extends ControllerBaseBo implements IAdmin
 						userForm.users.setProducer(sessionUser.getProducer());
 						userForm.users.setCountry(userForm.communication.getCountry());
 						userForm.users.setUsUserPwd(new BCryptPasswordEncoder().encode(userForm.users.getUsUserPwd()));
-
+						
 						if (CommonValidator.isNotNullNotEmpty(userForm.communication))
 						{
 							userForm.communication.setUsers(userForm.users);
 							getFilteredAddressList(userForm.users.getAddressList(), userForm.communication);
 						}
-
+						
 						if (CommonValidator.isNotNullNotEmpty(userForm.permanent))
 						{
 							userForm.permanent.setUsers(userForm.users);
 							getFilteredAddressList(userForm.users.getAddressList(), userForm.permanent);
 						}
-
+						
 						if (CommonValidator.isNotNullNotEmpty(userForm.present))
 						{
 							userForm.present.setUsers(userForm.users);
 							getFilteredAddressList(userForm.users.getAddressList(), userForm.present);
 						}
-
+						
 						// Uploading Images and Documents and update user object via reference
 						uploadDocumentAttachment(docTypes, multiPartFiles, request, sessionUser, userForm.users);
-
+						
 						if (userBo.userSave(userForm.users, userForm.getBaseRoles()))
 						{
 							StringBuffer tokenURL = new StringBuffer();
 							tokenURL.append(userForm.users.getProducer().getVirtualBasePath());
 							tokenURL.append(RESET_PASSWORD + "/" + Security.Token.generate(userBo, userForm.users, false));
-
+							
 							Map<String, Object> dataMap = new LinkedHashMap<String, Object>(0);
 							dataMap.put("user", userForm.users);
 							dataMap.put("tokenURL", tokenURL);
-
+							
 							EAddress.To.append(userForm.users.getCommunicationAddress());
 							VTLEmailFactory.getInstance().sendEmail(userForm.users.getProducer(), userForm.getTemplate(), dataMap, EAddress.To);
-
+							
 							EAddress.To.clear();
-
+							
 							EAddress.To.append(userForm.users.getProducer().getUsers().getCommunicationAddress());
 							VTLEmailFactory.getInstance().sendEmail(userForm.users.getProducer(), EUserTemplate.User_Create_Admin, dataMap, EAddress.To);
-
+							
 						}
 						else
 						{
@@ -155,7 +156,7 @@ public class UserManagementController extends ControllerBaseBo implements IAdmin
 		}
 		return "Failure";
 	}
-
+	
 	private boolean getFilteredAddressList(Set<IUsersAddress> addSet, IUsersAddress address)
 	{
 		if (CommonValidator.isNotNullNotEmpty(address.getAddressId()))
@@ -172,7 +173,7 @@ public class UserManagementController extends ControllerBaseBo implements IAdmin
 		}
 		return false;
 	}
-
+	
 	@ModelAttribute("userForm")
 	public UserForm getUserForm(HttpServletRequest request, EUserType userType)
 	{
@@ -180,7 +181,7 @@ public class UserManagementController extends ControllerBaseBo implements IAdmin
 		{
 			if (!CommonValidator.isNotNullNotEmpty(userType))
 				userType = EUserType.User;
-			return new UserForm(producerBo.getProducers(request), userType);
+			return new UserForm(userBo.getProducers(request), userType);
 		}
 		catch (InstantiationException | IllegalAccessException e)
 		{
@@ -188,15 +189,18 @@ public class UserManagementController extends ControllerBaseBo implements IAdmin
 		}
 		return null;
 	}
-
+	
 	@RequestMapping(value = CONSUMER_REGISTER, method = RequestMethod.POST)
 	public String justInConsumerRegistration(@ModelAttribute("userForm") UserForm userForm, final RedirectAttributes redirectAttributes)
 	{
 		UserParam userParam = new UserParam();
+		
+		userParam.searchBeanClass = UsersAddress.class;
+		
 		ENamed.EqualTo.param_AND(userParam, "email", userForm.users.getCommunicationAddress().getEmail(), IWrap.ST_BRACE1);
 		ENamed.EqualTo.param_OR(userParam, "mobileNo", userForm.users.getCommunicationAddress().getMobileNo(), IWrap.ED_BRACE1);
 		ENamed.EqualTo.param_AND(userParam, "addressType", AddressType.CommunicationAddress.name());
-
+		
 		if (CommonValidator.isNotNullNotEmpty(userBo.getUserByEmailOrMobileNo(userParam)))
 		{
 			redirectAttributes.addFlashAttribute("css", "danger");
@@ -210,30 +214,30 @@ public class UserManagementController extends ControllerBaseBo implements IAdmin
 				userForm.users.setUsEmployeeId(userForm.users.getBusinessKey());
 				userForm.users.getCommunicationAddress().setUsers(userForm.users);
 				userForm.users.setUsUserPwd(new BCryptPasswordEncoder().encode(userForm.users.getUsUserPwd()));
-
+				
 				StringBuffer activateToken = Security.Token.generate(userBo, userForm.users, false);
-
+				
 				if (userBo.userSave(userForm.users, ERole.Consumer.name()))
 				{
 					redirectAttributes.addFlashAttribute("css", "success");
 					redirectAttributes.addFlashAttribute("message", "Hi " + userForm.users.getUsUserName() + ", You had Registered successfully. Please check your email for activation link.");
-
+					
 					StringBuffer tokenURL = new StringBuffer();
 					tokenURL.append(userForm.users.getProducer().getVirtualBasePath());
 					tokenURL.append(RESET_PASSWORD + "/" + activateToken);
-
+					
 					Map<String, Object> dataMap = new LinkedHashMap<String, Object>(0);
 					dataMap.put("user", userForm.users);
 					dataMap.put("tokenURL", tokenURL);
-
+					
 					EAddress.To.append(userForm.users.getCommunicationAddress());
 					VTLEmailFactory.getInstance().sendEmail(userForm.users.getProducer(), EUserTemplate.User_Create_Consumer, dataMap, EAddress.To);
-
+					
 					EAddress.To.clear();
-
+					
 					EAddress.To.append(userForm.users.getProducer().getUsers().getCommunicationAddress());
 					VTLEmailFactory.getInstance().sendEmail(userForm.users.getProducer(), EUserTemplate.User_Create_Admin, dataMap, EAddress.To);
-
+					
 				}
 				else
 				{
@@ -248,7 +252,7 @@ public class UserManagementController extends ControllerBaseBo implements IAdmin
 		}
 		return REDIRECT + PRE_CONSUMER_REGISTER;
 	}
-
+	
 	@RequestMapping(value = PRE_CONSUMER_REGISTER, method = RequestMethod.GET)
 	public ModelAndView preConsumerRegistration(HttpServletRequest request)
 	{
@@ -256,7 +260,7 @@ public class UserManagementController extends ControllerBaseBo implements IAdmin
 		{
 			ModelAndView modelView = new ModelAndView(CONSUMER_REGISTER_PAGE);
 			modelView.addObject("userForm", getUserForm(request, EUserType.Consumer));
-
+			
 			return modelView;
 		}
 		catch (Exception e)
@@ -264,40 +268,40 @@ public class UserManagementController extends ControllerBaseBo implements IAdmin
 			return new ModelAndView(CONSUMER_REGISTER_PAGE);
 		}
 	}
-
+	
 	@RequestMapping(value = PRE_SEARCH_USER, method = RequestMethod.POST)
 	public ModelAndView preSearchUser(HttpServletRequest request, @PathVariable String userType)
 	{
-
+		
 		try
 		{
 			IUsers sessionUser = EUsers.getSessionUser(request);
 			if (CommonValidator.isNotNullNotEmpty(sessionUser))
 			{
-
+				
 				ModelAndView modelView = new ModelAndView(SEARCH_USER_PAGE);
 				List<ILayouts> layoutList = layoutBo.getResultLayouts(UsersAddress.class.getSimpleName(), userType);
 				modelView.addObject("searchUserUrl", sessionUser.getDomainUrl(request) + SEARCH_USER + "/" + userType);
 				modelView.addObject("columnsList", DataTableDynamicColumns.getDynamicColumns(layoutList));
 				modelView.addObject("columnDefsList", DataTableDynamicColumnDefs.getDynamicColumnDefs(layoutList));
 				modelView.addObject("displayOrderList", EDataTable.Cols.getOrder(layoutList));
-
+				
 				modelView.addObject("userForm", getUserForm(request, EUserType.valueOf(userType)));
 				modelView.addObject("countryList", userBo.getCountryList());
 				modelView.addObject("stateList", userBo.getStateList(request));
-
+				
 				return modelView;
 			}
 		}
 		catch (Exception excep)
 		{
 			logger.error(excep);
-
+			
 		}
 		return null;
-
+		
 	}
-
+	
 	private void uploadDocumentAttachment(String[] docTypes, MultipartFile[] multiPartFiles, HttpServletRequest request, IUsers sessionUsers, Users user) throws Exception
 	{
 		if (CommonValidator.isArrayFirstNotNull(multiPartFiles))
@@ -317,9 +321,9 @@ public class UserManagementController extends ControllerBaseBo implements IAdmin
 			}
 			DocumentFactory.getInstance().forUpload(sessionUsers.getProducer()).uploadFileInRepository(request, user.getAttachmentList());
 		}
-
+		
 	}
-
+	
 	@SuppressWarnings("unchecked")
 	@RequestMapping(value = SEARCH_USER + "/{userType}", method = RequestMethod.POST)
 	public @ResponseBody String userSearch(HttpServletRequest request, @PathVariable String userType)
@@ -327,7 +331,7 @@ public class UserManagementController extends ControllerBaseBo implements IAdmin
 		try
 		{
 			IUsers sessionUser = EUsers.getSessionUser(request);
-
+			
 			if (CommonValidator.isNotNullNotEmpty(sessionUser))
 			{
 				List<ILayouts> layoutList = layoutBo.getResultLayouts(UsersAddress.class.getSimpleName(), userType);
@@ -335,14 +339,14 @@ public class UserManagementController extends ControllerBaseBo implements IAdmin
 				ENamed.EqualTo.param_AND(dtParam, "users.usUsersType", userType);
 				List<IUsers> usersList = (List<IUsers>) userBo.getUsersList(dtParam, false).dataList;
 				int userListCount = (int) userBo.getUsersList(dtParam, true).dataListCount;
-
+				
 				List<List<String>> mDataList = DataTableDynamicColumns.getJSONFromObject(dtParam, layoutList, usersList.toArray(new Object[usersList.size()]));
-
+				
 				DataTableObject dataTableObject = new DataTableObject();
 				dataTableObject.setAaData(mDataList);
 				dataTableObject.setiTotalDisplayRecords(userListCount);
 				dataTableObject.setiTotalRecords(userListCount);
-
+				
 				Gson gson = new GsonBuilder().setPrettyPrinting().create();
 				StringBuilder sb = new StringBuilder(gson.toJson(dataTableObject));
 				return sb.toString();
@@ -354,5 +358,5 @@ public class UserManagementController extends ControllerBaseBo implements IAdmin
 		}
 		return "";
 	}
-
+	
 }

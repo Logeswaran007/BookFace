@@ -8,14 +8,10 @@ import org.hbs.admin.controller.param.UserParam;
 import org.hbs.admin.model.IUserActivity;
 import org.hbs.admin.model.IUserLog;
 import org.hbs.admin.model.IUsers;
-import org.hbs.admin.model.IUsersAddress;
 import org.hbs.admin.model.UserLog;
-import org.hbs.admin.model.Users;
-import org.hbs.admin.model.UsersAddress;
 import org.hbs.util.CommonHibernateSessionFactorySupport;
 import org.hbs.util.CommonValidator;
 import org.hbs.util.CustomLogger;
-import org.hbs.util.DataTableParam;
 import org.hbs.util.IParam.ENamed;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
@@ -29,153 +25,7 @@ public class UserDAOImpl extends CommonHibernateSessionFactorySupport implements
 	private static final long	serialVersionUID	= -6282872836045369567L;
 	private final CustomLogger	logger				= new CustomLogger(this.getClass());
 
-	@Override
-	public DataTableParam getUsersList(DataTableParam dtParam, boolean isCount)
-	{
-		Session session = getSessionFactory().openSession();
-		try
-		{
-			Query<?> query = null;
-
-			StringBuffer sbSelectQry = new StringBuffer();
-
-			sbSelectQry.append(isCount ? "Select Count(*)" : "");
-
-			if (CommonValidator.isNotNullNotEmpty(dtParam.searchColumns))
-				sbSelectQry.append(SELECT + dtParam.searchColumns);
-
-			sbSelectQry.append(FROM + UsersAddress.class.getCanonicalName() + WHERE_1_1);
-
-			for (String condKey : dtParam.searchCondtionMap.keySet())
-			{
-				sbSelectQry.append(dtParam.searchCondtionMap.get(condKey));
-			}
-			if (isCount)
-			{
-				query = session.createQuery(sbSelectQry.toString());
-			}
-			else
-			{
-				sbSelectQry.append(dtParam._OrderBy);
-				if (dtParam.iDisplayLength != 0)
-				{
-					query = session.createQuery(sbSelectQry.toString()).setMaxResults(dtParam.iDisplayLength).setFirstResult(dtParam.iDisplayStart);
-				}
-				else
-				{
-					query = session.createQuery((sbSelectQry.toString()));
-				}
-			}
-
-			_SetNamedParameterValueFromSearchValueMap(dtParam, query);
-
-			if (isCount)
-				dtParam.dataListCount = ((Long) query.uniqueResult()).longValue();
-			else
-				dtParam.dataList = query.list();
-		}
-		catch (Exception excep)
-		{
-			logger.error(excep);
-		}
-		finally
-		{
-			if (session != null)
-			{
-				session.clear();
-				session.close();
-			}
-		}
-		return dtParam;
-	}
-
-	@SuppressWarnings("unchecked")
-	@Override
-	public UserParam getUsersList(UserParam userParam)
-	{
-
-		Session session = getSessionFactory().openSession();
-		try
-		{
-			StringBuffer sbSelectQry = new StringBuffer();
-
-			if (CommonValidator.isNotNullNotEmpty(userParam.searchColumns))
-				sbSelectQry.append(SELECT + userParam.searchColumns);
-
-			sbSelectQry.append(FROM + Users.class.getCanonicalName() + WHERE_1_1);
-
-			for (String condKey : userParam.searchCondtionMap.keySet())
-			{
-				sbSelectQry.append(userParam.searchCondtionMap.get(condKey));
-			}
-			sbSelectQry.append(userParam._OrderBy);
-
-			Query<IUsers> query = session.createQuery((sbSelectQry.toString()));
-
-			_SetNamedParameterValueFromSearchValueMap(userParam, query);
-
-			userParam.dataList = query.list();
-		}
-		catch (Exception excep)
-		{
-			logger.error(excep);
-		}
-		finally
-		{
-			if (session != null)
-			{
-				session.clear();
-				session.close();
-			}
-		}
-		return userParam;
-	}
-
-	@Override
-	public IUsers getUser(UserParam userParam, Class<?> clazz)
-	{
-
-		Session session = getSessionFactory().openSession();
-		try
-		{
-			StringBuffer sbSelectQry = new StringBuffer();
-
-			sbSelectQry.append(FROM + clazz.getCanonicalName() + WHERE_1_1);
-
-			for (String condKey : userParam.searchCondtionMap.keySet())
-			{
-				sbSelectQry.append(userParam.searchCondtionMap.get(condKey));
-			}
-			sbSelectQry.append(userParam._OrderBy);
-
-			Query<?> query = session.createQuery((sbSelectQry.toString()));
-
-			_SetNamedParameterValueFromSearchValueMap(userParam, query);
-
-			userParam.dataList = query.list();
-			if (CommonValidator.isListFirstNotEmpty(userParam.dataList))
-			{
-				if (clazz == UsersAddress.class)
-					return ((IUsersAddress) userParam.dataList.iterator().next()).getUsers();
-				else
-					return ((IUsers) userParam.dataList.iterator().next());
-			}
-		}
-		catch (Exception excep)
-		{
-			logger.error(excep);
-		}
-		finally
-		{
-			if (session != null)
-			{
-				session.clear();
-				session.close();
-			}
-		}
-		return null;
-	}
-
+	
 	@Override
 	public boolean userLogAtLogin(IUsers user, String ipAddr)
 	{

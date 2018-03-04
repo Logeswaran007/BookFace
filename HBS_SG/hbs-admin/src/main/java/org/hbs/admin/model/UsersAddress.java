@@ -6,6 +6,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
+import org.hbs.util.dao.ICRUDBean;
+
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
 /**
@@ -13,33 +15,33 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
  */
 @Entity
 @Table(name = "usersaddress")
-public class UsersAddress extends CommonAddress implements IUsersAddress
+public class UsersAddress extends CommonAddress implements IUsersAddress, ICRUDBean
 {
-
+	
 	private static final long	serialVersionUID	= -7174292623536679196L;
-
+	
 	protected IUsers			users;
-
+	
 	public UsersAddress()
 	{
 		super();
 		this.addressId = getBusinessKey();
 	}
-
+	
 	public UsersAddress(AddressType addressType)
 	{
 		super();
 		this.addressId = getBusinessKey();
 		this.addressType = addressType.name();
 	}
-
+	
 	public UsersAddress(IUsers users)
 	{
 		super();
 		this.addressId = getBusinessKey();
 		this.users = users;
 	}
-
+	
 	@ManyToOne(targetEntity = Users.class)
 	@JoinColumn(name = "usEmployeeId", nullable = false)
 	@JsonDeserialize(as = Users.class)
@@ -47,12 +49,12 @@ public class UsersAddress extends CommonAddress implements IUsersAddress
 	{
 		return users;
 	}
-
+	
 	public void setUsers(IUsers users)
 	{
 		this.users = users;
 	}
-
+	
 	@Transient
 	public String getBusinessKey(String... combination)
 	{

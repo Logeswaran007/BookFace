@@ -16,27 +16,27 @@ import org.hbs.sg.model.accessors.ConsumerUsersBase;
 public class EduTelConsumer extends ConsumerUsersBase implements IEduTelConsumer
 {
 	private static final long			serialVersionUID		= 4062434025806195331L;
-
+	
 	protected Set<IAuthKeyGenConsumer>	authKeyGenConsumerList	= new LinkedHashSet<IAuthKeyGenConsumer>(0);
-
+	
 	public EduTelConsumer()
 	{
 		super();
 	}
-
+	
 	@Override
 	@OneToMany(targetEntity = AuthKeyGenConsumer.class, fetch = FetchType.EAGER, mappedBy = "users")
 	public Set<IAuthKeyGenConsumer> getAuthKeyGenConsumerList()
 	{
 		return authKeyGenConsumerList;
 	}
-
+	
 	@Override
 	public void setAuthKeyGenConsumerList(Set<IAuthKeyGenConsumer> authKeyGenConsumerList)
 	{
 		this.authKeyGenConsumerList = authKeyGenConsumerList;
 	}
-
+	
 	@Transient
 	public String getBusinessKey(String... combination)
 	{

@@ -6,37 +6,38 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import org.hbs.util.dao.ICRUDBean;
 import org.springframework.web.multipart.MultipartFile;
 
 @Entity
 @Table(name = "usersattachments")
-public class UsersAttachments extends CommonFileUpload implements IUsersAttachments
+public class UsersAttachments extends CommonFileUpload implements IUsersAttachments, ICRUDBean
 {
 	private static final long	serialVersionUID	= 917678364001988324L;
-
+	
 	protected IUsers			users;
-
+	
 	public UsersAttachments()
 	{
 		super();
 	}
-
+	
 	public UsersAttachments(MultipartFile multiPartFile, String uploadSubFolderPath, String uploadDocumentForType)
 	{
 		super();
 		this.uploadMultiPartFile = multiPartFile;
 		this.uploadSubFolderPath = uploadSubFolderPath;
 		this.uploadDocumentForType = uploadDocumentForType;
-
+		
 	}
-
+	
 	@ManyToOne(targetEntity = Users.class, fetch = FetchType.LAZY)
 	@JoinColumn(name = "usEmployeeId")
 	public IUsers getUsers()
 	{
 		return users;
 	}
-
+	
 	public void setUsers(IUsers users)
 	{
 		this.users = users;
