@@ -6,9 +6,10 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 
 import org.hbs.admin.controller.param.UserParam;
-import org.hbs.admin.model.IUserActivity;
 import org.hbs.admin.model.IUsers;
 import org.hbs.admin.model.Producers;
+import org.hbs.admin.model.UserActivity;
+import org.hbs.admin.model.Users;
 import org.hbs.util.DataTableParam;
 
 public interface UserBo extends Serializable
@@ -27,11 +28,11 @@ public interface UserBo extends Serializable
 	
 	public DataTableParam getUsersList(DataTableParam dtParam, boolean isCount);
 	
-	public void saveUserActivity(IUserActivity userActivity);
+	public boolean saveUserActivity(UserActivity userActivity);
 	
-	public void userLogAtLogin(IUsers user, String ipAddr);
+	public boolean userLogAtLogin(Users user, String ipAddr);
 	
-	public void userLogAtLogOut(UserParam userParam);
+	public boolean userLogAtLogOut(UserParam userParam);
 	
 	public boolean userSave(IUsers user, String... iRoles) throws InstantiationException, IllegalAccessException;
 	

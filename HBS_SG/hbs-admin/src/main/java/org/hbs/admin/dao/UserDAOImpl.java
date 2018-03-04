@@ -5,9 +5,7 @@ import java.util.Calendar;
 import java.util.List;
 
 import org.hbs.admin.controller.param.UserParam;
-import org.hbs.admin.model.IUserActivity;
 import org.hbs.admin.model.IUserLog;
-import org.hbs.admin.model.IUsers;
 import org.hbs.admin.model.UserLog;
 import org.hbs.util.CommonHibernateSessionFactorySupport;
 import org.hbs.util.CommonValidator;
@@ -24,90 +22,6 @@ public class UserDAOImpl extends CommonHibernateSessionFactorySupport implements
 {
 	private static final long	serialVersionUID	= -6282872836045369567L;
 	private final CustomLogger	logger				= new CustomLogger(this.getClass());
-	
-	@Override
-	public boolean saveUserActivity(IUserActivity userActivity)
-	{
-		Transaction _Txn = null;
-		Session session = null;
-		try
-		{
-			session = getSessionFactory().openSession();
-			_Txn = session.beginTransaction();
-			session.saveOrUpdate("UserActivity", userActivity);
-			_Txn.commit();
-			return true;
-		}
-		catch (Exception excep)
-		{
-			logger.error(excep);
-			if (_Txn != null && _Txn.isActive())
-			{
-				try
-				{
-					_Txn.rollback();
-				}
-				catch (HibernateException hibExcep)
-				{
-					logger.error(hibExcep);
-				}
-			}
-		}
-		finally
-		{
-			if (session != null)
-			{
-				session.clear();
-				session.close();
-			}
-		}
-		return false;
-		
-	}
-	
-	@Override
-	public boolean userLogAtLogin(IUsers user, String ipAddr)
-	{
-		Transaction _Txn = null;
-		Session session = null;
-		try
-		{
-			session = getSessionFactory().openSession();
-			_Txn = session.beginTransaction();
-			
-			IUserLog ulog = new UserLog();
-			ulog.setUsers(user);
-			ulog.setUlUserLoginTime(new Timestamp(Calendar.getInstance().getTimeInMillis()));
-			ulog.setUlIpaddress(ipAddr);
-			session.saveOrUpdate("UserLog", ulog);
-			_Txn.commit();
-			return true;
-		}
-		catch (Exception excep)
-		{
-			logger.error(excep);
-			if (_Txn != null && _Txn.isActive())
-			{
-				try
-				{
-					_Txn.rollback();
-				}
-				catch (HibernateException hibExcep)
-				{
-					logger.error(hibExcep);
-				}
-			}
-		}
-		finally
-		{
-			if (session != null)
-			{
-				session.clear();
-				session.close();
-			}
-		}
-		return false;
-	}
 	
 	@Override
 	@SuppressWarnings("unchecked")
@@ -172,89 +86,5 @@ public class UserDAOImpl extends CommonHibernateSessionFactorySupport implements
 		}
 		return false;
 		
-	}
-	
-	@Override
-	public boolean userSave(IUsers users)
-	{
-		Transaction _Txn = null;
-		Session session = null;
-		try
-		{
-			session = getSessionFactory().openSession();
-			_Txn = session.beginTransaction();
-			// String password = users.getUsUserPwd();
-			
-			// PASSWORD ENCRYPTION
-			// users.setUsUserPwd(PasswordEncrypt.encrypt(password, "SHA", UTF_8).trim());
-			// users.setUsUserPwdModDate(new Timestamp(Calendar.getInstance().getTimeInMillis()));
-			session.save("Users", users);
-			_Txn.commit();
-			
-			return true;
-		}
-		catch (Exception excep)
-		{
-			logger.error(excep);
-			if (_Txn != null && _Txn.isActive())
-			{
-				try
-				{
-					_Txn.rollback();
-				}
-				catch (HibernateException hibExcep)
-				{
-					logger.error(hibExcep);
-				}
-			}
-			return false;
-		}
-		finally
-		{
-			if (session != null)
-			{
-				session.clear();
-				session.close();
-			}
-		}
-	}
-	
-	@Override
-	public boolean userUpdate(IUsers users)
-	{
-		Transaction _Txn = null;
-		Session session = null;
-		try
-		{
-			session = getSessionFactory().openSession();
-			_Txn = session.beginTransaction();
-			session.saveOrUpdate("Users", users);
-			_Txn.commit();
-			return true;
-		}
-		catch (Exception excep)
-		{
-			logger.error(excep);
-			if (_Txn != null && _Txn.isActive())
-			{
-				try
-				{
-					_Txn.rollback();
-				}
-				catch (HibernateException hibExcep)
-				{
-					logger.error(hibExcep);
-				}
-			}
-		}
-		finally
-		{
-			if (session != null)
-			{
-				session.clear();
-				session.close();
-			}
-		}
-		return false;
 	}
 }

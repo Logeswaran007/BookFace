@@ -1,5 +1,7 @@
 package org.hbs.admin.bo;
 
+import java.sql.Timestamp;
+import java.util.Calendar;
 import java.util.LinkedHashSet;
 
 import javax.servlet.http.HttpServletRequest;
@@ -8,12 +10,13 @@ import org.hbs.admin.controller.param.UserParam;
 import org.hbs.admin.dao.UserDAO;
 import org.hbs.admin.model.IAddress.AddressType;
 import org.hbs.admin.model.IRoles;
-import org.hbs.admin.model.IUserActivity;
 import org.hbs.admin.model.IUserRoles;
 import org.hbs.admin.model.IUsers;
 import org.hbs.admin.model.IUsers.EUserStatus;
 import org.hbs.admin.model.Producers;
 import org.hbs.admin.model.Roles;
+import org.hbs.admin.model.UserActivity;
+import org.hbs.admin.model.UserLog;
 import org.hbs.admin.model.UserRoles;
 import org.hbs.admin.model.Users;
 import org.hbs.admin.model.UsersAddress;
@@ -131,25 +134,25 @@ public class UserBoImpl extends UserBoComboBoxImpl implements UserBo, IConstProp
 	}
 	
 	@Override
-	public void saveUserActivity(IUserActivity userActivity)
+	public boolean saveUserActivity(UserActivity userActivity)
 	{
-		userDAO.saveUserActivity(userActivity);
+		return iBaseDAO.saveOrUpdate("UserActivity", userActivity);
 	}
 	
-	public void setUserDAO(UserDAO userDAO)
+	public boolean userLogAtLogin(Users user, String ipAddr)
 	{
-		this.userDAO = userDAO;
-	}
-	
-	public void userLogAtLogin(IUsers user, String ipAddr)
-	{
-		userDAO.userLogAtLogin(user, ipAddr);
+		UserLog userLog = new UserLog();
+		userLog.setUsers(user);
+		userLog.setUlUserLoginTime(new Timestamp(Calendar.getInstance().getTimeInMillis()));
+		userLog.setUlIpaddress(ipAddr);
+		
+		return iBaseDAO.saveOrUpdate("UserLog", userLog);
 		
 	}
 	
-	public void userLogAtLogOut(UserParam userParam)
+	public boolean userLogAtLogOut(UserParam userParam)
 	{
-		userDAO.userLogAtLogOut(userParam);
+		return userDAO.userLogAtLogOut(userParam);
 	}
 	
 	@Override
@@ -173,7 +176,7 @@ public class UserBoImpl extends UserBoComboBoxImpl implements UserBo, IConstProp
 				
 				users.getUserRoleses().add(iUR);
 			}
-			return userDAO.userSave(users);
+			return iBaseDAO.saveOrUpdate("Users", users);
 		}
 		return false;
 	}
@@ -181,7 +184,7 @@ public class UserBoImpl extends UserBoComboBoxImpl implements UserBo, IConstProp
 	@Override
 	public boolean userUpdate(IUsers users)
 	{
-		return userDAO.userUpdate(users);
+		return iBaseDAO.saveOrUpdate("Users", users);
 	}
 	
 	private void validateAuthenticate(UserParam userParam) throws Exception

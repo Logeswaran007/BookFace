@@ -9,8 +9,9 @@ import org.hbs.admin.IAdminPath.EBean;
 import org.hbs.admin.model.IAddress.AddressType;
 import org.hbs.util.EBusinessKey;
 import org.hbs.util.EnumInterface;
+import org.hbs.util.dao.ICRUDBean;
 
-public interface IUsers extends ICommonBeanFields, ICountryBase, IProducersBase, EBusinessKey
+public interface IUsers extends ICommonBeanFields, ICountryBase, IProducersBase, EBusinessKey, ICRUDBean
 {
 	public enum EUsers implements EnumInterface
 	{
