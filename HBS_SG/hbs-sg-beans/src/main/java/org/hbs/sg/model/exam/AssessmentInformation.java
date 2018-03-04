@@ -10,8 +10,8 @@ public class AssessmentInformation implements IAssessmentInformation, ICRUDBean
 {
 	
 	private static final long	serialVersionUID	= -153763627570528959L;
-	protected boolean			broadCast			= false;
 	protected String			assessmentDate;
+	protected boolean			broadCast			= false;
 	protected boolean			dateElapsed			= false;
 	protected boolean			dateReached			= false;
 	protected String			duration;
@@ -65,15 +65,15 @@ public class AssessmentInformation implements IAssessmentInformation, ICRUDBean
 	}
 	
 	@Override
-	public void setBroadCast(boolean broadCast)
-	{
-		this.broadCast = broadCast;
-	}
-	
-	@Override
 	public void setAssessmentDate(String assessmentDate)
 	{
 		this.assessmentDate = assessmentDate;
+	}
+	
+	@Override
+	public void setBroadCast(boolean broadCast)
+	{
+		this.broadCast = broadCast;
 	}
 	
 	@Override

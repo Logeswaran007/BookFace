@@ -16,24 +16,28 @@ public class FileServerUpload implements DocumentUpload, IConstProperty
 {
 	private static final long	serialVersionUID	= -2025957254980776052L;
 	private IProducers			producer;
-
+	
 	public FileServerUpload()
 	{
 		super();
 	}
-
+	
 	public FileServerUpload(IProducers producer)
 	{
 		super();
 		this.producer = producer;
 	}
-
-	public void uploadFileInRepositoryAndView(HttpServletRequest request, Set<? extends IUploadImageOrDocuments> iDocs) throws Exception
+	
+	public IProducers getProducer()
 	{
-		uploadFileInRepository(request, iDocs);
-		EImage.Attachment.getServerSessionVirtualPath(request, producer, iDocs);
+		return producer;
 	}
-
+	
+	public void setProducer(IProducers producer)
+	{
+		this.producer = producer;
+	}
+	
 	public void uploadFileInRepository(HttpServletRequest request, Set<? extends IUploadImageOrDocuments> iDocs) throws Exception
 	{
 		String uploadFileFolderURL = null;
@@ -50,15 +54,11 @@ public class FileServerUpload implements DocumentUpload, IConstProperty
 			}
 		}
 	}
-
-	public IProducers getProducer()
+	
+	public void uploadFileInRepositoryAndView(HttpServletRequest request, Set<? extends IUploadImageOrDocuments> iDocs) throws Exception
 	{
-		return producer;
+		uploadFileInRepository(request, iDocs);
+		EImage.Attachment.getServerSessionVirtualPath(request, producer, iDocs);
 	}
-
-	public void setProducer(IProducers producer)
-	{
-		this.producer = producer;
-	}
-
+	
 }

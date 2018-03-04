@@ -15,17 +15,17 @@ import org.springframework.stereotype.Repository;
 public class MenuDAOImpl extends CommonHibernateSessionFactorySupport implements MenuDAO, IConstProperty
 {
 	private static final long serialVersionUID = -1506618682884270152L;
-
+	
 	public MenuDAOImpl()
 	{
 		super();
 	}
-
+	
 	@SuppressWarnings("unchecked")
 	public List<MaMenu> getMenusByRole(MaMenuParam menuParam)
 	{
 		Session session = getSessionFactory().openSession();
-
+		
 		try
 		{
 			StringBuffer sbSelectQry = new StringBuffer();
@@ -35,11 +35,11 @@ public class MenuDAOImpl extends CommonHibernateSessionFactorySupport implements
 				sbSelectQry.append(menuParam.searchCondtionMap.get(condKey));
 			}
 			sbSelectQry.append(" Order By MM.maMenu.level");
-
+			
 			Query<MaMenu> query = session.createQuery((sbSelectQry.toString()));
-
+			
 			_SetNamedParameterValueFromSearchValueMap(menuParam, query);
-
+			
 			return query.list();
 		}
 		catch (Exception excep)

@@ -16,14 +16,26 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 
 public abstract class PasswordControllerBase extends ControllerBaseBo
 {
-	private static final long		serialVersionUID	= 515197817034322319L;
-	@Autowired
-	protected UserDetailsService	userDetailsService;
-
 	public enum Security implements EnumInterface
 	{
 		Token;
-
+		
+		public StringBuffer generate(UserBo userBo, IUsers user, boolean isUpdate)
+		{
+			String usToken = UUID.randomUUID().toString();
+			user.setUsToken(usToken);
+			user.setUsTokenExpiryDate(new Timestamp(System.currentTimeMillis()));
+			usToken = Base64.encodeBase64String((user.getCommunicationAddress().getEmail() + "#" + user.getUsToken()).getBytes());
+			
+			if (isUpdate)
+			{
+				if (userBo.userUpdate(user) == false)
+					return null;
+			}
+			
+			return new StringBuffer(usToken).reverse();
+		}
+		
 		public EUserStatus isPasswordResetRecently(IUsers user)
 		{
 			if (user.getUsToken() == null || user.isAdmin())
@@ -43,39 +55,23 @@ public abstract class PasswordControllerBase extends ControllerBaseBo
 				return EUserStatus.Default;
 			}
 		}
-
-		public StringBuffer generate(UserBo userBo, IUsers user, boolean isUpdate)
-		{
-			String usToken = UUID.randomUUID().toString();
-			user.setUsToken(usToken);
-			user.setUsTokenExpiryDate(new Timestamp(System.currentTimeMillis()));
-			usToken = Base64.encodeBase64String((user.getCommunicationAddress().getEmail() + "#" + user.getUsToken()).getBytes());
-
-			if (isUpdate)
-			{
-				if (userBo.userUpdate(user) == false)
-					return null;
-			}
-
-			return new StringBuffer(usToken).reverse();
-		}
-
+		
 		public UserParam validate(UserBo userBo, String usToken) throws Exception
 		{
 			return validate(userBo, usToken, 6000000);
 		}
-
+		
 		public UserParam validate(UserBo userBo, String usToken, int expiryDuration) throws Exception
 		{
 			usToken = new StringBuffer(usToken).reverse().toString();
 			usToken = new String(Base64.decodeBase64(usToken));
-
+			
 			String token[] = usToken.split("#");
-
+			
 			UserParam userParam = new UserParam();
 			userParam.userId = token[0];
 			userBo.getUser(userParam);
-
+			
 			if (CommonValidator.isNotNullNotEmpty(userParam.user))
 			{
 				if (CommonValidator.isEqual(token[1], userParam.user.getUsToken()))
@@ -87,20 +83,24 @@ public abstract class PasswordControllerBase extends ControllerBaseBo
 			return null;
 		}
 	}
-
+	private static final long		serialVersionUID	= 515197817034322319L;
+	
+	@Autowired
+	protected UserDetailsService	userDetailsService;
+	
 	public PasswordControllerBase()
 	{
 		super();
 	}
-
+	
 	public UserDetailsService getUserDetailsService()
 	{
 		return userDetailsService;
 	}
-
+	
 	public void setUserDetailsService(UserDetailsService userDetailsService)
 	{
 		this.userDetailsService = userDetailsService;
 	}
-
+	
 }

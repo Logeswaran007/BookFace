@@ -15,10 +15,10 @@ import org.hbs.util.dao.ICRUDBean;
 public class AssessmentAnswer extends CommonFileUploadBase implements IAssessmentAnswer, ICRUDBean
 {
 	private static final long		serialVersionUID	= -6214771334313143012L;
-	protected String				textAnswer;
 	protected String				answerId;
 	protected IAssessmentQuestion	assessmentQuestion;
 	protected String				patternMode			= EPatternMode.Option.name();
+	protected String				textAnswer;
 	
 	public AssessmentAnswer()
 	{
@@ -32,13 +32,6 @@ public class AssessmentAnswer extends CommonFileUploadBase implements IAssessmen
 		this.answerId = answerId;
 		this.assessmentQuestion = assessmentQuestion;
 		this.patternMode = patternMode;
-	}
-	
-	@Override
-	@Column(name = "textAnswer")
-	public String getTextAnswer()
-	{
-		return textAnswer;
 	}
 	
 	@Id
@@ -64,9 +57,10 @@ public class AssessmentAnswer extends CommonFileUploadBase implements IAssessmen
 	}
 	
 	@Override
-	public void setTextAnswer(String textAnswer)
+	@Column(name = "textAnswer")
+	public String getTextAnswer()
 	{
-		this.textAnswer = textAnswer;
+		return textAnswer;
 	}
 	
 	@Override
@@ -84,6 +78,12 @@ public class AssessmentAnswer extends CommonFileUploadBase implements IAssessmen
 	public void setPatternMode(String patternMode)
 	{
 		this.patternMode = patternMode;
+	}
+	
+	@Override
+	public void setTextAnswer(String textAnswer)
+	{
+		this.textAnswer = textAnswer;
 	}
 	
 }

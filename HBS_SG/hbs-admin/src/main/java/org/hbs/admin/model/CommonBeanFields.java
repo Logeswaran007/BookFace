@@ -21,26 +21,26 @@ import org.hbs.util.IConstProperty;
 public abstract class CommonBeanFields implements ICommonBeanFields, IConstProperty
 {
 	private static final long	serialVersionUID		= -4784531727752023870L;
-
+	
 	protected Timestamp			createdDate;
-
+	
 	protected String			createdDateByTimeZone	= "";
-
+	
 	protected IUsers			createdUser;
-
+	
 	protected Timestamp			modifiedDate;
-
+	
 	protected String			modifiedDateByTimeZone	= "";
-
+	
 	protected IUsers			modifiedUser;
-
+	
 	protected Boolean			status					= true;
-
+	
 	public CommonBeanFields()
 	{
 		super();
 	}
-
+	
 	public CommonBeanFields(IUsers createdUser, Timestamp createdDate, IUsers modifiedUser, Timestamp modifiedDate, Boolean status)
 	{
 		super();
@@ -50,13 +50,13 @@ public abstract class CommonBeanFields implements ICommonBeanFields, IConstPrope
 		this.modifiedDate = modifiedDate;
 		this.status = status;
 	}
-
+	
 	@Column(name = "createdDate")
 	public Timestamp getCreatedDate()
 	{
 		return createdDate;
 	}
-
+	
 	@Transient
 	public String getCreatedDateByTimeZone()
 	{
@@ -75,24 +75,24 @@ public abstract class CommonBeanFields implements ICommonBeanFields, IConstPrope
 			{
 				createdDateByTimeZone = dateFormat != null ? dateFormat.format(createdDate.getTime()) + " (" + createdUser.getCountry().getCountry() + ")" : "";
 			}
-
+			
 		}
 		return createdDateByTimeZone;
 	}
-
+	
 	@ManyToOne(targetEntity = Users.class, cascade = CascadeType.ALL)
 	@JoinColumn(name = "createdBy", nullable = true)
 	public IUsers getCreatedUser()
 	{
 		return createdUser;
 	}
-
+	
 	@Column(name = "modifiedDate")
 	public Timestamp getModifiedDate()
 	{
 		return modifiedDate;
 	}
-
+	
 	@Transient
 	public String getModifiedDateByTimeZone()
 	{
@@ -114,53 +114,53 @@ public abstract class CommonBeanFields implements ICommonBeanFields, IConstPrope
 		}
 		return modifiedDateByTimeZone;
 	}
-
+	
 	@ManyToOne(targetEntity = Users.class, cascade = CascadeType.ALL)
 	@JoinColumn(name = "modifiedBy", nullable = true)
 	public IUsers getModifiedUser()
 	{
 		return modifiedUser;
 	}
-
+	
 	@Column(name = "status")
 	public Boolean getStatus()
 	{
 		return status;
 	}
-
+	
 	public void setCreatedDate(Timestamp createdDate)
 	{
 		this.createdDate = createdDate;
 	}
-
-	public void setCreatedUser(IUsers createdUser)
-	{
-		this.createdUser = createdUser;
-	}
-
-	public void setModifiedDate(Timestamp modifiedDate)
-	{
-		this.modifiedDate = modifiedDate;
-	}
-
-	public void setModifiedUser(IUsers modifiedUser)
-	{
-		this.modifiedUser = modifiedUser;
-	}
-
-	public void setStatus(Boolean status)
-	{
-		this.status = status;
-	}
-
+	
 	public void setCreatedDateByTimeZone(String createdDateByTimeZone)
 	{
 		this.createdDateByTimeZone = createdDateByTimeZone;
 	}
-
+	
+	public void setCreatedUser(IUsers createdUser)
+	{
+		this.createdUser = createdUser;
+	}
+	
+	public void setModifiedDate(Timestamp modifiedDate)
+	{
+		this.modifiedDate = modifiedDate;
+	}
+	
 	public void setModifiedDateByTimeZone(String modifiedDateByTimeZone)
 	{
 		this.modifiedDateByTimeZone = modifiedDateByTimeZone;
 	}
-
+	
+	public void setModifiedUser(IUsers modifiedUser)
+	{
+		this.modifiedUser = modifiedUser;
+	}
+	
+	public void setStatus(Boolean status)
+	{
+		this.status = status;
+	}
+	
 }

@@ -18,7 +18,31 @@ import org.hbs.util.IConstProperty;
 public abstract class CommonUsers extends CommonUsersBase
 {
 	private static final long serialVersionUID = 5331946490137030437L;
-
+	
+	public static IUsers createDummyUser(IProducers producer) throws InstantiationException, IllegalAccessException
+	{
+		IUsers dummyUser = new Users();
+		dummyUser.setUsEmployeeId(EUsers.Dummy.name());
+		dummyUser.setUsUserName(EUsers.Dummy.name());
+		return dummyUser;
+	}
+	
+	public static IUsers createSuperAdminUser(IProducers producer) throws InstantiationException, IllegalAccessException
+	{
+		IUsers superAdminUser = new Users();
+		superAdminUser.setUsEmployeeId(EUsers.SuperAdmin.name());
+		superAdminUser.setUsUserName(EUsers.SuperAdmin.name());
+		return superAdminUser;
+	}
+	
+	public static IUsers createSystemUser(IProducers producer) throws InstantiationException, IllegalAccessException
+	{
+		IUsers systemUser = new Users();
+		systemUser.setUsEmployeeId(EUsers.System.name());
+		systemUser.setUsUserName(EUsers.System.name());
+		return systemUser;
+	}
+	
 	public static Users createUserInstance(Producers producer, EUserType userType) throws InstantiationException, IllegalAccessException
 	{
 		Users user = new Users(userType);
@@ -27,36 +51,27 @@ public abstract class CommonUsers extends CommonUsersBase
 		user.getAddressList().add(new UsersAddress(AddressType.CommunicationAddress));
 		return user;
 	}
-
-	public static IUsers createDummyUser(IProducers producer) throws InstantiationException, IllegalAccessException
-	{
-		IUsers dummyUser = new Users();
-		dummyUser.setUsEmployeeId(EUsers.Dummy.name());
-		dummyUser.setUsUserName(EUsers.Dummy.name());
-		return dummyUser;
-	}
-
-	public static IUsers createSuperAdminUser(IProducers producer) throws InstantiationException, IllegalAccessException
-	{
-		IUsers superAdminUser = new Users();
-		superAdminUser.setUsEmployeeId(EUsers.SuperAdmin.name());
-		superAdminUser.setUsUserName(EUsers.SuperAdmin.name());
-		return superAdminUser;
-	}
-
-	public static IUsers createSystemUser(IProducers producer) throws InstantiationException, IllegalAccessException
-	{
-		IUsers systemUser = new Users();
-		systemUser.setUsEmployeeId(EUsers.System.name());
-		systemUser.setUsUserName(EUsers.System.name());
-		return systemUser;
-	}
-
+	
 	public CommonUsers()
 	{
 		super();
 	}
-
+	
+	@Transient
+	public IUsersAddress getAddressToDisplay(AddressType addressType)
+	{
+		
+		if (CommonValidator.isSetFirstNotEmpty(addressList))
+		{
+			for (IUsersAddress address : addressList)
+			{
+				if (CommonValidator.isEqual(address.getAddressType(), addressType))
+					return address;
+			}
+		}
+		return null;
+	}
+	
 	@Transient
 	public IUsersAttachments getAttachment(EnumInterface documentType)
 	{
@@ -70,22 +85,17 @@ public abstract class CommonUsers extends CommonUsersBase
 		}
 		return null;
 	}
-
-	@Transient
-	public IUsersAddress getAddressToDisplay(AddressType addressType)
+	
+	@Override
+	public String getDomainUrl(HttpServletRequest request)
 	{
-
-		if (CommonValidator.isSetFirstNotEmpty(addressList))
-		{
-			for (IUsersAddress address : addressList)
-			{
-				if (CommonValidator.isEqual(address.getAddressType(), addressType))
-					return address;
-			}
-		}
-		return null;
+		if (CommonValidator.isNotNullNotEmpty(producer, producer.getDomainContext()))
+			
+			return producer.getDomainContext();
+		
+		return request.getServletContext().getContextPath();
 	}
-
+	
 	@Transient
 	public IUserLog getLastLoginInformation()
 	{
@@ -95,7 +105,7 @@ public abstract class CommonUsers extends CommonUsersBase
 		}
 		return null;
 	}
-
+	
 	@Transient
 	public String getLastLoginTime()
 	{
@@ -106,7 +116,7 @@ public abstract class CommonUsers extends CommonUsersBase
 		}
 		return "";
 	}
-
+	
 	@Transient
 	public boolean hasMenuRole(String pathVariable)
 	{
@@ -116,7 +126,7 @@ public abstract class CommonUsers extends CommonUsersBase
 			{
 				if (CommonValidator.isEqual(userRole.getRoles().getRlRoleId(), ERole.SuperAdminRole.name()))
 					return true;
-
+				
 				for (MaMenuRole menuRole : userRole.getRoles().getMenuRoles())
 				{
 					if (CommonValidator.isNotNullNotEmpty(menuRole.getMaMenu()) && menuRole.getMaMenu().getActionURL().startsWith(pathVariable))
@@ -124,10 +134,10 @@ public abstract class CommonUsers extends CommonUsersBase
 				}
 			}
 		}
-
+		
 		return false;
 	}
-
+	
 	@Transient
 	public boolean isAdmin()
 	{
@@ -139,10 +149,10 @@ public abstract class CommonUsers extends CommonUsersBase
 					return true;
 			}
 		}
-
+		
 		return false;
 	}
-
+	
 	@Transient
 	public boolean isEmployee()
 	{
@@ -156,7 +166,7 @@ public abstract class CommonUsers extends CommonUsersBase
 		}
 		return false;
 	}
-
+	
 	@Transient
 	public boolean isSuperAdmin()
 	{
@@ -170,7 +180,7 @@ public abstract class CommonUsers extends CommonUsersBase
 		}
 		return false;
 	}
-
+	
 	@Transient
 	public boolean isValid()
 	{
@@ -179,7 +189,7 @@ public abstract class CommonUsers extends CommonUsersBase
 			String encryptText = new StringBuilder(usUserStatus).reverse().toString();
 			encryptText = PasswordEncrypt.decryptBase64(encryptText);
 			String auth[] = encryptText.split("-");
-
+			
 			if (encryptText.indexOf("-") > 0 && auth.length == 3 && CommonValidator.isEqual(auth[0], usUserName))
 			{
 				IAddress address = getAddressToDisplay(AddressType.CommunicationAddress);
@@ -187,15 +197,5 @@ public abstract class CommonUsers extends CommonUsersBase
 			}
 		}
 		return false;
-	}
-
-	@Override
-	public String getDomainUrl(HttpServletRequest request)
-	{
-		if (CommonValidator.isNotNullNotEmpty(producer, producer.getDomainContext()))
-
-			return producer.getDomainContext();
-
-		return request.getServletContext().getContextPath();
 	}
 }

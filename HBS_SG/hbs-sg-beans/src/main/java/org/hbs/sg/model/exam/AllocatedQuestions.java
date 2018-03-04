@@ -21,11 +21,11 @@ public class AllocatedQuestions implements IAllocatedQuestions, ICRUDBean
 	private static final long	serialVersionUID	= 6445961246240671922L;
 	
 	private String				answerId;
-	private IAssessmentQuestion	question;
 	private int					autoId;
 	private IConsumerAssessment	consumerAssessment;
-	private boolean				unanswered			= false;
 	private boolean				partialAnswer		= false;
+	private IAssessmentQuestion	question;
+	private boolean				unanswered			= false;
 	
 	public AllocatedQuestions()
 	{
@@ -41,30 +41,11 @@ public class AllocatedQuestions implements IAllocatedQuestions, ICRUDBean
 		this.unanswered = unanswered;
 	}
 	
-	@Transient
-	public boolean isPartialAnswer()
-	{
-		return partialAnswer;
-	}
-	
-	public void setPartialAnswer(boolean partialAnswer)
-	{
-		this.partialAnswer = partialAnswer;
-	}
-	
 	@Override
 	@Column(name = "answerId")
 	public String getAnswerId()
 	{
 		return answerId;
-	}
-	
-	@Override
-	@ManyToOne(targetEntity = AssessmentQuestion.class)
-	@JoinColumn(name = "questionId", nullable = false)
-	public IAssessmentQuestion getQuestion()
-	{
-		return question;
 	}
 	
 	@Override
@@ -85,6 +66,20 @@ public class AllocatedQuestions implements IAllocatedQuestions, ICRUDBean
 	}
 	
 	@Override
+	@ManyToOne(targetEntity = AssessmentQuestion.class)
+	@JoinColumn(name = "questionId", nullable = false)
+	public IAssessmentQuestion getQuestion()
+	{
+		return question;
+	}
+	
+	@Transient
+	public boolean isPartialAnswer()
+	{
+		return partialAnswer;
+	}
+	
+	@Override
 	@Column(name = "unanswered")
 	public boolean isUnanswered()
 	{
@@ -97,11 +92,6 @@ public class AllocatedQuestions implements IAllocatedQuestions, ICRUDBean
 		this.answerId = answerId;
 	}
 	
-	public void setQuestion(IAssessmentQuestion question)
-	{
-		this.question = question;
-	}
-	
 	@Override
 	public void setAutoId(int autoId)
 	{
@@ -112,6 +102,16 @@ public class AllocatedQuestions implements IAllocatedQuestions, ICRUDBean
 	public void setConsumerAssessment(IConsumerAssessment consumerAssessment)
 	{
 		this.consumerAssessment = consumerAssessment;
+	}
+	
+	public void setPartialAnswer(boolean partialAnswer)
+	{
+		this.partialAnswer = partialAnswer;
+	}
+	
+	public void setQuestion(IAssessmentQuestion question)
+	{
+		this.question = question;
 	}
 	
 	@Override

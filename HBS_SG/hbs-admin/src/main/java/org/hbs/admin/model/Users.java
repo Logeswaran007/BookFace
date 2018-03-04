@@ -15,30 +15,30 @@ import javax.persistence.Transient;
 public class Users extends CommonUsers
 {
 	private static final long serialVersionUID = 8724774711417136041L;
-
+	
 	public Users()
 	{
 		super();
 		this.usEmployeeId = getBusinessKey();
 	}
-
+	
 	public Users(EUserType userType)
 	{
 		super();
 		this.usEmployeeId = getBusinessKey();
 		this.usUsersType = userType.name();
 	}
-
+	
 	@Transient
 	public String getBusinessKey(String... combination)
 	{
 		return EKey.Auto("USR");
 	}
-
+	
 	@Transient
 	public EUserType getUserType()
 	{
 		return EUserType.valueOf(this.usUsersType);
 	}
-
+	
 }

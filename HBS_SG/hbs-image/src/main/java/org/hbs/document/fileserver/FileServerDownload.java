@@ -14,31 +14,31 @@ public class FileServerDownload implements DocumentDownload, IConstProperty
 {
 	private static final long	serialVersionUID	= 753401735863240986L;
 	private IProducers			producer;
-
+	
 	public FileServerDownload()
 	{
 		super();
 	}
-
+	
 	public FileServerDownload(IProducers producer)
 	{
 		super();
 		this.producer = producer;
 	}
-
+	
 	public void downloadFileFromRepository(HttpServletRequest request, Set<? extends IUploadImageOrDocuments> iDocs) throws Exception
 	{
 		EImage.Attachment.getServerSessionVirtualPath(request, producer, iDocs);
 	}
-
+	
 	public IProducers getProducer()
 	{
 		return producer;
 	}
-
+	
 	public void setProducer(IProducers producer)
 	{
 		this.producer = producer;
 	}
-
+	
 }

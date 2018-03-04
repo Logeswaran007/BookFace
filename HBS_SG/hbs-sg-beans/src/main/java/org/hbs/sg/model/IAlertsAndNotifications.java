@@ -11,41 +11,41 @@ public interface IAlertsAndNotifications extends ICommonBeanFields, IProducersBa
 {
 	public enum EMessageStatus implements EnumInterface
 	{
-		Alerts, Notifications, Banner, Discussion, NewsFeed, PopUp, UpcomingEvents;
-
+		Alerts, Banner, Discussion, NewsFeed, Notifications, PopUp, UpcomingEvents;
+		
 		public static Map<String, String> getTypeList()
 		{
 			Map<String, String> hmTypeList = new LinkedHashMap<String, String>();
-
+			
 			for (EMessageStatus msg : EMessageStatus.values())
 			{
 				hmTypeList.put(msg.name(), msg.name());
 			}
-
+			
 			return hmTypeList;
 			
+		}
+		
 	}
-
-	}	
-
+	
 	public int getAutoId();
-
+	
 	public String getExpiryDate();
-
+	
 	public String getMessage();
-
+	
 	public String getMessageType();
-
+	
 	public String getScheduledDate();
-
+	
 	public void setAutoId(int autoId);
-
+	
 	public void setExpiryDate(String expiryDate);
-
+	
 	public void setMessage(String message);
-
+	
 	public void setMessageType(String messageType);
-
+	
 	public void setScheduledDate(String scheduledDate);
-
+	
 }

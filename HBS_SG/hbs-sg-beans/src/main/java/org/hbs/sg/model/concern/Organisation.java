@@ -35,13 +35,13 @@ public class Organisation extends CountryBase implements IOrganisation, ICRUDBea
 	
 	protected IOrganisationAddress			communicationAddress;
 	
-	protected IUploadImageOrDocuments		profileImage;
-	
 	protected String						organisationId;
 	
 	protected String						organisationName;
 	
 	protected String						organisationType;
+	
+	protected IUploadImageOrDocuments		profileImage;
 	
 	protected Set<IUsers>					usersList			= new LinkedHashSet<IUsers>(0);
 	
@@ -124,6 +124,20 @@ public class Organisation extends CountryBase implements IOrganisation, ICRUDBea
 		return organisationType;
 	}
 	
+	@Transient
+	public IUploadImageOrDocuments getProfileImage()
+	{
+		if (CommonValidator.isSetFirstNotEmpty(attachmentList))
+		{
+			for (IUploadImageOrDocuments document : attachmentList)
+			{
+				if (CommonValidator.isEqual(document.getUploadDocumentForType(), EUploadType.ProfileImage))
+					return document;
+			}
+		}
+		return null;
+	}
+	
 	@ManyToMany(targetEntity = ConsumerUsers.class, mappedBy = "organisations")
 	public Set<IUsers> getUsersList()
 	{
@@ -160,28 +174,14 @@ public class Organisation extends CountryBase implements IOrganisation, ICRUDBea
 		this.organisationType = organisationType;
 	}
 	
-	public void setUsersList(Set<IUsers> usersList)
-	{
-		this.usersList = usersList;
-	}
-	
-	@Transient
-	public IUploadImageOrDocuments getProfileImage()
-	{
-		if (CommonValidator.isSetFirstNotEmpty(attachmentList))
-		{
-			for (IUploadImageOrDocuments document : attachmentList)
-			{
-				if (CommonValidator.isEqual(document.getUploadDocumentForType(), EUploadType.ProfileImage))
-					return document;
-			}
-		}
-		return null;
-	}
-	
 	public void setProfileImage(IUploadImageOrDocuments profileImage)
 	{
 		this.profileImage = profileImage;
+	}
+	
+	public void setUsersList(Set<IUsers> usersList)
+	{
+		this.usersList = usersList;
 	}
 	
 }

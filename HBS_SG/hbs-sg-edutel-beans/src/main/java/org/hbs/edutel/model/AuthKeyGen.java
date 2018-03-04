@@ -57,22 +57,17 @@ public class AuthKeyGen extends CommonBeanFields implements IAuthKeyGen, ICRUDBe
 		return scheme;
 	}
 	
-	@Id
-	@Column(name = "serialKey")
-	public String getSerialKey()
-	{
-		return serialKey;
-	}
-	
 	@Column(name = "sellingPrice")
 	public Double getSellingPrice()
 	{
 		return sellingPrice;
 	}
 	
-	public void setSellingPrice(Double sellingPrice)
+	@Id
+	@Column(name = "serialKey")
+	public String getSerialKey()
 	{
-		this.sellingPrice = sellingPrice;
+		return serialKey;
 	}
 	
 	@Column(name = "serialKeyStatus")
@@ -92,6 +87,11 @@ public class AuthKeyGen extends CommonBeanFields implements IAuthKeyGen, ICRUDBe
 	public void setScheme(IScheme scheme)
 	{
 		this.scheme = scheme;
+	}
+	
+	public void setSellingPrice(Double sellingPrice)
+	{
+		this.sellingPrice = sellingPrice;
 	}
 	
 	@Override

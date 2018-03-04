@@ -42,6 +42,12 @@ public class UsersAddress extends CommonAddress implements IUsersAddress, ICRUDB
 		this.users = users;
 	}
 	
+	@Transient
+	public String getBusinessKey(String... combination)
+	{
+		return EKey.Auto("UADD");
+	}
+	
 	@ManyToOne(targetEntity = Users.class)
 	@JoinColumn(name = "usEmployeeId", nullable = false)
 	@JsonDeserialize(as = Users.class)
@@ -53,11 +59,5 @@ public class UsersAddress extends CommonAddress implements IUsersAddress, ICRUDB
 	public void setUsers(IUsers users)
 	{
 		this.users = users;
-	}
-	
-	@Transient
-	public String getBusinessKey(String... combination)
-	{
-		return EKey.Auto("UADD");
 	}
 }

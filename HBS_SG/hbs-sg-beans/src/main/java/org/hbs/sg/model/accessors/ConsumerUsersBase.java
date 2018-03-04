@@ -22,44 +22,37 @@ import org.hbs.util.CommonValidator;
 @MappedSuperclass
 public abstract class ConsumerUsersBase extends Users implements IConsumerUser
 {
-
+	
 	private static final long			serialVersionUID	= 6228372100028740543L;
-
+	
 	protected Set<IConsumerAssessment>	consumerAssessments	= new LinkedHashSet<IConsumerAssessment>(0);
-
+	
 	protected Set<IConsumerCourses>		consumerCourses		= new LinkedHashSet<IConsumerCourses>(0);
-
+	
 	protected Set<IOrganisation>		organisations		= new LinkedHashSet<IOrganisation>(0);
-
+	
 	public ConsumerUsersBase()
 	{
 		super();
 	}
-
+	
 	@OneToMany(mappedBy = "users", targetEntity = ConsumerAssessment.class)
 	public Set<IConsumerAssessment> getConsumerAssessments()
 	{
 		return consumerAssessments;
 	}
-
+	
 	@OneToMany(mappedBy = "users", cascade = CascadeType.ALL, targetEntity = ConsumerCourses.class)
 	public Set<IConsumerCourses> getConsumerCourses()
 	{
 		return consumerCourses;
 	}
-
-	@ManyToMany(cascade = { CascadeType.ALL }, targetEntity = Organisation.class)
-	@JoinTable(name = "consumerorganisation", joinColumns = { @JoinColumn(name = "usEmployeeId") }, inverseJoinColumns = { @JoinColumn(name = "organisationId") })
-	public Set<IOrganisation> getOrganisations()
-	{
-		return organisations;
-	}
-
+	
 	@Transient
 	public List<ICourses> getCoursesList()
 	{
 		List<ICourses> courseList = new ArrayList<ICourses>(0);
-
+		
 		if (CommonValidator.isSetFirstNotEmpty(consumerCourses))
 		{
 			for (IConsumerCourses consumerCourse : consumerCourses)
@@ -70,7 +63,7 @@ public abstract class ConsumerUsersBase extends Users implements IConsumerUser
 		}
 		return courseList;
 	}
-
+	
 	@Transient
 	public IOrganisation getOrganisation()
 	{
@@ -78,23 +71,30 @@ public abstract class ConsumerUsersBase extends Users implements IConsumerUser
 		{
 			return organisations.iterator().next();
 		}
-
+		
 		return null;
 	}
-
+	
+	@ManyToMany(cascade = { CascadeType.ALL }, targetEntity = Organisation.class)
+	@JoinTable(name = "consumerorganisation", joinColumns = { @JoinColumn(name = "usEmployeeId") }, inverseJoinColumns = { @JoinColumn(name = "organisationId") })
+	public Set<IOrganisation> getOrganisations()
+	{
+		return organisations;
+	}
+	
 	public void setConsumerAssessments(Set<IConsumerAssessment> consumerAssessments)
 	{
 		this.consumerAssessments = consumerAssessments;
 	}
-
+	
 	public void setConsumerCourses(Set<IConsumerCourses> consumerCourses)
 	{
 		this.consumerCourses = consumerCourses;
 	}
-
+	
 	public void setOrganisations(Set<IOrganisation> organisations)
 	{
 		this.organisations = organisations;
 	}
-
+	
 }

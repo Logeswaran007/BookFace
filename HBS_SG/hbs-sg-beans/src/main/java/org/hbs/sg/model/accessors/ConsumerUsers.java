@@ -8,15 +8,15 @@ import javax.persistence.Transient;
 @DiscriminatorValue("Consumer")
 public class ConsumerUsers extends ConsumerUsersBase
 {
-
+	
 	private static final long serialVersionUID = 5579565094335923590L;
-
+	
 	public ConsumerUsers()
 	{
 		super();
 		this.usEmployeeId = getBusinessKey();
 	}
-
+	
 	@Transient
 	public String getBusinessKey(String... combination)
 	{

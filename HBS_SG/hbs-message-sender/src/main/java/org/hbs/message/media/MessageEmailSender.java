@@ -14,12 +14,12 @@ import org.hbs.util.CommonValidator;
 public class MessageEmailSender implements IMessageSender
 {
 	private static final long serialVersionUID = 1301322022734860231L;
-
+	
 	public EMessageType getMessageSenderType()
 	{
 		return EMessageType.Email;
 	}
-
+	
 	@SuppressWarnings("unchecked")
 	@Override
 	public void sendMessageToUserByMedia(List<MessagesUserMapping> messageUserList) throws ClassNotFoundException, IOException, SQLException
@@ -27,15 +27,15 @@ public class MessageEmailSender implements IMessageSender
 		for (final MessagesUserMapping _MUM : messageUserList)
 		{
 			Map<String, Object> dataMap = null;
-
+			
 			if (CommonValidator.isNotNullNotEmpty(_MUM.getDataObject()))
 				dataMap = (Map<String, Object>) _MUM.deserialize(_MUM.getDataObject());
-
+			
 			if (CommonValidator.isNotNullNotEmpty(_MUM.getReceiptantAddress()))
 			{
 				VTLEmailFactory.getInstance().sendEmail(_MUM, dataMap);
 			}
 		}
 	}
-
+	
 }

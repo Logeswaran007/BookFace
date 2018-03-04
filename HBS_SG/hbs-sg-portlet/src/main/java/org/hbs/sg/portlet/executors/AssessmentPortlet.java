@@ -15,7 +15,21 @@ import org.springframework.web.servlet.ModelAndView;
 public class AssessmentPortlet extends PortletExecutorBase implements IPortletPath
 {
 	private static final long serialVersionUID = 4613190151962373561L;
-
+	
+	@RequestMapping(EXAMS_SEARCH_LAYOUT_BY_REST)
+	public @ResponseBody String examLayout(HttpServletRequest request)
+	{
+		return "";
+		
+	}
+	
+	@RequestMapping(EXAMS_SEARCH_RESULTS)
+	public @ResponseBody String examSearch(HttpServletRequest request)
+	{
+		return "";
+		
+	}
+	
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response, ModelAndView modelView, IUsers users)
 	{
@@ -23,19 +37,5 @@ public class AssessmentPortlet extends PortletExecutorBase implements IPortletPa
 		modelView.addObject("assessments", consumer.getConsumerAssessments());
 		modelView.addObject("assessmentPage", IPortletPath.AssessmentPortletPage);
 	}
-
-	@RequestMapping(EXAMS_SEARCH_RESULTS)
-	public @ResponseBody String examSearch(HttpServletRequest request)
-	{
-		return "";
-
-	}
-
-	@RequestMapping(EXAMS_SEARCH_LAYOUT_BY_REST)
-	public @ResponseBody String examLayout(HttpServletRequest request)
-	{
-		return "";
-
-	}
-
+	
 }

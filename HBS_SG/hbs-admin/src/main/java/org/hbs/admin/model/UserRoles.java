@@ -27,30 +27,17 @@ public class UserRoles implements IUserRoles, ICRUDBean
 	
 	private static final long			serialVersionUID	= 8909239704346625769L;
 	
-	protected int						urAutoId;
-	
-	protected IUsers					users;
-	
 	protected IRoles					roles;
 	
+	protected int						urAutoId;
+	
 	protected Set<IPortletsUsersRoles>	userRolePortlets;
+	
+	protected IUsers					users;
 	
 	public UserRoles()
 	{
 		super();
-	}
-	
-	@OneToMany(targetEntity = PortletsUsersRoles.class, fetch = FetchType.EAGER, mappedBy = "userRoles")
-	@Where(clause = "status = true")
-	@OrderBy("order ASC")
-	public Set<IPortletsUsersRoles> getUserRolePortlets()
-	{
-		return userRolePortlets;
-	}
-	
-	public void setUserRolePortlets(Set<IPortletsUsersRoles> userRolePortlets)
-	{
-		this.userRolePortlets = userRolePortlets;
 	}
 	
 	@ManyToOne(targetEntity = Roles.class)
@@ -68,6 +55,14 @@ public class UserRoles implements IUserRoles, ICRUDBean
 		return urAutoId;
 	}
 	
+	@OneToMany(targetEntity = PortletsUsersRoles.class, fetch = FetchType.EAGER, mappedBy = "userRoles")
+	@Where(clause = "status = true")
+	@OrderBy("order ASC")
+	public Set<IPortletsUsersRoles> getUserRolePortlets()
+	{
+		return userRolePortlets;
+	}
+	
 	@ManyToOne(targetEntity = Users.class)
 	@JoinColumn(name = "usEmployeeId", nullable = false)
 	public IUsers getUsers()
@@ -83,6 +78,11 @@ public class UserRoles implements IUserRoles, ICRUDBean
 	public void setUrAutoId(int urAutoId)
 	{
 		this.urAutoId = urAutoId;
+	}
+	
+	public void setUserRolePortlets(Set<IPortletsUsersRoles> userRolePortlets)
+	{
+		this.userRolePortlets = userRolePortlets;
 	}
 	
 	public void setUsers(IUsers users)

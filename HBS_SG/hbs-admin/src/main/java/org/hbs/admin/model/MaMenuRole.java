@@ -19,13 +19,13 @@ public class MaMenuRole implements IProducersBase, ICRUDBean
 	
 	private static final long	serialVersionUID	= 7589959540619401593L;
 	
-	protected int				maMRAutoId;
-	
 	protected MaMenu			maMenu;
 	
-	protected IRoles			rlRoles;
+	protected int				maMRAutoId;
 	
 	protected IProducers		producer;
+	
+	protected IRoles			rlRoles;
 	
 	public MaMenuRole()
 	{

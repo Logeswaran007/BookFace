@@ -12,30 +12,30 @@ public interface ICourses extends ICommonBeanFields, EBusinessKey
 	{
 		Id, Section;
 	}
-
+	
 	public enum ECourseUploadType implements EnumInterface
 	{
-		EBooks, EKeyPoints, ETips, EQuestionBank;
+		EBooks, EKeyPoints, EQuestionBank, ETips;
 	}
-
+	
 	public Set<IChapters> getChapters();
-
-	public ICourseGroup getCourseGroup();
-
-	public String getCourseId();
-
-	public String getCourseName();
-
-	public void setChapters(Set<IChapters> chapters);
-
-	public void setCourseGroup(ICourseGroup courseGroup);
-
-	public void setCourseId(String courseId);
-
+	
 	public Set<ICourseAttachments> getCourseAttachments();
-
+	
+	public ICourseGroup getCourseGroup();
+	
+	public String getCourseId();
+	
+	public String getCourseName();
+	
+	public void setChapters(Set<IChapters> chapters);
+	
 	public void setCourseAttachments(Set<ICourseAttachments> courseAttachments);
-
+	
+	public void setCourseGroup(ICourseGroup courseGroup);
+	
+	public void setCourseId(String courseId);
+	
 	public void setCourseName(String courseName);
-
+	
 }

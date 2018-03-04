@@ -19,26 +19,26 @@ public class MenuBoImpl implements MenuBo
 {
 	@Autowired
 	private MenuDAO			menuDAO;
-
+	
 	private StringBuilder	sbHTML	= new StringBuilder();
-
+	
 	public MenuDAO getMenuDAO()
 	{
 		return menuDAO;
 	}
-
+	
 	public String getMenusByRoleHTML(MaMenuParam menuParam)
 	{
-
+		
 		List<String> rolesList = new ArrayList<String>(0);
 		for (IUserRoles userRole : menuParam.users.getUserRoleses())
 		{
 			rolesList.add(userRole.getRoles().getRlRoleId());
 		}
-
+		
 		ENamed.EqualTo.param_AND(menuParam, "MM.producer.producerId", menuParam.users.getProducer().getProducerId());
 		ENamed.In.param_AND(menuParam, "MM.rlRoles.rlRoleId", rolesList);
-
+		
 		List<MaMenu> maMenuList = menuDAO.getMenusByRole(menuParam);
 		Document doc = Jsoup.parse("<div></div>");
 		Element parent = doc.select("div").first();
@@ -50,20 +50,20 @@ public class MenuBoImpl implements MenuBo
 		}
 		return parent.html().replaceAll("\n", "");
 	}
-
+	
 	public StringBuilder getSbHTML()
 	{
 		return sbHTML;
 	}
-
+	
 	public void setMenuDAO(MenuDAO menuDAO)
 	{
 		this.menuDAO = menuDAO;
 	}
-
+	
 	public void setSbHTML(StringBuilder sbHTML)
 	{
 		this.sbHTML = sbHTML;
 	}
-
+	
 }

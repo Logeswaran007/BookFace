@@ -11,6 +11,6 @@ import org.springframework.web.servlet.ModelAndView;
 public interface IPortletExecutor extends Serializable
 {
 	public void execute(HttpServletRequest request, HttpServletResponse response, ModelAndView modelView, IUsers users);
-
+	
 	public void setBoBase(BoBase boBase);
 }

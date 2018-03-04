@@ -13,7 +13,7 @@ import org.springframework.stereotype.Component;
 public class RolesDAOImpl extends CommonHibernateSessionFactorySupport implements RolesDAO
 {
 	private static final long serialVersionUID = 8686238922988371884L;
-
+	
 	@SuppressWarnings("unchecked")
 	public List<IRoles> getRolesList()
 	{
@@ -33,5 +33,5 @@ public class RolesDAOImpl extends CommonHibernateSessionFactorySupport implement
 		}
 		return new ArrayList<IRoles>(0);
 	}
-
+	
 }

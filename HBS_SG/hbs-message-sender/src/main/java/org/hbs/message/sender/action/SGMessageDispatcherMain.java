@@ -19,16 +19,16 @@ import org.springframework.context.annotation.PropertySources;
 @PropertySources({ @PropertySource("classpath:application.properties") })
 public class SGMessageDispatcherMain implements CommandLineRunner
 {
-	@Autowired
-	MessageProcessor messageProcessor;
-
 	public static void main(String[] args) throws Exception
 	{
 		SpringApplication app = new SpringApplication(SGMessageDispatcherMain.class);
 		app.setBannerMode(Banner.Mode.OFF);
 		app.run(args);
 	}
-
+	
+	@Autowired
+	MessageProcessor messageProcessor;
+	
 	public void run(String... args)
 	{
 		for (final List<MessagesUserMapping> messageUserList : messageProcessor.getScheduledMessageMapList().values())
@@ -62,11 +62,11 @@ public class SGMessageDispatcherMain implements CommandLineRunner
 									break;
 								}
 							}
-
+							
 							if (isSenderReady)
 							{
 								new Thread(new Runnable() {
-
+									
 									@Override
 									public void run()
 									{
@@ -90,8 +90,8 @@ public class SGMessageDispatcherMain implements CommandLineRunner
 				}
 			}
 		}
-
+		
 		System.exit(0);
 	}
-
+	
 }

@@ -20,20 +20,20 @@ import org.springframework.stereotype.Component;
 @Component
 public class CustomLogoutHandler extends ControllerBaseBo implements LogoutHandler, IAdminPath
 {
-
+	
 	private static final long serialVersionUID = 407818492923421819L;
-
+	
 	@Override
 	public void logout(HttpServletRequest request, HttpServletResponse response, Authentication authentication)
 	{
 		try
 		{
 			Users user = (Users) request.getSession().getAttribute(EBean.User.name());
-
+			
 			if (CommonValidator.isNotNullNotEmpty(user) && CommonValidator.isNotNullNotEmpty(authentication, authentication.getDetails()))
 			{
 				userBo.userLogAtLogOut(new UserParam(user));
-
+				
 				String sessionFolder = EImage.Attachment.getServerSessionPhysicalPath(request.getSession());
 				if (CommonValidator.isNotNullNotEmpty(sessionFolder))
 				{
@@ -42,11 +42,11 @@ public class CustomLogoutHandler extends ControllerBaseBo implements LogoutHandl
 					FileUtils.deleteDirectory(new File(sessionFolder));
 					System.out.println("Session Folder Cleaned.");
 				}
-
+				
 				request.getSession().invalidate();
-
+				
 			}
-
+			
 			response.setStatus(HttpServletResponse.SC_OK);
 			response.sendRedirect(request.getServletContext().getContextPath() + INDEX);
 		}
@@ -63,5 +63,5 @@ public class CustomLogoutHandler extends ControllerBaseBo implements LogoutHandl
 			}
 		}
 	}
-
+	
 }

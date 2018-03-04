@@ -14,7 +14,7 @@ public interface IAuthKeyGen extends ICommonBeanFields
 	public enum EKeyGen implements EnumInterface
 	{
 		DeActivated("De-Activated"), Not_Sold("Not Sold"), Sold("Sold"), Validated("Validated");
-
+		
 		public static String generateKey()
 		{
 			String keyModel = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
@@ -26,50 +26,50 @@ public interface IAuthKeyGen extends ICommonBeanFields
 			}
 			return sbKey.toString();
 		}
-
+		
 		public static Map<String, String> getComboBoxList()
 		{
 			Map<String, String> keyList = new LinkedHashMap<String, String>(0);
-
+			
 			for (EKeyGen eKey : EKeyGen.values())
 			{
 				keyList.put(eKey.getStatus(), eKey.getStatus());
 			}
 			return keyList;
 		}
-
+		
 		private final String eKeyGen;
-
+		
 		private EKeyGen(String eKeyGen)
 		{
 			this.eKeyGen = eKeyGen;
 		}
-
+		
 		public String getStatus()
 		{
 			return eKeyGen;
 		}
-
+		
 	}
-
+	
 	public IScheme getScheme();
-
-	public String getSerialKey();
-
-	public String getSerialKeyStatus();
-
-	public IUsers getUsers();
-
-	public void setScheme(IScheme scheme);
-
-	public void setSerialKey(String serialKey);
-
-	public void setSerialKeyStatus(String serialKeyStatus);
-
-	public void setUsers(IUsers users);
-
+	
 	public Double getSellingPrice();
-
+	
+	public String getSerialKey();
+	
+	public String getSerialKeyStatus();
+	
+	public IUsers getUsers();
+	
+	public void setScheme(IScheme scheme);
+	
 	public void setSellingPrice(Double sellingPrice);
-
+	
+	public void setSerialKey(String serialKey);
+	
+	public void setSerialKeyStatus(String serialKeyStatus);
+	
+	public void setUsers(IUsers users);
+	
 }

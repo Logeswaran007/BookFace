@@ -54,13 +54,6 @@ public class UserBoImpl extends UserBoComboBoxImpl implements UserBo, IConstProp
 			return null;
 	}
 	
-	public IUsers getUserByEmailOrMobileNo(UserParam param)
-	{
-		param.searchBeanClass = UsersAddress.class;
-		iBaseDAO.getDataList(param);
-		return ((UsersAddress) param.dataList.iterator().next()).getUsers();
-	}
-	
 	public void getUser(UserParam userParam) throws Exception
 	{
 		if (userParam.userId.indexOf("@") > 0)
@@ -100,35 +93,11 @@ public class UserBoImpl extends UserBoComboBoxImpl implements UserBo, IConstProp
 		
 	}
 	
-	private void validateAuthenticate(UserParam userParam) throws Exception
+	public IUsers getUserByEmailOrMobileNo(UserParam param)
 	{
-		if (CommonValidator.isNullOrEmpty(userParam.user))
-			throw new Exception("User Id or Password is incorrect.");
-		else
-		{
-			switch ( EUserStatus.valueOf(userParam.user.getUsUserStatus()) )
-			{
-				case Pending :
-					throw new Exception("You Account not yet activated. Please contact Administrator.");
-				case Activated :
-					userParam.action = EPage.Success.name();
-					break;
-				case DeActivated :
-					throw new Exception("You Account has been deactivated. Please contact Administrator.");
-				case Blocked :
-					throw new Exception("You Account has been blocked. Please contact Administrator.");
-				case Suspended :
-					throw new Exception("You Account has been suspended. Please contact Administrator.");
-				case Fradulent :
-					throw new Exception("System has identified fradulent activities. You Account has been blocked. Please contact Administrator.");
-				case FirstTime :
-					userParam.action = EUserStatus.FirstTime.name();
-				case KYC_Incomplete :
-					userParam.action = EUserStatus.KYC_Incomplete.name();
-				default :
-					break;
-			}
-		}
+		param.searchBeanClass = UsersAddress.class;
+		iBaseDAO.getDataList(param);
+		return ((UsersAddress) param.dataList.iterator().next()).getUsers();
 	}
 	
 	@Override
@@ -213,6 +182,37 @@ public class UserBoImpl extends UserBoComboBoxImpl implements UserBo, IConstProp
 	public boolean userUpdate(IUsers users)
 	{
 		return userDAO.userUpdate(users);
+	}
+	
+	private void validateAuthenticate(UserParam userParam) throws Exception
+	{
+		if (CommonValidator.isNullOrEmpty(userParam.user))
+			throw new Exception("User Id or Password is incorrect.");
+		else
+		{
+			switch ( EUserStatus.valueOf(userParam.user.getUsUserStatus()) )
+			{
+				case Pending :
+					throw new Exception("You Account not yet activated. Please contact Administrator.");
+				case Activated :
+					userParam.action = EPage.Success.name();
+					break;
+				case DeActivated :
+					throw new Exception("You Account has been deactivated. Please contact Administrator.");
+				case Blocked :
+					throw new Exception("You Account has been blocked. Please contact Administrator.");
+				case Suspended :
+					throw new Exception("You Account has been suspended. Please contact Administrator.");
+				case Fradulent :
+					throw new Exception("System has identified fradulent activities. You Account has been blocked. Please contact Administrator.");
+				case FirstTime :
+					userParam.action = EUserStatus.FirstTime.name();
+				case KYC_Incomplete :
+					userParam.action = EUserStatus.KYC_Incomplete.name();
+				default :
+					break;
+			}
+		}
 	}
 	
 }

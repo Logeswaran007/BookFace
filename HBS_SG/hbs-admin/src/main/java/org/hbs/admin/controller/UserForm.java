@@ -13,15 +13,15 @@ import org.hbs.util.CommonValidator;
 
 public class UserForm implements Serializable
 {
-
+	
 	private static final long	serialVersionUID	= -2618631395817654936L;
-
-	Users						users;
+	
 	UsersAddress				communication		= new UsersAddress(AddressType.CommunicationAddress);
-	UsersAddress				present				= new UsersAddress(AddressType.PresentAddress);
-	UsersAddress				permanent			= new UsersAddress(AddressType.PermanentAddress);
 	boolean						isAdminEmployee		= false;
-
+	UsersAddress				permanent			= new UsersAddress(AddressType.PermanentAddress);
+	UsersAddress				present				= new UsersAddress(AddressType.PresentAddress);
+	Users						users;
+	
 	public UserForm(Producers producer, EUserType userType) throws InstantiationException, IllegalAccessException
 	{
 		super();
@@ -30,19 +30,7 @@ public class UserForm implements Serializable
 		this.present = new UsersAddress(AddressType.PresentAddress);
 		this.permanent = new UsersAddress(AddressType.PermanentAddress);
 	}
-
-	public EUserTemplate getTemplate()
-	{
-		if (CommonValidator.isEqual(users.getUsUsersType(), EUserType.Consumer))
-			return EUserTemplate.User_Create_Consumer;
-		else if (CommonValidator.isEqual(users.getUsUsersType(), EUserType.Producer))
-			return EUserTemplate.User_Create_Producer;
-		else if (CommonValidator.isEqual(users.getUsUsersType(), EUserType.Employee))
-			return EUserTemplate.User_Create_Employee;
-		else
-			return null;
-	}
-
+	
 	public String[] getBaseRoles()
 	{
 		if (CommonValidator.isEqual(users.getUsUsersType(), EUserType.Consumer))
@@ -63,45 +51,57 @@ public class UserForm implements Serializable
 		else
 			return null;
 	}
-
-	public Users getUsers()
-	{
-		return users;
-	}
-
-	public void setUsers(Users users)
-	{
-		this.users = users;
-	}
-
+	
 	public UsersAddress getCommunication()
 	{
 		return communication;
 	}
-
-	public void setCommunication(UsersAddress communication)
-	{
-		this.communication = communication;
-	}
-
-	public UsersAddress getPresent()
-	{
-		return present;
-	}
-
-	public void setPresent(UsersAddress present)
-	{
-		this.present = present;
-	}
-
+	
 	public UsersAddress getPermanent()
 	{
 		return permanent;
 	}
-
+	
+	public UsersAddress getPresent()
+	{
+		return present;
+	}
+	
+	public EUserTemplate getTemplate()
+	{
+		if (CommonValidator.isEqual(users.getUsUsersType(), EUserType.Consumer))
+			return EUserTemplate.User_Create_Consumer;
+		else if (CommonValidator.isEqual(users.getUsUsersType(), EUserType.Producer))
+			return EUserTemplate.User_Create_Producer;
+		else if (CommonValidator.isEqual(users.getUsUsersType(), EUserType.Employee))
+			return EUserTemplate.User_Create_Employee;
+		else
+			return null;
+	}
+	
+	public Users getUsers()
+	{
+		return users;
+	}
+	
+	public void setCommunication(UsersAddress communication)
+	{
+		this.communication = communication;
+	}
+	
 	public void setPermanent(UsersAddress permanent)
 	{
 		this.permanent = permanent;
 	}
-
+	
+	public void setPresent(UsersAddress present)
+	{
+		this.present = present;
+	}
+	
+	public void setUsers(Users users)
+	{
+		this.users = users;
+	}
+	
 }

@@ -22,12 +22,12 @@ public class SGMainApplication extends SpringBootServletInitializer
 	{
 		SpringApplication.run(SGMainApplication.class, args);
 	}
-
+	
 	protected SpringApplicationBuilder configure(SpringApplicationBuilder application)
 	{
 		return application.sources(SGMainApplication.class);
 	}
-
+	
 	@Bean
 	public EmbeddedServletContainerFactory servletContainer()
 	{
@@ -39,7 +39,7 @@ public class SGMainApplication extends SpringBootServletInitializer
 				StandardRoot standardRoot = new StandardRoot(context);
 				standardRoot.setCacheMaxSize(cacheSize);
 				context.setResources(standardRoot);
-
+				
 				logger.info(String.format("New cache size (KB): %d", context.getResources().getCacheMaxSize()));
 			}
 		};

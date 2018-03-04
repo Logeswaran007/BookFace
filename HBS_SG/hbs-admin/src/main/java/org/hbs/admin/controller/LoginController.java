@@ -12,40 +12,40 @@ import org.springframework.web.servlet.ModelAndView;
 public class LoginController extends ControllerBaseBo implements IAdminPath
 {
 	private static final long serialVersionUID = 2179229061851887237L;
-
+	
 	@RequestMapping(HOME)
 	public ModelAndView home()
 	{
 		return new ModelAndView(HOME_PAGE);
 	}
-
-	@RequestMapping(value = { INDEX, WELCOME }, method = RequestMethod.GET)
-	public String welcome()
-	{
-		return WELCOME_PAGE;
-	}
-
-	@RequestMapping(LOGIN)
-	public ModelAndView login()
-	{
-		return new ModelAndView(LOGIN_PAGE);
-	}
-
-	@RequestMapping(LOGOUT)
-	public ModelAndView logout(HttpServletRequest request)
-	{
-		return new ModelAndView(INDEX);
-	}
-
+	
 	@RequestMapping(INDEX)
 	public String index()
 	{
 		return WELCOME_PAGE;
 	}
-
+	
 	@RequestMapping(LOCK)
 	public ModelAndView lock()
 	{
 		return new ModelAndView(LOCK_PAGE);
+	}
+	
+	@RequestMapping(LOGIN)
+	public ModelAndView login()
+	{
+		return new ModelAndView(LOGIN_PAGE);
+	}
+	
+	@RequestMapping(LOGOUT)
+	public ModelAndView logout(HttpServletRequest request)
+	{
+		return new ModelAndView(INDEX);
+	}
+	
+	@RequestMapping(value = { INDEX, WELCOME }, method = RequestMethod.GET)
+	public String welcome()
+	{
+		return WELCOME_PAGE;
 	}
 }

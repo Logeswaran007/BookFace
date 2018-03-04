@@ -14,11 +14,11 @@ public class Layouts extends CommonLayout implements ILayouts, ICRUDBean
 	
 	private static final long	serialVersionUID	= 8034319004711829771L;
 	
+	protected String			baseBeanNameWithFullPackage;
+	
 	protected String			searchName;
 	
 	protected int				searchOrder;
-	
-	protected String			baseBeanNameWithFullPackage;
 	
 	public Layouts()
 	{

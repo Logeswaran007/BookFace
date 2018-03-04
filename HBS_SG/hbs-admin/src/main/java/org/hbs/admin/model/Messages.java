@@ -26,16 +26,16 @@ import org.hbs.util.factory.PropFactory;
 public class Messages extends CommonBeanFields implements IMessages, IConstProperty, ICRUDBean
 {
 	private static final long		serialVersionUID	= -2367543616698726280L;
+	protected Map<String, Object>	dataMap				= new LinkedHashMap<String, Object>();
+	protected String				dataMapTemplateName;
 	protected Timestamp				deliveryDate;
-	protected Timestamp				nextDeliveryDate;
 	protected String				deliveryDateTime;
 	protected String				message;
 	protected String				messageId;
 	protected String				messageName;
-	protected String				messageType			= EMessageType.SMS.name();
 	protected String				messageSubject		= "System Message";
-	protected String				dataMapTemplateName;
-	protected Map<String, Object>	dataMap				= new LinkedHashMap<String, Object>();
+	protected String				messageType			= EMessageType.SMS.name();
+	protected Timestamp				nextDeliveryDate;
 	
 	public Messages()
 	{
@@ -91,6 +91,12 @@ public class Messages extends CommonBeanFields implements IMessages, IConstPrope
 		return dataMap;
 	}
 	
+	@Column(name = "dataMapTemplateName")
+	public String getDataMapTemplateName()
+	{
+		return dataMapTemplateName;
+	}
+	
 	@Column(name = "deliveryDate")
 	public Timestamp getDeliveryDate()
 	{
@@ -140,15 +146,35 @@ public class Messages extends CommonBeanFields implements IMessages, IConstPrope
 		return nextDeliveryDate;
 	}
 	
-	@Column(name = "dataMapTemplateName")
-	public String getDataMapTemplateName()
+	@Transient
+	@Override
+	public EnumInterface getTemplateName()
 	{
-		return dataMapTemplateName;
+		return new EnumInterface() {
+			
+			@Override
+			public String name()
+			{
+				return messageName;
+			}
+			
+			@Override
+			public int ordinal()
+			{
+				return 0;
+			}
+			
+		};
 	}
 	
 	public void setDataMap(Map<String, Object> dataMap)
 	{
 		this.dataMap = dataMap;
+	}
+	
+	public void setDataMapTemplateName(String dataMapTemplateName)
+	{
+		this.dataMapTemplateName = dataMapTemplateName;
 	}
 	
 	public void setDeliveryDate(Timestamp deliveryDate)
@@ -191,32 +217,6 @@ public class Messages extends CommonBeanFields implements IMessages, IConstPrope
 	public void setNextDeliveryDate(Timestamp nextDeliveryDate)
 	{
 		this.nextDeliveryDate = nextDeliveryDate;
-	}
-	
-	public void setDataMapTemplateName(String dataMapTemplateName)
-	{
-		this.dataMapTemplateName = dataMapTemplateName;
-	}
-	
-	@Transient
-	@Override
-	public EnumInterface getTemplateName()
-	{
-		return new EnumInterface() {
-			
-			@Override
-			public String name()
-			{
-				return messageName;
-			}
-			
-			@Override
-			public int ordinal()
-			{
-				return 0;
-			}
-			
-		};
 	}
 	
 }

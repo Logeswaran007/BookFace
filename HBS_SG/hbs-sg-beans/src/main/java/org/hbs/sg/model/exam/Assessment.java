@@ -73,6 +73,12 @@ public class Assessment extends CommonBeanFields implements IAssessment, ICRUDBe
 		return assessmentId;
 	}
 	
+	@Transient
+	public String getBusinessKey(String... combination)
+	{
+		return EKey.Auto("AST");
+	}
+	
 	@Override
 	@ManyToOne(targetEntity = Chapters.class)
 	@JoinColumn(name = "chapterId", nullable = false)
@@ -209,12 +215,6 @@ public class Assessment extends CommonBeanFields implements IAssessment, ICRUDBe
 	public void setType(String type)
 	{
 		this.type = type;
-	}
-	
-	@Transient
-	public String getBusinessKey(String... combination)
-	{
-		return EKey.Auto("AST");
 	}
 	
 }

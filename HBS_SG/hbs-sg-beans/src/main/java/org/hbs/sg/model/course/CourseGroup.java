@@ -49,30 +49,6 @@ public class CourseGroup implements ICourseGroup, EBusinessKey, ICRUDBean
 		this.courseGroupId = getBusinessKey();
 	}
 	
-	@Override
-	public int updateCourseYear(int year, int size)
-	{
-		if (size > 1)
-		{
-			calculateCourseYear = year + "_" + (year + 1);
-			return year + 1;
-		}
-		else
-		{
-			if (startMonth <= endMonth)
-			{
-				calculateCourseYear = year + "_" + year;
-			}
-			else if (startMonth > endMonth)
-			{
-				calculateCourseYear = year + "_" + (year + 1);
-				year = year + 1;
-			}
-			return year;
-		}
-		
-	}
-	
 	@Transient
 	public String getBusinessKey(String... combination)
 	{
@@ -182,6 +158,30 @@ public class CourseGroup implements ICourseGroup, EBusinessKey, ICRUDBean
 	public void setStartMonth(int startMonth)
 	{
 		this.startMonth = startMonth;
+	}
+	
+	@Override
+	public int updateCourseYear(int year, int size)
+	{
+		if (size > 1)
+		{
+			calculateCourseYear = year + "_" + (year + 1);
+			return year + 1;
+		}
+		else
+		{
+			if (startMonth <= endMonth)
+			{
+				calculateCourseYear = year + "_" + year;
+			}
+			else if (startMonth > endMonth)
+			{
+				calculateCourseYear = year + "_" + (year + 1);
+				year = year + 1;
+			}
+			return year;
+		}
+		
 	}
 	
 }

@@ -34,25 +34,25 @@ import org.hbs.util.factory.PropFactory;
 
 public class ScheduledSMS extends TimerTask
 {
-	private final String		USER_AGENT	= "Mozilla/5.0";
-
-	private MessagesBo			messageBo;
-
-	private IMessages			message;
-
 	private MessagesUserMapping	_MUM;
-
+	
 	private EAddress[]			eAddresses;
-
-	private IProducers			producer;
-
+	
 	private boolean				isScheduled	= false;
-
-	private String				websiteURL	= new String(Base64.decodeBase64(PropFactory.getInstance().getProperty(ESMS.WebsiteURL)));
-	private String				userName	= new String(Base64.decodeBase64(PropFactory.getInstance().getProperty(ESMS.UserName)));
+	
+	private IMessages			message;
+	
+	private MessagesBo			messageBo;
+	
 	private String				password	= new String(Base64.decodeBase64(PropFactory.getInstance().getProperty(ESMS.Password)));
+	
+	private IProducers			producer;
+	
 	private String				sender		= new String(Base64.decodeBase64(PropFactory.getInstance().getProperty(ESMS.Sender)));
-
+	private final String		USER_AGENT	= "Mozilla/5.0";
+	private String				userName	= new String(Base64.decodeBase64(PropFactory.getInstance().getProperty(ESMS.UserName)));
+	private String				websiteURL	= new String(Base64.decodeBase64(PropFactory.getInstance().getProperty(ESMS.WebsiteURL)));
+	
 	public ScheduledSMS(IProducers producer, IMessages message, EAddress[] eAddresses)
 	{
 		super();
@@ -60,7 +60,7 @@ public class ScheduledSMS extends TimerTask
 		this.message = message;
 		this.producer = producer;
 	}
-
+	
 	public ScheduledSMS(MessagesUserMapping messagesUserMapping, MessagesBo messageBo)
 	{
 		super();
@@ -68,14 +68,39 @@ public class ScheduledSMS extends TimerTask
 		this.message = messagesUserMapping.getMessages();
 		this._MUM = messagesUserMapping;
 		this.messageBo = messageBo;
-
+		
 		if (messagesUserMapping.getReceiptantUser() != null)
 		{
 			this.producer = messagesUserMapping.getReceiptantUser().getProducer();
 			this.isScheduled = true;
 		}
 	}
-
+	
+	public MessagesUserMapping get_MUM()
+	{
+		return _MUM;
+	}
+	
+	public EAddress[] geteAddresses()
+	{
+		return eAddresses;
+	}
+	
+	public IMessages getMessage()
+	{
+		return message;
+	}
+	
+	public MessagesBo getMessageBo()
+	{
+		return messageBo;
+	}
+	
+	public IProducers getProducer()
+	{
+		return producer;
+	}
+	
 	@SuppressWarnings("resource")
 	@Override
 	public void run()
@@ -83,19 +108,19 @@ public class ScheduledSMS extends TimerTask
 		CloseableHttpResponse response = null;
 		CloseableHttpClient client = null;
 		String reasonPhrase = "";
-
+		
 		try
 		{
 			HttpPost httpPost = new HttpPost(websiteURL);
 			httpPost.setHeader(ESMS.User_Agent.getValue(), USER_AGENT);
 			List<BasicNameValuePair> urlParameters = new ArrayList<BasicNameValuePair>();
 			client = HttpClientBuilder.create().build();
-
+			
 			if (message.getDataMap().isEmpty() && CommonValidator.isNotNullNotEmpty(message.getDataMapTemplateName()))
 			{
 				((DataMapTemplate) Class.forName(message.getDataMapTemplateName()).newInstance()).updateDataMap(message, eAddresses);
 			}
-
+			
 			for (EAddress eAddress : eAddresses)
 			{
 				for (long mobileNo : eAddress.getMobileNo())
@@ -106,11 +131,11 @@ public class ScheduledSMS extends TimerTask
 					urlParameters.add(new BasicNameValuePair(ESMS.Sender.getValue(), sender));
 					urlParameters.add(new BasicNameValuePair(ESMS.ReceiptantMobile.getValue(), mobileNo + ""));
 					urlParameters.add(new BasicNameValuePair(ESMS.Message.getValue(), message.generateVTLMessage()));
-
+					
 					httpPost.setEntity(new UrlEncodedFormEntity(urlParameters));
-
+					
 					response = client.execute(httpPost);
-
+					
 					if (isScheduled)
 					{
 						if (response.getStatusLine().getStatusCode() == HttpURLConnection.HTTP_OK)
@@ -160,7 +185,7 @@ public class ScheduledSMS extends TimerTask
 							{
 								e.printStackTrace();
 							}
-
+							
 						}
 					}
 				}
@@ -174,7 +199,7 @@ public class ScheduledSMS extends TimerTask
 					response.close();
 				if (client != null)
 					client.close();
-
+				
 				if (isScheduled)
 				{
 					if (CommonValidator.isNotEqual(_MUM.getMessageStatus(), EMessage.Send.name()))
@@ -192,60 +217,35 @@ public class ScheduledSMS extends TimerTask
 			}
 			catch (Exception excep)
 			{
-
+				
 			}
 		}
-
+		
 	}
-
-	public MessagesBo getMessageBo()
-	{
-		return messageBo;
-	}
-
-	public void setMessageBo(MessagesBo messageBo)
-	{
-		this.messageBo = messageBo;
-	}
-
-	public IMessages getMessage()
-	{
-		return message;
-	}
-
-	public void setMessage(IMessages message)
-	{
-		this.message = message;
-	}
-
-	public EAddress[] geteAddresses()
-	{
-		return eAddresses;
-	}
-
-	public void seteAddresses(EAddress[] eAddresses)
-	{
-		this.eAddresses = eAddresses;
-	}
-
-	public IProducers getProducer()
-	{
-		return producer;
-	}
-
-	public void setProducer(IProducers producer)
-	{
-		this.producer = producer;
-	}
-
-	public MessagesUserMapping get_MUM()
-	{
-		return _MUM;
-	}
-
+	
 	public void set_MUM(MessagesUserMapping _MUM)
 	{
 		this._MUM = _MUM;
 	}
-
+	
+	public void seteAddresses(EAddress[] eAddresses)
+	{
+		this.eAddresses = eAddresses;
+	}
+	
+	public void setMessage(IMessages message)
+	{
+		this.message = message;
+	}
+	
+	public void setMessageBo(MessagesBo messageBo)
+	{
+		this.messageBo = messageBo;
+	}
+	
+	public void setProducer(IProducers producer)
+	{
+		this.producer = producer;
+	}
+	
 }

@@ -6,11 +6,11 @@ import org.hbs.admin.model.IProducers;
 
 public class DocumentFactory implements Serializable
 {
-
+	
 	public static DocumentFactory	documentFactory		= null;
-
+	
 	private static final long		serialVersionUID	= -3448438292700201628L;
-
+	
 	public static DocumentFactory getInstance()
 	{
 		if (documentFactory == null)
@@ -19,12 +19,12 @@ public class DocumentFactory implements Serializable
 		}
 		return documentFactory;
 	}
-
+	
 	private DocumentFactory()
 	{
-
+		
 	}
-
+	
 	public DocumentDownload forDownload(IProducers producer)
 	{
 		DocumentDownload instance = null;
@@ -37,10 +37,10 @@ public class DocumentFactory implements Serializable
 		{
 			e.printStackTrace();
 		}
-
+		
 		return instance;
 	}
-
+	
 	public DocumentUpload forUpload(IProducers producer)
 	{
 		DocumentUpload instance = null;
@@ -53,8 +53,8 @@ public class DocumentFactory implements Serializable
 		{
 			e.printStackTrace();
 		}
-
+		
 		return instance;
 	}
-
+	
 }

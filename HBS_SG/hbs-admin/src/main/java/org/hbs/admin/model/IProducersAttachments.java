@@ -6,15 +6,15 @@ public interface IProducersAttachments extends ICommonFileUpload, IProducersBase
 {
 	public enum EDocument implements EnumInterface
 	{
-		Pending, Success, Fraudulent, Insufficient, Phone_Verification_Failed, Email_Verification_Failed
+		Email_Verification_Failed, Fraudulent, Insufficient, Pending, Phone_Verification_Failed, Success
 	}
-
+	
 	public String getDocumentDesc();
-
+	
 	public String getDocumentStatus();
-
+	
 	public void setDocumentDesc(String documentDesc);
-
+	
 	public void setDocumentStatus(String documentStatus);
-
+	
 }

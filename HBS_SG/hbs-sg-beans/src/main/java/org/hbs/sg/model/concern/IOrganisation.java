@@ -12,35 +12,35 @@ import org.hbs.util.EBusinessKey;
 public interface IOrganisation extends ICommonBeanFields, ICountryBase, IProducersBase, EBusinessKey
 {
 	public Set<IOrganisationAddress> getAddressList();
-
+	
 	public Set<IOrganisationAttachments> getAttachmentList();
-
-	public String getOrganisationId();
-
-	public String getOrganisationName();
-
-	public String getOrganisationType();
-
-	public void setOrganisationType(String organisationType);
-
-	public void setAddressList(Set<IOrganisationAddress> addresses);
-
-	public void setAttachmentList(Set<IOrganisationAttachments> attachmentList);
-
-	public void setOrganisationId(String organisationId);
-
-	public void setOrganisationName(String organisationName);
-
-	public Set<IUsers> getUsersList();
-
-	public void setUsersList(Set<IUsers> usersList);
-
+	
 	public IOrganisationAddress getCommunicationAddress();
-
-	public void setCommunicationAddress(IOrganisationAddress communicationAddress);
-
+	
+	public String getOrganisationId();
+	
+	public String getOrganisationName();
+	
+	public String getOrganisationType();
+	
 	public IUploadImageOrDocuments getProfileImage();
-
+	
+	public Set<IUsers> getUsersList();
+	
+	public void setAddressList(Set<IOrganisationAddress> addresses);
+	
+	public void setAttachmentList(Set<IOrganisationAttachments> attachmentList);
+	
+	public void setCommunicationAddress(IOrganisationAddress communicationAddress);
+	
+	public void setOrganisationId(String organisationId);
+	
+	public void setOrganisationName(String organisationName);
+	
+	public void setOrganisationType(String organisationType);
+	
 	public void setProfileImage(IUploadImageOrDocuments profileImage);
-
+	
+	public void setUsersList(Set<IUsers> usersList);
+	
 }

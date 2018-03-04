@@ -8,14 +8,14 @@ import javax.persistence.Transient;
 @DiscriminatorValue("Producer")
 public class ProducerUsers extends Users
 {
-
+	
 	private static final long serialVersionUID = -7077340071970448073L;
-
+	
 	public ProducerUsers()
 	{
 		super();
 	}
-
+	
 	@Transient
 	public String getBusinessKey()
 	{

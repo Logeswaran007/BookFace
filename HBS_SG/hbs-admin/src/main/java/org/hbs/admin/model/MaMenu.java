@@ -17,14 +17,14 @@ public class MaMenu implements java.io.Serializable, ICRUDBean
 {
 	protected static final long	serialVersionUID	= 4897686429234828726L;
 	
-	protected String			maMenuId;
-	protected String			menuName;
 	protected String			actionURL;
-	protected String			parentId;
-	protected boolean			haveSubMenu;
-	protected String			level;
 	protected String			cssClass;
 	protected String			cssClassIcon;
+	protected boolean			haveSubMenu;
+	protected String			level;
+	protected String			maMenuId;
+	protected String			menuName;
+	protected String			parentId;
 	
 	public MaMenu()
 	{

@@ -5,7 +5,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 public class BCryptEnc
 {
-
+	
 	public static void main(String[] args)
 	{
 		String password = "test"; // encypted is =
@@ -13,7 +13,7 @@ public class BCryptEnc
 		PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 		String hashedPassword = passwordEncoder.encode(password);
 		System.out.println(">>>>>BCryptPasswordEncoder>>>>> " + hashedPassword);
-
+		
 	}
-
+	
 }

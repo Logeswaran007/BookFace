@@ -14,24 +14,24 @@ import org.hbs.util.CommonValidator;
 public class MessageSMSSender implements IMessageSender
 {
 	private static final long serialVersionUID = 5378031148500056351L;
-
+	
 	@Override
 	public EMessageType getMessageSenderType()
 	{
 		return EMessageType.SMS;
 	}
-
+	
 	@SuppressWarnings("unchecked")
 	@Override
 	public void sendMessageToUserByMedia(List<MessagesUserMapping> messageUserList) throws IOException, InterruptedException, ClassNotFoundException, SQLException
 	{
 		Map<String, Object> dataMap = null;
-
+		
 		for (final MessagesUserMapping _MUM : messageUserList)
 		{
 			if (CommonValidator.isNotNullNotEmpty(_MUM.getDataObject()))
 				dataMap = (Map<String, Object>) _MUM.deserialize(_MUM.getDataObject());
-
+			
 			if (CommonValidator.isNotNullNotEmpty(_MUM.getReceiptantAddress()))
 			{
 				VTLSMSFactory.getInstance().sendSMS(_MUM, dataMap);

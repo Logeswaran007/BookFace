@@ -53,6 +53,43 @@ public class AlertsAndNotifications extends ProducersBase implements IAlertsAndN
 		this.producer = producer;
 	}
 	
+	@Override
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "autoId")
+	public int getAutoId()
+	{
+		return autoId;
+	}
+	
+	@Override
+	@Column(name = "expiryDate")
+	public String getExpiryDate()
+	{
+		return expiryDate;
+	}
+	
+	@Override
+	@Column(name = "message")
+	public String getMessage()
+	{
+		return message;
+	}
+	
+	@Override
+	@Column(name = "messageType")
+	public String getMessageType()
+	{
+		return messageType;
+	}
+	
+	@Override
+	@Column(name = "scheduledDate")
+	public String getScheduledDate()
+	{
+		return scheduledDate;
+	}
+	
 	@Transient
 	public boolean isInformationExpired() throws ParseException
 	{
@@ -93,43 +130,6 @@ public class AlertsAndNotifications extends ProducersBase implements IAlertsAndN
 		}
 		
 		return false;
-	}
-	
-	@Override
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "autoId")
-	public int getAutoId()
-	{
-		return autoId;
-	}
-	
-	@Override
-	@Column(name = "expiryDate")
-	public String getExpiryDate()
-	{
-		return expiryDate;
-	}
-	
-	@Override
-	@Column(name = "message")
-	public String getMessage()
-	{
-		return message;
-	}
-	
-	@Override
-	@Column(name = "messageType")
-	public String getMessageType()
-	{
-		return messageType;
-	}
-	
-	@Override
-	@Column(name = "scheduledDate")
-	public String getScheduledDate()
-	{
-		return scheduledDate;
 	}
 	
 	@Override

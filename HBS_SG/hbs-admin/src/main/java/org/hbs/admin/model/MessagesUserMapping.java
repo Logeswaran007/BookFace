@@ -37,23 +37,8 @@ import org.hbs.util.dao.ICRUDBean;
 @Table(name = "messagesusermapping")
 public class MessagesUserMapping extends CommonBeanFields implements ICRUDBean
 {
-	private static final long	serialVersionUID	= 3261842931089188964L;
 	public static int			MAX_RETRY_COUNT		= 3;
-	protected int				autoId;
-	protected IMessages			messages;
-	protected String			messageStatus;
-	protected String			deliveryDateTime;
-	protected int				retryCount			= 0;
-	protected Blob				receiptant;
-	protected Blob				dataObject;
-	protected Blob				attachmentObject;
-	protected boolean			selfDelete			= false;
-	
-	public MessagesUserMapping()
-	{
-		super();
-	}
-	
+	private static final long	serialVersionUID	= 3261842931089188964L;
 	@Transient
 	public static void getClassFields(List<Field> fields, Class<?> clazz)
 	{
@@ -67,7 +52,6 @@ public class MessagesUserMapping extends CommonBeanFields implements ICRUDBean
 			getClassFields(fields, clazz.getSuperclass());
 		}
 	}
-	
 	@Transient
 	public static void getClassMethods(List<Method> method, Class<?> clazz)
 	{
@@ -77,6 +61,22 @@ public class MessagesUserMapping extends CommonBeanFields implements ICRUDBean
 		{
 			getClassMethods(method, clazz.getSuperclass());
 		}
+	}
+	protected Blob				attachmentObject;
+	protected int				autoId;
+	protected Blob				dataObject;
+	protected String			deliveryDateTime;
+	protected IMessages			messages;
+	protected String			messageStatus;
+	protected Blob				receiptant;
+	
+	protected int				retryCount			= 0;
+	
+	protected boolean			selfDelete			= false;
+	
+	public MessagesUserMapping()
+	{
+		super();
 	}
 	
 	@Transient
@@ -192,6 +192,12 @@ public class MessagesUserMapping extends CommonBeanFields implements ICRUDBean
 		return deserialize(this.receiptant);
 	}
 	
+	@Column(name = "receiptant")
+	public Blob getReceiptantAddress()
+	{
+		return receiptant;
+	}
+	
 	@Transient
 	public IUsers getReceiptantUser()
 	{
@@ -213,12 +219,6 @@ public class MessagesUserMapping extends CommonBeanFields implements ICRUDBean
 			e.printStackTrace();
 		}
 		return null;
-	}
-	
-	@Column(name = "receiptant")
-	public Blob getReceiptantAddress()
-	{
-		return receiptant;
 	}
 	
 	@Column(name = "retryCount")

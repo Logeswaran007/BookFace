@@ -30,17 +30,17 @@ public abstract class CommonUsersBase extends CountryBase implements IUsers, ICR
 	
 	protected IUsersAddress				communicationAddress;
 	
-	protected String					usDob;
-	
 	protected String					usDateOfJoin;
 	
-	protected String					usEmployeeId;
+	protected String					usDob;
 	
-	protected String					usFatherName;
+	protected String					usEmployeeId;
 	
 	protected Set<IUserLog>				userLogs			= new LinkedHashSet<IUserLog>(0);
 	
 	protected Set<IUserRoles>			userRoleses			= new LinkedHashSet<IUserRoles>(0);
+	
+	protected String					usFatherName;
 	
 	protected String					usLastName;
 	
@@ -97,6 +97,12 @@ public abstract class CommonUsersBase extends CountryBase implements IUsers, ICR
 		return communicationAddress;
 	}
 	
+	@Column(name = "usDateOfJoin")
+	public String getUsDateOfJoin()
+	{
+		return usDateOfJoin;
+	}
+	
 	@Column(name = "usDob")
 	public String getUsDob()
 	{
@@ -122,6 +128,12 @@ public abstract class CommonUsersBase extends CountryBase implements IUsers, ICR
 	public Set<IUserRoles> getUserRoleses()
 	{
 		return userRoleses;
+	}
+	
+	@Column(name = "usFatherName")
+	public String getUsFatherName()
+	{
+		return usFatherName;
 	}
 	
 	@Column(name = "usLastName")
@@ -211,6 +223,11 @@ public abstract class CommonUsersBase extends CountryBase implements IUsers, ICR
 		this.communicationAddress = communicationAddress;
 	}
 	
+	public void setUsDateOfJoin(String usDateOfJoin)
+	{
+		this.usDateOfJoin = usDateOfJoin;
+	}
+	
 	public void setUsDob(String usDob)
 	{
 		this.usDob = usDob;
@@ -229,6 +246,11 @@ public abstract class CommonUsersBase extends CountryBase implements IUsers, ICR
 	public void setUserRoleses(Set<IUserRoles> userRoleses)
 	{
 		this.userRoleses = userRoleses;
+	}
+	
+	public void setUsFatherName(String usFatherName)
+	{
+		this.usFatherName = usFatherName;
 	}
 	
 	public void setUsLastName(String usLastName)
@@ -289,28 +311,6 @@ public abstract class CommonUsersBase extends CountryBase implements IUsers, ICR
 	public void setUsUsersType(String usUsersType)
 	{
 		this.usUsersType = usUsersType;
-	}
-	
-	@Column(name = "usDateOfJoin")
-	public String getUsDateOfJoin()
-	{
-		return usDateOfJoin;
-	}
-	
-	public void setUsDateOfJoin(String usDateOfJoin)
-	{
-		this.usDateOfJoin = usDateOfJoin;
-	}
-	
-	@Column(name = "usFatherName")
-	public String getUsFatherName()
-	{
-		return usFatherName;
-	}
-	
-	public void setUsFatherName(String usFatherName)
-	{
-		this.usFatherName = usFatherName;
 	}
 	
 }

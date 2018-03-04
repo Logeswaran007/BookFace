@@ -19,9 +19,9 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public class UserDetailsServiceImpl extends ControllerBaseBo implements UserDetailsService
 {
-
+	
 	private static final long serialVersionUID = 7087428004256710898L;
-
+	
 	@Override
 	public UserDetails loadUserByUsername(String userId) throws UsernameNotFoundException
 	{
@@ -29,11 +29,11 @@ public class UserDetailsServiceImpl extends ControllerBaseBo implements UserDeta
 		UserParam userParam = new UserParam();
 		userParam.userId = userId;
 		userParam.eUserStatus = EUserStatus.Validate;
-
+		
 		try
 		{
 			userBo.getUser(userParam);
-
+			
 			for (IUserRoles userRole : userParam.user.getUserRoleses())
 			{
 				grantedAuthorities.add(new SimpleGrantedAuthority(userRole.getRoles().getRlRoleId()));
@@ -44,7 +44,7 @@ public class UserDetailsServiceImpl extends ControllerBaseBo implements UserDeta
 			e.printStackTrace();
 		}
 		return new org.springframework.security.core.userdetails.User(userId, userParam.user.getUsUserPwd(), grantedAuthorities);
-
+		
 	}
-
+	
 }

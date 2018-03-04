@@ -16,7 +16,7 @@ import org.springframework.web.servlet.ModelAndView;
 public class DashBoardController extends DashBoardControllerData implements IAdminPath, ISGPath
 {
 	private static final long serialVersionUID = 2742202215975142838L;
-
+	
 	@RequestMapping(DASHBOARD)
 	public ModelAndView getDashBoard(HttpServletRequest request, HttpServletResponse response)
 	{
@@ -38,12 +38,12 @@ public class DashBoardController extends DashBoardControllerData implements IAdm
 			return new ModelAndView(LOGIN);
 		}
 	}
-
+	
 	@RequestMapping(PRE_LOAD_PAGE)
 	public ModelAndView loadPrePage(HttpServletRequest request, @PathVariable String page)
 	{
 		return new ModelAndView("/content/" + page);
-
+		
 	}
-
+	
 }

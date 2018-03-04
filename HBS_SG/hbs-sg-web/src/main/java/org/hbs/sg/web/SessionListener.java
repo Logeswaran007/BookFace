@@ -16,20 +16,20 @@ import org.springframework.stereotype.Component;
 @Component
 public class SessionListener extends ControllerBaseBo implements ApplicationListener<HttpSessionDestroyedEvent>
 {
-
+	
 	private static final long serialVersionUID = 1884717425289542411L;
-
+	
 	public void onApplicationEvent(HttpSessionDestroyedEvent evt)
 	{
 		try
 		{
 			Users user = (Users) evt.getSession().getAttribute(EBean.User.name());
-
+			
 			if (CommonValidator.isNotNullNotEmpty(user))
 			{
 				userBo.userLogAtLogOut(new UserParam(user));
 			}
-
+			
 			String sessionFolder = EImage.Attachment.getServerSessionPhysicalPath(evt.getSession(), "");
 			if (CommonValidator.isNotNullNotEmpty(sessionFolder))
 			{

@@ -14,25 +14,25 @@ import org.springframework.web.servlet.ModelAndView;
 public class UsersPortlet extends PortletExecutorBase implements IPortletPath
 {
 	private static final long serialVersionUID = 4613190151962373561L;
-
+	
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response, ModelAndView modelView, IUsers users)
 	{
-
+		
 	}
-
-	@RequestMapping(USERS_SEARCH_RESULTS)
-	public @ResponseBody String usersSearch(HttpServletRequest request)
-	{
-		return "";
-
-	}
-
+	
 	@RequestMapping(USERS_SEARCH_LAYOUT_BY_REST)
 	public @ResponseBody String usersLayout(HttpServletRequest request)
 	{
 		return "";
-
+		
 	}
-
+	
+	@RequestMapping(USERS_SEARCH_RESULTS)
+	public @ResponseBody String usersSearch(HttpServletRequest request)
+	{
+		return "";
+		
+	}
+	
 }

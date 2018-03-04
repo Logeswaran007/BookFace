@@ -25,7 +25,39 @@ import com.google.gson.GsonBuilder;
 public class ActivityPortlet extends PortletExecutorBase implements IPortletPath
 {
 	private static final long serialVersionUID = 4613190151962373561L;
-
+	
+	@RequestMapping(ACTIVITY_SEARCH_LAYOUT_BY_REST)
+	public @ResponseBody String activityLayout(HttpServletRequest request)
+	{
+		return "";
+		
+	}
+	
+	@SuppressWarnings("unchecked")
+	@RequestMapping(ACTIVITY_SEARCH_RESULTS)
+	public @ResponseBody String activitySearch(HttpServletRequest request)
+	{
+		
+		List<ILayouts> layoutList = boBase.layoutBo.getResultLayouts(this.getClass().getSimpleName());
+		
+		DataTableParam dtParam = DataTableParam.getDataTableParamsFromRequest(request);
+		
+		List<IUserLog> userLogList = (List<IUserLog>) boBase.portletBo.getActivityList(dtParam, false).dataList;
+		int userListCount = (int) boBase.portletBo.getActivityList(dtParam, true).dataListCount;
+		
+		List<List<String>> mDataList = DataTableDynamicColumns.getJSONFromObject(dtParam, layoutList, userLogList.toArray(new Object[userLogList.size()]));
+		
+		DataTableObject dataTableObject = new DataTableObject();
+		dataTableObject.setAaData(mDataList);
+		dataTableObject.setiTotalDisplayRecords(userListCount);
+		dataTableObject.setiTotalRecords(userListCount);
+		
+		Gson gson = new GsonBuilder().setPrettyPrinting().create();
+		StringBuilder sb = new StringBuilder(gson.toJson(dataTableObject));
+		return sb.toString();
+		
+	}
+	
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response, ModelAndView modelView, IUsers users)
 	{
@@ -33,39 +65,7 @@ public class ActivityPortlet extends PortletExecutorBase implements IPortletPath
 		modelView.addObject("activityPortletURL", users.getDomainUrl(request) + ACTIVITY_SEARCH_RESULTS);
 		modelView.addObject("ap.columnsList", DataTableDynamicColumns.getDynamicColumns(layoutList));
 		modelView.addObject("ap.columnDefsList", DataTableDynamicColumnDefs.getDynamicColumnDefs(layoutList));
-
+		
 	}
-
-	@SuppressWarnings("unchecked")
-	@RequestMapping(ACTIVITY_SEARCH_RESULTS)
-	public @ResponseBody String activitySearch(HttpServletRequest request)
-	{
-
-		List<ILayouts> layoutList = boBase.layoutBo.getResultLayouts(this.getClass().getSimpleName());
-
-		DataTableParam dtParam = DataTableParam.getDataTableParamsFromRequest(request);
-
-		List<IUserLog> userLogList = (List<IUserLog>) boBase.portletBo.getActivityList(dtParam, false).dataList;
-		int userListCount = (int) boBase.portletBo.getActivityList(dtParam, true).dataListCount;
-
-		List<List<String>> mDataList = DataTableDynamicColumns.getJSONFromObject(dtParam, layoutList, userLogList.toArray(new Object[userLogList.size()]));
-
-		DataTableObject dataTableObject = new DataTableObject();
-		dataTableObject.setAaData(mDataList);
-		dataTableObject.setiTotalDisplayRecords(userListCount);
-		dataTableObject.setiTotalRecords(userListCount);
-
-		Gson gson = new GsonBuilder().setPrettyPrinting().create();
-		StringBuilder sb = new StringBuilder(gson.toJson(dataTableObject));
-		return sb.toString();
-
-	}
-
-	@RequestMapping(ACTIVITY_SEARCH_LAYOUT_BY_REST)
-	public @ResponseBody String activityLayout(HttpServletRequest request)
-	{
-		return "";
-
-	}
-
+	
 }

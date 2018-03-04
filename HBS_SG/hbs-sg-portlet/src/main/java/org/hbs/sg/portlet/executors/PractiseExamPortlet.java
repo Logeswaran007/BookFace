@@ -14,24 +14,24 @@ import org.springframework.web.servlet.ModelAndView;
 public class PractiseExamPortlet extends PortletExecutorBase implements IPortletPath
 {
 	private static final long serialVersionUID = 4613190151962373561L;
-
+	
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response, ModelAndView modelView, IUsers users)
 	{
-
+		
 	}
-
-	@RequestMapping(PRACTISEEXAM_SEARCH_RESULTS)
-	public @ResponseBody String practiseExamSearch(HttpServletRequest request)
-	{
-		return "";
-
-	}
-
+	
 	@RequestMapping(PRACTISEEXAM_SEARCH_LAYOUT_BY_REST)
 	public @ResponseBody String practiseExamLayout(HttpServletRequest request)
 	{
 		return "";
-
+		
+	}
+	
+	@RequestMapping(PRACTISEEXAM_SEARCH_RESULTS)
+	public @ResponseBody String practiseExamSearch(HttpServletRequest request)
+	{
+		return "";
+		
 	}
 }

@@ -36,6 +36,29 @@ public class AssessmentCorrectAnswer implements Serializable, IAssessmentCorrect
 	}
 	
 	@Override
+	public List<String> correctList()
+	{
+		List<String> answerList = new ArrayList<String>(1);
+		if (CommonValidator.isNotNullNotEmpty(correctAnswer1))
+		{
+			answerList.add(correctAnswer1);
+			if (CommonValidator.isNotNullNotEmpty(correctAnswer2))
+			{
+				answerList.add(correctAnswer2);
+				if (CommonValidator.isNotNullNotEmpty(correctAnswer3))
+				{
+					answerList.add(correctAnswer3);
+					if (CommonValidator.isNotNullNotEmpty(correctAnswer4))
+					{
+						answerList.add(correctAnswer4);
+					}
+				}
+			}
+		}
+		return answerList;
+	}
+	
+	@Override
 	@Column(name = "correctAnswer1")
 	public String getCorrectAnswer1()
 	{
@@ -98,28 +121,5 @@ public class AssessmentCorrectAnswer implements Serializable, IAssessmentCorrect
 	public void setMarkPerQuestion(Double markPerQuestion)
 	{
 		this.markPerQuestion = markPerQuestion;
-	}
-	
-	@Override
-	public List<String> correctList()
-	{
-		List<String> answerList = new ArrayList<String>(1);
-		if (CommonValidator.isNotNullNotEmpty(correctAnswer1))
-		{
-			answerList.add(correctAnswer1);
-			if (CommonValidator.isNotNullNotEmpty(correctAnswer2))
-			{
-				answerList.add(correctAnswer2);
-				if (CommonValidator.isNotNullNotEmpty(correctAnswer3))
-				{
-					answerList.add(correctAnswer3);
-					if (CommonValidator.isNotNullNotEmpty(correctAnswer4))
-					{
-						answerList.add(correctAnswer4);
-					}
-				}
-			}
-		}
-		return answerList;
 	}
 }

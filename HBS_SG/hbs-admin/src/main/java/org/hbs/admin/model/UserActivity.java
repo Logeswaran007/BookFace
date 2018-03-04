@@ -23,20 +23,20 @@ public class UserActivity extends CommonBeanFields implements IUserActivity, ICR
 {
 	public enum Activity implements EnumInterface
 	{
-		Save, Update, Password, PasswordByAdmin
+		Password, PasswordByAdmin, Save, Update
 	}
 	
 	private static final long	serialVersionUID	= -8681657293532683320L;
 	
-	private int					autoId;
-	
 	private String				action;
 	
-	private String				className;
+	private String				after;
+	
+	private int					autoId;
 	
 	private String				before;
 	
-	private String				after;
+	private String				className;
 	
 	private String				group;
 	
@@ -53,6 +53,15 @@ public class UserActivity extends CommonBeanFields implements IUserActivity, ICR
 		this.before = before;
 		this.after = after;
 		this.group = group;
+	}
+	
+	public String findDifference() throws JsonProcessingException, IOException
+	{
+		ObjectMapper jackson = new ObjectMapper();
+		JsonNode beforeNode = jackson.readTree(before);
+		JsonNode afterNode = jackson.readTree(after);
+		JsonNode patchNode = JsonDiff.asJson(beforeNode, afterNode);
+		return patchNode.toString();
 	}
 	
 	@Column(name = "action")
@@ -85,15 +94,6 @@ public class UserActivity extends CommonBeanFields implements IUserActivity, ICR
 	public String getClassName()
 	{
 		return className;
-	}
-	
-	public String findDifference() throws JsonProcessingException, IOException
-	{
-		ObjectMapper jackson = new ObjectMapper();
-		JsonNode beforeNode = jackson.readTree(before);
-		JsonNode afterNode = jackson.readTree(after);
-		JsonNode patchNode = JsonDiff.asJson(beforeNode, afterNode);
-		return patchNode.toString();
 	}
 	
 	@Column(name = "group")

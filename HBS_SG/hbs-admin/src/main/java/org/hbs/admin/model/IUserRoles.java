@@ -9,18 +9,18 @@ import java.util.Set;
 public interface IUserRoles extends java.io.Serializable
 {
 	public IRoles getRoles();
-
+	
 	public int getUrAutoId();
-
-	public IUsers getUsers();
-
-	public void setRoles(IRoles roles);
-
-	public void setUrAutoId(int urAutoId);
-
-	public void setUsers(IUsers users);
-
+	
 	public Set<IPortletsUsersRoles> getUserRolePortlets();
-
+	
+	public IUsers getUsers();
+	
+	public void setRoles(IRoles roles);
+	
+	public void setUrAutoId(int urAutoId);
+	
 	public void setUserRolePortlets(Set<IPortletsUsersRoles> userRolePortlets);
+	
+	public void setUsers(IUsers users);
 }

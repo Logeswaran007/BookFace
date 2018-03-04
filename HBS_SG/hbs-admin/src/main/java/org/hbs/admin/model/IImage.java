@@ -19,27 +19,42 @@ import org.hbs.util.EnumInterface;
 
 public interface IImage extends Serializable
 {
-	public enum EUploadType implements EnumInterface
-	{
-		Identification, ProducerImage, Registration, TINNumber, UserImage, ProfileImage;
-	}
-
 	public enum EImage implements EnumInterface
 	{
 		Attachment;
-
+		
 		static final String CONTENT = "content";
-
+		
+		public String encodeURL(String fileURL) throws MalformedURLException, URISyntaxException
+		{
+			if (CommonValidator.isNotNullNotEmpty(fileURL))
+			{
+				URL url = new URL(fileURL);
+				
+				String fragment = url.getQuery() == null ? url.getPath() : url.getPath() + "?" + url.getQuery();
+				
+				if (url.getPort() != -1)
+				{
+					return new URI(url.getProtocol(), null, url.getHost(), url.getPort(), fragment, null, null).toString();
+				}
+				else
+				{
+					return new URI(url.getProtocol(), url.getHost(), fragment, null).toString();
+				}
+			}
+			return "";
+		}
+		
 		public String getRepositoryPhysicalPath(IProducers producer, String uploadSubFolderPath) throws Exception
 		{
 			if (uploadSubFolderPath == null)
 				uploadSubFolderPath = "";
-
+			
 			if (CommonValidator.isNotNullNotEmpty(producer.getRepositoryBasePath()))
 			{
 				StringBuffer sbLocalPath = new StringBuffer();
 				sbLocalPath.append(producer.getRepositoryBasePath() + File.separator + uploadSubFolderPath);
-
+				
 				File file = new File(sbLocalPath.toString());
 				if (file.exists() == false && file.mkdirs())
 				{
@@ -47,7 +62,7 @@ public interface IImage extends Serializable
 					file.setReadable(true);
 					file.setExecutable(true);
 				}
-
+				
 				return sbLocalPath.toString();
 			}
 			else
@@ -55,23 +70,23 @@ public interface IImage extends Serializable
 				throw new Exception("Not able Create/Construct Absolute path for the Repository");
 			}
 		}
-
+		
 		public String getServerSessionPhysicalPath(HttpSession httpSession) throws Exception
 		{
 			return getServerSessionPhysicalPath(httpSession, null);
 		}
-
+		
 		public String getServerSessionPhysicalPath(HttpSession httpSession, String externalPath) throws Exception
 		{
 			if (externalPath == null)
 				externalPath = "";
-
+			
 			if (CommonValidator.isNotNullNotEmpty(httpSession))
 			{
 				StringBuffer sbLocalPath = new StringBuffer();
 				sbLocalPath.append(httpSession.getServletContext().getRealPath(CONTENT) + File.separator);
 				sbLocalPath.append(httpSession.getId() + externalPath);
-
+				
 				File file = new File(sbLocalPath.toString());
 				if (file.exists() == false)
 				{
@@ -80,7 +95,7 @@ public interface IImage extends Serializable
 					file.setReadable(true);
 					file.setExecutable(true);
 				}
-
+				
 				return sbLocalPath.toString();
 			}
 			else
@@ -88,7 +103,7 @@ public interface IImage extends Serializable
 				throw new Exception("Not able Create/Construct Absolute path for the Session");
 			}
 		}
-
+		
 		public void getServerSessionVirtualPath(HttpServletRequest request, IProducers producer, IUploadImageOrDocuments... iDocsArr)
 		{
 			if (CommonValidator.isNotNullNotEmpty(iDocsArr))
@@ -98,7 +113,7 @@ public interface IImage extends Serializable
 				getServerSessionVirtualPath(request, producer, iDocsSet);
 			}
 		}
-
+		
 		public void getServerSessionVirtualPath(HttpServletRequest request, IProducers producer, Set<? extends IUploadImageOrDocuments> iDocsSet)
 		{
 			try
@@ -119,7 +134,7 @@ public interface IImage extends Serializable
 							{
 								repoFilePath = iDocs.getUploadFileFolderURL() + File.separator + iDocs.getUploadFileName();
 								srcFile = new File(getRepositoryPhysicalPath(producer, repoFilePath));
-
+								
 								try
 								{
 									FileUtils.copyFileToDirectory(srcFile, destDirectory);
@@ -154,26 +169,11 @@ public interface IImage extends Serializable
 				excep.printStackTrace();
 			}
 		}
-
-		public String encodeURL(String fileURL) throws MalformedURLException, URISyntaxException
-		{
-			if (CommonValidator.isNotNullNotEmpty(fileURL))
-			{
-				URL url = new URL(fileURL);
-
-				String fragment = url.getQuery() == null ? url.getPath() : url.getPath() + "?" + url.getQuery();
-
-				if (url.getPort() != -1)
-				{
-					return new URI(url.getProtocol(), null, url.getHost(), url.getPort(), fragment, null, null).toString();
-				}
-				else
-				{
-					return new URI(url.getProtocol(), url.getHost(), fragment, null).toString();
-				}
-			}
-			return "";
-		}
-
+		
+	}
+	
+	public enum EUploadType implements EnumInterface
+	{
+		Identification, ProducerImage, ProfileImage, Registration, TINNumber, UserImage;
 	}
 }

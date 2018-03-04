@@ -17,21 +17,21 @@ import org.springframework.web.servlet.ModelAndView;
 @Configuration
 public class PortletProcessor
 {
-	@Autowired
-	protected BoBase boBase;
-
 	public static PortletProcessor getInstance()
 	{
 		return new PortletProcessor();
 	}
-
+	
+	@Autowired
+	protected BoBase boBase;
+	
 	public void executor(HttpServletRequest request, HttpServletResponse response, ModelAndView modelView, Set<IUserRoles> userRoles)
 	{
 		List<String> portletList = new ArrayList<String>(4);
 		if (CommonValidator.isSetFirstNotEmpty(userRoles))
 		{
 			IPortletExecutor executor = null;
-
+			
 			for (IUserRoles userRole : userRoles)
 			{
 				if (CommonValidator.isSetFirstNotEmpty(userRole.getUserRolePortlets()))
@@ -55,9 +55,9 @@ public class PortletProcessor
 					}
 				}
 			}
-
+			
 			modelView.addObject("portletList", portletList);
-
+			
 		}
 	}
 }

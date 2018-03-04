@@ -23,9 +23,9 @@ public class AssessmentPattern extends CommonBeanFields implements IAssessmentPa
 {
 	private static final long				serialVersionUID	= -3686008815972891689L;
 	protected String						patternId			= "DEFAULT";
+	protected Set<IAssessmentPatternInfo>	patternInfoSet		= new LinkedHashSet<IAssessmentPatternInfo>(0);
 	protected String						patternName;
 	protected IProducers					producer;
-	protected Set<IAssessmentPatternInfo>	patternInfoSet		= new LinkedHashSet<IAssessmentPatternInfo>(0);
 	
 	public AssessmentPattern()
 	{
@@ -42,16 +42,11 @@ public class AssessmentPattern extends CommonBeanFields implements IAssessmentPa
 	}
 	
 	@Override
-	@ManyToOne(targetEntity = Producers.class)
-	@JoinColumn(name = "producerId", nullable = false)
-	public IProducers getProducer()
+	@Id
+	@Column(name = "patternId")
+	public String getPatternId()
 	{
-		return producer;
-	}
-	
-	public void setProducer(IProducers producer)
-	{
-		this.producer = producer;
+		return patternId;
 	}
 	
 	@Override
@@ -59,19 +54,6 @@ public class AssessmentPattern extends CommonBeanFields implements IAssessmentPa
 	public Set<IAssessmentPatternInfo> getPatternInfoSet()
 	{
 		return patternInfoSet;
-	}
-	
-	public void setPatternInfoSet(Set<IAssessmentPatternInfo> patternInfoSet)
-	{
-		this.patternInfoSet = patternInfoSet;
-	}
-	
-	@Override
-	@Id
-	@Column(name = "patternId")
-	public String getPatternId()
-	{
-		return patternId;
 	}
 	
 	@Override
@@ -82,15 +64,33 @@ public class AssessmentPattern extends CommonBeanFields implements IAssessmentPa
 	}
 	
 	@Override
+	@ManyToOne(targetEntity = Producers.class)
+	@JoinColumn(name = "producerId", nullable = false)
+	public IProducers getProducer()
+	{
+		return producer;
+	}
+	
+	@Override
 	public void setPatternId(String patternId)
 	{
 		this.patternId = patternId;
+	}
+	
+	public void setPatternInfoSet(Set<IAssessmentPatternInfo> patternInfoSet)
+	{
+		this.patternInfoSet = patternInfoSet;
 	}
 	
 	@Override
 	public void setPatternName(String patternName)
 	{
 		this.patternName = patternName;
+	}
+	
+	public void setProducer(IProducers producer)
+	{
+		this.producer = producer;
 	}
 	
 }

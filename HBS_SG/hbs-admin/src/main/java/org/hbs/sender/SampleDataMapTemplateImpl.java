@@ -11,11 +11,11 @@ public class SampleDataMapTemplateImpl implements DataMapTemplate
 {
 	@Autowired
 	MessagesBo messageBo;
-
+	
 	@Override
 	public void updateDataMap(IMessages message, EAddress... addresses)
 	{
-
+		
 		for (EAddress add : addresses)
 		{
 			if (add == EAddress.To)

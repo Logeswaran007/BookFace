@@ -7,8 +7,8 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class UserServiceController
 {
-
+	
 	@Autowired
 	protected UserBo userBo;
-
+	
 }

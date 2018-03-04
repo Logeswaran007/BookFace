@@ -26,9 +26,9 @@ import org.hbs.util.IConstProperty;
 @Table(name = "consumerassessment")
 public class ConsumerAssessment extends CommonBeanFields implements IConsumerAssessment, IConstProperty
 {
-
+	
 	private static final long			serialVersionUID	= 2330105986760101571L;
-
+	
 	protected Set<IAllocatedQuestions>	allocatedQuestions	= new LinkedHashSet<IAllocatedQuestions>(0);
 	protected IAssessment				assessment;
 	protected String					assessmentMode		= EAssessmentMode.Practise.name();
@@ -37,18 +37,18 @@ public class ConsumerAssessment extends CommonBeanFields implements IConsumerAss
 	protected String					consumerExamId;
 	protected String					consumerStatus;
 	protected Integer					noOfCorrect			= 0;
-	protected Integer					noOfPartialCorrect	= 0;
 	protected Integer					noOfIncorrect		= 0;
+	protected Integer					noOfPartialCorrect	= 0;
 	protected Integer					noOfQuestions		= 0;
 	protected Integer					noOfUnanswer		= 0;
 	protected Double					totalMarks			= 0.0;
 	protected IConsumerUser				users;
-
+	
 	public ConsumerAssessment()
 	{
 		super();
 	}
-
+	
 	public ConsumerAssessment(IAssessment assessment, String assessmentMode, String assignedDate, String consumerExamId, IConsumerUser users, Set<IAllocatedQuestions> allocatedQuestions)
 	{
 		super();
@@ -59,7 +59,7 @@ public class ConsumerAssessment extends CommonBeanFields implements IConsumerAss
 		this.users = users;
 		this.allocatedQuestions = allocatedQuestions;
 	}
-
+	
 	public void calculateAssessmentReport()
 	{
 		if (CommonValidator.isSetFirstNotEmpty(allocatedQuestions))
@@ -82,7 +82,7 @@ public class ConsumerAssessment extends CommonBeanFields implements IConsumerAss
 						markPerAns = alQ.getQuestion().getCorrectAnswer().getMarkPerQuestion() / answerList.size();
 						_veMark = alQ.getQuestion().getNegativeMarkPerQuestion() / answerList.size();
 						obtainMarks = 0.0;
-
+						
 						for (String ans : answerList)
 						{
 							if (alQ.getAnswerId().indexOf(ans) >= 0)
@@ -118,14 +118,14 @@ public class ConsumerAssessment extends CommonBeanFields implements IConsumerAss
 			}
 		}
 	}
-
+	
 	@Override
 	@OneToMany(mappedBy = "consumerAssessment", targetEntity = AllocatedQuestions.class)
 	public Set<IAllocatedQuestions> getAllocatedQuestions()
 	{
 		return allocatedQuestions;
 	}
-
+	
 	@Override
 	@ManyToOne(targetEntity = Assessment.class)
 	@JoinColumn(name = "assessmentId", nullable = false)
@@ -133,27 +133,27 @@ public class ConsumerAssessment extends CommonBeanFields implements IConsumerAss
 	{
 		return assessment;
 	}
-
+	
 	@Override
 	@Column(name = "assessmentMode")
 	public String getAssessmentMode()
 	{
 		return assessmentMode;
 	}
-
+	
 	@Column(name = "assessmentStatus")
 	public String getAssessmentStatus()
 	{
 		return assessmentStatus;
 	}
-
+	
 	@Override
 	@Column(name = "assignedDate")
 	public String getAssignedDate()
 	{
 		return assignedDate;
 	}
-
+	
 	@Override
 	@Id
 	@Column(name = "consumerExamId")
@@ -161,37 +161,49 @@ public class ConsumerAssessment extends CommonBeanFields implements IConsumerAss
 	{
 		return consumerExamId;
 	}
-
+	
 	@Transient
 	public String getConsumerStatus()
 	{
 		return consumerStatus;
 	}
-
+	
 	@Transient
 	public Integer getNoOfCorrect()
 	{
 		return noOfCorrect;
 	}
-
+	
 	@Transient
 	public Integer getNoOfIncorrect()
 	{
 		return noOfIncorrect;
 	}
-
+	
+	@Transient
+	public Integer getNoOfPartialCorrect()
+	{
+		return noOfPartialCorrect;
+	}
+	
 	@Transient
 	public Integer getNoOfQuestions()
 	{
 		return noOfQuestions;
 	}
-
+	
 	@Transient
 	public Integer getNoOfUnanswer()
 	{
 		return noOfUnanswer;
 	}
-
+	
+	@Transient
+	public Double getTotalMarks()
+	{
+		return totalMarks;
+	}
+	
 	@Override
 	@ManyToOne(targetEntity = Users.class)
 	@JoinColumn(name = "usEmployeeId", nullable = false)
@@ -199,98 +211,86 @@ public class ConsumerAssessment extends CommonBeanFields implements IConsumerAss
 	{
 		return users;
 	}
-
+	
 	@Override
 	public void setAllocatedQuestions(Set<IAllocatedQuestions> allocatedQuestions)
 	{
-
+		
 		this.allocatedQuestions = allocatedQuestions;
-
+		
 		if (CommonValidator.isSetFirstNotEmpty(allocatedQuestions))
 			this.noOfQuestions = allocatedQuestions.size();
 	}
-
+	
 	@Override
 	public void setAssessment(IAssessment assessment)
 	{
 		this.assessment = assessment;
 	}
-
+	
 	@Override
 	public void setAssessmentMode(String assessmentMode)
 	{
 		this.assessmentMode = assessmentMode;
 	}
-
+	
 	public void setAssessmentStatus(String assessmentStatus)
 	{
 		this.assessmentStatus = assessmentStatus;
 	}
-
+	
 	@Override
 	public void setAssignedDate(String assignedDate)
 	{
 		this.assignedDate = assignedDate;
 	}
-
+	
 	@Override
 	public void setConsumerExamId(String consumerExamId)
 	{
 		this.consumerExamId = consumerExamId;
 	}
-
+	
 	public void setConsumerStatus(String consumerStatus)
 	{
 		this.consumerStatus = consumerStatus;
 	}
-
+	
 	public void setNoOfCorrect(Integer noOfCorrect)
 	{
 		this.noOfCorrect = noOfCorrect;
 	}
-
+	
 	public void setNoOfIncorrect(Integer noOfIncorrect)
 	{
 		this.noOfIncorrect = noOfIncorrect;
 	}
-
+	
+	public void setNoOfPartialCorrect(Integer noOfPartialCorrect)
+	{
+		this.noOfPartialCorrect = noOfPartialCorrect;
+	}
+	
 	public void setNoOfQuestions(Integer noOfQuestions)
 	{
 		this.noOfQuestions = noOfQuestions;
 	}
-
+	
 	public void setNoOfUnanswer(Integer noOfUnanswer)
 	{
 		this.noOfUnanswer = noOfUnanswer;
 	}
-
-	@Override
-	public void setUsers(IConsumerUser users)
-	{
-		this.users = users;
-	}
-
-	@Transient
-	public Double getTotalMarks()
-	{
-		return totalMarks;
-	}
-
+	
 	@Override
 	public void setTotalMarks(Double totalMarks)
 	{
 		this.totalMarks = totalMarks;
 	}
-
-	@Transient
-	public Integer getNoOfPartialCorrect()
+	
+	@Override
+	public void setUsers(IConsumerUser users)
 	{
-		return noOfPartialCorrect;
+		this.users = users;
 	}
-
-	public void setNoOfPartialCorrect(Integer noOfPartialCorrect)
-	{
-		this.noOfPartialCorrect = noOfPartialCorrect;
-	}
-
+	
 }

@@ -16,20 +16,20 @@ import org.hbs.sg.model.exam.IAssessment;
 @Table(name = "producersassessment")
 public class ProducersAssessment implements IProducersAssessment
 {
-
+	
 	private static final long	serialVersionUID	= 979577296031243861L;
-
+	
 	protected IAssessment		assessment;
-
+	
 	protected int				autoId;
-
+	
 	protected IProducers		producer;
-
+	
 	public ProducersAssessment()
 	{
 		super();
 	}
-
+	
 	public ProducersAssessment(int autoId, IProducers producer, IAssessment assessment)
 	{
 		super();
@@ -37,7 +37,7 @@ public class ProducersAssessment implements IProducersAssessment
 		this.producer = producer;
 		this.assessment = assessment;
 	}
-
+	
 	@Override
 	@ManyToOne(targetEntity = Assessment.class)
 	@JoinColumn(name = "assessmentId", nullable = false)
@@ -45,14 +45,14 @@ public class ProducersAssessment implements IProducersAssessment
 	{
 		return assessment;
 	}
-
+	
 	@Id
 	@Column(name = "autoId")
 	public int getAutoId()
 	{
 		return autoId;
 	}
-
+	
 	@Override
 	@ManyToOne(targetEntity = Producers.class)
 	@JoinColumn(name = "producerId", nullable = false)
@@ -60,20 +60,20 @@ public class ProducersAssessment implements IProducersAssessment
 	{
 		return producer;
 	}
-
+	
 	public void setAssessment(IAssessment assessment)
 	{
 		this.assessment = assessment;
 	}
-
+	
 	public void setAutoId(int autoId)
 	{
 		this.autoId = autoId;
 	}
-
+	
 	public void setProducer(IProducers producer)
 	{
 		this.producer = producer;
 	}
-
+	
 }

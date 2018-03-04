@@ -19,11 +19,11 @@ public class ProducersAttachments extends CommonFileUpload implements IProducers
 	
 	protected int				autoId;
 	
-	protected IProducers		producer;
+	protected String			documentDesc;
 	
 	protected String			documentStatus;
 	
-	protected String			documentDesc;
+	protected IProducers		producer;
 	
 	public ProducersAttachments()
 	{

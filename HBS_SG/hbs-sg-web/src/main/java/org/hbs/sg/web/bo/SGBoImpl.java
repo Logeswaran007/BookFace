@@ -29,13 +29,13 @@ public class SGBoImpl extends SGBoComboBoxImpl implements SGBo
 	private static final long	serialVersionUID	= -7942529344878869154L;
 	
 	@Autowired
-	protected IBaseDAO			iBaseDAO;
-	
-	@Autowired
 	protected AssessmentDAO		assessmentDAO;
 	
 	@Autowired
 	protected CoursesDAO		coursesDAO;
+	
+	@Autowired
+	protected IBaseDAO			iBaseDAO;
 	
 	@Autowired
 	protected KeyGenDAO			keyGenDAO;

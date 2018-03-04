@@ -43,7 +43,67 @@ import com.google.gson.GsonBuilder;
 public class OrganisationController extends SGControllerBaseBo implements IAdminPath, ISGPath
 {
 	private static final long serialVersionUID = 1580742167460496210L;
-
+	
+	@RequestMapping(value = ADD_ORGANISTATION, method = RequestMethod.POST)
+	public @ResponseBody String addOrganisation(@RequestParam("organisationForm") String formData, @RequestParam("docTypes") String[] docTypes,
+			@RequestParam("uploadMultiPartFiles") MultipartFile[] multiPartFiles, HttpServletRequest request)
+	{
+		try
+		{
+			IUsers sessionUser = EUsers.getSessionUser(request);
+			if (CommonValidator.isNotNullNotEmpty(sessionUser))
+			{
+				ObjectMapper mapper = new ObjectMapper();
+				OrganisationForm orgForm = mapper.readValue(formData, OrganisationForm.class);
+				
+				orgForm.organisation.setOrganisationId(orgForm.organisation.getBusinessKey());
+				orgForm.organisation.setCreatedUser(sessionUser);
+				orgForm.organisation.setCreatedDate(new Timestamp(Calendar.getInstance().getTimeInMillis()));
+				orgForm.organisation.setCountry(orgForm.getCommunication().getCountry());
+				orgForm.organisation.setProducer(sessionUser.getProducer());
+				orgForm.communication.setOrganisation(orgForm.organisation);
+				orgForm.permanent.setOrganisation(orgForm.organisation);
+				orgForm.present.setOrganisation(orgForm.organisation);
+				getFilteredAddressList(orgForm.organisation.getAddressList(), orgForm.communication);
+				getFilteredAddressList(orgForm.organisation.getAddressList(), orgForm.permanent);
+				getFilteredAddressList(orgForm.organisation.getAddressList(), orgForm.present);
+				
+				// Uploading Images and Documents and update user object via reference
+				uploadDocumentAttachment(docTypes, multiPartFiles, request, sessionUser, orgForm.organisation);
+				
+				return sgBo.saveOrUpdate(orgForm.organisation) + "";
+			}
+		}
+		catch (Exception excep)
+		{
+			excep.printStackTrace();
+		}
+		return "Failure";
+	}
+	
+	@ModelAttribute("organisationForm")
+	public OrganisationForm createOrganisationForm()
+	{
+		return new OrganisationForm();
+	}
+	
+	private boolean getFilteredAddressList(Set<IOrganisationAddress> addSet, IOrganisationAddress address)
+	{
+		if (CommonValidator.isNotNullNotEmpty(address.getAddressId()))
+		{
+			if (CommonValidator.isNotNullNotEmpty(address.getAddressType()))
+			{
+				if (CommonValidator.isNotNullNotEmpty(address.getEmail()) || CommonValidator.isNotNullNotEmpty(address.getPrimaryPhoneNo())
+						|| CommonValidator.isNotNullNotEmpty(address.getAddressLine1()))
+				{
+					addSet.add(address);
+					return true;
+				}
+			}
+		}
+		return false;
+	}
+	
 	@RequestMapping(PRE_SEARCH_ORGANISTATION)
 	public ModelAndView preSearchOrganisation(HttpServletRequest request)
 	{
@@ -58,89 +118,46 @@ public class OrganisationController extends SGControllerBaseBo implements IAdmin
 				modelView.addObject("columnsList", DataTableDynamicColumns.getDynamicColumns(layoutList));
 				modelView.addObject("columnDefsList", DataTableDynamicColumnDefs.getDynamicColumnDefs(layoutList));
 				modelView.addObject("displayOrderList", EDataTable.Cols.getOrder(layoutList));
-
+				
 				// Add Organisation Form OnLoad Values
 				modelView.addObject("organisationForm", createOrganisationForm());
 				modelView.addObject("countryList", userBo.getCountryList());
 				modelView.addObject("stateList", userBo.getStateList(request));
-
+				
 				return modelView;
 			}
 		}
 		catch (Exception e)
 		{
 			e.printStackTrace();
-
+			
 		}
 		return new ModelAndView(LOGIN);
 	}
-
+	
 	@SuppressWarnings("unchecked")
 	@RequestMapping(SEARCH_ORGANISTATION)
 	public @ResponseBody String searchOrganisation(HttpServletRequest request)
 	{
 		List<ILayouts> layoutList = layoutBo.getResultLayouts(OrganisationAddress.class.getSimpleName());
-
+		
 		DataTableImageViewParam dtParam = DataTableImageViewParam.getDataTableParamsFromRequest(request);
-
+		
 		List<IOrganisationAddress> dataList = (List<IOrganisationAddress>) sgBo.getOrganisationList(dtParam, false).dataList;
 		int dataListCount = (int) sgBo.getOrganisationList(dtParam, true).dataListCount;
-
+		
 		List<List<String>> mDataList = DataTableDynamicColumns.getJSONFromObject(dtParam, layoutList, dataList.toArray(new Object[dataList.size()]));
-
+		
 		DataTableObject dataTableObject = new DataTableObject();
 		dataTableObject.setAaData(mDataList);
 		dataTableObject.setiTotalDisplayRecords(dataListCount);
 		dataTableObject.setiTotalRecords(dataListCount);
-
+		
 		Gson gson = new GsonBuilder().setPrettyPrinting().create();
 		StringBuilder sb = new StringBuilder(gson.toJson(dataTableObject));
 		return sb.toString();
 	}
-
-	@ModelAttribute("organisationForm")
-	public OrganisationForm createOrganisationForm()
-	{
-		return new OrganisationForm();
-	}
-
-	@RequestMapping(value = ADD_ORGANISTATION, method = RequestMethod.POST)
-	public @ResponseBody String addOrganisation(@RequestParam("organisationForm") String formData, @RequestParam("docTypes") String[] docTypes,
-			@RequestParam("uploadMultiPartFiles") MultipartFile[] multiPartFiles, HttpServletRequest request)
-	{
-		try
-		{
-			IUsers sessionUser = EUsers.getSessionUser(request);
-			if (CommonValidator.isNotNullNotEmpty(sessionUser))
-			{
-				ObjectMapper mapper = new ObjectMapper();
-				OrganisationForm orgForm = mapper.readValue(formData, OrganisationForm.class);
-
-				orgForm.organisation.setOrganisationId(orgForm.organisation.getBusinessKey());
-				orgForm.organisation.setCreatedUser(sessionUser);
-				orgForm.organisation.setCreatedDate(new Timestamp(Calendar.getInstance().getTimeInMillis()));
-				orgForm.organisation.setCountry(orgForm.getCommunication().getCountry());
-				orgForm.organisation.setProducer(sessionUser.getProducer());
-				orgForm.communication.setOrganisation(orgForm.organisation);
-				orgForm.permanent.setOrganisation(orgForm.organisation);
-				orgForm.present.setOrganisation(orgForm.organisation);
-				getFilteredAddressList(orgForm.organisation.getAddressList(), orgForm.communication);
-				getFilteredAddressList(orgForm.organisation.getAddressList(), orgForm.permanent);
-				getFilteredAddressList(orgForm.organisation.getAddressList(), orgForm.present);
-
-				// Uploading Images and Documents and update user object via reference
-				uploadDocumentAttachment(docTypes, multiPartFiles, request, sessionUser, orgForm.organisation);
-
-				return sgBo.saveOrUpdate(orgForm.organisation) + "";
-			}
-		}
-		catch (Exception excep)
-		{
-			excep.printStackTrace();
-		}
-		return "Failure";
-	}
-
+	
 	private void uploadDocumentAttachment(String[] docTypes, MultipartFile[] multiPartFiles, HttpServletRequest request, IUsers sessionUsers, Organisation org) throws Exception
 	{
 		if (CommonValidator.isArrayFirstNotNull(multiPartFiles))
@@ -160,24 +177,7 @@ public class OrganisationController extends SGControllerBaseBo implements IAdmin
 			}
 			DocumentFactory.getInstance().forUpload(sessionUsers.getProducer()).uploadFileInRepository(request, org.getAttachmentList());
 		}
-
+		
 	}
-
-	private boolean getFilteredAddressList(Set<IOrganisationAddress> addSet, IOrganisationAddress address)
-	{
-		if (CommonValidator.isNotNullNotEmpty(address.getAddressId()))
-		{
-			if (CommonValidator.isNotNullNotEmpty(address.getAddressType()))
-			{
-				if (CommonValidator.isNotNullNotEmpty(address.getEmail()) || CommonValidator.isNotNullNotEmpty(address.getPrimaryPhoneNo())
-						|| CommonValidator.isNotNullNotEmpty(address.getAddressLine1()))
-				{
-					addSet.add(address);
-					return true;
-				}
-			}
-		}
-		return false;
-	}
-
+	
 }

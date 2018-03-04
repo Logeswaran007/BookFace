@@ -21,37 +21,36 @@ import org.springframework.beans.factory.annotation.Autowired;
 public abstract class SGBoComboBoxImpl implements SGBo
 {
 	private static final long	serialVersionUID	= -4943843294677727967L;
-
+	
+	@Autowired
+	protected IBaseDAO			iBaseDAO;
+	
 	public SGBoComboBoxImpl()
 	{
 		super();
 	}
-
-	@Autowired
-	protected IBaseDAO			iBaseDAO;
-
+	
 	@SuppressWarnings("unchecked")
-	@Override
-	public Map<String, String> getComboBoxSchemeMap(SchemeParam param) throws Exception
+	public List<LabelValueBean> getComboBoxChaptersList(AssessmentParam param) throws Exception
 	{
-		Map<String, String> hmComboMap = new LinkedHashMap<String, String>();
-		IUsers users = EUsers.getSessionUser(param.request);
+		List<LabelValueBean> lbList = new ArrayList<LabelValueBean>();
 		
-		param.searchBeanClass = Scheme.class;
-		param.searchColumns = "schemeId, schemeCost, schemeName" ;
-		ENamed.EqualTo.param_AND(param, "producer.producerId", users.getProducer().getProducerId());
+		param.searchBeanClass = Chapters.class;
+		param.searchColumns = "chapterId, chapterName";
+		
+		ENamed.EqualTo.param_AND(param, "course.courseId", param.courseId);
 		ENamed.EqualTo.param_AND(param, "status", true);
-
+		
 		List<Object[]> objectList = (List<Object[]>) iBaseDAO.getDataList(param).getDataList();
-
+		
 		for (Object[] object : objectList)
 		{
-			hmComboMap.put(object[0].toString() + "-" + object[1].toString(), object[2].toString());
+			lbList.add(new LabelValueBean(object[0].toString(), object[1].toString()));
 		}
-
-		return hmComboMap;
+		
+		return lbList;
 	}
-
+	
 	@SuppressWarnings("unchecked")
 	@Override
 	public Map<String, String> getComboBoxCourseGroupMap(AssessmentParam param) throws Exception
@@ -60,20 +59,20 @@ public abstract class SGBoComboBoxImpl implements SGBo
 		IUsers sessionUser = EUsers.getSessionUser(param.request);
 		
 		param.searchBeanClass = CourseGroup.class;
-		param.searchColumns = "courseGroupId, courseDesc" ;
+		param.searchColumns = "courseGroupId, courseDesc";
 		
 		ENamed.EqualTo.param_AND(param, "producer.producerId", sessionUser.getProducer().getProducerId());
-
+		
 		List<Object[]> objectList = (List<Object[]>) iBaseDAO.getDataList(param).getDataList();
-
+		
 		for (Object[] object : objectList)
 		{
-			hmComboMap.put(object[0].toString() , object[1].toString());
+			hmComboMap.put(object[0].toString(), object[1].toString());
 		}
-
+		
 		return hmComboMap;
 	}
-
+	
 	@SuppressWarnings("unchecked")
 	public List<LabelValueBean> getComboBoxCourseList(AssessmentParam param) throws Exception
 	{
@@ -81,40 +80,41 @@ public abstract class SGBoComboBoxImpl implements SGBo
 		IUsers sessionUser = EUsers.getSessionUser(param.request);
 		
 		param.searchBeanClass = Courses.class;
-		param.searchColumns = "courseId, courseName" ;
+		param.searchColumns = "courseId, courseName";
 		
 		ENamed.EqualTo.param_AND(param, "courseGroup.producer.producerId", sessionUser.getProducer().getProducerId());
 		ENamed.EqualTo.param_AND(param, "courseGroup.courseGroupId", param.courseGroupId);
 		ENamed.EqualTo.param_AND(param, "status", true);
-
+		
 		List<Object[]> objectList = (List<Object[]>) iBaseDAO.getDataList(param).getDataList();
-
+		
 		for (Object[] object : objectList)
 		{
 			lbList.add(new LabelValueBean(object[0].toString(), object[1].toString()));
 		}
-
+		
 		return lbList;
 	}
-
+	
 	@SuppressWarnings("unchecked")
-	public List<LabelValueBean> getComboBoxChaptersList(AssessmentParam param) throws Exception
+	@Override
+	public Map<String, String> getComboBoxSchemeMap(SchemeParam param) throws Exception
 	{
-		List<LabelValueBean> lbList = new ArrayList<LabelValueBean>();
+		Map<String, String> hmComboMap = new LinkedHashMap<String, String>();
+		IUsers users = EUsers.getSessionUser(param.request);
 		
-		param.searchBeanClass = Chapters.class;
-		param.searchColumns = "chapterId, chapterName" ;
-		
-		ENamed.EqualTo.param_AND(param, "course.courseId", param.courseId);
+		param.searchBeanClass = Scheme.class;
+		param.searchColumns = "schemeId, schemeCost, schemeName";
+		ENamed.EqualTo.param_AND(param, "producer.producerId", users.getProducer().getProducerId());
 		ENamed.EqualTo.param_AND(param, "status", true);
-
+		
 		List<Object[]> objectList = (List<Object[]>) iBaseDAO.getDataList(param).getDataList();
-
+		
 		for (Object[] object : objectList)
 		{
-			lbList.add(new LabelValueBean(object[0].toString(), object[1].toString()));
+			hmComboMap.put(object[0].toString() + "-" + object[1].toString(), object[2].toString());
 		}
-
-		return lbList;
+		
+		return hmComboMap;
 	}
 }

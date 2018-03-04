@@ -15,32 +15,32 @@ import org.hbs.util.model.LabelValueBean;
 
 public interface SGBo extends Serializable
 {
-
+	
 	public DataTableParam getAssessmentList(DataTableParam dtParam, boolean isCount);
-
+	
 	public DataTableParam getAuthKeyGenList(DataTableParam dtParam, boolean isCount);
-
+	
 	public List<LabelValueBean> getComboBoxChaptersList(AssessmentParam assessmentParam) throws Exception;
-
+	
 	public Map<String, String> getComboBoxCourseGroupMap(AssessmentParam assessmentParam) throws Exception;
-
+	
 	public List<LabelValueBean> getComboBoxCourseList(AssessmentParam assessmentParam) throws Exception;
-
+	
 	public Map<String, String> getComboBoxSchemeMap(SchemeParam schemeParam) throws Exception;
-
+	
 	public DataTableParam getCourseAttachmentList(DataTableParam dtParam, boolean isCount);
-
+	
 	public DataTableParam getInformationAlertList(DataTableParam dtParam, boolean isCount);
-
+	
 	public DataTableParam getOrganisationList(DataTableParam dtParam, boolean isCount);
-
+	
 	public DataTableParam getUserList(DataTableParam dtParam, boolean isCount);
-
+	
 	public boolean saveOrUpdate(AlertsAndNotifications alerts);
-
+	
 	public boolean saveOrUpdate(Assessment assessment);
-
+	
 	public boolean saveOrUpdate(List<AuthKeyGen> authKeyList);
-
+	
 	public boolean saveOrUpdate(Organisation organisation);
 }

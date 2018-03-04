@@ -9,11 +9,11 @@ public class MaMenuParam extends Param
 	private static final long	serialVersionUID	= -7335321670300066425L;
 	public MaMenu				maMenu;
 	public IUsers				users;
-
+	
 	public MaMenuParam(IUsers users)
 	{
 		super();
 		this.users = users;
 	}
-
+	
 }

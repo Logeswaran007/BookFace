@@ -7,5 +7,5 @@ import org.hbs.admin.model.IRoles;
 public interface RolesBo
 {
 	public List<IRoles> getRolesList();
-
+	
 }

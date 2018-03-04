@@ -5,9 +5,9 @@ import org.hbs.admin.model.ICommonFileUpload;
 
 public interface ICourseAttachments extends ICommonFileUpload, ICommonBeanFields
 {
-
+	
 	public ICourses getCourses();
-
+	
 	public void setCourses(ICourses organisation);
-
+	
 }

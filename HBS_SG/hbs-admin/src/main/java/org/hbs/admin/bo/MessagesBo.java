@@ -12,10 +12,10 @@ public interface MessagesBo
 	
 	public DataTableParam getMessagesList(DataTableParam dtParam, boolean isCount);
 	
+	public DataTableParam getMessagesUserList(DataTableParam param, boolean isCount);
+	
 	public boolean saveOrUpdate(Messages message);
 	
 	public boolean saveOrUpdateMessageUserMapping(MessagesUserMapping... _MUMList);
-	
-	public DataTableParam getMessagesUserList(DataTableParam param, boolean isCount);
 	
 }

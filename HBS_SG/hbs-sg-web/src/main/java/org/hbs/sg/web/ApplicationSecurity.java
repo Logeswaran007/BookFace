@@ -20,19 +20,19 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 public class ApplicationSecurity extends WebSecurityConfigurerAdapter implements IConstProperty, IAdminPath, IEduTelPath
 {
 	private static final long		serialVersionUID	= 1780469792513903551L;
-
-	@Autowired
-	private UserDetailsService		userDetailsService;
-
+	
 	@Autowired
 	private BCryptPasswordEncoder	bCryptPasswordEncoder;
-
+	
 	@Autowired
 	private CustomLoginHandler		loginHandler;
-
+	
 	@Autowired
 	private CustomLogoutHandler		logoutHandler;
-
+	
+	@Autowired
+	private UserDetailsService		userDetailsService;
+	
 	/*
 	 * In Honor of APJ Abdul Kalam
 	 */
@@ -46,7 +46,7 @@ public class ApplicationSecurity extends WebSecurityConfigurerAdapter implements
 		http.authorizeRequests().antMatchers(CHANGE_PASSWORD + "/**").permitAll();
 		http.authorizeRequests().antMatchers(RESET_PASSWORD + "/**").permitAll();
 		http.authorizeRequests().antMatchers(FORGET_PASSWORD + "/**").permitAll();
-
+		
 		http.authorizeRequests().antMatchers(ABOUT_US + "/**").permitAll();
 		http.authorizeRequests().antMatchers(CAREERS + "/**").permitAll();
 		http.authorizeRequests().antMatchers(RESOURCE_TEAM + "/**").permitAll();
@@ -55,7 +55,7 @@ public class ApplicationSecurity extends WebSecurityConfigurerAdapter implements
 		http.authorizeRequests().antMatchers(CONTACT_US + "/**").permitAll();
 		http.authorizeRequests().antMatchers(WE_ARE_WITH + "/**").permitAll();
 		http.authorizeRequests().antMatchers(ONLINE_SUPPORT + "/**").permitAll();
-
+		
 		http.authorizeRequests().antMatchers("/").permitAll().anyRequest().authenticated();
 		http.httpBasic().realmName("APJ Abdul Kalam Education Application");
 		http.csrf().disable();
@@ -64,27 +64,27 @@ public class ApplicationSecurity extends WebSecurityConfigurerAdapter implements
 		http.logout().logoutRequestMatcher(new AntPathRequestMatcher(LOGOUT)).logoutSuccessUrl("/").addLogoutHandler(logoutHandler);
 		http.exceptionHandling().accessDeniedPage(ACCESS_DENIED).and().rememberMe().rememberMeParameter("remember");
 	}
-
+	
 	@Override
 	public void configure(WebSecurity web) throws Exception
 	{
 		web.ignoring().antMatchers("/resources/**", "/static/**", "/academia/**", "/assets/**", "/css/**", "/js/**", "/images/**");
 	}
-
+	
 	@Autowired
 	protected void configureGlobal(AuthenticationManagerBuilder authBuilder) throws Exception
 	{
 		authBuilder.userDetailsService(userDetailsService).passwordEncoder(bCryptPasswordEncoder);
 	}
-
+	
 	public UserDetailsService getUserDetailsService()
 	{
 		return userDetailsService;
 	}
-
+	
 	public void setUserDetailsService(UserDetailsService userDetailsService)
 	{
 		this.userDetailsService = userDetailsService;
 	}
-
+	
 }

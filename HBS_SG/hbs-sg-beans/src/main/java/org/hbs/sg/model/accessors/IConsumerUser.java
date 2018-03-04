@@ -10,18 +10,18 @@ import org.hbs.sg.model.course.ICourses;
 public interface IConsumerUser extends IUsers
 {
 	public Set<IConsumerAssessment> getConsumerAssessments();
-
+	
 	public Set<IConsumerCourses> getConsumerCourses();
-
-	public Set<IOrganisation> getOrganisations();
-
-	public void setConsumerAssessments(Set<IConsumerAssessment> consumerAssessments);
-
-	public void setConsumerCourses(Set<IConsumerCourses> courses);
-
-	public void setOrganisations(Set<IOrganisation> organisations);
-
+	
 	public List<ICourses> getCoursesList();
-
+	
 	public IOrganisation getOrganisation();
+	
+	public Set<IOrganisation> getOrganisations();
+	
+	public void setConsumerAssessments(Set<IConsumerAssessment> consumerAssessments);
+	
+	public void setConsumerCourses(Set<IConsumerCourses> courses);
+	
+	public void setOrganisations(Set<IOrganisation> organisations);
 }

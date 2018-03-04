@@ -31,15 +31,15 @@ public class EduTelConsumer extends ConsumerUsersBase implements IEduTelConsumer
 		return authKeyGenConsumerList;
 	}
 	
-	@Override
-	public void setAuthKeyGenConsumerList(Set<IAuthKeyGenConsumer> authKeyGenConsumerList)
-	{
-		this.authKeyGenConsumerList = authKeyGenConsumerList;
-	}
-	
 	@Transient
 	public String getBusinessKey(String... combination)
 	{
 		return EKey.Auto("ECS");
+	}
+	
+	@Override
+	public void setAuthKeyGenConsumerList(Set<IAuthKeyGenConsumer> authKeyGenConsumerList)
+	{
+		this.authKeyGenConsumerList = authKeyGenConsumerList;
 	}
 }

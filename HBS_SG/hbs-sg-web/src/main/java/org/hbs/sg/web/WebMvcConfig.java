@@ -13,33 +13,33 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
 public class WebMvcConfig extends WebMvcConfigurerAdapter
 {
 	@Bean
-	public PortletProcessor portletProcessor()
-	{
-		return new PortletProcessor();
-	}
-
-	@Bean
-	public HttpSessionEventPublisher httpSessionEventPublisher()
-	{
-		return new HttpSessionEventPublisher();
-	}
-
-	@Bean
 	public PropFactory getPropFactoryInstance()
 	{
 		return PropFactory.getInstance();
 	}
-
+	
 	@Bean
 	public VTLEmailFactory getVTLFactoryInstance()
 	{
 		return VTLEmailFactory.getInstance();
 	}
-
+	
+	@Bean
+	public HttpSessionEventPublisher httpSessionEventPublisher()
+	{
+		return new HttpSessionEventPublisher();
+	}
+	
 	@Bean
 	public BCryptPasswordEncoder passwordEncoder()
 	{
 		return new BCryptPasswordEncoder();
 	}
-
+	
+	@Bean
+	public PortletProcessor portletProcessor()
+	{
+		return new PortletProcessor();
+	}
+	
 }

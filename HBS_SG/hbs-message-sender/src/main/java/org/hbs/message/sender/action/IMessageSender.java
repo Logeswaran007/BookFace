@@ -8,8 +8,8 @@ import org.hbs.util.IConstProperty;
 
 public interface IMessageSender extends IConstProperty
 {
-	public void sendMessageToUserByMedia(List<MessagesUserMapping> messageUserList) throws Exception;
-
 	public EMessageType getMessageSenderType();
-
+	
+	public void sendMessageToUserByMedia(List<MessagesUserMapping> messageUserList) throws Exception;
+	
 }

@@ -21,13 +21,13 @@ public final class PasswordEncrypt
 		}
 		return null;
 	}
-
+	
 	public static synchronized String decryptBase64(String decryptText)
 	{
 		byte[] decodedBytes = Base64.decodeBase64(decryptText.getBytes());
 		return new String(decodedBytes);
 	}
-
+	
 	public static synchronized String encrypt(String plaintext, String algorithm, String encoding)
 	{
 		try
@@ -47,7 +47,7 @@ public final class PasswordEncrypt
 		}
 		return null;
 	}
-
+	
 	public static synchronized String encryptBase64(String encryptText)
 	{
 		byte[] encodedBytes = Base64.encodeBase64(encryptText.getBytes());

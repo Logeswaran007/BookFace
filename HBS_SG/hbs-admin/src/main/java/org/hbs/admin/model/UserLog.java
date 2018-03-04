@@ -23,15 +23,15 @@ public class UserLog implements IUserLog, ICRUDBean
 	
 	private int					ulAutoId;
 	
-	private IUsers				users;
+	private boolean				ulFetchBlock		= false;
+	
+	private String				ulIpaddress;
 	
 	private Timestamp			ulUserLoginTime;
 	
 	private Timestamp			ulUserLogoutTime;
 	
-	private String				ulIpaddress;
-	
-	private boolean				ulFetchBlock		= false;
+	private IUsers				users;
 	
 	public UserLog()
 	{

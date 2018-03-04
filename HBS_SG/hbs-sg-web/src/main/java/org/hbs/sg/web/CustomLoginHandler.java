@@ -22,16 +22,16 @@ import org.springframework.stereotype.Component;
 @Component
 public class CustomLoginHandler extends ControllerBaseBo implements AuthenticationSuccessHandler, IAdminPath, ISGPath
 {
-
+	
 	private static final long serialVersionUID = 407818492923421819L;
-
+	
 	@Override
 	public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException
 	{
 		User user = (User) authentication.getPrincipal();
 		UserParam userParam = new UserParam();
 		userParam.userId = user.getUsername();
-
+		
 		try
 		{
 			userBo.getUser(userParam);
@@ -39,19 +39,19 @@ public class CustomLoginHandler extends ControllerBaseBo implements Authenticati
 			{
 				userBo.userLogAtLogin(userParam.user, request.getRemoteAddr());
 				IUploadImageOrDocuments iDoc = userParam.user.getAttachment(EUploadType.UserImage);
-
+				
 				if (CommonValidator.isNotNullNotEmpty(iDoc))
 				{
 					EImage.Attachment.getServerSessionVirtualPath(request, userParam.user.getProducer(), iDoc);
 					userParam.user.setUsUserImage(iDoc.getUploadFileVirtualURL());
 				}
-
+				
 				request.getSession().setAttribute(EBean.User.name(), userParam.user);
 			}
 			response.setStatus(HttpServletResponse.SC_OK);
-
+			
 			response.sendRedirect(request.getServletContext().getContextPath() + DASHBOARD);
-
+			
 		}
 		catch (Exception e)
 		{
@@ -59,5 +59,5 @@ public class CustomLoginHandler extends ControllerBaseBo implements Authenticati
 			response.sendRedirect(request.getServletContext().getContextPath() + INDEX);
 		}
 	}
-
+	
 }

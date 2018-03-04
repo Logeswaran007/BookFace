@@ -29,10 +29,16 @@ import com.google.gson.GsonBuilder;
 @Controller
 public class EBooksController extends SGControllerBaseBo implements IAdminPath, ISGPath
 {
-
+	
 	private static final long	serialVersionUID	= -4386900749828017871L;
 	private final CustomLogger	logger				= new CustomLogger(this.getClass());
-
+	
+	@ModelAttribute("eBooksForm")
+	public EBooksForm createBooksForm()
+	{
+		return new EBooksForm();
+	}
+	
 	@RequestMapping(value = PRE_SEARCH_EBOOKS, method = RequestMethod.POST)
 	public @ResponseBody ModelAndView preSearchEBooks(HttpServletRequest request)
 	{
@@ -45,49 +51,43 @@ public class EBooksController extends SGControllerBaseBo implements IAdminPath, 
 			modelView.addObject("columnsList", DataTableDynamicColumns.getDynamicColumns(layoutList));
 			modelView.addObject("columnDefsList", DataTableDynamicColumnDefs.getDynamicColumnDefs(layoutList));
 			modelView.addObject("displayOrderList", EDataTable.Cols.getOrder(layoutList));
-
+			
 			modelView.addObject("eBooksForm", createBooksForm());
 			modelView.addObject("courseGroupList", sgBo.getComboBoxCourseGroupMap(new AssessmentParam(request)));
 			modelView.addObject("courseList", null);
 			modelView.addObject("chapterList", null);
 			return modelView;
-
+			
 		}
 		catch (Exception excep)
 		{
 			logger.error(excep);
 		}
-
+		
 		return null;
 	}
-
+	
 	@SuppressWarnings("unchecked")
 	@RequestMapping(SEARCH_EBOOKS)
 	public @ResponseBody String searchEBooks(HttpServletRequest request)
 	{
 		List<ILayouts> layoutList = layoutBo.getResultLayouts(CourseAttachments.class.getSimpleName());
-
+		
 		DataTableParam dtParam = DataTableParam.getDataTableParamsFromRequest(request);
-
+		
 		List<ICourseAttachments> dataList = (List<ICourseAttachments>) sgBo.getCourseAttachmentList(dtParam, false).dataList;
 		int dataListCount = (int) sgBo.getCourseAttachmentList(dtParam, true).dataListCount;
-
+		
 		List<List<String>> mDataList = DataTableDynamicColumns.getJSONFromObject(dtParam, layoutList, dataList.toArray(new Object[dataList.size()]));
-
+		
 		DataTableObject dataTableObject = new DataTableObject();
 		dataTableObject.setAaData(mDataList);
 		dataTableObject.setiTotalDisplayRecords(dataListCount);
 		dataTableObject.setiTotalRecords(dataListCount);
-
+		
 		Gson gson = new GsonBuilder().setPrettyPrinting().create();
 		StringBuilder sb = new StringBuilder(gson.toJson(dataTableObject));
 		return sb.toString();
 	}
-
-	@ModelAttribute("eBooksForm")
-	public EBooksForm createBooksForm()
-	{
-		return new EBooksForm();
-	}
-
+	
 }

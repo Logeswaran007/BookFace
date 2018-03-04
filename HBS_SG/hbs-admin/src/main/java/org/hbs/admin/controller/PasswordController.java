@@ -27,53 +27,7 @@ import org.springframework.web.servlet.ModelAndView;
 public class PasswordController extends PasswordControllerBase implements IAdminPath
 {
 	private static final long serialVersionUID = 4736497573908842185L;
-
-	@RequestMapping(value = RESET_PASSWORD + "/{usToken}", method = RequestMethod.GET)
-	public String resetPassword(HttpServletRequest request, @PathVariable("usToken") String usToken)
-	{
-		try
-		{
-			UserParam userParam = Security.Token.validate(userBo, usToken);
-			if (CommonValidator.isNotNullNotEmpty(userParam))
-			{
-				Authentication auth = new UsernamePasswordAuthenticationToken(userParam.user, null, userDetailsService.loadUserByUsername(userParam.userId).getAuthorities());
-				SecurityContextHolder.getContext().setAuthentication(auth);
-
-				IUploadImageOrDocuments iDoc = userParam.user.getAttachment(EUploadType.UserImage);
-				EImage.Attachment.getServerSessionVirtualPath(request, userParam.user.getProducer(), iDoc);
-				userParam.user.setUsUserImage(iDoc.getUploadFileVirtualURL());
-
-				request.getSession().setAttribute(EBean.User.name(), userParam.user);
-				return REDIRECT + CHANGE_PASSWORD;
-			}
-		}
-		catch (Exception e)
-		{
-			e.printStackTrace();
-		}
-
-		return REDIRECT + INDEX;
-	}
-
-	@RequestMapping(value = UPDATE_PASSWORD, method = RequestMethod.POST)
-	public ModelAndView updatePassword(HttpServletRequest request, @Valid UserParam userParam)
-	{
-		Object object = request.getSession().getAttribute(EBean.User.name());
-		if (CommonValidator.isNotNullNotEmpty(object))
-		{
-			IUsers users = (IUsers) object;
-
-			String usUserPwd = new BCryptPasswordEncoder().encode(userParam.newPassword);
-			users.setUsUserPwd(usUserPwd);
-			users.setUsUserPwdModDate(new Timestamp(System.currentTimeMillis()));
-			users.setUsUserPwdModFlag(true);
-			ModelAndView modelView = new ModelAndView(CHANGE_PASSWORD_PAGE);
-			modelView.addObject("status", String.valueOf(userBo.userUpdate(users)));
-			return modelView;
-		}
-		return new ModelAndView(INDEX);
-	}
-
+	
 	@RequestMapping(value = CHANGE_PASSWORD, method = RequestMethod.GET)
 	public ModelAndView changePassword(HttpServletRequest request)
 	{
@@ -94,5 +48,51 @@ public class PasswordController extends PasswordControllerBase implements IAdmin
 		}
 		return new ModelAndView(LOGIN_PAGE);
 	}
-
+	
+	@RequestMapping(value = RESET_PASSWORD + "/{usToken}", method = RequestMethod.GET)
+	public String resetPassword(HttpServletRequest request, @PathVariable("usToken") String usToken)
+	{
+		try
+		{
+			UserParam userParam = Security.Token.validate(userBo, usToken);
+			if (CommonValidator.isNotNullNotEmpty(userParam))
+			{
+				Authentication auth = new UsernamePasswordAuthenticationToken(userParam.user, null, userDetailsService.loadUserByUsername(userParam.userId).getAuthorities());
+				SecurityContextHolder.getContext().setAuthentication(auth);
+				
+				IUploadImageOrDocuments iDoc = userParam.user.getAttachment(EUploadType.UserImage);
+				EImage.Attachment.getServerSessionVirtualPath(request, userParam.user.getProducer(), iDoc);
+				userParam.user.setUsUserImage(iDoc.getUploadFileVirtualURL());
+				
+				request.getSession().setAttribute(EBean.User.name(), userParam.user);
+				return REDIRECT + CHANGE_PASSWORD;
+			}
+		}
+		catch (Exception e)
+		{
+			e.printStackTrace();
+		}
+		
+		return REDIRECT + INDEX;
+	}
+	
+	@RequestMapping(value = UPDATE_PASSWORD, method = RequestMethod.POST)
+	public ModelAndView updatePassword(HttpServletRequest request, @Valid UserParam userParam)
+	{
+		Object object = request.getSession().getAttribute(EBean.User.name());
+		if (CommonValidator.isNotNullNotEmpty(object))
+		{
+			IUsers users = (IUsers) object;
+			
+			String usUserPwd = new BCryptPasswordEncoder().encode(userParam.newPassword);
+			users.setUsUserPwd(usUserPwd);
+			users.setUsUserPwdModDate(new Timestamp(System.currentTimeMillis()));
+			users.setUsUserPwdModFlag(true);
+			ModelAndView modelView = new ModelAndView(CHANGE_PASSWORD_PAGE);
+			modelView.addObject("status", String.valueOf(userBo.userUpdate(users)));
+			return modelView;
+		}
+		return new ModelAndView(INDEX);
+	}
+	
 }

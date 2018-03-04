@@ -10,7 +10,7 @@ import org.hbs.message.media.MessageSMSSender;
 public class MessageSenderFactory
 {
 	private static MessageSenderFactory constFact = null;
-
+	
 	public static MessageSenderFactory getInstance()
 	{
 		if (constFact == null)
@@ -19,11 +19,11 @@ public class MessageSenderFactory
 		}
 		return constFact;
 	}
-
+	
 	private MessageSenderFactory()
 	{
 	}
-
+	
 	public List<IMessageSender> getSenderInstance(EMessageType eMessageType)
 	{
 		List<IMessageSender> msgSenderList = new ArrayList<IMessageSender>(1);

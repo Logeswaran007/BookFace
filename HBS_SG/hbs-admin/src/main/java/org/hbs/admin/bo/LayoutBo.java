@@ -8,6 +8,6 @@ import org.hbs.admin.model.ILayouts;
 public interface LayoutBo extends Serializable
 {
 	public List<ILayouts> getResultLayouts(String layoutName);
-
+	
 	public List<ILayouts> getResultLayouts(String layoutName, String layoutSubName);
 }

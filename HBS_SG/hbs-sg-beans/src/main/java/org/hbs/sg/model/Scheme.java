@@ -25,10 +25,10 @@ public class Scheme extends ProducersBase implements IScheme, ICRUDBean
 {
 	
 	private static final long	serialVersionUID	= 5432094430635127068L;
+	private Set<ICourseGroup>	courseGroupList		= new LinkedHashSet<ICourseGroup>(0);
 	private Double				schemeCost;
 	private String				schemeId;
 	private String				schemeName;
-	private Set<ICourseGroup>	courseGroupList		= new LinkedHashSet<ICourseGroup>(0);
 	
 	public Scheme()
 	{
@@ -42,6 +42,19 @@ public class Scheme extends ProducersBase implements IScheme, ICRUDBean
 		this.schemeId = schemeId;
 		this.schemeName = schemeName;
 		this.courseGroupList = courseGroupList;
+	}
+	
+	@ManyToMany(cascade = { CascadeType.ALL }, targetEntity = CourseGroup.class)
+	@JoinTable(name = "schemecoursegroup", joinColumns = { @JoinColumn(name = "schemeId") }, inverseJoinColumns = { @JoinColumn(name = "courseGroupId") })
+	public Set<ICourseGroup> getCourseGroupList()
+	{
+		int year = Integer.parseInt(new SimpleDateFormat("yyyy").format(new Date()));
+		for (ICourseGroup cGrp : courseGroupList)
+		{
+			year = cGrp.updateCourseYear(year, courseGroupList.size());
+		}
+		
+		return courseGroupList;
 	}
 	
 	@Override
@@ -59,29 +72,16 @@ public class Scheme extends ProducersBase implements IScheme, ICRUDBean
 		return schemeId;
 	}
 	
-	@ManyToMany(cascade = { CascadeType.ALL }, targetEntity = CourseGroup.class)
-	@JoinTable(name = "schemecoursegroup", joinColumns = { @JoinColumn(name = "schemeId") }, inverseJoinColumns = { @JoinColumn(name = "courseGroupId") })
-	public Set<ICourseGroup> getCourseGroupList()
-	{
-		int year = Integer.parseInt(new SimpleDateFormat("yyyy").format(new Date()));
-		for (ICourseGroup cGrp : courseGroupList)
-		{
-			year = cGrp.updateCourseYear(year, courseGroupList.size());
-		}
-		
-		return courseGroupList;
-	}
-	
-	public void setCourseGroupList(Set<ICourseGroup> courseGroupList)
-	{
-		this.courseGroupList = courseGroupList;
-	}
-	
 	@Override
 	@Column(name = "schemeName")
 	public String getSchemeName()
 	{
 		return schemeName;
+	}
+	
+	public void setCourseGroupList(Set<ICourseGroup> courseGroupList)
+	{
+		this.courseGroupList = courseGroupList;
 	}
 	
 	@Override

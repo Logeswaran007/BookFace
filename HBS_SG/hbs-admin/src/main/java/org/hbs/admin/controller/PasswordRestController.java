@@ -21,14 +21,14 @@ import org.springframework.web.bind.annotation.RestController;
 public class PasswordRestController extends PasswordControllerBase implements IAdminPath
 {
 	private static final long serialVersionUID = 4736497573908842185L;
-
+	
 	@RequestMapping(value = FORGET_PASSWORD, method = RequestMethod.POST)
 	public @ResponseBody Response forgotPassword(HttpServletRequest request, @RequestParam("email") String email)
 	{
 		UserParam userParam = new UserParam();
 		userParam.userId = email;
 		userParam.eUserStatus = EUserStatus.Default;
-
+		
 		try
 		{
 			userBo.getUser(userParam);
@@ -44,10 +44,10 @@ public class PasswordRestController extends PasswordControllerBase implements IA
 						Map<String, Object> dataMap = new LinkedHashMap<String, Object>(0);
 						dataMap.put("user", userParam.user);
 						dataMap.put("tokenURL", tokenURL);
-
+						
 						EAddress.To.append(userParam.user.getCommunicationAddress());
 						EAddress.Cc.append(userParam.user.getProducer().getUsers().getCommunicationAddress());
-
+						
 						VTLEmailFactory.getInstance().sendEmail(userParam.user.getProducer(), EUserTemplate.User_Reset_Password, dataMap, EAddress.To, EAddress.Cc);
 						return new Response("Done", "Email has been sent to your registered email id.");
 					}
@@ -74,5 +74,5 @@ public class PasswordRestController extends PasswordControllerBase implements IA
 			return new Response("Error", "Application Error.Please contact administrator.");
 		}
 	}
-
+	
 }

@@ -6,7 +6,7 @@ import org.hbs.admin.model.ICommonFileUpload;
 public interface IChapterAttachments extends ICommonBeanFields, ICommonFileUpload
 {
 	public IChapters getChapters();
-
+	
 	public void setChapters(IChapters chapters);
-
+	
 }

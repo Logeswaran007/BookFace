@@ -13,18 +13,10 @@ import org.hbs.util.DataTableParam;
 public class DataTableImageViewParam extends DataTableParam
 {
 	private static final long	serialVersionUID	= 1245226336128546290L;
-	private IProducers			producer;
-
-	public DataTableImageViewParam(HttpServletRequest request, IProducers producer)
-	{
-		this.request = request;
-		this.producer = producer;
-	}
-
 	public static DataTableImageViewParam getDataTableParamsFromRequest(HttpServletRequest request)
 	{
 		DataTableImageViewParam dtParam = null;
-
+		
 		try
 		{
 			IUsers users = EUsers.getSessionUser(request);
@@ -36,10 +28,18 @@ public class DataTableImageViewParam extends DataTableParam
 		{
 			e.printStackTrace();
 		}
-
+		
 		return dtParam;
 	}
-
+	
+	private IProducers			producer;
+	
+	public DataTableImageViewParam(HttpServletRequest request, IProducers producer)
+	{
+		this.request = request;
+		this.producer = producer;
+	}
+	
 	@Override
 	public String getImageVirtualUrl(Object traverseObject)
 	{
@@ -51,15 +51,15 @@ public class DataTableImageViewParam extends DataTableParam
 		}
 		return request.getServletContext().getContextPath() + "/common/images/no-image.png";
 	}
-
+	
 	public IProducers getProducer()
 	{
 		return producer;
 	}
-
+	
 	public void setProducer(IProducers producer)
 	{
 		this.producer = producer;
 	}
-
+	
 }

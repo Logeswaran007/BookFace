@@ -17,11 +17,11 @@ public class Portlets extends CommonBeanFields implements IPortlets, EBusinessKe
 	
 	private String				portletBeanName;
 	
-	private String				portletTemplatePath;
-	
 	private String				portletId;
 	
 	private String				portletName;
+	
+	private String				portletTemplatePath;
 	
 	public Portlets()
 	{
@@ -66,11 +66,6 @@ public class Portlets extends CommonBeanFields implements IPortlets, EBusinessKe
 		return portletTemplatePath;
 	}
 	
-	public void setPortletTemplatePath(String portletTemplatePath)
-	{
-		this.portletTemplatePath = portletTemplatePath;
-	}
-	
 	public void setPortletBeanName(String portletBeanName)
 	{
 		this.portletBeanName = portletBeanName;
@@ -84,5 +79,10 @@ public class Portlets extends CommonBeanFields implements IPortlets, EBusinessKe
 	public void setPortletName(String portletName)
 	{
 		this.portletName = portletName;
+	}
+	
+	public void setPortletTemplatePath(String portletTemplatePath)
+	{
+		this.portletTemplatePath = portletTemplatePath;
 	}
 }

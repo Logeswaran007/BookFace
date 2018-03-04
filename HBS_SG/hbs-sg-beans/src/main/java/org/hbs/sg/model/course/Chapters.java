@@ -51,17 +51,6 @@ public class Chapters extends CommonBeanFields implements IChapters, ICRUDBean
 		this.trialMode = trialMode;
 	}
 	
-	@Column(name = "trialMode")
-	public boolean isTrialMode()
-	{
-		return trialMode;
-	}
-	
-	public void setTrialMode(boolean trialMode)
-	{
-		this.trialMode = trialMode;
-	}
-	
 	@OneToMany(targetEntity = ChapterAttachments.class, fetch = FetchType.EAGER, mappedBy = "chapters", cascade = CascadeType.ALL)
 	public Set<IChapterAttachments> getAttachments()
 	{
@@ -94,6 +83,12 @@ public class Chapters extends CommonBeanFields implements IChapters, ICRUDBean
 		return course;
 	}
 	
+	@Column(name = "trialMode")
+	public boolean isTrialMode()
+	{
+		return trialMode;
+	}
+	
 	@Override
 	public void setAttachments(Set<IChapterAttachments> attachments)
 	{
@@ -115,6 +110,11 @@ public class Chapters extends CommonBeanFields implements IChapters, ICRUDBean
 	public void setCourse(ICourses course)
 	{
 		this.course = course;
+	}
+	
+	public void setTrialMode(boolean trialMode)
+	{
+		this.trialMode = trialMode;
 	}
 	
 }

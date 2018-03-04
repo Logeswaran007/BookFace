@@ -11,7 +11,7 @@ public interface ILayouts extends ICommonLayout
 	public enum EDataTable implements EnumInterface
 	{
 		Cols;
-
+		
 		public String getOrder(List<ILayouts> iLayoutList)
 		{
 			StringBuilder sb = new StringBuilder();
@@ -26,22 +26,22 @@ public interface ILayouts extends ICommonLayout
 				{
 					cols = "cols" + index;
 				}
-
+				
 				sb.append("var " + cols + " = " + index + ";\n");
 			}
 			return sb.toString();
 		}
 	}
-
+	
 	public String getBaseBeanNameWithFullPackage();
-
+	
 	public String getSearchName();
-
+	
 	public int getSearchOrder();
-
+	
 	public void setBaseBeanNameWithFullPackage(String baseBeanNameWithFullPackage);
-
+	
 	public void setSearchName(String searchName);
-
+	
 	public void setSearchOrder(int searchOrder);
 }

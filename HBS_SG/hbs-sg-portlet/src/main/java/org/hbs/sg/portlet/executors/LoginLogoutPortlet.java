@@ -24,9 +24,9 @@ import com.google.gson.GsonBuilder;
 @RestController
 public class LoginLogoutPortlet extends PortletExecutorBase implements IPortletPath
 {
-
+	
 	private static final long serialVersionUID = -3515971775617109076L;
-
+	
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response, ModelAndView modelView, IUsers users)
 	{
@@ -35,34 +35,34 @@ public class LoginLogoutPortlet extends PortletExecutorBase implements IPortletP
 		modelView.addObject("llp.columnsList", DataTableDynamicColumns.getDynamicColumns(layoutList));
 		modelView.addObject("llp.columnDefsList", DataTableDynamicColumnDefs.getDynamicColumnDefs(layoutList));
 	}
-
+	
+	@RequestMapping(LOGINLOGOUT_SEARCH_LAYOUT_BY_REST)
+	public @ResponseBody String loginLogoutLayout(HttpServletRequest request)
+	{
+		return "";
+		
+	}
+	
 	@SuppressWarnings("unchecked")
 	@RequestMapping(LOGINLOGOUT_SEARCH_RESULTS)
 	public @ResponseBody String loginLogoutSearch(HttpServletRequest request)
 	{
 		List<ILayouts> layoutList = boBase.layoutBo.getResultLayouts(this.getClass().getSimpleName());
-
+		
 		DataTableParam dtParam = DataTableParam.getDataTableParamsFromRequest(request);
-
+		
 		List<IUserLog> userLogList = (List<IUserLog>) boBase.portletBo.getUserLogList(dtParam, false).dataList;
 		int userListCount = (int) boBase.portletBo.getUserLogList(dtParam, true).dataListCount;
-
+		
 		List<List<String>> mDataList = DataTableDynamicColumns.getJSONFromObject(dtParam, layoutList, userLogList.toArray(new Object[userLogList.size()]));
-
+		
 		DataTableObject dataTableObject = new DataTableObject();
 		dataTableObject.setAaData(mDataList);
 		dataTableObject.setiTotalDisplayRecords(userListCount);
 		dataTableObject.setiTotalRecords(userListCount);
-
+		
 		Gson gson = new GsonBuilder().setPrettyPrinting().create();
 		StringBuilder sb = new StringBuilder(gson.toJson(dataTableObject));
 		return sb.toString();
-	}
-
-	@RequestMapping(LOGINLOGOUT_SEARCH_LAYOUT_BY_REST)
-	public @ResponseBody String loginLogoutLayout(HttpServletRequest request)
-	{
-		return "";
-
 	}
 }

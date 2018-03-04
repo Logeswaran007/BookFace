@@ -8,23 +8,23 @@ public interface IAssessmentAnswer extends IUploadImageOrDocuments
 {
 	public enum EPatternMode implements Serializable
 	{
-		Option, MultiOption
+		MultiOption, Option
 	}
-
+	
 	public String getAnswerId();
-
-	public String getTextAnswer();
-
+	
 	public IAssessmentQuestion getAssessmentQuestion();
-
-	public void setTextAnswer(String answer);
-
-	public void setAnswerId(String answerId);
-
-	public void setAssessmentQuestion(IAssessmentQuestion assessmentQuestion);
-
+	
 	public String getPatternMode();
-
+	
+	public String getTextAnswer();
+	
+	public void setAnswerId(String answerId);
+	
+	public void setAssessmentQuestion(IAssessmentQuestion assessmentQuestion);
+	
 	public void setPatternMode(String patternMode);
-
+	
+	public void setTextAnswer(String answer);
+	
 }
