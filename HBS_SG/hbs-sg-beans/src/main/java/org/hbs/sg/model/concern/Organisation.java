@@ -21,11 +21,10 @@ import org.hbs.admin.model.IUploadImageOrDocuments;
 import org.hbs.admin.model.IUsers;
 import org.hbs.sg.model.accessors.ConsumerUsers;
 import org.hbs.util.CommonValidator;
-import org.hbs.util.dao.ICRUDBean;
 
 @Entity
 @Table(name = "organisation")
-public class Organisation extends CountryBase implements IOrganisation, ICRUDBean
+public class Organisation extends CountryBase implements IOrganisation
 {
 	private static final long				serialVersionUID	= 94388478378397721L;
 	

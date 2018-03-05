@@ -4,8 +4,9 @@ import java.sql.Timestamp;
 import java.util.Set;
 
 import org.hbs.util.EnumInterface;
+import org.hbs.util.dao.ICRUDBean;
 
-public interface IProducers extends ICommonBeanFields
+public interface IProducers extends ICommonBeanFields, ICRUDBean
 {
 	public String getActiveProducerId();
 	

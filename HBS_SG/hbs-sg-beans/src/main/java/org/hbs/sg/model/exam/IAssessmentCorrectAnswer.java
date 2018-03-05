@@ -1,9 +1,10 @@
 package org.hbs.sg.model.exam;
 
-import java.io.Serializable;
 import java.util.List;
 
-public interface IAssessmentCorrectAnswer extends Serializable
+import org.hbs.util.dao.ICRUDBean;
+
+public interface IAssessmentCorrectAnswer extends ICRUDBean
 {
 	
 	public List<String> correctList();

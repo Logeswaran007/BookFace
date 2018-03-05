@@ -12,11 +12,10 @@ import javax.persistence.Transient;
 
 import org.hbs.sg.model.accessors.ConsumerAssessment;
 import org.hbs.sg.model.accessors.IConsumerAssessment;
-import org.hbs.util.dao.ICRUDBean;
 
 @Entity
 @Table(name = "allocatedquestions")
-public class AllocatedQuestions implements IAllocatedQuestions, ICRUDBean
+public class AllocatedQuestions implements IAllocatedQuestions
 {
 	private static final long	serialVersionUID	= 6445961246240671922L;
 	

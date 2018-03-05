@@ -16,11 +16,10 @@ import javax.persistence.Transient;
 
 import org.hbs.admin.model.CommonBeanFields;
 import org.hbs.util.EBusinessKey.EKey;
-import org.hbs.util.dao.ICRUDBean;
 
 @Entity
 @Table(name = "chapters")
-public class Chapters extends CommonBeanFields implements IChapters, ICRUDBean
+public class Chapters extends CommonBeanFields implements IChapters
 {
 	
 	private static final long			serialVersionUID	= 94388478378397721L;

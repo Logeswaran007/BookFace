@@ -6,11 +6,9 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-import org.hbs.util.dao.ICRUDBean;
-
 @Entity
 @Table(name = "authkeygenconsumer")
-public class AuthKeyGenConsumer implements IAuthKeyGenConsumer, ICRUDBean
+public class AuthKeyGenConsumer implements IAuthKeyGenConsumer
 {
 	private static final long	serialVersionUID	= 475823338531190033L;
 	

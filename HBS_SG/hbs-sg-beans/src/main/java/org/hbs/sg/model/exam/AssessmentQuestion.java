@@ -15,11 +15,10 @@ import javax.persistence.Table;
 
 import org.hbs.admin.model.CommonFileUploadBase;
 import org.hbs.sg.model.exam.Assessment.EAssessmentType;
-import org.hbs.util.dao.ICRUDBean;
 
 @Entity
 @Table(name = "assessmentquestion")
-public class AssessmentQuestion extends CommonFileUploadBase implements IAssessmentQuestion, ICRUDBean
+public class AssessmentQuestion extends CommonFileUploadBase implements IAssessmentQuestion
 {
 	
 	private static final long				serialVersionUID		= 2530625237472598780L;

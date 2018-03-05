@@ -1,8 +1,8 @@
 package org.hbs.sg.model.exam;
 
-import java.io.Serializable;
+import org.hbs.util.dao.ICRUDBean;
 
-public interface IAssessmentPatternInfo extends Serializable
+public interface IAssessmentPatternInfo extends ICRUDBean
 {
 	
 	public int getAutoId();

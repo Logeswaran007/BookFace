@@ -4,8 +4,9 @@ import java.util.Set;
 
 import org.hbs.admin.model.IUploadImageOrDocuments;
 import org.hbs.util.EnumInterface;
+import org.hbs.util.dao.ICRUDBean;
 
-public interface IAssessmentQuestion extends IUploadImageOrDocuments
+public interface IAssessmentQuestion extends IUploadImageOrDocuments, ICRUDBean
 {
 	public enum EWeightage implements EnumInterface
 	{

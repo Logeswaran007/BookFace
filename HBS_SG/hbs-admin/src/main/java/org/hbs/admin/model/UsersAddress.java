@@ -6,8 +6,6 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
-import org.hbs.util.dao.ICRUDBean;
-
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
 /**
@@ -15,7 +13,7 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
  */
 @Entity
 @Table(name = "usersaddress")
-public class UsersAddress extends CommonAddress implements IUsersAddress, ICRUDBean
+public class UsersAddress extends CommonAddress implements IUsersAddress
 {
 	
 	private static final long	serialVersionUID	= -7174292623536679196L;

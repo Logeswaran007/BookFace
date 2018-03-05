@@ -1,11 +1,12 @@
 package org.hbs.admin.model;
 
 import java.io.IOException;
-import java.io.Serializable;
+
+import org.hbs.util.dao.ICRUDBean;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 
-public interface IUserActivity extends Serializable, ICommonBeanFields
+public interface IUserActivity extends ICommonBeanFields, ICRUDBean
 {
 	
 	public String findDifference() throws JsonProcessingException, IOException;

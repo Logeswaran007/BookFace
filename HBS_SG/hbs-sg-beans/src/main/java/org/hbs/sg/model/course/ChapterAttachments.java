@@ -7,11 +7,10 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import org.hbs.admin.model.CommonFileUpload;
-import org.hbs.util.dao.ICRUDBean;
 
 @Entity
 @Table(name = "chapterattachments")
-public class ChapterAttachments extends CommonFileUpload implements IChapterAttachments, ICRUDBean
+public class ChapterAttachments extends CommonFileUpload implements IChapterAttachments
 {
 	private static final long	serialVersionUID	= 6482306497562118535L;
 	

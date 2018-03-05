@@ -1,6 +1,8 @@
 package org.hbs.admin.model;
 
-public interface IUsersAddress extends IAddress
+import org.hbs.util.dao.ICRUDBean;
+
+public interface IUsersAddress extends IAddress, ICRUDBean
 {
 	public IUsers getUsers();
 	

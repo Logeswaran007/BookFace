@@ -1,6 +1,8 @@
 package org.hbs.admin.model;
 
-public interface IPortlets extends ICommonBeanFields
+import org.hbs.util.dao.ICRUDBean;
+
+public interface IPortlets extends ICommonBeanFields, ICRUDBean
 {
 	public String getPortletBeanName();
 	

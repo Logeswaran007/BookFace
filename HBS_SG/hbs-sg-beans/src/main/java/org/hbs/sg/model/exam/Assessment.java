@@ -24,13 +24,12 @@ import org.hbs.sg.model.course.Courses;
 import org.hbs.sg.model.course.IChapters;
 import org.hbs.sg.model.course.ICourses;
 import org.hbs.util.EnumInterface;
-import org.hbs.util.dao.ICRUDBean;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
 @Entity
 @Table(name = "assessment")
-public class Assessment extends CommonBeanFields implements IAssessment, ICRUDBean
+public class Assessment extends CommonBeanFields implements IAssessment
 {
 	
 	public enum EAssessmentType implements EnumInterface

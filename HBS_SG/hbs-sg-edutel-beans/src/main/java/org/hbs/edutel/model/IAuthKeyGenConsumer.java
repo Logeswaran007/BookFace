@@ -1,8 +1,8 @@
 package org.hbs.edutel.model;
 
-import java.io.Serializable;
+import org.hbs.util.dao.ICRUDBean;
 
-public interface IAuthKeyGenConsumer extends Serializable
+public interface IAuthKeyGenConsumer extends ICRUDBean
 {
 	
 	public IAuthKeyGen getAuthKeyGen();

@@ -4,8 +4,9 @@ import java.util.Set;
 
 import org.hbs.admin.model.ICommonBeanFields;
 import org.hbs.admin.model.IProducers;
+import org.hbs.util.dao.ICRUDBean;
 
-public interface IAssessmentPattern extends ICommonBeanFields
+public interface IAssessmentPattern extends ICommonBeanFields, ICRUDBean
 {
 	public String getPatternId();
 	

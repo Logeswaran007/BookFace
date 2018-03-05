@@ -47,8 +47,10 @@ public class SGBoImpl extends SGBoComboBoxImpl implements SGBo
 	public DataTableParam getAssessmentList(DataTableParam dtParam, boolean isCount)
 	{
 		dtParam.searchBeanClass = Assessment.class;
+		
 		ENamed.EqualTo.param_AND(dtParam, "status", true);
 		dtParam._OrderBy = " Order By createdDate Desc";
+		
 		return iBaseDAO.getDataTableList(dtParam, isCount);
 	}
 	
@@ -59,6 +61,7 @@ public class SGBoImpl extends SGBoComboBoxImpl implements SGBo
 		
 		ENamed.EqualTo.param_AND(dtParam, "status", true);
 		dtParam._OrderBy = " Order By createdDate,users.status Desc";
+		
 		return iBaseDAO.getDataTableList(dtParam, isCount);
 	}
 	
@@ -69,6 +72,7 @@ public class SGBoImpl extends SGBoComboBoxImpl implements SGBo
 		ENamed.EqualTo.param_AND(dtParam, "uploadDocumentForType", ECourseUploadType.EBooks.name());
 		ENamed.EqualTo.param_AND(dtParam, "status", true);
 		dtParam._OrderBy = " Order By createdDate Desc";
+		
 		return iBaseDAO.getDataTableList(dtParam, isCount);
 	}
 	

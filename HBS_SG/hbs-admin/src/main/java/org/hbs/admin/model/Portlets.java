@@ -6,11 +6,10 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 import org.hbs.util.EBusinessKey;
-import org.hbs.util.dao.ICRUDBean;
 
 @Entity
 @Table(name = "portlets")
-public class Portlets extends CommonBeanFields implements IPortlets, EBusinessKey, ICRUDBean
+public class Portlets extends CommonBeanFields implements IPortlets, EBusinessKey
 {
 	
 	private static final long	serialVersionUID	= 515193003553697834L;

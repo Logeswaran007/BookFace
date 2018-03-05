@@ -3,8 +3,9 @@ package org.hbs.admin.model;
 import java.util.Set;
 
 import org.hbs.util.EnumInterface;
+import org.hbs.util.dao.ICRUDBean;
 
-public interface IRoles extends java.io.Serializable, ICommonBeanFields
+public interface IRoles extends java.io.Serializable, ICommonBeanFields, ICRUDBean
 {
 	public enum ERole implements EnumInterface
 	{

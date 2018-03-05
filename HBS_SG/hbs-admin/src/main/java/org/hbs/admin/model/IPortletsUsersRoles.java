@@ -1,10 +1,12 @@
 package org.hbs.admin.model;
 
+import org.hbs.util.dao.ICRUDBean;
+
 /**
  * UserRoles entity. @author MyEclipse Persistence Tools
  */
 
-public interface IPortletsUsersRoles extends java.io.Serializable
+public interface IPortletsUsersRoles extends ICRUDBean
 {
 	public IPortlets getPortlets();
 	

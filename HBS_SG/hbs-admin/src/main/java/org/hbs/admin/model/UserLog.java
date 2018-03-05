@@ -13,11 +13,10 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import org.hbs.util.CommonValidator;
-import org.hbs.util.dao.ICRUDBean;
 
 @Entity
 @Table(name = "userlog")
-public class UserLog implements IUserLog, ICRUDBean
+public class UserLog implements IUserLog
 {
 	private static final long	serialVersionUID	= -5336666543176665572L;
 	

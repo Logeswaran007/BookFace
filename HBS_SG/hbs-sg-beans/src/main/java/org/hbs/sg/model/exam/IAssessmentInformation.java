@@ -1,8 +1,8 @@
 package org.hbs.sg.model.exam;
 
-import java.io.Serializable;
+import org.hbs.util.dao.ICRUDBean;
 
-public interface IAssessmentInformation extends Serializable
+public interface IAssessmentInformation extends ICRUDBean
 {
 	
 	public String getAssessmentDate();

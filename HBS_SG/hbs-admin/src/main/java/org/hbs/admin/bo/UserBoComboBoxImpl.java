@@ -43,7 +43,7 @@ public abstract class UserBoComboBoxImpl implements UserBo
 		Map<String, String> hmComboMap = new LinkedHashMap<String, String>();
 		
 		param.searchBeanClass = Users.class;
-		param.searchColumns = " usEmployeeId, usUserName ";
+		param.searchColumns = " usEmployeeId, usUserName, usLastName";
 		
 		ENamed.EqualTo.param_AND(param, "status", true);
 		ENamed.EqualTo.param_AND(param, "usUsersType", param.userType.name());
@@ -53,7 +53,7 @@ public abstract class UserBoComboBoxImpl implements UserBo
 		
 		for (Object[] object : objectList)
 		{
-			hmComboMap.put(object[0].toString(), object[1].toString());
+			hmComboMap.put(object[0].toString(), object[1].toString() + " " + object[2].toString());
 		}
 		
 		return hmComboMap;

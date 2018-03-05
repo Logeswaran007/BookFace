@@ -4,9 +4,10 @@ import java.util.List;
 
 import org.hbs.util.CommonValidator;
 import org.hbs.util.EnumInterface;
+import org.hbs.util.dao.ICRUDBean;
 import org.hbs.util.model.ICommonLayout;
 
-public interface ILayouts extends ICommonLayout
+public interface ILayouts extends ICommonLayout, ICRUDBean
 {
 	public enum EDataTable implements EnumInterface
 	{

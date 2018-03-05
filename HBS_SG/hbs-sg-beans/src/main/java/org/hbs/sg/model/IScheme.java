@@ -5,8 +5,9 @@ import java.util.Set;
 import org.hbs.admin.model.ICommonBeanFields;
 import org.hbs.admin.model.IProducersBase;
 import org.hbs.sg.model.course.ICourseGroup;
+import org.hbs.util.dao.ICRUDBean;
 
-public interface IScheme extends IProducersBase, ICommonBeanFields
+public interface IScheme extends IProducersBase, ICommonBeanFields, ICRUDBean
 {
 	public Set<ICourseGroup> getCourseGroupList();
 	

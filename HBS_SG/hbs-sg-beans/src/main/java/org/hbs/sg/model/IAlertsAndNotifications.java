@@ -6,8 +6,9 @@ import java.util.Map;
 import org.hbs.admin.model.ICommonBeanFields;
 import org.hbs.admin.model.IProducersBase;
 import org.hbs.util.EnumInterface;
+import org.hbs.util.dao.ICRUDBean;
 
-public interface IAlertsAndNotifications extends ICommonBeanFields, IProducersBase
+public interface IAlertsAndNotifications extends ICommonBeanFields, IProducersBase, ICRUDBean
 {
 	public enum EMessageStatus implements EnumInterface
 	{

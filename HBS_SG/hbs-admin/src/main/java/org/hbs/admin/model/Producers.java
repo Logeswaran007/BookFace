@@ -18,11 +18,10 @@ import javax.persistence.Transient;
 import org.hbs.util.CommonValidator;
 import org.hbs.util.EBusinessKey;
 import org.hbs.util.EnumInterface;
-import org.hbs.util.dao.ICRUDBean;
 
 @Entity
 @Table(name = "producers")
-public class Producers extends CommonBeanFields implements IProducers, EBusinessKey, ICRUDBean
+public class Producers extends CommonBeanFields implements IProducers, EBusinessKey
 {
 	private static final long				serialVersionUID		= -5798203939392344587L;
 	

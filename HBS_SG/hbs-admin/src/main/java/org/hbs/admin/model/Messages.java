@@ -18,12 +18,11 @@ import org.hbs.util.CommonUtil;
 import org.hbs.util.EnumInterface;
 import org.hbs.util.IConstProperty;
 import org.hbs.util.PropertyEnumUtil.EGeneral;
-import org.hbs.util.dao.ICRUDBean;
 import org.hbs.util.factory.PropFactory;
 
 @Entity
 @Table(name = "messages")
-public class Messages extends CommonBeanFields implements IMessages, IConstProperty, ICRUDBean
+public class Messages extends CommonBeanFields implements IMessages, IConstProperty
 {
 	private static final long		serialVersionUID	= -2367543616698726280L;
 	protected Map<String, Object>	dataMap				= new LinkedHashMap<String, Object>();

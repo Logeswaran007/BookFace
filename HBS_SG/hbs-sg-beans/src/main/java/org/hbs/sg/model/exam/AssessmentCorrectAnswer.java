@@ -1,6 +1,5 @@
 package org.hbs.sg.model.exam;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -8,10 +7,9 @@ import javax.persistence.Column;
 import javax.persistence.Embeddable;
 
 import org.hbs.util.CommonValidator;
-import org.hbs.util.dao.ICRUDBean;
 
 @Embeddable
-public class AssessmentCorrectAnswer implements Serializable, IAssessmentCorrectAnswer, ICRUDBean
+public class AssessmentCorrectAnswer implements IAssessmentCorrectAnswer
 {
 	private static final long	serialVersionUID	= -4869171579268970177L;
 	private String				correctAnswer1;

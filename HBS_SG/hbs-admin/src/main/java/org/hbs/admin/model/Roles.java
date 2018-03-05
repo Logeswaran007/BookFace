@@ -11,11 +11,10 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import org.hbs.util.EBusinessKey;
-import org.hbs.util.dao.ICRUDBean;
 
 @Entity
 @Table(name = "roles")
-public class Roles extends CommonBeanFields implements IRoles, EBusinessKey, ICRUDBean
+public class Roles extends CommonBeanFields implements IRoles, EBusinessKey
 {
 	
 	private static final long	serialVersionUID	= 515193003553697834L;

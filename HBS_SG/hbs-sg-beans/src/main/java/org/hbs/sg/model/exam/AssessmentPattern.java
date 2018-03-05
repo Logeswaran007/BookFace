@@ -15,11 +15,10 @@ import javax.persistence.Table;
 import org.hbs.admin.model.CommonBeanFields;
 import org.hbs.admin.model.IProducers;
 import org.hbs.admin.model.Producers;
-import org.hbs.util.dao.ICRUDBean;
 
 @Entity
 @Table(name = "assessmentpattern")
-public class AssessmentPattern extends CommonBeanFields implements IAssessmentPattern, ICRUDBean
+public class AssessmentPattern extends CommonBeanFields implements IAssessmentPattern
 {
 	private static final long				serialVersionUID	= -3686008815972891689L;
 	protected String						patternId			= "DEFAULT";

@@ -9,11 +9,9 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-import org.hbs.util.dao.ICRUDBean;
-
 @Entity
 @Table(name = "producersattachments")
-public class ProducersAttachments extends CommonFileUpload implements IProducersAttachments, ICRUDBean
+public class ProducersAttachments extends CommonFileUpload implements IProducersAttachments
 {
 	private static final long	serialVersionUID	= -748718055395205690L;
 	

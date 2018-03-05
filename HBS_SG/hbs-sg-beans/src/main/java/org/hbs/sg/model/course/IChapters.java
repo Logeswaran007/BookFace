@@ -3,8 +3,9 @@ package org.hbs.sg.model.course;
 import java.util.Set;
 
 import org.hbs.admin.model.ICommonBeanFields;
+import org.hbs.util.dao.ICRUDBean;
 
-public interface IChapters extends ICommonBeanFields
+public interface IChapters extends ICommonBeanFields, ICRUDBean
 {
 	public Set<IChapterAttachments> getAttachments();
 	

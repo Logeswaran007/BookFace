@@ -36,7 +36,7 @@ public abstract class SGBoComboBoxImpl implements SGBo
 		List<LabelValueBean> lbList = new ArrayList<LabelValueBean>();
 		
 		param.searchBeanClass = Chapters.class;
-		param.searchColumns = "chapterId, chapterName";
+		param.searchColumns = " chapterId, chapterName ";
 		
 		ENamed.EqualTo.param_AND(param, "course.courseId", param.courseId);
 		ENamed.EqualTo.param_AND(param, "status", true);

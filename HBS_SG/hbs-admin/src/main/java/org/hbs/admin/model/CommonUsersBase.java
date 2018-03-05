@@ -15,11 +15,10 @@ import javax.persistence.Transient;
 
 import org.hbs.admin.model.IAddress.AddressType;
 import org.hbs.util.CommonValidator;
-import org.hbs.util.dao.ICRUDBean;
 import org.hibernate.annotations.Where;
 
 @MappedSuperclass
-public abstract class CommonUsersBase extends CountryBase implements IUsers, ICRUDBean
+public abstract class CommonUsersBase extends CountryBase implements IUsers
 {
 	
 	private static final long			serialVersionUID	= -7527216318945401365L;

@@ -18,11 +18,10 @@ import javax.persistence.Transient;
 import org.hbs.admin.model.IProducers;
 import org.hbs.admin.model.ProducersBase;
 import org.hbs.util.CommonValidator;
-import org.hbs.util.dao.ICRUDBean;
 
 @Entity
 @Table(name = "alertsandnotifications")
-public class AlertsAndNotifications extends ProducersBase implements IAlertsAndNotifications, ICRUDBean
+public class AlertsAndNotifications extends ProducersBase implements IAlertsAndNotifications
 {
 	
 	private static final long	serialVersionUID	= 2379164159219826446L;

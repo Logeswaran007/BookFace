@@ -3,10 +3,8 @@ package org.hbs.sg.model.exam;
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
 
-import org.hbs.util.dao.ICRUDBean;
-
 @Embeddable
-public class AssessmentInformation implements IAssessmentInformation, ICRUDBean
+public class AssessmentInformation implements IAssessmentInformation
 {
 	
 	private static final long	serialVersionUID	= -153763627570528959L;

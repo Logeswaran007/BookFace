@@ -1,7 +1,5 @@
 package org.hbs.admin.model;
 
-import java.io.Serializable;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -11,7 +9,7 @@ import org.hbs.util.dao.ICRUDBean;
 
 @Entity
 @Table(name = "country")
-public class Country implements Serializable, ICRUDBean
+public class Country implements ICRUDBean
 {
 	
 	private static final long	serialVersionUID	= 8372130046238222330L;

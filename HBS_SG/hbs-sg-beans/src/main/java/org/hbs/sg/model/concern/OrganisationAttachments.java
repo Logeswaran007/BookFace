@@ -7,12 +7,11 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import org.hbs.admin.model.CommonFileUpload;
-import org.hbs.util.dao.ICRUDBean;
 import org.springframework.web.multipart.MultipartFile;
 
 @Entity
 @Table(name = "organisationattachments")
-public class OrganisationAttachments extends CommonFileUpload implements IOrganisationAttachments, ICRUDBean
+public class OrganisationAttachments extends CommonFileUpload implements IOrganisationAttachments
 {
 	private static final long	serialVersionUID	= 6482306497562118535L;
 	

@@ -14,7 +14,6 @@ import javax.persistence.OneToMany;
 import javax.persistence.OrderBy;
 import javax.persistence.Table;
 
-import org.hbs.util.dao.ICRUDBean;
 import org.hibernate.annotations.Where;
 
 /**
@@ -22,7 +21,7 @@ import org.hibernate.annotations.Where;
  */
 @Entity
 @Table(name = "userroles")
-public class UserRoles implements IUserRoles, ICRUDBean
+public class UserRoles implements IUserRoles
 {
 	
 	private static final long			serialVersionUID	= 8909239704346625769L;

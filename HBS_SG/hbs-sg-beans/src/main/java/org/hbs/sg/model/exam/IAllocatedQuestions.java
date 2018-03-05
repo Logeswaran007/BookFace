@@ -1,12 +1,10 @@
 package org.hbs.sg.model.exam;
 
-import java.io.Serializable;
-
 import org.hbs.sg.model.accessors.IConsumerAssessment;
+import org.hbs.util.dao.ICRUDBean;
 
-public interface IAllocatedQuestions extends Serializable
+public interface IAllocatedQuestions extends ICRUDBean
 {
-	
 	public String getAnswerId();
 	
 	public int getAutoId();

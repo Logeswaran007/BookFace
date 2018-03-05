@@ -1,8 +1,9 @@
 package org.hbs.sg.model.concern;
 
 import org.hbs.admin.model.IAddress;
+import org.hbs.util.dao.ICRUDBean;
 
-public interface IOrganisationAddress extends IAddress
+public interface IOrganisationAddress extends IAddress, ICRUDBean
 {
 	public IOrganisation getOrganisation();
 	

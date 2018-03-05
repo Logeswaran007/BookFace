@@ -13,7 +13,7 @@ import org.jsoup.nodes.Element;
 
 @Entity
 @Table(name = "mamenu")
-public class MaMenu implements java.io.Serializable, ICRUDBean
+public class MaMenu implements ICRUDBean
 {
 	protected static final long	serialVersionUID	= 4897686429234828726L;
 	

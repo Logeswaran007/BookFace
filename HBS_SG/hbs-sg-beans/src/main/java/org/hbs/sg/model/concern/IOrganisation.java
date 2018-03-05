@@ -8,8 +8,9 @@ import org.hbs.admin.model.IProducersBase;
 import org.hbs.admin.model.IUploadImageOrDocuments;
 import org.hbs.admin.model.IUsers;
 import org.hbs.util.EBusinessKey;
+import org.hbs.util.dao.ICRUDBean;
 
-public interface IOrganisation extends ICommonBeanFields, ICountryBase, IProducersBase, EBusinessKey
+public interface IOrganisation extends ICommonBeanFields, ICountryBase, IProducersBase, EBusinessKey, ICRUDBean
 {
 	public Set<IOrganisationAddress> getAddressList();
 	

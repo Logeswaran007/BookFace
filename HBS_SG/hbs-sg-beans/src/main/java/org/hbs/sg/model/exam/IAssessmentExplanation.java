@@ -1,8 +1,9 @@
 package org.hbs.sg.model.exam;
 
 import org.hbs.admin.model.IUploadImageOrDocuments;
+import org.hbs.util.dao.ICRUDBean;
 
-public interface IAssessmentExplanation extends IUploadImageOrDocuments
+public interface IAssessmentExplanation extends IUploadImageOrDocuments, ICRUDBean
 {
 	public IAssessmentQuestion getAssessmentQuestion();
 	

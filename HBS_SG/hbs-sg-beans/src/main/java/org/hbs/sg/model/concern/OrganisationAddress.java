@@ -8,13 +8,12 @@ import javax.persistence.Table;
 import javax.persistence.Transient;
 
 import org.hbs.admin.model.CommonAddress;
-import org.hbs.util.dao.ICRUDBean;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
 @Entity
 @Table(name = "organisationaddress")
-public class OrganisationAddress extends CommonAddress implements IOrganisationAddress, ICRUDBean
+public class OrganisationAddress extends CommonAddress implements IOrganisationAddress
 {
 	
 	private static final long	serialVersionUID	= 3385036848599195929L;

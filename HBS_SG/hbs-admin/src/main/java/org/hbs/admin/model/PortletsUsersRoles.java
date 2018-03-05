@@ -9,11 +9,9 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-import org.hbs.util.dao.ICRUDBean;
-
 @Entity
 @Table(name = "portletsusersroles")
-public class PortletsUsersRoles implements IPortletsUsersRoles, ICRUDBean
+public class PortletsUsersRoles implements IPortletsUsersRoles
 {
 	
 	private static final long	serialVersionUID	= 101745777600744144L;

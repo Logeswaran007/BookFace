@@ -10,7 +10,6 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 import org.hbs.util.EnumInterface;
-import org.hbs.util.dao.ICRUDBean;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -19,7 +18,7 @@ import com.flipkart.zjsonpatch.JsonDiff;
 
 @Entity
 @Table(name = "useractivity")
-public class UserActivity extends CommonBeanFields implements IUserActivity, ICRUDBean
+public class UserActivity extends CommonBeanFields implements IUserActivity
 {
 	public enum Activity implements EnumInterface
 	{

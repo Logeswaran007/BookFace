@@ -8,8 +8,9 @@ import org.hbs.sg.model.accessors.IProducersAssessment;
 import org.hbs.sg.model.course.IChapters;
 import org.hbs.sg.model.course.ICourses;
 import org.hbs.util.EBusinessKey;
+import org.hbs.util.dao.ICRUDBean;
 
-public interface IAssessment extends ICommonBeanFields, EBusinessKey
+public interface IAssessment extends ICommonBeanFields, EBusinessKey, ICRUDBean
 {
 	
 	public String getAssessmentId();

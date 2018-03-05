@@ -3,8 +3,9 @@ package org.hbs.sg.model.exam;
 import java.io.Serializable;
 
 import org.hbs.admin.model.IUploadImageOrDocuments;
+import org.hbs.util.dao.ICRUDBean;
 
-public interface IAssessmentAnswer extends IUploadImageOrDocuments
+public interface IAssessmentAnswer extends IUploadImageOrDocuments, ICRUDBean
 {
 	public enum EPatternMode implements Serializable
 	{

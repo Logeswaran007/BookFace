@@ -1,7 +1,6 @@
 package org.hbs.admin.model;
 
 import java.io.IOException;
-import java.io.Serializable;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
@@ -9,8 +8,9 @@ import java.util.List;
 import java.util.Map;
 
 import org.hbs.util.EnumInterface;
+import org.hbs.util.dao.ICRUDBean;
 
-public interface IMessages extends Serializable
+public interface IMessages extends ICRUDBean
 {
 	
 	public enum EAddress implements EnumInterface
@@ -72,8 +72,8 @@ public interface IMessages extends Serializable
 	
 	public enum ESMS implements EnumInterface
 	{
-		Accept_Language("Accept-Language"), Message("message"), Password(
-				"password"), Post("POST"), ReceiptantMobile("to"), Sender("sender"), User_Agent("User-Agent"), UserName("username"), WebsiteURL("WebsiteURL");
+		Accept_Language("Accept-Language"), Message("message"), Password("password"), Post("POST"), ReceiptantMobile("to"), Sender("sender"), User_Agent("User-Agent"), UserName(
+				"username"), WebsiteURL("WebsiteURL");
 		
 		private final String eSMS;
 		

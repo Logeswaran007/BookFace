@@ -4,12 +4,11 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
-import org.hbs.util.dao.ICRUDBean;
 import org.hbs.util.model.CommonLayout;
 
 @Entity
 @Table(name = "layouts")
-public class Layouts extends CommonLayout implements ILayouts, ICRUDBean
+public class Layouts extends CommonLayout implements ILayouts
 {
 	
 	private static final long	serialVersionUID	= 8034319004711829771L;

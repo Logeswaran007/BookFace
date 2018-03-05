@@ -8,11 +8,10 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import org.hbs.admin.model.CommonFileUploadBase;
-import org.hbs.util.dao.ICRUDBean;
 
 @Entity
 @Table(name = "assessmentexplanation")
-public class AssessmentExplanation extends CommonFileUploadBase implements IAssessmentExplanation, ICRUDBean
+public class AssessmentExplanation extends CommonFileUploadBase implements IAssessmentExplanation
 {
 	private static final long		serialVersionUID	= 1303472021452590415L;
 	protected IAssessmentQuestion	assessmentQuestion;

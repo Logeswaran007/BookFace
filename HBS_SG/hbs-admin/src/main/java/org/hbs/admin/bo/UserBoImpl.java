@@ -62,6 +62,7 @@ public class UserBoImpl extends UserBoComboBoxImpl implements UserBo, IConstProp
 		if (userParam.userId.indexOf("@") > 0)
 		{
 			userParam.searchBeanClass = UsersAddress.class;
+			
 			ENamed.EqualTo.param_AND(userParam, "email", userParam.userId);
 			ENamed.EqualTo.param_AND(userParam, "addressType", AddressType.CommunicationAddress.name());
 		}

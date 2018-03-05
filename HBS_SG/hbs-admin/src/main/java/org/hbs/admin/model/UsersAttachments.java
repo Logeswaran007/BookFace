@@ -6,12 +6,11 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-import org.hbs.util.dao.ICRUDBean;
 import org.springframework.web.multipart.MultipartFile;
 
 @Entity
 @Table(name = "usersattachments")
-public class UsersAttachments extends CommonFileUpload implements IUsersAttachments, ICRUDBean
+public class UsersAttachments extends CommonFileUpload implements IUsersAttachments
 {
 	private static final long	serialVersionUID	= 917678364001988324L;
 	

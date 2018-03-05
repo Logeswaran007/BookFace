@@ -16,11 +16,10 @@ import javax.persistence.Transient;
 import org.hbs.admin.model.IProducers;
 import org.hbs.admin.model.Producers;
 import org.hbs.util.EBusinessKey;
-import org.hbs.util.dao.ICRUDBean;
 
 @Entity
 @Table(name = "coursegroup")
-public class CourseGroup implements ICourseGroup, EBusinessKey, ICRUDBean
+public class CourseGroup implements ICourseGroup, EBusinessKey
 {
 	
 	private static final long	serialVersionUID	= -2819097685478891320L;

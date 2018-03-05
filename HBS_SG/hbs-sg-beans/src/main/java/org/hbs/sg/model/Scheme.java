@@ -17,11 +17,10 @@ import javax.persistence.Table;
 import org.hbs.admin.model.ProducersBase;
 import org.hbs.sg.model.course.CourseGroup;
 import org.hbs.sg.model.course.ICourseGroup;
-import org.hbs.util.dao.ICRUDBean;
 
 @Entity
 @Table(name = "scheme")
-public class Scheme extends ProducersBase implements IScheme, ICRUDBean
+public class Scheme extends ProducersBase implements IScheme
 {
 	
 	private static final long	serialVersionUID	= 5432094430635127068L;

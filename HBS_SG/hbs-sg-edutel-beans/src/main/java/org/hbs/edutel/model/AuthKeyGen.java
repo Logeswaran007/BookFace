@@ -12,13 +12,12 @@ import org.hbs.admin.model.IUsers;
 import org.hbs.admin.model.Users;
 import org.hbs.sg.model.IScheme;
 import org.hbs.sg.model.Scheme;
-import org.hbs.util.dao.ICRUDBean;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
 @Entity
 @Table(name = "authkeygen")
-public class AuthKeyGen extends CommonBeanFields implements IAuthKeyGen, ICRUDBean
+public class AuthKeyGen extends CommonBeanFields implements IAuthKeyGen
 {
 	private static final long	serialVersionUID	= -931081870112263503L;
 	

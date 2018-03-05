@@ -1,13 +1,14 @@
 package org.hbs.admin.model;
 
-import java.io.Serializable;
 import java.sql.Timestamp;
+
+import org.hbs.util.dao.ICRUDBean;
 
 /**
  * UserLog entity. @author MyEclipse Persistence Tools
  */
 
-public interface IUserLog extends Serializable
+public interface IUserLog extends ICRUDBean
 {
 	public Integer getUlAutoId();
 	

@@ -9,11 +9,9 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-import org.hbs.util.dao.ICRUDBean;
-
 @Entity
 @Table(name = "assessmentpatterninfo")
-public class AssessmentPatternInfo implements IAssessmentPatternInfo, ICRUDBean
+public class AssessmentPatternInfo implements IAssessmentPatternInfo
 {
 	
 	private static final long		serialVersionUID	= 3948412843084086L;
