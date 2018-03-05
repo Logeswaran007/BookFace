@@ -120,7 +120,7 @@ public class UserManagementController extends ControllerBaseBo implements IAdmin
 						// Uploading Images and Documents and update user object via reference
 						uploadDocumentAttachment(docTypes, multiPartFiles, request, sessionUser, userForm.users);
 						
-						if (userBo.userSave(userForm.users, userForm.getBaseRoles()))
+						if (userBo.saveOrUpdate(userForm.users, userForm.getBaseRoles()))
 						{
 							StringBuffer tokenURL = new StringBuffer();
 							tokenURL.append(userForm.users.getProducer().getVirtualBasePath());
@@ -217,7 +217,7 @@ public class UserManagementController extends ControllerBaseBo implements IAdmin
 				
 				StringBuffer activateToken = Security.Token.generate(userBo, userForm.users, false);
 				
-				if (userBo.userSave(userForm.users, ERole.Consumer.name()))
+				if (userBo.saveOrUpdate(userForm.users, ERole.Consumer.name()))
 				{
 					redirectAttributes.addFlashAttribute("css", "success");
 					redirectAttributes.addFlashAttribute("message", "Hi " + userForm.users.getUsUserName() + ", You had Registered successfully. Please check your email for activation link.");

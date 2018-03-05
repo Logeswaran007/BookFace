@@ -139,7 +139,7 @@ public class UserBoImpl extends UserBoComboBoxImpl implements UserBo, IConstProp
 		return iBaseDAO.saveOrUpdate("UserActivity", userActivity);
 	}
 	
-	public boolean userLogAtLogin(Users user, String ipAddr)
+	public boolean userLogAtLogin(IUsers user, String ipAddr)
 	{
 		UserLog userLog = new UserLog();
 		userLog.setUsers(user);
@@ -156,7 +156,7 @@ public class UserBoImpl extends UserBoComboBoxImpl implements UserBo, IConstProp
 	}
 	
 	@Override
-	public boolean userSave(IUsers users, String... iRoles) throws InstantiationException, IllegalAccessException
+	public boolean saveOrUpdate(IUsers users, String... iRoles) throws InstantiationException, IllegalAccessException
 	{
 		if (CommonValidator.isNotNullNotEmpty(users.getUsEmployeeId()) && CommonValidator.isArrayFirstNotNull(iRoles))
 		{
@@ -176,13 +176,13 @@ public class UserBoImpl extends UserBoComboBoxImpl implements UserBo, IConstProp
 				
 				users.getUserRoleses().add(iUR);
 			}
+			
 			return iBaseDAO.saveOrUpdate("Users", users);
 		}
 		return false;
 	}
 	
-	@Override
-	public boolean userUpdate(IUsers users)
+	public boolean saveOrUpdate(IUsers users)
 	{
 		return iBaseDAO.saveOrUpdate("Users", users);
 	}

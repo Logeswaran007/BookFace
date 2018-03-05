@@ -29,7 +29,7 @@ public abstract class PasswordControllerBase extends ControllerBaseBo
 			
 			if (isUpdate)
 			{
-				if (userBo.userUpdate(user) == false)
+				if (userBo.saveOrUpdate(user) == false)
 					return null;
 			}
 			
@@ -83,6 +83,7 @@ public abstract class PasswordControllerBase extends ControllerBaseBo
 			return null;
 		}
 	}
+	
 	private static final long		serialVersionUID	= 515197817034322319L;
 	
 	@Autowired

@@ -89,7 +89,7 @@ public class PasswordController extends PasswordControllerBase implements IAdmin
 			users.setUsUserPwdModDate(new Timestamp(System.currentTimeMillis()));
 			users.setUsUserPwdModFlag(true);
 			ModelAndView modelView = new ModelAndView(CHANGE_PASSWORD_PAGE);
-			modelView.addObject("status", String.valueOf(userBo.userUpdate(users)));
+			modelView.addObject("status", String.valueOf(userBo.saveOrUpdate(users)));
 			return modelView;
 		}
 		return new ModelAndView(INDEX);

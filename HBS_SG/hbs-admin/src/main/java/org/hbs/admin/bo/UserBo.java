@@ -9,7 +9,6 @@ import org.hbs.admin.controller.param.UserParam;
 import org.hbs.admin.model.IUsers;
 import org.hbs.admin.model.Producers;
 import org.hbs.admin.model.UserActivity;
-import org.hbs.admin.model.Users;
 import org.hbs.util.DataTableParam;
 
 public interface UserBo extends Serializable
@@ -30,12 +29,12 @@ public interface UserBo extends Serializable
 	
 	public boolean saveUserActivity(UserActivity userActivity);
 	
-	public boolean userLogAtLogin(Users user, String ipAddr);
+	public boolean userLogAtLogin(IUsers user, String ipAddr);
 	
 	public boolean userLogAtLogOut(UserParam userParam);
 	
-	public boolean userSave(IUsers user, String... iRoles) throws InstantiationException, IllegalAccessException;
+	public boolean saveOrUpdate(IUsers user, String... iRoles) throws InstantiationException, IllegalAccessException;
 	
-	public boolean userUpdate(IUsers users);
+	public boolean saveOrUpdate(IUsers users);
 	
 }
