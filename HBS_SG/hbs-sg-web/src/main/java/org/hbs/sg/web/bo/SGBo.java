@@ -3,7 +3,9 @@ package org.hbs.sg.web.bo;
 import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
+import org.hbs.admin.model.IUploadImageOrDocuments;
 import org.hbs.edutel.model.AuthKeyGen;
 import org.hbs.sg.model.AlertsAndNotifications;
 import org.hbs.sg.model.concern.Organisation;
@@ -43,4 +45,7 @@ public interface SGBo extends Serializable
 	public boolean saveOrUpdate(List<AuthKeyGen> authKeyList);
 	
 	public boolean saveOrUpdate(Organisation organisation);
+	
+	public boolean saveOrUpdate(Set<? extends IUploadImageOrDocuments> attachments);
+	
 }

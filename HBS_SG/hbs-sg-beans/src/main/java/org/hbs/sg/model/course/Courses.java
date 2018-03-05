@@ -15,6 +15,7 @@ import javax.persistence.Table;
 import javax.persistence.Transient;
 
 import org.hbs.admin.model.CommonBeanFields;
+import org.hbs.util.CommonValidator;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
@@ -24,9 +25,9 @@ public class Courses extends CommonBeanFields implements ICourses
 {
 	private static final long			serialVersionUID	= 4727089353440139880L;
 	
-	protected Set<IChapters>			chapters			= new LinkedHashSet<IChapters>(0);
+	protected Set<ICourseAttachments>	attachments			= new LinkedHashSet<ICourseAttachments>(0);
 	
-	protected Set<ICourseAttachments>	courseAttachments	= new LinkedHashSet<ICourseAttachments>(0);
+	protected Set<IChapters>			chapters			= new LinkedHashSet<IChapters>(0);
 	
 	protected ICourseGroup				courseGroup;
 	
@@ -45,7 +46,7 @@ public class Courses extends CommonBeanFields implements ICourses
 	{
 		super();
 		this.chapters = chapters;
-		this.courseAttachments = courseAttachments;
+		this.attachments = courseAttachments;
 		this.courseGroup = courseGroup;
 		this.courseId = courseId;
 		this.courseName = courseName;
@@ -60,22 +61,37 @@ public class Courses extends CommonBeanFields implements ICourses
 		this.chapters = chapters;
 	}
 	
+	@OneToMany(targetEntity = CourseAttachments.class, fetch = FetchType.EAGER, mappedBy = "courses", cascade = CascadeType.ALL)
+	public Set<ICourseAttachments> getAttachments()
+	{
+		return attachments;
+	}
+	
 	@Transient
 	public String getBusinessKey(String... combination)
 	{
 		return EKey.Auto("CRS");
 	}
 	
+	@Transient
+	public IChapters getChapter(String chapterId)
+	{
+		if (CommonValidator.isNotNullNotEmpty(chapterId))
+		{
+			for (IChapters chapter : chapters)
+			{
+				if (CommonValidator.isEqual(chapter.getChapterId(), chapterId))
+					return chapter;
+			}
+		}
+		return null;
+		
+	}
+	
 	@OneToMany(targetEntity = Chapters.class, fetch = FetchType.EAGER, mappedBy = "course")
 	public Set<IChapters> getChapters()
 	{
 		return chapters;
-	}
-	
-	@OneToMany(targetEntity = CourseAttachments.class, fetch = FetchType.EAGER, mappedBy = "courses", cascade = CascadeType.ALL)
-	public Set<ICourseAttachments> getCourseAttachments()
-	{
-		return courseAttachments;
 	}
 	
 	@ManyToOne(cascade = CascadeType.ALL, targetEntity = CourseGroup.class)
@@ -99,14 +115,14 @@ public class Courses extends CommonBeanFields implements ICourses
 		return courseName;
 	}
 	
+	public void setAttachments(Set<ICourseAttachments> attachments)
+	{
+		this.attachments = attachments;
+	}
+	
 	public void setChapters(Set<IChapters> chapters)
 	{
 		this.chapters = chapters;
-	}
-	
-	public void setCourseAttachments(Set<ICourseAttachments> courseAttachments)
-	{
-		this.courseAttachments = courseAttachments;
 	}
 	
 	public void setCourseGroup(ICourseGroup courseGroup)

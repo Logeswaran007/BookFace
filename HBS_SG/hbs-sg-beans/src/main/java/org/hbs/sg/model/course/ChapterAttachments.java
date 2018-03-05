@@ -7,6 +7,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import org.hbs.admin.model.CommonFileUpload;
+import org.springframework.web.multipart.MultipartFile;
 
 @Entity
 @Table(name = "chapterattachments")
@@ -25,6 +26,14 @@ public class ChapterAttachments extends CommonFileUpload implements IChapterAtta
 	{
 		super();
 		this.chapters = chapters;
+	}
+	
+	public ChapterAttachments(MultipartFile uploadMultiPartFile, String uploadSubFolderPath, String uploadDocumentForType)
+	{
+		super();
+		this.uploadMultiPartFile = uploadMultiPartFile;
+		this.uploadSubFolderPath = uploadSubFolderPath;
+		this.uploadDocumentForType = uploadDocumentForType;
 	}
 	
 	@ManyToOne(targetEntity = Chapters.class, fetch = FetchType.LAZY)

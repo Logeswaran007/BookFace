@@ -1,15 +1,19 @@
 package org.hbs.sg.web.bo;
 
 import java.util.List;
+import java.util.Set;
 
 import org.hbs.admin.dao.UserDAO;
 import org.hbs.admin.model.IAddress.AddressType;
+import org.hbs.admin.model.IUploadImageOrDocuments;
 import org.hbs.admin.model.UsersAddress;
 import org.hbs.edutel.model.AuthKeyGen;
 import org.hbs.sg.model.AlertsAndNotifications;
 import org.hbs.sg.model.concern.Organisation;
 import org.hbs.sg.model.concern.OrganisationAddress;
+import org.hbs.sg.model.course.ChapterAttachments;
 import org.hbs.sg.model.course.CourseAttachments;
+import org.hbs.sg.model.course.IChapterAttachments;
 import org.hbs.sg.model.course.ICourses.ECourseUploadType;
 import org.hbs.sg.model.exam.Assessment;
 import org.hbs.sg.web.dao.AssessmentDAO;
@@ -144,6 +148,17 @@ public class SGBoImpl extends SGBoComboBoxImpl implements SGBo
 	public boolean saveOrUpdate(Organisation organisation)
 	{
 		return iBaseDAO.saveOrUpdate("Organisation", organisation);
+	}
+	
+	@Override
+	public boolean saveOrUpdate(Set<? extends IUploadImageOrDocuments> attachments)
+	{
+		Object object = attachments.iterator().next();
+		if (object instanceof IChapterAttachments)
+			return iBaseDAO.saveOrUpdate("ChapterAttachments", attachments.toArray(new ChapterAttachments[attachments.size()]));
+		else if (object instanceof IChapterAttachments)
+			return iBaseDAO.saveOrUpdate("CourseAttachments", attachments.toArray(new CourseAttachments[attachments.size()]));
+		return false;
 	}
 	
 }

@@ -18,9 +18,11 @@ public interface ICourses extends ICommonBeanFields, EBusinessKey
 		EBooks, EKeyPoints, EQuestionBank, ETips;
 	}
 	
-	public Set<IChapters> getChapters();
+	public Set<ICourseAttachments> getAttachments();
 	
-	public Set<ICourseAttachments> getCourseAttachments();
+	public IChapters getChapter(String chapterId);
+	
+	public Set<IChapters> getChapters();
 	
 	public ICourseGroup getCourseGroup();
 	
@@ -28,9 +30,9 @@ public interface ICourses extends ICommonBeanFields, EBusinessKey
 	
 	public String getCourseName();
 	
-	public void setChapters(Set<IChapters> chapters);
+	public void setAttachments(Set<ICourseAttachments> courseAttachments);
 	
-	public void setCourseAttachments(Set<ICourseAttachments> courseAttachments);
+	public void setChapters(Set<IChapters> chapters);
 	
 	public void setCourseGroup(ICourseGroup courseGroup);
 	

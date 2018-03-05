@@ -8,6 +8,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import org.hbs.admin.model.CommonFileUpload;
+import org.springframework.web.multipart.MultipartFile;
 
 @Entity
 @Table(name = "courseattachments")
@@ -29,6 +30,14 @@ public class CourseAttachments extends CommonFileUpload implements ICourseAttach
 		super();
 		this.attachmentDesc = attachmentDesc;
 		this.courses = courses;
+	}
+	
+	public CourseAttachments(MultipartFile uploadMultiPartFile, String uploadSubFolderPath, String uploadDocumentForType)
+	{
+		super();
+		this.uploadMultiPartFile = uploadMultiPartFile;
+		this.uploadSubFolderPath = uploadSubFolderPath;
+		this.uploadDocumentForType = uploadDocumentForType;
 	}
 	
 	@Column(name = "attachmentDesc")
