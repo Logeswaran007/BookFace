@@ -11,6 +11,11 @@ public class AssessmentParam extends Param
 	public String				courseGroupId;
 	public String				courseId;
 	
+	public AssessmentParam()
+	{
+		
+	}
+	
 	public AssessmentParam(HttpServletRequest request)
 	{
 		this.request = request;
