@@ -32,7 +32,7 @@
 									<div class="form-group">
 										<div class="input-icon left">
 											<i class="fa fa-cogs"></i>
-											<form:select path="assessment.course.courseGroup.courseGroupId" id="courseGroupId"
+											<form:select path="courseGroupId" id="courseGroupId"
 												class="form-control" onchange="getCourseList();">
 												<form:option value="" label="--- Select Course Group ---" />
 												<form:options items="${courseGroupList}" />
@@ -44,7 +44,7 @@
 									<div class="form-group">
 										<div class="input-icon left">
 											<i class="fa fa-cogs"></i>
-											<form:select path="assessment.course.courseId" id="courseId"
+											<form:select path="courseId" id="courseId"
 												class="form-control" onchange="getChapterList();">
 												<form:option value="" label="--- Select Course ---" />
 												<form:options items="${courseList}" />
@@ -60,7 +60,7 @@
 									<div class="form-group">
 										<div class="input-icon left">
 											<i class="fa fa-cogs"></i>
-											<form:select path="assessment.chapter.chapterId" id="chapterId"
+											<form:select path="chapterId" id="chapterId"
 												class="form-control">
 												<form:option value="" label="--- Select Chapter ---" />
 												<form:options items="${chapterList}" />
@@ -76,7 +76,7 @@
 									<div class="form-group">
 										<div class="input-icon left">
 											<i class="fa fa-file-text"></i>
-											<form:input path="assessment.name" class="form-control"
+											<form:input path="assessmentName" class="form-control"
 												type="text" id="assessmentNameId" value=""
 												placeholder="Assessment Name" />
 										</div>

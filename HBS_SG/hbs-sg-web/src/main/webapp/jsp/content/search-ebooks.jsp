@@ -24,7 +24,7 @@ $(document).ready(function()
         {
             "search": "",
             "lengthMenu": "_MENU_",
-            "emptyTable": "<center>No  Available.</center>"
+            "emptyTable": "<center>No eBooks data  Available.</center>"
         },	
         "ajax":
         {

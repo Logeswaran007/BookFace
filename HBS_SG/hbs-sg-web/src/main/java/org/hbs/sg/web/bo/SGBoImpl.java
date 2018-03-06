@@ -18,6 +18,7 @@ import org.hbs.sg.model.course.IChapterAttachments;
 import org.hbs.sg.model.course.ICourses;
 import org.hbs.sg.model.course.ICourses.ECourseUploadType;
 import org.hbs.sg.model.exam.Assessment;
+import org.hbs.sg.web.controller.AssessmentParam;
 import org.hbs.sg.web.dao.AssessmentDAO;
 import org.hbs.sg.web.dao.CoursesDAO;
 import org.hbs.sg.web.dao.KeyGenDAO;
@@ -179,6 +180,15 @@ public class SGBoImpl extends SGBoComboBoxImpl implements SGBo
 			return courseList.iterator().next();
 		else
 			return null;
+	}
+
+	@Override
+	public ICourses getCoursesByCourseId(AssessmentParam param) {
+		
+		param.searchBeanClass = Courses.class;
+		iBaseDAO.getDataList(param);
+		return ((ICourses) param.dataList.iterator().next());
+		
 	}
 	
 }

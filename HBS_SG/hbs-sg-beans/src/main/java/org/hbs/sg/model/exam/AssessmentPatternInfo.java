@@ -1,3 +1,4 @@
+
 package org.hbs.sg.model.exam;
 
 import javax.persistence.Column;

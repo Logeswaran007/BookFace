@@ -30,10 +30,9 @@ public class ProducersAssessment implements IProducersAssessment
 		super();
 	}
 	
-	public ProducersAssessment(int autoId, IProducers producer, IAssessment assessment)
+	public ProducersAssessment(IProducers producer, IAssessment assessment)
 	{
 		super();
-		this.autoId = autoId;
 		this.producer = producer;
 		this.assessment = assessment;
 	}

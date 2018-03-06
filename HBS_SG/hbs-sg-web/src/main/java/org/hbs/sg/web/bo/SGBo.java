@@ -51,4 +51,6 @@ public interface SGBo extends Serializable
 	
 	public ICourses getCourse(DataTableParam dtParam);
 	
+	public ICourses getCoursesByCourseId(AssessmentParam assessmentParam);
+	
 }
