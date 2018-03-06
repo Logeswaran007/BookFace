@@ -105,7 +105,7 @@ public class EBooksController extends SGControllerBaseBo implements IAdminPath, 
 	
 	@RequestMapping(value = ADD_EBOOKS, method = RequestMethod.POST)
 	public @ResponseBody String addEBooks(@RequestParam("eBooksForm") String formData, @RequestParam("docTypes") String[] docTypes,
-			@RequestParam("uploadMultiPartFiles") MultipartFile[] multiPartFiles, HttpServletRequest request, IUsers sessionUsers)
+			@RequestParam("uploadMultiPartFiles") MultipartFile[] multiPartFiles, HttpServletRequest request)
 	{
 		try
 		{
@@ -126,12 +126,12 @@ public class EBooksController extends SGControllerBaseBo implements IAdminPath, 
 					IChapters chapter = course.getChapter(eForm.chapterId);
 					if (CommonValidator.isNotNullNotEmpty(chapter))
 					{
-						uploadDocumentAttachment(docTypes, multiPartFiles, request, sessionUsers, chapter);
+						uploadDocumentAttachment(docTypes, multiPartFiles, request, sessionUser, chapter);
 						return sgBo.saveOrUpdate(chapter.getAttachments()) + "";
 					}
 					else
 					{
-						uploadDocumentAttachment(docTypes, multiPartFiles, request, sessionUsers, course);
+						uploadDocumentAttachment(docTypes, multiPartFiles, request, sessionUser, course);
 						return sgBo.saveOrUpdate(course.getAttachments()) + "";
 					}
 				}
