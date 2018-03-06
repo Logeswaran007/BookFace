@@ -9,6 +9,7 @@ import org.hbs.admin.model.IUploadImageOrDocuments;
 import org.hbs.edutel.model.AuthKeyGen;
 import org.hbs.sg.model.AlertsAndNotifications;
 import org.hbs.sg.model.concern.Organisation;
+import org.hbs.sg.model.course.ICourses;
 import org.hbs.sg.model.exam.Assessment;
 import org.hbs.sg.web.controller.AssessmentParam;
 import org.hbs.sg.web.controller.SchemeParam;
@@ -47,5 +48,7 @@ public interface SGBo extends Serializable
 	public boolean saveOrUpdate(Organisation organisation);
 	
 	public boolean saveOrUpdate(Set<? extends IUploadImageOrDocuments> attachments);
+	
+	public ICourses getCourse(DataTableParam dtParam);
 	
 }

@@ -27,6 +27,7 @@ import org.hbs.util.DataTableDynamicColumnDefs;
 import org.hbs.util.DataTableDynamicColumns;
 import org.hbs.util.DataTableObject;
 import org.hbs.util.DataTableParam;
+import org.hbs.util.IParam.ENamed;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -62,8 +63,6 @@ public class EBooksController extends SGControllerBaseBo implements IAdminPath, 
 			
 			modelView.addObject("eBooksForm", createBooksForm());
 			modelView.addObject("courseGroupList", sgBo.getComboBoxCourseGroupMap(new AssessmentParam(request)));
-			modelView.addObject("courseList", null);
-			modelView.addObject("chapterList", null);
 			return modelView;
 			
 		}
@@ -99,9 +98,9 @@ public class EBooksController extends SGControllerBaseBo implements IAdminPath, 
 	}
 	
 	@ModelAttribute("eBooksForm")
-	public EBooksForm createBooksForm()
+	public AssessmentForm createBooksForm()
 	{
-		return new EBooksForm();
+		return new AssessmentForm();
 	}
 	
 	@RequestMapping(value = ADD_EBOOKS, method = RequestMethod.POST)
@@ -114,19 +113,27 @@ public class EBooksController extends SGControllerBaseBo implements IAdminPath, 
 			if (CommonValidator.isNotNullNotEmpty(sessionUser))
 			{
 				ObjectMapper mapper = new ObjectMapper();
-				EBooksForm eBookForm = mapper.readValue(formData, EBooksForm.class);
+				AssessmentForm eForm = mapper.readValue(formData, AssessmentForm.class);
 				
-				ICourses course = (ICourses) sgBo.getCourseAttachmentList(null, true).dataList.iterator().next();
-				IChapters chapter = course.getChapter(eBookForm.chapterId);
-				if (CommonValidator.isNotNullNotEmpty(chapter))
+				DataTableParam dtParam = DataTableParam.getDataTableParamsFromRequest(request);
+				
+				ENamed.EqualTo.param_AND(dtParam, "courseId", eForm.getCourseId());
+				
+				ICourses course = (ICourses) sgBo.getCourse(dtParam);
+				
+				if (CommonValidator.isNotNullNotEmpty(course))
 				{
-					uploadDocumentAttachment(docTypes, multiPartFiles, request, sessionUsers, chapter);
-					return sgBo.saveOrUpdate(chapter.getAttachments()) + "";
-				}
-				else
-				{
-					uploadDocumentAttachment(docTypes, multiPartFiles, request, sessionUsers, course);
-					return sgBo.saveOrUpdate(course.getAttachments()) + "";
+					IChapters chapter = course.getChapter(eForm.chapterId);
+					if (CommonValidator.isNotNullNotEmpty(chapter))
+					{
+						uploadDocumentAttachment(docTypes, multiPartFiles, request, sessionUsers, chapter);
+						return sgBo.saveOrUpdate(chapter.getAttachments()) + "";
+					}
+					else
+					{
+						uploadDocumentAttachment(docTypes, multiPartFiles, request, sessionUsers, course);
+						return sgBo.saveOrUpdate(course.getAttachments()) + "";
+					}
 				}
 				
 			}

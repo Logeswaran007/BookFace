@@ -13,7 +13,9 @@ import org.hbs.sg.model.concern.Organisation;
 import org.hbs.sg.model.concern.OrganisationAddress;
 import org.hbs.sg.model.course.ChapterAttachments;
 import org.hbs.sg.model.course.CourseAttachments;
+import org.hbs.sg.model.course.Courses;
 import org.hbs.sg.model.course.IChapterAttachments;
+import org.hbs.sg.model.course.ICourses;
 import org.hbs.sg.model.course.ICourses.ECourseUploadType;
 import org.hbs.sg.model.exam.Assessment;
 import org.hbs.sg.web.dao.AssessmentDAO;
@@ -159,6 +161,22 @@ public class SGBoImpl extends SGBoComboBoxImpl implements SGBo
 		else if (object instanceof IChapterAttachments)
 			return iBaseDAO.saveOrUpdate("CourseAttachments", attachments.toArray(new CourseAttachments[attachments.size()]));
 		return false;
+	}
+	
+	@SuppressWarnings("unchecked")
+	@Override
+	public ICourses getCourse(DataTableParam dtParam)
+	{
+		dtParam.searchBeanClass = Courses.class;
+		dtParam.iDisplayLength = 1;
+		
+		ENamed.EqualTo.param_AND(dtParam, "status", true);
+		
+		List<ICourses> courseList = (List<ICourses>) iBaseDAO.getDataList(dtParam).getDataList();
+		if (CommonValidator.isListFirstNotEmpty(courseList))
+			return courseList.iterator().next();
+		else
+			return null;
 	}
 	
 }
