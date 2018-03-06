@@ -155,6 +155,8 @@ public class SGBoImpl extends SGBoComboBoxImpl implements SGBo
 	@Override
 	public boolean saveOrUpdate(Set<? extends IUploadImageOrDocuments> attachments)
 	{
+		// Used to identify, whose attachment instance is incoming...
+		
 		Object object = attachments.iterator().next();
 		if (object instanceof IChapterAttachments)
 			return iBaseDAO.saveOrUpdate("ChapterAttachments", attachments.toArray(new ChapterAttachments[attachments.size()]));
