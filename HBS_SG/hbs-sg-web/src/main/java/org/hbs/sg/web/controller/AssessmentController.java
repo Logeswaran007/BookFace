@@ -100,7 +100,6 @@ public class AssessmentController extends SGControllerBaseBo implements IAdminPa
 	@RequestMapping(value = GET_COURSES, method = RequestMethod.GET)
 	public @ResponseBody String getCourseList(HttpServletRequest request, @PathVariable String courseGroupId)
 	{
-		// This is a comment added for commit by Loges
 		try
 		{
 			List<LabelValueBean> lbBeanList = sgBo.getComboBoxCourseList(new AssessmentParam(request, courseGroupId, null));

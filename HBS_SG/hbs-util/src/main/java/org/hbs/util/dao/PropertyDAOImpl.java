@@ -12,14 +12,15 @@ import org.springframework.stereotype.Component;
 @Component
 public class PropertyDAOImpl extends CommonHibernateSessionFactorySupport implements PropertyDAO, IConstProperty
 {
+	private static final long	serialVersionUID	= 2841118708051715155L;
+	
+	private final CustomLogger	logger				= new CustomLogger(this.getClass());
+	
 	public PropertyDAOImpl()
 	{
 		super();
 	}
-
-	private static final long	serialVersionUID	= 2841118708051715155L;
-	private final CustomLogger	logger				= new CustomLogger(this.getClass());
-
+	
 	@SuppressWarnings("unchecked")
 	public List<ConstProperty> getConstPropertyList()
 	{
@@ -34,8 +35,11 @@ public class PropertyDAOImpl extends CommonHibernateSessionFactorySupport implem
 		}
 		finally
 		{
-			session.clear();
-			session.close();
+			if (session != null)
+			{
+				session.clear();
+				session.close();
+			}
 		}
 		return null;
 	}

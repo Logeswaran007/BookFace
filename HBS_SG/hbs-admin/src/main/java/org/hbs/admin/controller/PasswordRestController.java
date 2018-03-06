@@ -11,6 +11,7 @@ import org.hbs.admin.model.IMessages.EAddress;
 import org.hbs.admin.model.IUsers.EUserStatus;
 import org.hbs.sender.VTLEmailFactory;
 import org.hbs.util.CommonValidator;
+import org.hbs.util.CustomLogger;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -20,7 +21,8 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class PasswordRestController extends PasswordControllerBase implements IAdminPath
 {
-	private static final long serialVersionUID = 4736497573908842185L;
+	private static final long	serialVersionUID	= 4736497573908842185L;
+	private final CustomLogger	logger				= new CustomLogger(this.getClass());
 	
 	@RequestMapping(value = FORGET_PASSWORD, method = RequestMethod.POST)
 	public @ResponseBody Response forgotPassword(HttpServletRequest request, @RequestParam("email") String email)
@@ -69,8 +71,9 @@ public class PasswordRestController extends PasswordControllerBase implements IA
 				return new Response("Error", "Email id is incorrect or invalid.");
 			}
 		}
-		catch (Exception e)
+		catch (Exception excep)
 		{
+			logger.error(excep);
 			return new Response("Error", "Application Error.Please contact administrator.");
 		}
 	}

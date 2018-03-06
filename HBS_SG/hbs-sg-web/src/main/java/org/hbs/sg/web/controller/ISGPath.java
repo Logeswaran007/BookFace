@@ -30,6 +30,7 @@ public interface ISGPath extends Serializable
 	public String	PRE_SEARCH_EBOOKS					= "/a500fe2139d875b2f6d9679600577191";
 	public String	PRE_SEARCH_INFORMATION_ALERT		= "/dc58d3e1b340addb4a1bcc6968a4533d";
 	public String	PRE_SEARCH_ORGANISTATION			= "/ba6443f8aa1c6e707ccb0cd4f03aa1e9";
+	public String	PRE_PRACTISE_ASSESSMENT_QUESTIONS	= "/e68cf40066f14db4058661e8cee5907c";
 	public String	SEARCH_ASSESSMENT					= "/abc97070154d606a0fa140bee2f18a0f";
 	
 	public String	SEARCH_ASSESSMENT_PAGE				= "/content/search-assessment";
