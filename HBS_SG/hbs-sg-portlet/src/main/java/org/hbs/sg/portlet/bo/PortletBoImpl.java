@@ -8,11 +8,10 @@ import org.hbs.admin.model.UserLog;
 import org.hbs.admin.model.Users;
 import org.hbs.sg.model.accessors.ConsumerAssessment;
 import org.hbs.sg.model.accessors.IConsumerAssessment.EAssessmentMode;
-import org.hbs.sg.portlet.dao.PortletDAO;
 import org.hbs.util.CommonValidator;
 import org.hbs.util.DataTableParam;
-import org.hbs.util.IDataTableParam;
 import org.hbs.util.IParam.ENamed;
+import org.hbs.util.dao.IBaseDAO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -23,7 +22,7 @@ public class PortletBoImpl implements PortletBo
 	private static final long	serialVersionUID	= -101283946410826304L;
 	
 	@Autowired
-	protected PortletDAO		portletDAO;
+	protected IBaseDAO			iBaseDAO;
 	
 	@Override
 	public DataTableParam getActivityList(DataTableParam dtParam, boolean isCount)
@@ -43,7 +42,7 @@ public class PortletBoImpl implements PortletBo
 			dtParam._OrderBy = " Order By createdDate Desc";
 			dtParam.searchBeanClass = UserActivity.class;
 			
-			return portletDAO.getSearchList(dtParam, isCount);
+			return iBaseDAO.getDataTableList(dtParam, isCount);
 		}
 		catch (Exception e)
 		{
@@ -53,7 +52,7 @@ public class PortletBoImpl implements PortletBo
 	}
 	
 	@Override
-	public IDataTableParam getAssessmentList(DataTableParam dtParam, boolean isCount)
+	public DataTableParam getAssessmentList(DataTableParam dtParam, boolean isCount)
 	{
 		String usEmployeeId = (String) dtParam.searchValueMap.get("usEmployeeId");
 		dtParam.searchValueMap.clear();
@@ -63,16 +62,11 @@ public class PortletBoImpl implements PortletBo
 		dtParam._OrderBy = " Order By createdDate Desc";
 		dtParam.searchBeanClass = ConsumerAssessment.class;
 		
-		return portletDAO.getSearchList(dtParam, isCount);
-	}
-	
-	public PortletDAO getPortletDAO()
-	{
-		return portletDAO;
+		return iBaseDAO.getDataTableList(dtParam, isCount);
 	}
 	
 	@Override
-	public IDataTableParam getPractiseExamList(DataTableParam dtParam, boolean isCount)
+	public DataTableParam getPractiseExamList(DataTableParam dtParam, boolean isCount)
 	{
 		String usEmployeeId = (String) dtParam.searchValueMap.get("usEmployeeId");
 		dtParam.searchValueMap.clear();
@@ -82,12 +76,12 @@ public class PortletBoImpl implements PortletBo
 		dtParam._OrderBy = " Order By createdDate Desc";
 		dtParam.searchBeanClass = ConsumerAssessment.class;
 		
-		return portletDAO.getSearchList(dtParam, isCount);
+		return iBaseDAO.getDataTableList(dtParam, isCount);
 	}
 	
 	@SuppressWarnings("unchecked")
 	@Override
-	public IDataTableParam getReportCardList(DataTableParam dtParam, boolean isCount)
+	public DataTableParam getReportCardList(DataTableParam dtParam, boolean isCount)
 	{
 		String usEmployeeId = (String) dtParam.searchValueMap.get("usEmployeeId");
 		dtParam.searchValueMap.clear();
@@ -97,11 +91,11 @@ public class PortletBoImpl implements PortletBo
 		dtParam._OrderBy = " Order By createdDate Desc";
 		dtParam.searchBeanClass = ConsumerAssessment.class;
 		
-		List<ConsumerAssessment> caList = (List<ConsumerAssessment>) portletDAO.getSearchList(dtParam, isCount).dataList;
+		List<ConsumerAssessment> caList = (List<ConsumerAssessment>) iBaseDAO.getDataTableList(dtParam, isCount).dataList;
 		
 		Object[] onlineArray = caList.stream().filter(datum -> CommonValidator.isEqual(datum.getAssessmentMode(), EAssessmentMode.Online)).toArray();
 		
-		return portletDAO.getSearchList(dtParam, isCount);
+		return iBaseDAO.getDataTableList(dtParam, isCount);
 	}
 	
 	@Override
@@ -115,11 +109,11 @@ public class PortletBoImpl implements PortletBo
 		dtParam._OrderBy = " Order By ulUserLoginTime Desc";
 		dtParam.searchBeanClass = UserLog.class;
 		
-		return portletDAO.getSearchList(dtParam, isCount);
+		return iBaseDAO.getDataTableList(dtParam, isCount);
 	}
 	
 	@Override
-	public IDataTableParam getUsersList(DataTableParam dtParam, boolean isCount)
+	public DataTableParam getUsersList(DataTableParam dtParam, boolean isCount)
 	{
 		String producerId = (String) dtParam.searchValueMap.get("producerId");
 		dtParam.searchValueMap.clear();
@@ -128,12 +122,6 @@ public class PortletBoImpl implements PortletBo
 		dtParam._OrderBy = " Order By createdDate Desc";
 		dtParam.searchBeanClass = Users.class;
 		
-		return portletDAO.getSearchList(dtParam, isCount);
+		return iBaseDAO.getDataTableList(dtParam, isCount);
 	}
-	
-	public void setPortletDAO(PortletDAO portletDAO)
-	{
-		this.portletDAO = portletDAO;
-	}
-	
 }
