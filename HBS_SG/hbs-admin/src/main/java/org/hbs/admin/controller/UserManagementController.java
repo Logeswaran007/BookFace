@@ -146,13 +146,14 @@ public class UserManagementController extends ControllerBaseBo implements IAdmin
 					}
 					catch (Exception excep)
 					{
+						logger.error(excep);
 					}
 				}
 			}
 		}
 		catch (Exception excep)
 		{
-			logger.error(ADD_USER_DETAILS);
+			logger.error(excep);
 		}
 		return "Failure";
 	}
@@ -183,9 +184,9 @@ public class UserManagementController extends ControllerBaseBo implements IAdmin
 				userType = EUserType.User;
 			return new UserForm(userBo.getProducers(request), userType);
 		}
-		catch (InstantiationException | IllegalAccessException e)
+		catch (InstantiationException | IllegalAccessException excep)
 		{
-			e.printStackTrace();
+			logger.error(excep);
 		}
 		return null;
 	}
@@ -246,8 +247,8 @@ public class UserManagementController extends ControllerBaseBo implements IAdmin
 			}
 			catch (Exception excep)
 			{
-				redirectAttributes.addFlashAttribute("css", "danger");
-				redirectAttributes.addFlashAttribute("message", "Application Error. Please contact administrator.");
+				logger.error(excep);
+				
 			}
 		}
 		return REDIRECT + PRE_CONSUMER_REGISTER;
@@ -263,8 +264,9 @@ public class UserManagementController extends ControllerBaseBo implements IAdmin
 			
 			return modelView;
 		}
-		catch (Exception e)
+		catch (Exception excep)
 		{
+			logger.error(excep);
 			return new ModelAndView(CONSUMER_REGISTER_PAGE);
 		}
 	}
@@ -352,9 +354,9 @@ public class UserManagementController extends ControllerBaseBo implements IAdmin
 				return sb.toString();
 			}
 		}
-		catch (Exception e)
+		catch (Exception excep)
 		{
-			e.printStackTrace();
+			logger.error(excep);
 		}
 		return "";
 	}
