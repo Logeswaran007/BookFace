@@ -101,6 +101,7 @@ small, .small {
 }
 ul,li,a{
 	font-family: 'Montserrat', sans-serif; 
+	color: rgb(247, 247, 247);
 }
 .clear{clear:both}
 body {}
@@ -117,10 +118,10 @@ body {}
 header area css
 =====================*/
 .header_area{
-	  color: #636363;
+	  color: #fff;
   padding-bottom: 20px;
   padding-top: 20px;
-  background:#fff;
+  background:#003366;
 }
 .social_icon{margin-right:10px;}
 .social_icon a.icon-set i {
@@ -147,7 +148,17 @@ select.form-lan {
 }
 .phone_address p{margin:5px 0 0}
 .phone_address span {
-  margin-left: 15px;
+   margin-left: 15px; 
+}
+element.style {
+    width: 42px;
+   font: italic 800 15px/15px "Open Sans", sans-serif;
+   background: #014279;
+   padding: 3px 10px 5px 10px;
+   display: inline-block;
+   filter: none !important;
+   color: #f5f5f5;
+   vertical-align: middle;
 }
 /*====================
 2. nav menu css
@@ -161,7 +172,8 @@ select.form-lan {
 .menu ul li > a {
     display:block;
     text-transform: uppercase;
-    color: #fff;
+    /* color: #fff; */
+    color: #337ab7;
     font-weight: bold;
     -moz-transition: .3s;
     -webkit-transition: .3s;
@@ -170,14 +182,16 @@ select.form-lan {
     transition: .3s;
 	padding:15px 17px;
 }
-.menu ul li:hover a {
-    color: #fff;
-    background: #02BAFF;
+.menu ul li:hover {
+   color: #fff; 
 }
-.menu ul ul {
+.menu ul li.active{
+   background: #02BAFF;
+}
+.menu ul ul :{
   background: #01bafd none repeat scroll 0 0;
   left: 0;
-  position: absolute;
+  position: relative;
   top: 100%;
   width: 200px;
   z-index: 999;
@@ -207,7 +221,7 @@ select.form-lan {
   font-weight: normal;
   padding: 12px 15px;
 }
-.menu ul ul li a:hover{
+.menu  ul ul li .active:hover{
 	background:rgb(1,149,202);
 }
 .menu ul li:hover ul{
@@ -219,7 +233,7 @@ select.form-lan {
     -ms-transform: scaleY(1);
 }
 .home-3 .menu ul ul li > a {
-  color: #fff;
+ color: #fff;
 }
 /*serch form css*/
 .form_control {
@@ -318,7 +332,8 @@ color: #333;
 .cap-readmore {
 }
 .cap-readmore a {
-  background: #02baff none repeat scroll 0 0;
+  background: #449d44 none repeat scroll 0 0;
+  /*  background: #02baff none repeat scroll 0 0; */
   color: #fff;
   font-size: 18px;
   padding: 16px 26px;
@@ -326,9 +341,13 @@ color: #333;
   transition:.5s;
 }
 .cap-readmore a:hover {
-    background:#fff;
+    background:#0a981b;
+    /* background:#fff; */
 	box-shadow:0 1px 2px rgba(43, 59, 93, 0.29), 0 0 13px rgba(43, 59, 93, 0.29);
-	color:#02baff;
+
+	 color: #fff;
+	/* color:#0a981b; */
+
 }
 i.nivo-prev-icon,
 i.nivo-next-icon {
@@ -497,13 +516,13 @@ about area css
 	background:#fff;
 }
 .module-title{
-font-family: 'Montserrat', sans-serif;
+;
   font-size: 24px; margin-bottom: 25px;
   font-weight: normal; color: inherit;	
 }
 .module-title > span {
   display: block;
-font-family: 'Montserrat', sans-serif;
+;
     font-size: 62px;
     font-weight: bold;
 	margin-left: -4px; text-transform: uppercase;
@@ -669,7 +688,7 @@ teacher area css
 	position:relative;
 }
 .teacher_thumb::before {
-  box-shadow: 0 -200px 200px -100px rgba(69, 69, 69, 0.75) inset;
+  box-shadow: 0 -200px 200px -100px rgba(0, 0, 0, 0) inset;
   content: "";
   height: 100%;
   position: absolute;
@@ -1134,7 +1153,7 @@ margin-left: 20px;
 }
 /*home 2 css*/
 .home-2.header_area {
-  background: #000 none repeat scroll 0 0;
+  background: #003366 none repeat scroll 0 0;
   color: #fff;
   padding: 5px 0;
 }
@@ -1174,7 +1193,7 @@ margin-left: 20px;
   width: 60%;float:left;
 }
 .testimonial_text_inner {
-  padding: 47px 0 0 50px;
+  padding:13px 0 0 62px;
 }
 .testimonial_text_inner p,
 .testimonial_text_inner h2,
@@ -1364,7 +1383,7 @@ border-color:#d0d0d0;
 	color:#4a4a4a;font-size: 0.8em;
 }
 .panel_heading a.active {
-    background: #01bafd ;
+    background: rgba(121, 121, 121, 0.23) ;
     color: #fff;
 }
 .panel_heading a.collapsed{
@@ -1405,7 +1424,6 @@ color:#636363;
 }
 /*about top banner page css*/
 .about_area_s,.blog_samurry{
-  background-image: url("../img/home1/about.jpg");
   background-position: 50% 20%;
   background-repeat: no-repeat;
   background-size: cover;
@@ -1414,7 +1432,7 @@ color:#636363;
 }
 .about_area_s::before,.blog_samurry::before {
   bottom: 0;
-  box-shadow: -100px -600px 100px -400px rgba(0, 0, 0, 0.5) inset;
+  box-shadow: -100px -600px 100px -400px rgba(0, 0, 0, 0) inset;
   content: "";
   display: block;
   height: 100%;
@@ -1777,12 +1795,14 @@ text-transform: uppercase;
 }
 .breadcrumb ul li a {
     display: inline-block;
+     color:#2d2d2d ;
 }
 .breadcrumb ul li i {
     margin: 0 10px;
 }
 .breadcrumb ul li a:hover {
-
+	font-family: 'Montserrat', sans-serif;
+	color: #2d2d2d;
 }
 /*================
 	own carsoul custom css
@@ -2065,7 +2085,7 @@ color:#ffaa31;
   transition: all 0.2s ease-out;
 }
 .atvImg-container.over .atvImg-shadow {
-  box-shadow: 0 45px 100px rgba(14, 21, 47, 0.4), 0 16px 40px rgba(14, 21, 47, 0.4);
+  box-shadow: 0 45px 100px (14, 21, 47, 0.4), 0 16px 40px rgba(14, 21, 47, 0.4);
 }
 .atvImg-layers {
   position: relative;
