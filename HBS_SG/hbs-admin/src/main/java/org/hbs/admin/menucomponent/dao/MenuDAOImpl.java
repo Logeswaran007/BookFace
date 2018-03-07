@@ -6,6 +6,7 @@ import java.util.List;
 import org.hbs.admin.menucomponent.MaMenuParam;
 import org.hbs.admin.model.MaMenu;
 import org.hbs.util.CommonHibernateSessionFactorySupport;
+import org.hbs.util.CustomLogger;
 import org.hbs.util.IConstProperty;
 import org.hibernate.Session;
 import org.hibernate.query.Query;
@@ -15,6 +16,8 @@ import org.springframework.stereotype.Repository;
 public class MenuDAOImpl extends CommonHibernateSessionFactorySupport implements MenuDAO, IConstProperty
 {
 	private static final long serialVersionUID = -1506618682884270152L;
+	private final CustomLogger	logger				= new CustomLogger(this.getClass());
+
 	
 	public MenuDAOImpl()
 	{
@@ -44,6 +47,7 @@ public class MenuDAOImpl extends CommonHibernateSessionFactorySupport implements
 		}
 		catch (Exception excep)
 		{
+			logger.error(excep);
 			return new ArrayList<MaMenu>(0);
 		}
 		finally
