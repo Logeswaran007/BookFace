@@ -9,7 +9,6 @@ import javax.servlet.http.HttpServletRequest;
 import org.hbs.admin.IAdminPath;
 import org.hbs.admin.model.ILayouts;
 import org.hbs.admin.model.ILayouts.EDataTable;
-import org.hbs.admin.model.IProducers;
 import org.hbs.admin.model.IUsers;
 import org.hbs.admin.model.IUsers.EUsers;
 import org.hbs.sg.model.accessors.IProducersAssessment;
@@ -83,14 +82,11 @@ public class AssessmentController extends SGControllerBaseBo implements IAdminPa
 
 					assessment.setInfo(new AssessmentInformation());
 					
-					
 
-					IProducersAssessment producerAssessment =new ProducersAssessment(sessionUser.getProducer(),assessment);
+					IProducersAssessment producerAssessment =new ProducersAssessment(courses.getCourseGroup().getProducer(),assessment);
 					
-					//producerAssessment.setAssessment(assessment);
-					//producerAssessment.setProducer(sessionUser.getProducer());
-					
-					assessment.getProducers().add(producerAssessment);
+					assessment.getProducersAssessment().add(producerAssessment);
+				
 
 					return sgBo.saveOrUpdate(assessment) + "";
 				}
