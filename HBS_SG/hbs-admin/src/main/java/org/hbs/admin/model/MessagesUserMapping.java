@@ -31,6 +31,7 @@ import javax.sql.rowset.serial.SerialException;
 
 import org.hbs.admin.model.IMessages.EAddress;
 import org.hbs.util.CommonValidator;
+import org.hbs.util.CustomLogger;
 import org.hbs.util.dao.ICRUDBean;
 
 @Entity
@@ -39,6 +40,8 @@ public class MessagesUserMapping extends CommonBeanFields implements ICRUDBean
 {
 	public static int			MAX_RETRY_COUNT		= 3;
 	private static final long	serialVersionUID	= 3261842931089188964L;
+	private final CustomLogger	logger				= new CustomLogger(this.getClass());
+
 	@Transient
 	public static void getClassFields(List<Field> fields, Class<?> clazz)
 	{
@@ -214,9 +217,9 @@ public class MessagesUserMapping extends CommonBeanFields implements ICRUDBean
 			}
 			
 		}
-		catch (ClassNotFoundException | IOException | SQLException e)
+		catch (ClassNotFoundException | IOException | SQLException excep)
 		{
-			e.printStackTrace();
+			logger.error(excep);
 		}
 		return null;
 	}
