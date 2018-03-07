@@ -19,6 +19,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 public class DataTableParam extends Param implements Serializable, IDataTableParam
 {
 	private static final long serialVersionUID = 763667035218149349L;
+	private final CustomLogger	logger				= new CustomLogger(this.getClass());
 
 	public static DataTableParam getDataTableParamsFromRequest(HttpServletRequest request)
 	{
@@ -151,17 +152,21 @@ public class DataTableParam extends Param implements Serializable, IDataTablePar
 			searchValueMap = mapper.readValue(searchParam, new TypeReference<Map<String, Object>>() {
 			});
 		}
-		catch (JsonGenerationException e)
+		catch (JsonGenerationException excep)
 		{
-			e.printStackTrace();
+			logger.error(excep);
+
+
 		}
-		catch (JsonMappingException e)
+		catch (JsonMappingException excep)
 		{
-			e.printStackTrace();
+			logger.error(excep);
+
 		}
-		catch (IOException e)
+		catch (IOException excep)
 		{
-			e.printStackTrace();
+			logger.error(excep);
+
 		}
 	}
 

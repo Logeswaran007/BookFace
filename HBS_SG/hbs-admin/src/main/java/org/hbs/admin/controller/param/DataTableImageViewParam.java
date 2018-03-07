@@ -7,12 +7,16 @@ import org.hbs.admin.model.IProducers;
 import org.hbs.admin.model.IUploadImageOrDocuments;
 import org.hbs.admin.model.IUsers;
 import org.hbs.admin.model.IUsers.EUsers;
+import org.hbs.util.CommonUtil;
 import org.hbs.util.CommonValidator;
+import org.hbs.util.CustomLogger;
 import org.hbs.util.DataTableParam;
 
 public class DataTableImageViewParam extends DataTableParam
 {
 	private static final long	serialVersionUID	= 1245226336128546290L;
+	private final CustomLogger	logger				= new CustomLogger(this.getClass());
+
 	public static DataTableImageViewParam getDataTableParamsFromRequest(HttpServletRequest request)
 	{
 		DataTableImageViewParam dtParam = null;
@@ -24,9 +28,10 @@ public class DataTableImageViewParam extends DataTableParam
 			initDataTableParam(request, dtParam);
 			return dtParam;
 		}
-		catch (Exception e)
+		catch (Exception excep)
 		{
-			e.printStackTrace();
+			new CustomLogger(DataTableImageViewParam.class).info(excep);
+
 		}
 		
 		return dtParam;

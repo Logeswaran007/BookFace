@@ -19,6 +19,8 @@ import com.google.gson.GsonBuilder;
 
 public class DataTableDynamicColumns
 {
+	private final CustomLogger	logger				= new CustomLogger(this.getClass());
+
 	public static String getDynamicColumns(List<? extends ICommonLayout> queueLayoutList)
 	{
 		Gson gson = new GsonBuilder().setPrettyPrinting().create();
@@ -102,13 +104,13 @@ public class DataTableDynamicColumns
 					}
 				}
 			}
-			catch (InvocationTargetException e)
+			catch (InvocationTargetException excep)
 			{
-				e.printStackTrace();
+				new CustomLogger( DataTableDynamicColumns.class).info(excep);
 			}
-			catch (IntrospectionException e)
+			catch (IntrospectionException excep)
 			{
-				e.printStackTrace();
+				new CustomLogger( DataTableDynamicColumns.class).info(excep);
 			}
 		}
 		return dataList;
