@@ -13,6 +13,7 @@ import org.hbs.admin.model.IImage.EUploadType;
 import org.hbs.admin.model.IUploadImageOrDocuments;
 import org.hbs.admin.model.IUsers;
 import org.hbs.util.CommonValidator;
+import org.hbs.util.CustomLogger;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -27,6 +28,8 @@ import org.springframework.web.servlet.ModelAndView;
 public class PasswordController extends PasswordControllerBase implements IAdminPath
 {
 	private static final long serialVersionUID = 4736497573908842185L;
+	private final CustomLogger	logger				= new CustomLogger(this.getClass());
+
 	
 	@RequestMapping(value = CHANGE_PASSWORD, method = RequestMethod.GET)
 	public ModelAndView changePassword(HttpServletRequest request)
@@ -68,9 +71,9 @@ public class PasswordController extends PasswordControllerBase implements IAdmin
 				return REDIRECT + CHANGE_PASSWORD;
 			}
 		}
-		catch (Exception e)
+		catch (Exception excep)
 		{
-			e.printStackTrace();
+			logger.error(excep);
 		}
 		
 		return REDIRECT + INDEX;
