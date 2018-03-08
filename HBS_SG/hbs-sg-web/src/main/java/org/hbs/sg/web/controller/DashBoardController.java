@@ -7,6 +7,7 @@ import org.hbs.admin.IAdminPath;
 import org.hbs.admin.menucomponent.MaMenuParam;
 import org.hbs.admin.model.IUsers;
 import org.hbs.admin.model.IUsers.EUsers;
+import org.hbs.util.CustomLogger;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,6 +17,8 @@ import org.springframework.web.servlet.ModelAndView;
 public class DashBoardController extends DashBoardControllerData implements IAdminPath, ISGPath
 {
 	private static final long serialVersionUID = 2742202215975142838L;
+	private final CustomLogger	logger				= new CustomLogger(this.getClass());
+
 	
 	@RequestMapping(DASHBOARD)
 	public ModelAndView getDashBoard(HttpServletRequest request, HttpServletResponse response)
@@ -33,8 +36,10 @@ public class DashBoardController extends DashBoardControllerData implements IAdm
 			portletProcessor.executor(request, response, modelView, users.getUserRoleses());
 			return modelView;
 		}
-		catch (Exception e)
+		catch (Exception excep)
 		{
+			logger.error(excep);
+			
 			return new ModelAndView(LOGIN);
 		}
 	}

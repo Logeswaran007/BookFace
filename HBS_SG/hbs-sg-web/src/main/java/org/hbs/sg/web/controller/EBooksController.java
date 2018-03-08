@@ -140,7 +140,7 @@ public class EBooksController extends SGControllerBaseBo implements IAdminPath, 
 		}
 		catch (Exception excep)
 		{
-			excep.printStackTrace();
+		   logger.error(excep);
 		}
 		return "Failure";
 	}

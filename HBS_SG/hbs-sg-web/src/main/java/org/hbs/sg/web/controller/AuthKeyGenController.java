@@ -24,6 +24,7 @@ import org.hbs.edutel.model.AuthKeyGen;
 import org.hbs.edutel.model.IAuthKeyGen;
 import org.hbs.edutel.model.IAuthKeyGen.EKeyGen;
 import org.hbs.util.CommonValidator;
+import org.hbs.util.CustomLogger;
 import org.hbs.util.DataTableDynamicColumnDefs;
 import org.hbs.util.DataTableDynamicColumns;
 import org.hbs.util.DataTableObject;
@@ -57,6 +58,8 @@ public class AuthKeyGenController extends SGControllerBaseBo implements IAdminPa
 {
 	private static final long	serialVersionUID	= 1580742167460496210L;
 	private final Font			normalFont			= FontFactory.getFont("Calibri", BaseFont.IDENTITY_H, true, 10, Font.NORMAL);
+	private final CustomLogger	logger				= new CustomLogger(this.getClass());
+
 	
 	@RequestMapping(value = ADD_AUTH_KEYGEN, method = RequestMethod.POST)
 	public @ResponseBody String addAuthKeyGen(@RequestBody AuthKeyGenForm authKeyGenForm, HttpServletRequest request)
@@ -84,7 +87,7 @@ public class AuthKeyGenController extends SGControllerBaseBo implements IAdminPa
 		}
 		catch (Exception excep)
 		{
-			excep.printStackTrace();
+			logger.error(excep);
 		}
 		return "Failure";
 	}
@@ -160,7 +163,8 @@ public class AuthKeyGenController extends SGControllerBaseBo implements IAdminPa
 			}
 			catch (DocumentException | IOException docExcep)
 			{
-				docExcep.printStackTrace();
+				
+				logger.error(docExcep);
 			}
 			
 			finally
@@ -218,7 +222,7 @@ public class AuthKeyGenController extends SGControllerBaseBo implements IAdminPa
 		}
 		catch (Exception excep)
 		{
-			excep.printStackTrace();
+			logger.error(excep);
 		}
 		return "";
 		
@@ -244,9 +248,9 @@ public class AuthKeyGenController extends SGControllerBaseBo implements IAdminPa
 			
 			return modelView;
 		}
-		catch (Exception e)
+		catch (Exception excep)
 		{
-			e.printStackTrace();
+			logger.error(excep);
 			return new ModelAndView(LOGIN);
 		}
 	}

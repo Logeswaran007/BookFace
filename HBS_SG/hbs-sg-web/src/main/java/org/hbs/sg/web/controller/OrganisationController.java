@@ -23,6 +23,7 @@ import org.hbs.sg.model.concern.Organisation;
 import org.hbs.sg.model.concern.OrganisationAddress;
 import org.hbs.sg.model.concern.OrganisationAttachments;
 import org.hbs.util.CommonValidator;
+import org.hbs.util.CustomLogger;
 import org.hbs.util.DataTableDynamicColumnDefs;
 import org.hbs.util.DataTableDynamicColumns;
 import org.hbs.util.DataTableObject;
@@ -43,6 +44,8 @@ import com.google.gson.GsonBuilder;
 public class OrganisationController extends SGControllerBaseBo implements IAdminPath, ISGPath
 {
 	private static final long serialVersionUID = 1580742167460496210L;
+	private final CustomLogger	logger				= new CustomLogger(this.getClass());
+
 	
 	@RequestMapping(value = ADD_ORGANISTATION, method = RequestMethod.POST)
 	public @ResponseBody String addOrganisation(@RequestParam("organisationForm") String formData, @RequestParam("docTypes") String[] docTypes,
@@ -76,7 +79,7 @@ public class OrganisationController extends SGControllerBaseBo implements IAdmin
 		}
 		catch (Exception excep)
 		{
-			excep.printStackTrace();
+			logger.error(excep);
 		}
 		return "Failure";
 	}
@@ -127,9 +130,9 @@ public class OrganisationController extends SGControllerBaseBo implements IAdmin
 				return modelView;
 			}
 		}
-		catch (Exception e)
+		catch (Exception excep)
 		{
-			e.printStackTrace();
+			logger.error(excep);
 			
 		}
 		return new ModelAndView(LOGIN);

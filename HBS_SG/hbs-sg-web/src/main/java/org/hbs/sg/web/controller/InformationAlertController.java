@@ -17,6 +17,7 @@ import org.hbs.sg.model.IAlertsAndNotifications;
 import org.hbs.sg.model.IAlertsAndNotifications.EMessageStatus;
 import org.hbs.sg.web.bo.SGBo;
 import org.hbs.util.CommonValidator;
+import org.hbs.util.CustomLogger;
 import org.hbs.util.DataTableDynamicColumnDefs;
 import org.hbs.util.DataTableDynamicColumns;
 import org.hbs.util.DataTableObject;
@@ -38,6 +39,8 @@ public class InformationAlertController implements IAdminPath, ISGPath
 {
 	
 	private static final long	serialVersionUID	= 7160427283537267423L;
+	private final CustomLogger	logger				= new CustomLogger(this.getClass());
+
 	
 	@Autowired
 	protected LayoutBo			layoutBo;
@@ -66,7 +69,7 @@ public class InformationAlertController implements IAdminPath, ISGPath
 		}
 		catch (Exception excep)
 		{
-			excep.printStackTrace();
+			logger.error(excep);
 		}
 		return "Failure";
 	}
@@ -97,8 +100,9 @@ public class InformationAlertController implements IAdminPath, ISGPath
 			
 			return modelView;
 		}
-		catch (Exception e)
+		catch (Exception excep)
 		{
+			logger.error(excep);
 			return new ModelAndView(LOGIN);
 		}
 	}
