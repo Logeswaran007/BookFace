@@ -13,6 +13,7 @@ import org.hbs.admin.controller.param.UserParam;
 import org.hbs.admin.model.IImage.EImage;
 import org.hbs.admin.model.Users;
 import org.hbs.util.CommonValidator;
+import org.hbs.util.CustomLogger;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.logout.LogoutHandler;
 import org.springframework.stereotype.Component;
@@ -22,6 +23,7 @@ public class CustomLogoutHandler extends ControllerBaseBo implements LogoutHandl
 {
 	
 	private static final long serialVersionUID = 407818492923421819L;
+	private final CustomLogger	logger				= new CustomLogger(this.getClass());
 	
 	@Override
 	public void logout(HttpServletRequest request, HttpServletResponse response, Authentication authentication)
@@ -50,16 +52,16 @@ public class CustomLogoutHandler extends ControllerBaseBo implements LogoutHandl
 			response.setStatus(HttpServletResponse.SC_OK);
 			response.sendRedirect(request.getServletContext().getContextPath() + INDEX);
 		}
-		catch (Exception e)
+		catch (Exception excep)
 		{
-			e.printStackTrace();
+			logger.error(excep);
 			try
 			{
 				response.sendRedirect(request.getServletContext().getContextPath() + INDEX);
 			}
-			catch (IOException e1)
+			catch (Exception exception)
 			{
-				e1.printStackTrace();
+				logger.error(exception);
 			}
 		}
 	}

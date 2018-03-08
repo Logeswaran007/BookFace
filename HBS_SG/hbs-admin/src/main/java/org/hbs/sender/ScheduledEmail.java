@@ -225,5 +225,5 @@ public class ScheduledEmail extends TimerTask
 	{
 		this.producer = producer;
 	}
-	
+
 }

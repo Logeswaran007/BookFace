@@ -19,6 +19,7 @@ import org.hbs.util.EnumInterface;
 
 public interface IImage extends Serializable
 {
+	
 	public enum EImage implements EnumInterface
 	{
 		Attachment;
@@ -139,11 +140,10 @@ public interface IImage extends Serializable
 								{
 									FileUtils.copyFileToDirectory(srcFile, destDirectory);
 								}
-								catch (Exception e)
+								catch (Exception excep)
 								{
-									iDocs.setUploadFileVirtualURL(request.getServletContext().getContextPath() + "/common/no-image.png");
-									e.printStackTrace();
-									System.out.println(request.getServletContext().getContextPath() + "/common/no-image.png");
+
+									
 								}
 							}
 							sbLocalPath = new StringBuffer();
@@ -156,17 +156,18 @@ public interface IImage extends Serializable
 						}
 						finally
 						{
-							srcFile = null;
-							destFile = null;
-							sbLocalPath = null;
-							repoFilePath = null;
-						}
+						srcFile = null;
+						destFile = null;
+						sbLocalPath = null;
+						repoFilePath = null;
+
 					}
 				}
 			}
+			}
 			catch (Exception excep)
 			{
-				excep.printStackTrace();
+
 			}
 		}
 		

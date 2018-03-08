@@ -14,6 +14,7 @@ import org.hbs.admin.model.IImage.EUploadType;
 import org.hbs.admin.model.IUploadImageOrDocuments;
 import org.hbs.sg.web.controller.ISGPath;
 import org.hbs.util.CommonValidator;
+import org.hbs.util.CustomLogger;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
@@ -24,6 +25,7 @@ public class CustomLoginHandler extends ControllerBaseBo implements Authenticati
 {
 	
 	private static final long serialVersionUID = 407818492923421819L;
+	private final CustomLogger	logger				= new CustomLogger(this.getClass());
 	
 	@Override
 	public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException
@@ -53,10 +55,10 @@ public class CustomLoginHandler extends ControllerBaseBo implements Authenticati
 			response.sendRedirect(request.getServletContext().getContextPath() + DASHBOARD);
 			
 		}
-		catch (Exception e)
+		catch (Exception excep)
 		{
-			e.printStackTrace();
-			response.sendRedirect(request.getServletContext().getContextPath() + INDEX);
+			logger.error(excep);
+			
 		}
 	}
 	

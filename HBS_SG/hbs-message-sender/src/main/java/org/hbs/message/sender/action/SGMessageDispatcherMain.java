@@ -5,6 +5,7 @@ import java.util.List;
 import org.hbs.admin.model.IMessages.EMessageType;
 import org.hbs.admin.model.MessagesUserMapping;
 import org.hbs.util.CommonValidator;
+import org.hbs.util.CustomLogger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.Banner;
 import org.springframework.boot.CommandLineRunner;
@@ -19,6 +20,8 @@ import org.springframework.context.annotation.PropertySources;
 @PropertySources({ @PropertySource("classpath:application.properties") })
 public class SGMessageDispatcherMain implements CommandLineRunner
 {
+	private final CustomLogger	logger				= new CustomLogger(this.getClass());
+
 	public static void main(String[] args) throws Exception
 	{
 		SpringApplication app = new SpringApplication(SGMessageDispatcherMain.class);
@@ -74,17 +77,19 @@ public class SGMessageDispatcherMain implements CommandLineRunner
 										{
 											messageSender.sendMessageToUserByMedia(messageUserList);
 										}
-										catch (Exception e)
+										catch (Exception excep)
 										{
-											e.printStackTrace();
+											logger.error(excep);
+
 										}
 									}
 								}).start();
 							}
 						}
-						catch (Exception e)
+						catch (Exception exception)
 						{
-							e.printStackTrace();
+							logger.error(exception);
+
 						}
 					}
 				}

@@ -3,6 +3,7 @@ package org.hbs.admin.document;
 import java.io.Serializable;
 
 import org.hbs.admin.model.IProducers;
+import org.hbs.util.CustomLogger;
 
 public class DocumentFactory implements Serializable
 {
@@ -10,6 +11,8 @@ public class DocumentFactory implements Serializable
 	public static DocumentFactory	documentFactory		= null;
 	
 	private static final long		serialVersionUID	= -3448438292700201628L;
+	private final CustomLogger	logger				= new CustomLogger(this.getClass());
+
 	
 	public static DocumentFactory getInstance()
 	{
@@ -33,9 +36,9 @@ public class DocumentFactory implements Serializable
 			instance = (DocumentDownload) Class.forName(producer.getDocumentHandlerDownloadBean()).newInstance();
 			instance.setProducer(producer);
 		}
-		catch (InstantiationException | IllegalAccessException | ClassNotFoundException e)
+		catch (InstantiationException | IllegalAccessException | ClassNotFoundException excep)
 		{
-			e.printStackTrace();
+			logger.error(excep);
 		}
 		
 		return instance;
@@ -49,9 +52,9 @@ public class DocumentFactory implements Serializable
 			instance = (DocumentUpload) Class.forName(producer.getDocumentHandlerUploadBean()).newInstance();
 			instance.setProducer(producer);
 		}
-		catch (InstantiationException | IllegalAccessException | ClassNotFoundException e)
+		catch (InstantiationException | IllegalAccessException | ClassNotFoundException excep)
 		{
-			e.printStackTrace();
+			logger.error(excep);
 		}
 		
 		return instance;
