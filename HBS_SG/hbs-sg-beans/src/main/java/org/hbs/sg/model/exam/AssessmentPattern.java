@@ -30,7 +30,6 @@ public class AssessmentPattern extends CommonBeanFields implements IAssessmentPa
 	{
 		super();
 	}
-	
 	public AssessmentPattern(String patternId, String patternName, IProducers producer, Set<IAssessmentPatternInfo> patternInfoSet)
 	{
 		super();
@@ -38,6 +37,13 @@ public class AssessmentPattern extends CommonBeanFields implements IAssessmentPa
 		this.patternName = patternName;
 		this.producer = producer;
 		this.patternInfoSet = patternInfoSet;
+	}
+	
+	
+	public AssessmentPattern(IProducers producer)
+	{
+		super();
+		this.producer = producer;	
 	}
 	
 	@Override

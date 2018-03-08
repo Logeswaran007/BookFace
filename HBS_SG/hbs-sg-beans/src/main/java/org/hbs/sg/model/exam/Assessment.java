@@ -16,11 +16,13 @@ import javax.persistence.Table;
 import javax.persistence.Transient;
 
 import org.hbs.admin.model.CommonBeanFields;
+import org.hbs.admin.model.IProducers;
 import org.hbs.sg.model.accessors.ConsumerAssessment;
 import org.hbs.sg.model.accessors.IConsumerAssessment;
 import org.hbs.sg.model.accessors.IProducersAssessment;
 import org.hbs.sg.model.accessors.ProducersAssessment;
 import org.hbs.sg.model.course.Chapters;
+import org.hbs.sg.model.course.CourseAttachments;
 import org.hbs.sg.model.course.Courses;
 import org.hbs.sg.model.course.IChapters;
 import org.hbs.sg.model.course.ICourses;
@@ -52,7 +54,7 @@ public class Assessment extends CommonBeanFields implements IAssessment
 	protected AssessmentInformation		info;
 	protected String					name;
 	protected IAssessmentPattern		pattern;
-	protected Set<IProducersAssessment>	producers			= new LinkedHashSet<IProducersAssessment>(0);
+	protected Set<IProducersAssessment>	producersAssessment			= new LinkedHashSet<IProducersAssessment>(0);
 	protected Set<IAssessmentQuestion>	questions			= new LinkedHashSet<IAssessmentQuestion>(0);
 	protected String					repoMode			= EQuestionRepo.Dedicated.name();
 	protected String					type				= EAssessmentType.Aptitude.name();
@@ -61,8 +63,13 @@ public class Assessment extends CommonBeanFields implements IAssessment
 	{
 		super();
 		this.assessmentId = getBusinessKey();
-		this.pattern = new AssessmentPattern();
 
+	}
+	public Assessment(IProducers producer)
+	{
+		super();
+		this.assessmentId = getBusinessKey();
+		this.pattern = new AssessmentPattern(producer);
 	}
 
 	@Override
@@ -128,10 +135,11 @@ public class Assessment extends CommonBeanFields implements IAssessment
 	}
 
 	@OneToMany(targetEntity = ProducersAssessment.class, fetch = FetchType.EAGER, mappedBy = "producer", cascade = CascadeType.ALL)
-	public Set<IProducersAssessment> getProducers()
+	public Set<IProducersAssessment> getProducersAssessment()
 	{
-		return producers;
+		return producersAssessment;
 	}
+	
 
 	@Override
 	@OneToMany(targetEntity = AssessmentQuestion.class, fetch = FetchType.EAGER, mappedBy = "assessment")
@@ -195,9 +203,9 @@ public class Assessment extends CommonBeanFields implements IAssessment
 		this.pattern = pattern;
 	}
 
-	public void setProducers(Set<IProducersAssessment> producers)
+	public void setProducersAssessment(Set<IProducersAssessment> producersAssessment)
 	{
-		this.producers = producers;
+		this.producersAssessment = producersAssessment;
 	}
 
 	@Override
