@@ -7,6 +7,7 @@ import org.hbs.admin.controller.ControllerBaseBo;
 import org.hbs.admin.controller.param.UserParam;
 import org.hbs.admin.model.IUserRoles;
 import org.hbs.admin.model.IUsers.EUserStatus;
+import org.hbs.util.CustomLogger;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -21,6 +22,8 @@ public class UserDetailsServiceImpl extends ControllerBaseBo implements UserDeta
 {
 	
 	private static final long serialVersionUID = 7087428004256710898L;
+	private final CustomLogger	logger				= new CustomLogger(this.getClass());
+
 	
 	@Override
 	public UserDetails loadUserByUsername(String userId) throws UsernameNotFoundException
@@ -39,9 +42,10 @@ public class UserDetailsServiceImpl extends ControllerBaseBo implements UserDeta
 				grantedAuthorities.add(new SimpleGrantedAuthority(userRole.getRoles().getRlRoleId()));
 			}
 		}
-		catch (Exception e)
+		catch (Exception excep)
 		{
-			e.printStackTrace();
+			logger.error(excep);
+
 		}
 		return new org.springframework.security.core.userdetails.User(userId, userParam.user.getUsUserPwd(), grantedAuthorities);
 		

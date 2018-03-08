@@ -9,6 +9,7 @@ import org.hbs.admin.controller.param.UserParam;
 import org.hbs.admin.model.IImage.EImage;
 import org.hbs.admin.model.Users;
 import org.hbs.util.CommonValidator;
+import org.hbs.util.CustomLogger;
 import org.springframework.context.ApplicationListener;
 import org.springframework.security.web.session.HttpSessionDestroyedEvent;
 import org.springframework.stereotype.Component;
@@ -18,6 +19,8 @@ public class SessionListener extends ControllerBaseBo implements ApplicationList
 {
 	
 	private static final long serialVersionUID = 1884717425289542411L;
+	private final CustomLogger	logger				= new CustomLogger(this.getClass());
+
 	
 	public void onApplicationEvent(HttpSessionDestroyedEvent evt)
 	{
@@ -37,9 +40,10 @@ public class SessionListener extends ControllerBaseBo implements ApplicationList
 				FileUtils.deleteDirectory(new File(sessionFolder));
 			}
 		}
-		catch (Exception e)
+		catch (Exception excep)
 		{
-			e.printStackTrace();
+			logger.error(excep);
+
 		}
 	}
 }

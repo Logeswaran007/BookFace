@@ -1017,7 +1017,7 @@
 							<img src="${root}/academia/img/home1/team/full-support.jpg" alt="" />
 							<div class="thumb_text"></div>
 						</div>
-						<a href="loadPage.do?p=Online-Support">
+						<a href="52afd812c1d856faf16fe52f2cce31799af5490f">
 							<div class="teacher_content" style="cursor: pointer;">
 								<h2>Full Year Support Program Online</h2>
 								<span>Test Series,</span> <span> Online Test
@@ -1085,7 +1085,7 @@
 								<h2></h2>
 							</div>
 						</div>
-						<a href="loadPage.do?p=ResourceTeam">
+						<a href="c827c7e404cd76345ed7d5c77d8ed35b">
 							<div class="teacher_content">
 								<h2>Resource Team</h2>
 								<p>Talented and Experienced Resources for Students</p>
@@ -1261,7 +1261,7 @@
 	<!--end news  area -->
 	
 	
-	<!--start  centers address  area -->
+		<!--start  centers address  area -->
 	<div class="news_area home-2">
 		<div class="container">
 			<div class="row">
@@ -1282,10 +1282,10 @@
 							<b>EDUTEL ACADEMY </b><br /> 
 							<p>NEET/IIT-JEE,<br /> 
 							ENTRANCE EXAM COACHING CENTER <br /></p>
-							
-							<br /><b>
-							<a href="https://goo.gl/maps/uwBpCgHi9os" style="color:black;">Shri Krishnaswamy Matriculation Higher Secondary School</a></b><br/>
-						</div>
+							<br/><b>
+							<a href="https://goo.gl/maps/uwBpCgHi9os" class="changeBlue" target="_blank" style="color: #000000">Shri Krishnaswamy Matriculation Higher Secondary School</a></b><br/>
+						<br/>
+					</div>
 						
 						<div class="courses_content" style="float:right">
 							 <p>914, J Block,<br/> 15th Street, Vaigai Colony,<br/>
@@ -1293,6 +1293,7 @@
 							  Anna Nagar,<br/> Chennai, Tamil Nadu - 600040 <br /> 
 							  Mob - 7401259090.</p>
 						</div>
+						
 					</div>
 				</div>
 				<div class="col-md-6 col-sm-6 col-lg-6">
@@ -1300,18 +1301,16 @@
 						
 						<div class="courses_content" style="float:left">
 							<b>EDUTEL ACADEMY </b><br />
-							 <p>(EGMORE CENTER),<br /> NEET/IIT-JEE<br />
+							(EGMORE CENTER)
+							<br />
+							 <p> NEET/IIT-JEE<br />
 							 ENTRANCE EXAM COACHING CENTER</br></p>
 							 <br/><b>
-							 <a href="https://maps.google.com/?cid=3211539764435725669&hl=en&gl=gb" style="color:black;">Sivakasi Hindu Nadar Matriculation Higher Secondary School</a></b><br/>
-							 </div>
+							 <a href="https://maps.google.com/?cid=3211539764435725669&hl=en&gl=gb" style="color: #000000" class="changeBlue" target="_blank">Sivakasi Hindu Nadar Matriculation Higher Secondary School</a></b><br/>
+						</div>
 							<div class="courses_content" style="float:right">
-							 <p> 6/47, Arava Muthan Garden St,<br/> Poonamallee High Road,<br/> Egmore, Chennai, <br />Tamil Nadu 600008 <br />MOB-7401259090
-							
-							
-
-
-
+							 <p> 6/47, Arava Muthan Garden St,<br/> Poonamallee High Road,<br/>
+							  Egmore, Chennai, <br />Tamil Nadu 600008 <br />Mob - 7401259090
 						</div>
 					</div>
 				</div>
@@ -1323,33 +1322,115 @@
 				<!--start single news  item -->
 				<div class="col-md-6 col-sm-6 col-lg-6">
 					<div class="course_item">
-					
-						
-						<div class="courses_content" style="float:left">
-							<b>EDUTEL ACADEMY </b><br /> <p>(TAMABARAM CENTER),<br /> NEET/IIT-JEE
-							<br /> ENTRANCE EXAM COACHING CENTER <br /></p>
-							<br /><b><a href="https://goo.gl/maps/vfDQ9bjQvgB2">Jaigopal Garodia National Higher Secondary School Tambaram</a></b><br/> 
-							</div>Bharatha Matha Street, Tambaram East, Tambaram, Vinayakarpuram, East 
-							<br />Tambaram, Tambaram, Chennai, Tamil Nadu 600059<br/><b>MOB-7401259090</b>
-							<br\><a href="https://goo.gl/maps/vfDQ9bjQvgB2">Jaigopal Garodia National Higher Secondary School Tambaram</a><br/>
-							
-
-
-
+						 <div class="courses_content" style="float:left">
+							 <b>EDUTEL ACADEMY </b><br /> (TAMABARAM CENTER),<br />
+							  <p> NEET / IIT - JEE<br />
+						     ENTRANCE EXAM COACHING CENTER <br /> </p>
+						     <br/>
+						     <b>
+						     <a href="https://goo.gl/maps/vfDQ9bjQvgB2" class="changeBlue" target="_blank" style="color: #000000">Jaigopal Garodia National Higher Secondary School Tambaram</a></b><br/>
+						</div>
+						<div class="courses_content" style="float:right">
+							<p>
+							Bharatha Matha Street, Tambaram East, <br/> Tambaram, Vinayakarpuram,<br/>
+						    East Tambaram, Chennai,
+						    <br/> Tamil Nadu - 600059<br/>Mob - 7401259090</p>
 						</div>
 					</div>
 				</div>
 				<div class="col-md-6 col-sm-6 col-lg-6">
 					<div class="course_item">
+					   <div class="courses_content" style="float:left">
+					   <b>EDUTEL ACADEMY </b><br /> (AVADI CENTER),<br/><p> NEET / IIT - JEE<br/>
+					     ENTRANCE EXAM COACHING CENTER <br /></p>
+					   <br/><b><a href="https://goo.gl/maps/YTNi1Rsy1C22" style="color: #000000" class="changeBlue" target="_blank">Thangamani Matriculation Higher Secondary School</a></b><br/>
+					   <br/>
+					   </div>
+					   
 						
-						<div class="courses_content">
-							<b>EDUTEL ACADEMY </b><br /> <b>(AVADI CENTER)</b>,<br /> <b>NEET/IIT-JEE
-							</b><br /><b>ENTRANCES EXAM COACHING CENTER</b></br>38 IAF Main Road, Deena Dayalan Nagar, Pattabiram, Tamil Nadu 600072<br /><b>MOB-7401259090</b>
-							 <br /> <a href="https://goo.gl/maps/YTNi1Rsy1C22">Thangamani Matriculation Higher Secondary School</a><br/>
-							
+						<div class="courses_content" style="float:right">
+							<p>38 IAF Main Road,<br/> Deena Dayalan Nagar,<br/> Pattabiram, <br/>Tamil Nadu - 600072<br />Mob - 7401259090</p>
 							<br />
 
+						</div>
+					</div>
+				</div>
+				<!--end single news  item -->
 
+				<!--end single news  item -->
+			</div>
+			
+			<div class="row">
+				<!--start single news  item -->
+				<div class="col-md-6 col-sm-6 col-lg-6">
+					<div class="course_item">
+					     <div class="courses_content" style="float:left">
+						   <b>EDUTEL ACADEMY </b> <br/> (VADAPALANI CENTER), <br/>
+						   <p> NEET / IIT - JEE<br/>
+						     ENTRANCE EXAM COACHING CENTER <br /></p>
+						   <br/><b><a href="https://goo.gl/maps/NCvvgLrm6492" class="changeBlue" style="color: #000000"  target="_blank">Putra Matriculation Higher Secondary School</a></b><br/>
+					    </div>
+						
+						<div class="courses_content" style="float:right">
+							<p> AVM Avenue, <br/>virugambakkam,<br/>  Virugambakkam, Chennai,<br/> 
+							Tamil Nadu - 600092<br/> Mob - 7401259090</p>
+					
+							
+						</div>
+					</div>
+				</div>
+				<div class="col-md-6 col-sm-6 col-lg-6">
+					<div class="course_item">
+					   <div class="courses_content" style="float:left">
+							 <b>EDUTEL ACADEMY </b><br /> (PERAMBUR CENTER), <br/>
+						     <p>NEET / IIT - JEE<br/>
+							 ENTRANCES EXAM COACHING CENTER<br/></p>
+						   <br/><b>
+							  <a href="https://goo.gl/maps/qVLkX41k9PL2" style="color: #000000" class="changeBlue" target="_blank">Veera Savarkar Netaji Matriculation School</a></b>
+					  </div>
+					  
+					<div class="courses_content" style="float:right">
+						<p>No:14, Kumaran St,<br/> Arul Nagar, Lakshmipuram,<br/> Chennai, Tamil Nadu 600099<br/>Mob - 7401259090</p>
+						 <br /> 
+						<br /><br/>
+					</div>
+					</div>
+				</div>
+				<!--end single news  item -->
+
+				<!--end single news  item -->
+			</div>
+			
+			<div class="row">
+				<!--start single news  item -->
+				<div class="col-md-6 col-sm-6 col-lg-6">
+					<div class="course_item">
+						<div class="courses_content" style="float:left">
+							<b>EDUTEL ACADEMY </b><br /> (ASHOK NAGAR CENTER)
+							<br /> <p>NEET / IIT - JEE
+							<br /> ENTRANCE EXAM COACHING CENTER<br /> </p>
+							<br/> <b><a href="https://goo.gl/maps/8coCuXuCEXG2" class="changeBlue" style="color: #000000" target="_blank">Velankanni Matriculation Higher Secondary School</a></b>
+						</div>
+							<div class="courses_content" style="float:right">
+								<p>1128, Kamaraj Salai, <br/>Ashok Nagar, Sector 10, <br/>Ashok Nagar, Chennai,<br/> Tamil 
+									Nadu 600083<br/>Mob - 7401259090</p>
+							</div>
+				</div>
+				</div>
+				<div class="col-md-6 col-sm-6 col-lg-6">
+					<div class="course_item">
+						<div class="courses_content" style="float:left">
+							<b>EDUTEL ACADEMY</b> <br /> (CBE CENTER)
+							<br /> <p>NEET / IIT - JEE
+							<br /> ENTRANCE EXAM COACHING CENTER<br /> </p>
+							<br/>  <b><a href="https://goo.gl/maps/XhKYZDNXxy52" style="color: #000000" class="changeBlue" target="_blank">Suburban Matriculation School</a></b><br/><br/>
+						
+						</div>
+						<div class="courses_content" style="float:right">
+							<p>Ram Nagar,<br/> Coimbatore,<br/> Tamil Nadu - 641009<br/>Mob - 7401259090
+							 <br /> 
+							
+							
 
 						</div>
 					</div>
@@ -1363,16 +1444,18 @@
 				<!--start single news  item -->
 				<div class="col-md-6 col-sm-6 col-lg-6">
 					<div class="course_item">
-					
+					  <div class="courses_content" style="float:left">
+							  <b>EDUTEL ACADEMY</b> <br/>(KOLATHUR CENTER)
+							  <br/>
+							  <p>NEET / IIT - JEE<br/>
+							  ENTRANCE EXAM COACHING CENTER
+							  </p>
+							  <br/> <b><a href="https://goo.gl/maps/Quz4xq8XmAz" style="color: #000000" class="changeBlue" target="_blank">Kings Matriculation Higher Secondary School</a></b><br/>
+					  </div>
 						
-						<div class="courses_content">
-							<b>EDUTEL ACADEMY </b><br /> <b>(VADAPALANI CENTER)</b>,<br /> <b>NEET/IIT-JEE
-							</b><br /> <b>ENTRANCE EXAM COACHING CENTER </b><br /> Avm Avenue,virugambakkam, AVM Avenue, Virugambakkam, Chennai, Tamil
-							<br />Nadu 600092<br/><b>MOB-7401259090</b>
-							<br\> <a href="https://goo.gl/maps/NCvvgLrm6492">Putra Matriculation Higher Secondary School</a><br/>
-							
-
-
+						<div class="courses_content" style="float:right">
+							  <p>85 Villivakkam-Redhills Road,<br/> Kalpalayam,<br/> Chennai, Tamil Nadu - 600099, <br/>
+							<br />Kalpalaiyam, Lakshmipuram, <br/>Chennai, Tamil Nadu - 600099<br/>Mob - 7401259090</p>
 
 						</div>
 					</div>
@@ -1380,20 +1463,59 @@
 				<div class="col-md-6 col-sm-6 col-lg-6">
 					<div class="course_item">
 						
-						<div class="courses_content">
-							<b>EDUTEL ACADEMY </b><br /> <b>(PERAMBUR CENTER)</b>,<br /> <b>NEET/IIT-JEE
-							</b><br /><b>ENTRANCES EXAM COACHING CENTER</b></br>No:14, Kumaran St, Arul Nagar, Lakshmipuram, Chennai, Tamil Nadu 600099<br /><b>MOB-7401259090</b>
-							 <br /> 
-							
-							<br /> <a href="https://goo.gl/maps/qVLkX41k9PL2">Veera Savarkar Netaji Matriculation School</a><br/>
-
-
+						<div class="courses_content" style="float:left">
+							<b>EDUTEL ACADEMY </b><br />(MADIPAKKAM CENTER),<br /> <p>NEET / IIT - JEE<br/>
+							ENTRANCES EXAM COACHING CENTER</p>
+							 
+						 <b><a href="https://goo.gl/maps/fnhyRFvrqpr" style="color: #000000" class="changeBlue" target="_blank">karpaga vigneswara vidyalaya matriculation higher secondary school</a></b>
 
 						</div>
+						<div class="courses_content" style="float:right">
+						<p># 14, Partiban Street,<br/> Ullagaram, Madipakkam,<br/> Ullagaram, Madipakkam,<br/> Chennai, Mob - 7401259090</p>
+						</div>
+						
+						
 					</div>
 				</div>
 				<!--end single news  item -->
 
+			</div>
+			
+			<div class="row">
+				<!--start single news  item -->
+				<div class="col-md-6 col-sm-6 col-lg-6">
+					<div class="course_item">
+						<div class="courses_content" style="float:left">
+							<b>EDUTEL ACADEMY </b><br/> (REDHILLS CENTER)
+							<br/> <p>NEET / IIT - JEE
+							<br/> ENTRANCE EXAM COACHING CENTER <br/> 
+							</p>
+							<br/>
+							<b><a href="https://goo.gl/maps/aBEjirZGAzz" style="color: #000000" class="changeBlue" target="_blank">Alpha Matriculation Higher Secondary School</a></b><br/>
+						</div>
+							<div class="courses_content" style="float:right">
+							<p>Sembakkam,<br/> M.A.Nagar, Chennai, <br/>Tamil Nadu - 6000073, India</p>
+							</div>
+						
+					</div>
+				</div>
+				<div class="col-md-6 col-sm-6 col-lg-6">
+					<div class="course_item">
+						<div class="courses_content" style="float:left">
+							<b>EDUTEL ACADEMY </b><br />(MOGAPPAIR CENTER),<br /> 
+							<p>NEET / IIT - JEE
+							<br/>
+							ENTRANCES EXAM COACHING CENTER</br>
+							
+							<br /> <b><a href="https://goo.gl/maps/S9Gt4e1Au1y" style="color: #000000" class="changeBlue" target="_blank">Green Valley Matriculation HR Secondary School</a></b><br/>
+
+						</div>
+						<div class="courses_content" style="float:right">
+						<p>2, 1st Block,<br/> TNHB Phase I,<br/> Mogappair West,<br/> Ambattur Industrial Estate,<br />Chennai, Tamil Nadu - 600037
+						<br/>Mob - 7401259090</p>
+						</div>
+					</div>
+				</div>
 				<!--end single news  item -->
 			</div>
 			
@@ -1401,17 +1523,19 @@
 				<!--start single news  item -->
 				<div class="col-md-6 col-sm-6 col-lg-6">
 					<div class="course_item">
-					
+					  <div class="courses_content" style="float:left">
+							  <b>EDUTEL ACADEMY </b><br /> <p>NEET / IIT - JEE
+									<br/>ENTRANCES EXAM COACHING CENTER <br/><br/><b></b>
+									 <br /> 
+									
+									<br /> <b><a href="https://goo.gl/maps/5WB2evdsBKJ2" style="color: #000000" class="changeBlue" target="_blank">EDUTEL ACADEMY
+					                           Educational Institution</a></b><br/>
+					  </div>
 						
-						<div class="courses_content">
-							<b>EDUTEL ACADEMY </b><br /> <b>(ASHOK NAGAR CENTER)
-							</b>,<br /> <b>NEET/IIT-JEE
-							</b><br /> <b>ENTRANCE EXAM COACHING CENTER </b><br /> 1128, Kamaraj Salai, Ashok Nagar, Sector 10, Ashok Nagar, Chennai, Tamil 
-							<br />Nadu 600083<br/><b>MOB-7401259090</b>
-							<br\> <a href="https://goo.gl/maps/8coCuXuCEXG2">Velankanni Matriculation Higher Secondary School</a><br/>
-							
-
-
+						<div class="courses_content" style="float:right">
+							<p> No. 66,<br/> Madurai Road, Palakarai,<br/> Sangillyandapuram,<br/> Tiruchirappalli,<br/> Tamil Nadu - 620008, India.
+								<br/>
+								 Mob - 7401259090</p>
 
 						</div>
 					</div>
@@ -1419,123 +1543,41 @@
 				<div class="col-md-6 col-sm-6 col-lg-6">
 					<div class="course_item">
 						
-						<div class="courses_content">
-							<b>EDUTEL ACADEMY </b><br /> <b>(CBE CENTER)</b>,<br /> <b>NEET/IIT-JEE
-							</b><br /><b>ENTRANCES EXAM COACHING CENTER</b></br>Ram Nagar, Coimbatore, Tamil Nadu 641009<br /><b>MOB-7401259090</b>
-							 <br /> 
-							
-							<br /> <a href=""https://goo.gl/maps/XhKYZDNXxy52>Suburban Matriculation School</a><br/>
-
-
+						<div class="courses_content" style="float:left">
+							<br/>
+							<br/>
+							<br/>
+							<br/>
+							<br/>
+							<br/>
+							<br/>
+							<br/>
+							<br/>
+							<br/>
 
 						</div>
+						<div class="courses_content" style="float:right">
+						<br/>
+						<br/>
+						<br/>
+						<br/>
+						<br/>
+						<br/>
+						<br/>
+						<br/>
+						</div>
+						
+						
 					</div>
 				</div>
 				<!--end single news  item -->
 
-				<!--end single news  item -->
 			</div>
 			
-			<div class="row">
-				<!--start single news  item -->
-				<div class="col-md-6 col-sm-6 col-lg-6">
-					<div class="course_item">
-					
-						
-						<div class="courses_content">
-							<b>EDUTEL ACADEMY </b><br /> <b>(KOLATHUR CENTER)
-							</b>,<br /> <b>NEET/IIT-JEE
-							</b><br /> <b>ENTRANCE EXAM COACHING CENTER </b><br /> 85 Villivakkam-Redhills Road, Kalpalayam, Chennai 600099 Tamil Nadu, 
-							<br />Kalpalaiyam, Lakshmipuram, Chennai, Tamil Nadu 600099<br/><b>MOB-7401259090</b>
-							<br\> <a href="https://goo.gl/maps/Quz4xq8XmAz">Kings Matriculation Higher Secondary School</a><br/>
-							
-
-
-
-						</div>
-					</div>
-				</div>
-				<div class="col-md-6 col-sm-6 col-lg-6">
-					<div class="course_item">
-						
-						<div class="courses_content">
-							<b>EDUTEL ACADEMY </b><br /> <b>(MADIPAKKAM CENTER)</b>,<br /> <b>NEET/IIT-JEE
-							</b><br /><b>ENTRANCES EXAM COACHING CENTER</b></br>#14,Partiban Street,Ullagaram,Madipakkam, Ullagaram, Madipakkam,<br />Chennai,<b>MOB-7401259090</b>
-							 <br /> 
-							
-							<br /> <a href="https://goo.gl/maps/fnhyRFvrqpr">karpaga vigneswara vidyalaya matriculation higher secondary school</a><br/>
-
-
-
-						</div>
-					</div>
-				</div>
-				<!--end single news  item -->
-
-				<!--end single news  item -->
 			</div>
-			
-			<div class="row">
-				<!--start single news  item -->
-				<div class="col-md-6 col-sm-6 col-lg-6">
-					<div class="course_item">
-					
-						
-						<div class="courses_content">
-							<b>EDUTEL ACADEMY </b><br /> <b>(REDHILLS CENTER)
-							</b>,<br /> <b>NEET/IIT-JEE
-							</b><br /> <b>ENTRANCE EXAM COACHING CENTER </b><br /> Sembakkam, M.A.Nagar, Chennai, Tamil Nadu 6000073
-							<br /><b>MOB-7401259090</b>
-							<br\> <a href="https://goo.gl/maps/aBEjirZGAzz">Alpha Matriculation Higher Secondary School</a><br/>
-							
-
-
-
-						</div>
-					</div>
-				</div>
-				<div class="col-md-6 col-sm-6 col-lg-6">
-					<div class="course_item">
-						
-						<div class="courses_content">
-							<b>EDUTEL ACADEMY </b><br /> <b>(MOGAPPAIR CENTER)</b>,<br /> <b>NEET/IIT-JEE
-							</b><br /><b>ENTRANCES EXAM COACHING CENTER</b></br>2, 1st Block, TNHB Phase I, Mogappair West, Ambattur Industrial Estate,<br />Chennai, Tamil Nadu 600037<br\><b>MOB-7401259090</b>
-							 <br /> 
-							
-							<br /> <a href="https://goo.gl/maps/S9Gt4e1Au1y">Green Valley Matriculation HR Secondary School</a><br/>
-
-
-
-						</div>
-					</div>
-				</div>
-				
-				
-				<!--end single news  item -->
-
-				<!--end single news  item -->
-			</div>
-			<div class="col-md-6 col-sm-6 col-lg-6">
-			<div class="course_item">				
-			
-			<div class="courses_content">
-							<b>EDUTEL ACADEMY </b><br /> <b>NEET/IIT-JEE
-							</b><br /><b>ENTRANCES EXAM COACHING CENTER</b></br>Nadu 620008<br /><b>MOB-7401259090</b>
-							 <br /> 
-							
-							<br /> <a href="https://goo.gl/maps/5WB2evdsBKJ2">EDUTEL ACADEMY
-                              Educational Institution</a><br/>
-
-
-
-						</div>
-						</div>
-						</div>
-			
 		</div>
-	</div>
 <!--end  centers address  area -->
-	
+
 	
 	
 	

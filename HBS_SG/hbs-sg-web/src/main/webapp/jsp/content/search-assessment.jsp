@@ -59,7 +59,7 @@ ${displayOrderList}
 					<div class="btn-group">
 						<button type="button" class="btn green btn-outline"
 							data-toggle="modal" data-target="#onlineExamDivId">
-							Create Assessments <i class="fa fa-plus"></i>
+							Create Assessment Panel <i class="fa fa-plus"></i>
 						</button>
 					</div>
 				</div>

@@ -79,6 +79,12 @@ ${displayOrderList}
 		};
 	};
     	
+	
+	
+	function onCreateExam()
+	{
+		alert("WELL");
+	}
     	
 	
 </script>
@@ -101,7 +107,7 @@ ${displayOrderList}
 					<div class="btn-group">
 						<button type="button" class="btn green btn-outline"
 							data-toggle="modal" data-target="#addAssessmentDivId">
-							Create Assessment Question <i class="fa fa-plus"></i>
+							Create Assessment Question Block <i class="fa fa-plus"></i>
 						</button>
 					</div>
 				</div>
