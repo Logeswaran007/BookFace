@@ -17,7 +17,9 @@ import org.hbs.sg.model.course.IChapters;
 import org.hbs.sg.model.course.ICourses;
 import org.hbs.sg.model.exam.Assessment;
 import org.hbs.sg.model.exam.AssessmentInformation;
+import org.hbs.sg.model.exam.AssessmentPattern;
 import org.hbs.sg.model.exam.IAssessment;
+import org.hbs.sg.model.exam.IAssessmentPattern;
 import org.hbs.util.CommonValidator;
 import org.hbs.util.CustomLogger;
 import org.hbs.util.DataTableDynamicColumnDefs;
@@ -63,23 +65,20 @@ public class AssessmentController extends SGControllerBaseBo implements IAdminPa
 				ENamed.EqualTo.param_AND(assessmentParam, "courseId", assessmentForm.courseId);
 				ENamed.EqualTo.param_AND(assessmentParam, "status", true);
 				ICourses courses = (ICourses) sgBo.getCoursesByCourseId(assessmentParam);
-				Assessment assessment = new Assessment();
+				Assessment assessment = new Assessment(sessionUser.getProducer());
 				if (CommonValidator.isNotNullNotEmpty(courses))
 				{
-					assessment.setAssessmentId(assessmentForm.assessment.getBusinessKey());
+				
+					assessment.setName(assessmentForm.assessmentName);
 					assessment.setCreatedUser(sessionUser);
 					assessment.setCreatedDate(new Timestamp(Calendar.getInstance().getTimeInMillis()));
 					assessment.setCourse(courses);
 					assessment.setRepoMode(assessmentForm.getAssessment().getRepoMode());
 
-					for (IChapters chapter : courses.getChapters())
-					{
-						if (CommonValidator.isEqual(assessmentForm.getChapterId(), chapter.getChapterId()))
-							assessment.setChapter(chapter);
-					}
-
-					assessment.setPattern(assessmentForm.getAssessment().getPattern());
-
+					assessment.setChapter(courses.getChapter(assessmentForm.getChapterId()));
+					
+					//assessment.setPattern(assessmentForm.getAssessment().getPattern());
+					assessment.setPattern(new AssessmentPattern(courses.getCourseGroup().getProducer()));
 					assessment.setInfo(new AssessmentInformation());
 					
 
