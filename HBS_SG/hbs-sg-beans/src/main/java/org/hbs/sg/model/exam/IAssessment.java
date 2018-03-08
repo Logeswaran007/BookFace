@@ -27,7 +27,7 @@ public interface IAssessment extends ICommonBeanFields, EBusinessKey, ICRUDBean
 	
 	public IAssessmentPattern getPattern();
 	
-	public Set<IProducersAssessment> getProducers();
+	public Set<IProducersAssessment> getProducersAssessment();
 	
 	public Set<IAssessmentQuestion> getQuestions();
 	
@@ -49,7 +49,7 @@ public interface IAssessment extends ICommonBeanFields, EBusinessKey, ICRUDBean
 	
 	public void setPattern(IAssessmentPattern pattern);
 	
-	public void setProducers(Set<IProducersAssessment> producers);
+	public void setProducersAssessment(Set<IProducersAssessment> producersAssessment);
 	
 	public void setQuestions(Set<IAssessmentQuestion> questions);
 	
