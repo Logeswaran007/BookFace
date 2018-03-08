@@ -12,6 +12,7 @@ import org.hbs.admin.model.IMessages.EMessage;
 import org.hbs.admin.model.IMessages.EMessageType;
 import org.hbs.admin.model.MessagesUserMapping;
 import org.hbs.util.CommonUtil;
+import org.hbs.util.CustomLogger;
 import org.hbs.util.DataTableParam;
 import org.hbs.util.IConstProperty;
 import org.hbs.util.IParam.ENamed;
@@ -24,6 +25,8 @@ import org.springframework.stereotype.Component;
 public class MessageProcessor implements IConstProperty
 {
 	private static final long	serialVersionUID	= 8417933923448309697L;
+	private final CustomLogger	logger				= new CustomLogger(this.getClass());
+
 	
 	@Autowired
 	protected MessagesBo		messagesBo;
@@ -70,6 +73,7 @@ public class MessageProcessor implements IConstProperty
 			}
 			catch (Exception excep)
 			{
+				logger.error(excep);
 				_MUM.setMessageStatus(EMessage.InComplete.name());
 			}
 		}
