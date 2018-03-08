@@ -24,6 +24,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 public abstract class Param implements IParam, IConstProperty
 {
 	private static final long				serialVersionUID		= -7820466140069794475L;
+	private final CustomLogger	logger				= new CustomLogger(this.getClass());
+
 	public EnumInterface					_AddEntityBean;
 	public String							_OrderBy				= "";
 	public String							_ProcedureName			= "";
@@ -218,17 +220,20 @@ public abstract class Param implements IParam, IConstProperty
 				this.requestParamMap = mapper.readValue(paramJson, new TypeReference<Map<String, Object>>() {
 				});
 			}
-			catch (JsonGenerationException e)
+			catch (JsonGenerationException excep)
 			{
-				e.printStackTrace();
+				logger.error(excep);
+
 			}
-			catch (JsonMappingException e)
+			catch (JsonMappingException excep)
 			{
-				e.printStackTrace();
+				logger.error(excep);
+
 			}
-			catch (IOException e)
+			catch (IOException excep)
 			{
-				e.printStackTrace();
+				logger.error(excep);
+
 			}
 		}
 	}

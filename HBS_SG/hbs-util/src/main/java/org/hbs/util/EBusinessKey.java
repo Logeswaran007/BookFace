@@ -2,6 +2,7 @@ package org.hbs.util;
 
 public interface EBusinessKey
 {
+	
 	public enum EKey implements EnumInterface
 	{
 		Primary;
@@ -13,7 +14,7 @@ public interface EBusinessKey
 				Thread.sleep(1);
 				return code + System.currentTimeMillis();
 			}
-			catch (InterruptedException e)
+			catch (InterruptedException excep)
 			{
 				return code + System.currentTimeMillis();
 			}

@@ -20,7 +20,7 @@ public class CommonUtil implements IConstProperty
 {
 
 	public static final long serialVersionUID = 5975112215738796905L;
-
+	
 	public static Timestamp convertTimeToDisplayTimeZone(Timestamp timeStamp)
 	{
 		try
@@ -30,8 +30,10 @@ public class CommonUtil implements IConstProperty
 			gmtFormat.setTimeZone(TimeZone.getTimeZone(PropFactory.getInstance().getProperty(EGeneral.Display_Time_Zone)));
 			return new Timestamp(new SimpleDateFormat().parse(gmtFormat.format(date)).getTime());
 		}
-		catch (ParseException e)
+		catch (ParseException excep)
 		{
+			new CustomLogger(CommonUtil.class).info(excep);
+		
 			return timeStamp;
 		}
 	}
@@ -46,8 +48,9 @@ public class CommonUtil implements IConstProperty
 			SimpleDateFormat sdfCurrent = new SimpleDateFormat(DATE_FORMAT_YYYY_MM_DD_HH_MM_SS_SSS_24);
 			return sdfCurrent.format(sdf.parse(cstTimeStamp));
 		}
-		catch (ParseException e)
+		catch (ParseException excep)
 		{
+			new CustomLogger(CommonUtil.class).info(excep);
 			return cstTimeStamp;
 		}
 	}
@@ -72,7 +75,7 @@ public class CommonUtil implements IConstProperty
 		}
 		catch (Exception excep)
 		{
-			excep.printStackTrace();
+			new CustomLogger(CommonUtil.class).info(excep);
 		}
 		return false;
 	}
