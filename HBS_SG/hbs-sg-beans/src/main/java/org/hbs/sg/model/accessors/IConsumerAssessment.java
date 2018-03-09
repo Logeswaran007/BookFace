@@ -1,13 +1,14 @@
 package org.hbs.sg.model.accessors;
 
-import java.io.Serializable;
 import java.util.Set;
 
 import org.hbs.sg.model.exam.IAllocatedQuestions;
 import org.hbs.sg.model.exam.IAssessment;
+import org.hbs.util.EBusinessKey;
 import org.hbs.util.EnumInterface;
+import org.hbs.util.dao.ICRUDBean;
 
-public interface IConsumerAssessment extends Serializable
+public interface IConsumerAssessment extends ICRUDBean, EBusinessKey
 {
 	public enum EAssessmentMode implements EnumInterface
 	{

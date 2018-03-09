@@ -66,8 +66,8 @@ public class AuthKeyGenController extends SGControllerBaseBo implements IAdminPa
 	{
 		try
 		{
-			IUsers users = EUsers.getSessionUser(request);
-			if (CommonValidator.isNotNullNotEmpty(users))
+			IUsers sessionUser = EUsers.getSessionUser(request);
+			if (CommonValidator.isNotNullNotEmpty(sessionUser))
 			{
 				List<AuthKeyGen> authKeyList = new ArrayList<AuthKeyGen>(authKeyGenForm.getNoOfKeys());
 				AuthKeyGen auth = null;
@@ -77,7 +77,7 @@ public class AuthKeyGenController extends SGControllerBaseBo implements IAdminPa
 					auth.setScheme(authKeyGenForm.getAuthKey().getScheme());
 					auth.setUsers(authKeyGenForm.getAuthKey().getUsers());
 					auth.setSellingPrice(authKeyGenForm.getAuthKey().getSellingPrice());
-					auth.setCreatedUser(users);
+					auth.setCreatedUser(sessionUser);
 					auth.setCreatedDate(new Timestamp(Calendar.getInstance().getTimeInMillis()));
 					authKeyList.add(auth);
 				}

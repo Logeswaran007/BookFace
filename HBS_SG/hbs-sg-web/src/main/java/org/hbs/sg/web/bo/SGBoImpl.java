@@ -17,12 +17,10 @@ import org.hbs.sg.model.course.Courses;
 import org.hbs.sg.model.course.IChapterAttachments;
 import org.hbs.sg.model.course.ICourses;
 import org.hbs.sg.model.course.ICourses.ECourseUploadType;
-import org.hbs.sg.model.exam.Assessment;
-import org.hbs.sg.web.controller.AssessmentParam;
-import org.hbs.sg.web.dao.AssessmentDAO;
 import org.hbs.sg.web.dao.CoursesDAO;
 import org.hbs.sg.web.dao.KeyGenDAO;
 import org.hbs.util.CommonValidator;
+import org.hbs.util.CustomLogger;
 import org.hbs.util.DataTableParam;
 import org.hbs.util.IParam.ENamed;
 import org.hbs.util.IParam.IWrap;
@@ -34,9 +32,7 @@ import org.springframework.stereotype.Component;
 public class SGBoImpl extends SGBoComboBoxImpl implements SGBo
 {
 	private static final long	serialVersionUID	= -7942529344878869154L;
-	
-	@Autowired
-	protected AssessmentDAO		assessmentDAO;
+	final CustomLogger			logger				= new CustomLogger(this.getClass());
 	
 	@Autowired
 	protected CoursesDAO		coursesDAO;
@@ -49,17 +45,6 @@ public class SGBoImpl extends SGBoComboBoxImpl implements SGBo
 	
 	@Autowired
 	protected UserDAO			userDAO;
-	
-	@Override
-	public DataTableParam getAssessmentList(DataTableParam dtParam, boolean isCount)
-	{
-		dtParam.searchBeanClass = Assessment.class;
-		
-		ENamed.EqualTo.param_AND(dtParam, "status", true);
-		dtParam._OrderBy = " Order By createdDate Desc";
-		
-		return iBaseDAO.getDataTableList(dtParam, isCount);
-	}
 	
 	@Override
 	public DataTableParam getAuthKeyGenList(DataTableParam dtParam, boolean isCount)
@@ -135,12 +120,6 @@ public class SGBoImpl extends SGBoComboBoxImpl implements SGBo
 	}
 	
 	@Override
-	public boolean saveOrUpdate(Assessment assessment)
-	{
-		return iBaseDAO.saveOrUpdate("Assessment", assessment);
-	}
-	
-	@Override
 	public boolean saveOrUpdate(List<AuthKeyGen> authKeyList)
 	{
 		return iBaseDAO.saveOrUpdate("AuthKeyGen", authKeyList.toArray(new AuthKeyGen[authKeyList.size()]));
@@ -175,20 +154,11 @@ public class SGBoImpl extends SGBoComboBoxImpl implements SGBo
 		
 		ENamed.EqualTo.param_AND(dtParam, "status", true);
 		
-		List<ICourses> courseList = (List<ICourses>) iBaseDAO.getDataList(dtParam).getDataList();
-		if (CommonValidator.isListFirstNotEmpty(courseList))
-			return courseList.iterator().next();
+		List<ICourses> datatList = (List<ICourses>) iBaseDAO.getDataList(dtParam).getDataList();
+		if (CommonValidator.isListFirstNotEmpty(datatList))
+			return datatList.iterator().next();
 		else
 			return null;
-	}
-
-	@Override
-	public ICourses getCoursesByCourseId(AssessmentParam param) {
-		
-		param.searchBeanClass = Courses.class;
-		iBaseDAO.getDataList(param);
-		return ((ICourses) param.dataList.iterator().next());
-		
 	}
 	
 }

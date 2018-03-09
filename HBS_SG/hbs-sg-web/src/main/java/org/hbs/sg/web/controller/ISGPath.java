@@ -24,13 +24,15 @@ public interface ISGPath extends Serializable
 	public String	INFORMATION_ALERT_PAGE				= "/content/search-information-alert";
 	public String	KEY_GENERATE_PAGE					= "/content/generate-key";
 	public String	PRE_ADD_AUTH_KEYGEN_PAGE			= "/content/generate-key";
+	public String	PRE_ADD_PRACTISE_ASSESSMENT			= "/eaf075ce8c601d31fd61abcace431779";
+	public String	ADD_PRACTISE_ASSESSMENT				= "/a27a7a2e2d4eec556676419251729727";
+	public String	INIT_PRACTISE_ASSESSMENT			= "/aaed4dd8b31f1bf88f5227090f1edc95";
 	public String	PRE_SEARCH_ASSESSMENT				= "/d0f9600d5f8d0b22a87adf6d58b32059";
 	public String	PRE_SEARCH_ASSESSMENT_QUESTIONS		= "/bd73b98a32ed8d14650cb948dee7d408";
 	public String	PRE_SEARCH_AUTH_KEYGEN				= "/a9dc3f7729b51d26dc20af48c03dfee6";
 	public String	PRE_SEARCH_EBOOKS					= "/a500fe2139d875b2f6d9679600577191";
 	public String	PRE_SEARCH_INFORMATION_ALERT		= "/dc58d3e1b340addb4a1bcc6968a4533d";
 	public String	PRE_SEARCH_ORGANISTATION			= "/ba6443f8aa1c6e707ccb0cd4f03aa1e9";
-	public String	PRE_PRACTISE_ASSESSMENT_QUESTIONS	= "/e68cf40066f14db4058661e8cee5907c";
 	public String	SEARCH_ASSESSMENT					= "/abc97070154d606a0fa140bee2f18a0f";
 	
 	public String	SEARCH_ASSESSMENT_PAGE				= "/content/search-assessment";

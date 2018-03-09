@@ -3,11 +3,22 @@ package org.hbs.sg.web.controller;
 import javax.servlet.http.HttpServletRequest;
 
 import org.hbs.admin.IAdminPath;
+import org.hbs.admin.model.IUsers;
+import org.hbs.admin.model.IUsers.EUsers;
+import org.hbs.sg.model.accessors.IConsumerAssessment;
+import org.hbs.util.CommonValidator;
 import org.hbs.util.CustomLogger;
+import org.hbs.util.DataTableParam;
+import org.hbs.util.IParam.ENamed;
+import org.hbs.util.Response;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 public class AssessmentExecutionController extends SGControllerBaseBo implements IAdminPath, ISGPath
 {
@@ -15,11 +26,59 @@ public class AssessmentExecutionController extends SGControllerBaseBo implements
 	private static final long	serialVersionUID	= 3264657455975968436L;
 	private final CustomLogger	logger				= new CustomLogger(this.getClass());
 	
-	@RequestMapping(value = PRE_PRACTISE_ASSESSMENT_QUESTIONS, method = RequestMethod.POST)
-	public @ResponseBody String addAssessmentQuestion(@RequestParam("assessmentForm") String formData, HttpServletRequest request)
+	@RequestMapping(ADD_PRACTISE_ASSESSMENT)
+	public @ResponseBody String createConsumerAssessmentForPractise(@RequestParam("assessmentForm") String formData, HttpServletRequest request)
 	{
-		return formData;
-		
+		try
+		{
+			IUsers sessionUser = EUsers.getSessionUser(request);
+			if (CommonValidator.isNotNullNotEmpty(sessionUser))
+			{
+				ObjectMapper mapper = new ObjectMapper();
+				AssessmentForm assessmentForm = mapper.readValue(formData, AssessmentForm.class);
+				
+				DataTableParam dtParam = DataTableParam.getDataTableParamsFromRequest(request);
+				
+				Response response = assessmentBo.createConsumerAssessmentForPractise(dtParam, assessmentForm, sessionUser);
+				Gson gson = new GsonBuilder().setPrettyPrinting().create();
+				StringBuilder sb = new StringBuilder(gson.toJson(response));
+				return sb.toString();
+				
+			}
+			
+		}
+		catch (Exception excep)
+		{
+			logger.error(excep);
+		}
+		return "Failure";
+	}
+	
+	@RequestMapping(INIT_PRACTISE_ASSESSMENT)
+	public @ResponseBody ModelAndView startAndAllocateQuestionsForPractiseAssessment(HttpServletRequest request)
+	{
+		try
+		{
+			IUsers sessionUser = EUsers.getSessionUser(request);
+			if (CommonValidator.isNotNullNotEmpty(sessionUser))
+			{
+				ModelAndView modelView = new ModelAndView(SEARCH_EBOOKS_PAGE);
+				DataTableParam dtParam = DataTableParam.getDataTableParamsFromRequest(request);
+				String consumerExamId = (String) dtParam.searchValueMap.get("consumerExamId");
+				
+				ENamed.EqualTo.param_AND(dtParam, "consumerExamId", consumerExamId);
+				
+				IConsumerAssessment cat = assessmentBo.getConsumerAssessment(dtParam);
+				
+				return modelView;
+			}
+			
+		}
+		catch (Exception excep)
+		{
+			logger.error(excep);
+		}
+		return null;
 	}
 	
 }

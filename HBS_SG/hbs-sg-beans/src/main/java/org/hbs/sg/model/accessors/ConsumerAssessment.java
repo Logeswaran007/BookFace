@@ -1,5 +1,6 @@
 package org.hbs.sg.model.accessors;
 
+import java.util.Date;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
@@ -19,6 +20,7 @@ import org.hbs.sg.model.exam.AllocatedQuestions;
 import org.hbs.sg.model.exam.Assessment;
 import org.hbs.sg.model.exam.IAllocatedQuestions;
 import org.hbs.sg.model.exam.IAssessment;
+import org.hbs.util.CommonUtil;
 import org.hbs.util.CommonValidator;
 import org.hbs.util.IConstProperty;
 
@@ -33,9 +35,9 @@ public class ConsumerAssessment extends CommonBeanFields implements IConsumerAss
 	protected IAssessment				assessment;
 	protected String					assessmentMode		= EAssessmentMode.Practise.name();
 	protected String					assessmentStatus	= EAssessmentStatus.Ready.name();
-	protected String					assignedDate		= "";
+	protected String					assignedDate;
 	protected String					consumerExamId;
-	protected String					consumerStatus;
+	protected String					consumerStatus		= EConsumerStatus.Fail.name();
 	protected Integer					noOfCorrect			= 0;
 	protected Integer					noOfIncorrect		= 0;
 	protected Integer					noOfPartialCorrect	= 0;
@@ -47,6 +49,8 @@ public class ConsumerAssessment extends CommonBeanFields implements IConsumerAss
 	public ConsumerAssessment()
 	{
 		super();
+		this.consumerExamId = getBusinessKey();
+		this.assignedDate = CommonUtil.getDateInFormat(new Date(), DATE_FORMAT_DD_MMM_YYYY_HH_MM_AM_PM);
 	}
 	
 	public ConsumerAssessment(IAssessment assessment, String assessmentMode, String assignedDate, String consumerExamId, IConsumerUser users, Set<IAllocatedQuestions> allocatedQuestions)
@@ -55,9 +59,18 @@ public class ConsumerAssessment extends CommonBeanFields implements IConsumerAss
 		this.assessment = assessment;
 		this.assessmentMode = assessmentMode;
 		this.assignedDate = assignedDate;
-		this.consumerExamId = consumerExamId;
+		if (CommonValidator.isNotNullNotEmpty(consumerExamId))
+			this.consumerExamId = consumerExamId;
+		else
+			this.consumerExamId = getBusinessKey();
 		this.users = users;
 		this.allocatedQuestions = allocatedQuestions;
+	}
+	
+	@Transient
+	public String getBusinessKey(String... combination)
+	{
+		return EKey.Auto("CAT");
 	}
 	
 	public void calculateAssessmentReport()
