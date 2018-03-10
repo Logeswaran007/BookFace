@@ -2,14 +2,17 @@ package org.hbs.sg.web.bo;
 
 import java.sql.Timestamp;
 import java.util.Calendar;
+import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.hbs.admin.model.IUsers;
 import org.hbs.sg.model.accessors.ConsumerAssessment;
+import org.hbs.sg.model.accessors.ConsumerAssessmentGroup;
 import org.hbs.sg.model.accessors.IConsumerAssessment;
 import org.hbs.sg.model.accessors.IConsumerUser;
 import org.hbs.sg.model.exam.Assessment;
-import org.hbs.sg.model.exam.IAssessment;
+import org.hbs.sg.model.exam.IAssessmentQuestion;
 import org.hbs.sg.web.controller.AssessmentForm;
 import org.hbs.sg.web.dao.AssessmentDAO;
 import org.hbs.util.CommonValidator;
@@ -58,17 +61,16 @@ public abstract class AssessmentBoImpl implements AssessmentBo
 	{
 		if (assessmentDAO.isPracticeNotExceeds(aForm))
 		{
-			IAssessment assessment = getAssessment(dtParam, aForm);
-			if (CommonValidator.isNotNullNotEmpty(assessment))
-			{
-				ConsumerAssessment cat = new ConsumerAssessment();
-				cat.setAssessment(assessment);
-				cat.setUsers((IConsumerUser) user);
-				cat.setCreatedUser(user);
-				cat.setCreatedDate(new Timestamp(Calendar.getInstance().getTimeInMillis()));
-				if (iBaseDAO.saveOrUpdate("ConsumerAssessment", cat))
-					return new Response("Success", "Practise Assessment created successfully.");
-			}
+			ConsumerAssessment cat = new ConsumerAssessment();
+			
+			updateConsumerAssessmentGroup(cat, dtParam, aForm);
+			
+			cat.setUsers((IConsumerUser) user);
+			cat.setCreatedUser(user);
+			cat.setCreatedDate(new Timestamp(Calendar.getInstance().getTimeInMillis()));
+			
+			if (iBaseDAO.saveOrUpdate("ConsumerAssessment", cat))
+				return new Response("Success", "Practise Assessment created successfully.");
 			logger.info("Problem in creating Practise assessment.");
 		}
 		else
@@ -77,21 +79,21 @@ public abstract class AssessmentBoImpl implements AssessmentBo
 	}
 	
 	@SuppressWarnings("unchecked")
-	@Override
-	public IAssessment getAssessment(DataTableParam dtParam, AssessmentForm aForm)
+	private void updateConsumerAssessmentGroup(ConsumerAssessment cat, DataTableParam dtParam, AssessmentForm aForm)
 	{
 		dtParam.searchBeanClass = Assessment.class;
-		dtParam.iDisplayLength = 1;
+		dtParam.searchColumns = " assessmentId ";
 		
 		ENamed.EqualTo.param_AND(dtParam, "course.courseId", aForm.getCourseId());
-		ENamed.EqualTo.param_AND(dtParam, "chapter.chapterId", aForm.getChapterId());
+		ENamed.In.param_AND(dtParam, "chapter.chapterId", aForm.getChapterIds());
 		ENamed.EqualTo.param_AND(dtParam, "status", true);
 		
-		List<Assessment> dataList = (List<Assessment>) iBaseDAO.getDataList(dtParam).getDataList();
-		if (CommonValidator.isListFirstNotEmpty(dataList))
-			return dataList.iterator().next();
-		else
-			return null;
+		List<String> assessmentIdList = (List<String>) iBaseDAO.getDataList(dtParam).getDataList();
+		
+		for (String assessmentId : assessmentIdList)
+		{
+			cat.getAssessmentGroup().add(new ConsumerAssessmentGroup(new Assessment(assessmentId), cat));
+		}
 	}
 	
 	@SuppressWarnings("unchecked")
@@ -108,6 +110,11 @@ public abstract class AssessmentBoImpl implements AssessmentBo
 			return dataList.iterator().next();
 		else
 			return null;
+	}
+	
+	private Set<IAssessmentQuestion> getSelectedAssessmentQuestions(DataTableParam dtParam)
+	{
+		return new LinkedHashSet<IAssessmentQuestion>(assessmentDAO.getSelectedAssessmentQuestions(dtParam));
 	}
 	
 }

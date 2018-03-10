@@ -3,7 +3,6 @@ package org.hbs.sg.model.accessors;
 import java.util.Set;
 
 import org.hbs.sg.model.exam.IAllocatedQuestions;
-import org.hbs.sg.model.exam.IAssessment;
 import org.hbs.util.EBusinessKey;
 import org.hbs.util.EnumInterface;
 import org.hbs.util.dao.ICRUDBean;
@@ -27,8 +26,6 @@ public interface IConsumerAssessment extends ICRUDBean, EBusinessKey
 	
 	public Set<IAllocatedQuestions> getAllocatedQuestions();
 	
-	public IAssessment getAssessment();
-	
 	public String getAssessmentMode();
 	
 	public String getAssignedDate();
@@ -43,8 +40,6 @@ public interface IConsumerAssessment extends ICRUDBean, EBusinessKey
 	
 	public void setAllocatedQuestions(Set<IAllocatedQuestions> allocatedQuestions);
 	
-	public void setAssessment(IAssessment assessment);
-	
 	public void setAssessmentMode(String assessmentMode);
 	
 	public void setAssignedDate(String assignedDate);
@@ -57,4 +52,7 @@ public interface IConsumerAssessment extends ICRUDBean, EBusinessKey
 	
 	public void setUsers(IConsumerUser users);
 	
+	public Set<IConsumerAssessmentGroup> getAssessmentGroup();
+	
+	public void setAssessmentGroup(Set<IConsumerAssessmentGroup> assessmentGroup);
 }

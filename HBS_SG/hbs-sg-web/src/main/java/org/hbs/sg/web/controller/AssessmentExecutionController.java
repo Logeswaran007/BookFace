@@ -62,13 +62,21 @@ public class AssessmentExecutionController extends SGControllerBaseBo implements
 			IUsers sessionUser = EUsers.getSessionUser(request);
 			if (CommonValidator.isNotNullNotEmpty(sessionUser))
 			{
-				ModelAndView modelView = new ModelAndView(SEARCH_EBOOKS_PAGE);
+				ModelAndView modelView = new ModelAndView(PRACTISE_ASSESSMENT_PAGE);
 				DataTableParam dtParam = DataTableParam.getDataTableParamsFromRequest(request);
 				String consumerExamId = (String) dtParam.searchValueMap.get("consumerExamId");
 				
 				ENamed.EqualTo.param_AND(dtParam, "consumerExamId", consumerExamId);
 				
 				IConsumerAssessment cat = assessmentBo.getConsumerAssessment(dtParam);
+				
+				if (CommonValidator.isNotNullNotEmpty(cat))
+				{
+					dtParam.searchCondtionMap.clear();
+					dtParam.searchValueMap.clear();
+					
+					cat.setAllocatedQuestions(assessmentBo.getPractiseQuestions(dtParam));
+				}
 				
 				return modelView;
 			}
@@ -78,7 +86,7 @@ public class AssessmentExecutionController extends SGControllerBaseBo implements
 		{
 			logger.error(excep);
 		}
-		return null;
+		return new ModelAndView(ERROR_404);
 	}
 	
 }

@@ -27,6 +27,7 @@ public interface ISGPath extends Serializable
 	public String	PRE_ADD_PRACTISE_ASSESSMENT			= "/eaf075ce8c601d31fd61abcace431779";
 	public String	ADD_PRACTISE_ASSESSMENT				= "/a27a7a2e2d4eec556676419251729727";
 	public String	INIT_PRACTISE_ASSESSMENT			= "/aaed4dd8b31f1bf88f5227090f1edc95";
+	public String	PRACTISE_ASSESSMENT_PAGE			= "/content/assessment";
 	public String	PRE_SEARCH_ASSESSMENT				= "/d0f9600d5f8d0b22a87adf6d58b32059";
 	public String	PRE_SEARCH_ASSESSMENT_QUESTIONS		= "/bd73b98a32ed8d14650cb948dee7d408";
 	public String	PRE_SEARCH_AUTH_KEYGEN				= "/a9dc3f7729b51d26dc20af48c03dfee6";

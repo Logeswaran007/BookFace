@@ -65,6 +65,13 @@ public class Assessment extends CommonBeanFields implements IAssessment
 		
 	}
 	
+	public Assessment(String assessmentId)
+	{
+		super();
+		this.assessmentId = assessmentId;
+		
+	}
+	
 	public Assessment(IProducers producer)
 	{
 		super();
