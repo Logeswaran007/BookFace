@@ -12,6 +12,7 @@ import org.hbs.sg.model.accessors.ConsumerAssessmentGroup;
 import org.hbs.sg.model.accessors.IConsumerAssessment;
 import org.hbs.sg.model.accessors.IConsumerUser;
 import org.hbs.sg.model.exam.Assessment;
+import org.hbs.sg.model.exam.IAllocatedQuestions;
 import org.hbs.sg.model.exam.IAssessmentQuestion;
 import org.hbs.sg.web.controller.AssessmentForm;
 import org.hbs.sg.web.dao.AssessmentDAO;
@@ -22,8 +23,10 @@ import org.hbs.util.IParam.ENamed;
 import org.hbs.util.Response;
 import org.hbs.util.dao.IBaseDAO;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
-public abstract class AssessmentBoImpl implements AssessmentBo
+@Component
+public class AssessmentBoImpl implements AssessmentBo
 {
 	private static final long	serialVersionUID	= 8872235843517222163L;
 	final CustomLogger			logger				= new CustomLogger(this.getClass());
@@ -115,6 +118,12 @@ public abstract class AssessmentBoImpl implements AssessmentBo
 	private Set<IAssessmentQuestion> getSelectedAssessmentQuestions(DataTableParam dtParam)
 	{
 		return new LinkedHashSet<IAssessmentQuestion>(assessmentDAO.getSelectedAssessmentQuestions(dtParam));
+	}
+	
+	@Override
+	public Set<IAllocatedQuestions> getPractiseQuestions(DataTableParam dtParam)
+	{
+		return null;
 	}
 	
 }
