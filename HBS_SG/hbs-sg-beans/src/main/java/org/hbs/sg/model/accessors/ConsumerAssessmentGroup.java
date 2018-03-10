@@ -1,6 +1,8 @@
 package org.hbs.sg.model.accessors;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.Id;
 import javax.persistence.Table;
 
 import org.hbs.sg.model.exam.IAssessment;
@@ -11,6 +13,7 @@ public class ConsumerAssessmentGroup implements IConsumerAssessmentGroup
 {
 	
 	private static final long	serialVersionUID	= 5636567271253869102L;
+	private int					autoId;
 	private IAssessment			assessment;
 	private IConsumerAssessment	consumerAssessment;
 	
@@ -24,6 +27,18 @@ public class ConsumerAssessmentGroup implements IConsumerAssessmentGroup
 		super();
 		this.assessment = assessment;
 		this.consumerAssessment = consumerAssessment;
+	}
+	
+	@Id
+	@Column(name = "assessmentId")
+	public int getAutoId()
+	{
+		return autoId;
+	}
+	
+	public void setAutoId(int autoId)
+	{
+		this.autoId = autoId;
 	}
 	
 	public IAssessment getAssessment()
