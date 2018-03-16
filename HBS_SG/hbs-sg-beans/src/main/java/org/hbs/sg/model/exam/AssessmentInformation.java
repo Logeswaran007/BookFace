@@ -2,6 +2,7 @@ package org.hbs.sg.model.exam;
 
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
+import javax.persistence.Transient;
 
 @Embeddable
 public class AssessmentInformation implements IAssessmentInformation
@@ -51,12 +52,14 @@ public class AssessmentInformation implements IAssessmentInformation
 	}
 	
 	@Override
+	@Transient
 	public boolean isDateElapsed()
 	{
 		return dateElapsed;
 	}
 	
 	@Override
+	@Transient
 	public boolean isDateReached()
 	{
 		return dateReached;

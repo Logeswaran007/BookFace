@@ -5,12 +5,11 @@ import javax.servlet.http.HttpServletRequest;
 import org.hbs.admin.IAdminPath;
 import org.hbs.admin.model.IUsers;
 import org.hbs.admin.model.IUsers.EUsers;
-import org.hbs.sg.model.accessors.IConsumerAssessment;
 import org.hbs.util.CommonValidator;
 import org.hbs.util.CustomLogger;
 import org.hbs.util.DataTableParam;
-import org.hbs.util.IParam.ENamed;
 import org.hbs.util.Response;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -20,6 +19,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
+@Controller
 public class AssessmentExecutionController extends SGControllerBaseBo implements IAdminPath, ISGPath
 {
 	
@@ -63,20 +63,8 @@ public class AssessmentExecutionController extends SGControllerBaseBo implements
 			if (CommonValidator.isNotNullNotEmpty(sessionUser))
 			{
 				ModelAndView modelView = new ModelAndView(PRACTISE_ASSESSMENT_PAGE);
-				DataTableParam dtParam = DataTableParam.getDataTableParamsFromRequest(request);
-				String consumerExamId = (String) dtParam.searchValueMap.get("consumerExamId");
 				
-				ENamed.EqualTo.param_AND(dtParam, "consumerExamId", consumerExamId);
-				
-				IConsumerAssessment cat = assessmentBo.getConsumerAssessment(dtParam);
-				
-				if (CommonValidator.isNotNullNotEmpty(cat))
-				{
-					dtParam.searchCondtionMap.clear();
-					dtParam.searchValueMap.clear();
-					
-					cat.setAllocatedQuestions(assessmentBo.getPractiseQuestions(dtParam));
-				}
+				assessmentBo.getPractiseQuestions(DataTableParam.getDataTableParamsFromRequest(request));
 				
 				return modelView;
 			}

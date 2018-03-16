@@ -58,6 +58,23 @@ function onSelectAllCheckBox()
     }
 }
 
+function getQuestions()
+{
+	 var data = {};
+	    data["consumerExamId"] = 'CSREXM0001';
+	    data["noOfQuestions"] = '150';
+	    var encodedParams = Base64.encode(JSON.stringify(data));
+	    $.ajax(
+	    {
+	        type: "POST",
+	        url: '${root}/aaed4dd8b31f1bf88f5227090f1edc95?searchCriteria=' + encodedParams + '&uid=' + Math.random(),
+	        success: function(data)
+	        {
+	        	alert(data);
+	        }
+	    });
+}
+
 function searchAndPrintSerialKeys()
 {
     var serialKeyArr = [];
@@ -130,7 +147,7 @@ function onGenerateSaveToPdf(serialKey, action)
 								onclick="searchAndPrintSerialKeys();"> <i
 									class="fa fa-file-pdf-o"></i> Save as PDF
 							</a></li>
-							<li><a href="javascript:;"> <i
+							<li><a href="javascript:;" onclick="getQuestions();"> <i
 									class="fa fa-file-excel-o"></i> Export to Excel
 							</a></li>
 						</ul>

@@ -2,9 +2,7 @@ package org.hbs.sg.web.bo;
 
 import java.sql.Timestamp;
 import java.util.Calendar;
-import java.util.LinkedHashSet;
 import java.util.List;
-import java.util.Set;
 
 import org.hbs.admin.model.IUsers;
 import org.hbs.sg.model.accessors.ConsumerAssessment;
@@ -12,8 +10,6 @@ import org.hbs.sg.model.accessors.ConsumerAssessmentGroup;
 import org.hbs.sg.model.accessors.IConsumerAssessment;
 import org.hbs.sg.model.accessors.IConsumerUser;
 import org.hbs.sg.model.exam.Assessment;
-import org.hbs.sg.model.exam.IAllocatedQuestions;
-import org.hbs.sg.model.exam.IAssessmentQuestion;
 import org.hbs.sg.web.controller.AssessmentForm;
 import org.hbs.sg.web.dao.AssessmentDAO;
 import org.hbs.util.CommonValidator;
@@ -108,22 +104,40 @@ public class AssessmentBoImpl implements AssessmentBo
 		
 		ENamed.EqualTo.param_AND(dtParam, "status", true);
 		
-		List<ConsumerAssessment> dataList = (List<ConsumerAssessment>) iBaseDAO.getDataList(dtParam).getDataList();
+		List<IConsumerAssessment> dataList = (List<IConsumerAssessment>) iBaseDAO.getDataList(dtParam).getDataList();
 		if (CommonValidator.isListFirstNotEmpty(dataList))
 			return dataList.iterator().next();
 		else
 			return null;
 	}
 	
-	private Set<IAssessmentQuestion> getSelectedAssessmentQuestions(DataTableParam dtParam)
-	{
-		return new LinkedHashSet<IAssessmentQuestion>(assessmentDAO.getSelectedAssessmentQuestions(dtParam));
-	}
-	
+	@SuppressWarnings("unchecked")
 	@Override
-	public Set<IAllocatedQuestions> getPractiseQuestions(DataTableParam dtParam)
+	public IConsumerAssessment getPractiseQuestions(DataTableParam dtParam)
 	{
-		return null;
+		IConsumerAssessment cat = getConsumerAssessment(dtParam);
+		
+		if (CommonValidator.isNotNullNotEmpty(cat))
+		{
+			dtParam.searchBeanClass = ConsumerAssessmentGroup.class;
+			dtParam.iDisplayLength = 100;
+			dtParam.searchBeanClassAlias = "CAG";
+			dtParam.searchColumns = " CAG.consumerAssessment, CAG.assessment.pattern, CAG.assessment.assessmentId ";
+			String consumerExamId = (String) dtParam.searchValueMap.get("consumerExamId");
+			ENamed.EqualTo.param_AND(dtParam, "CAG.consumerAssessment.consumerExamId", consumerExamId);
+			List<Object[]> dataList = (List<Object[]>) iBaseDAO.getDataList(dtParam).getDataList();
+			if (CommonValidator.isListFirstNotEmpty(dataList))
+			{
+				cat = (ConsumerAssessment) dataList.iterator().next()[0];
+				
+				for (String iAQ : assessmentDAO.getSelectedAssessmentQuestions(dtParam))
+				{
+					// cat.getAllocatedQuestions().add(new AllocatedQuestions(cat, iAQ));
+					System.out.println(">>iAQ>> " + iAQ);
+				}
+			}
+		}
+		return cat;
 	}
 	
 }

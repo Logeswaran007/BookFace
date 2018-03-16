@@ -3,8 +3,11 @@ package org.hbs.sg.model.accessors;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import org.hbs.sg.model.exam.Assessment;
 import org.hbs.sg.model.exam.IAssessment;
 
 @Entity
@@ -13,8 +16,8 @@ public class ConsumerAssessmentGroup implements IConsumerAssessmentGroup
 {
 	
 	private static final long	serialVersionUID	= 5636567271253869102L;
-	private int					autoId;
 	private IAssessment			assessment;
+	private int					autoId;
 	private IConsumerAssessment	consumerAssessment;
 	
 	public ConsumerAssessmentGroup()
@@ -29,21 +32,25 @@ public class ConsumerAssessmentGroup implements IConsumerAssessmentGroup
 		this.consumerAssessment = consumerAssessment;
 	}
 	
+	@ManyToOne(targetEntity = Assessment.class)
+	@JoinColumn(name = "assessmentId", nullable = false)
+	public IAssessment getAssessment()
+	{
+		return assessment;
+	}
+	
 	@Id
-	@Column(name = "assessmentId")
+	@Column(name = "autoId")
 	public int getAutoId()
 	{
 		return autoId;
 	}
 	
-	public void setAutoId(int autoId)
+	@ManyToOne(targetEntity = ConsumerAssessment.class)
+	@JoinColumn(name = "consumerExamId", nullable = false)
+	public IConsumerAssessment getConsumerAssessment()
 	{
-		this.autoId = autoId;
-	}
-	
-	public IAssessment getAssessment()
-	{
-		return assessment;
+		return consumerAssessment;
 	}
 	
 	public void setAssessment(IAssessment assessment)
@@ -51,9 +58,9 @@ public class ConsumerAssessmentGroup implements IConsumerAssessmentGroup
 		this.assessment = assessment;
 	}
 	
-	public IConsumerAssessment getConsumerAssessment()
+	public void setAutoId(int autoId)
 	{
-		return consumerAssessment;
+		this.autoId = autoId;
 	}
 	
 	public void setConsumerAssessment(IConsumerAssessment consumerAssessment)

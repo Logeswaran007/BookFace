@@ -2,6 +2,7 @@ package org.hbs.util.dao;
 
 import org.hbs.util.CommonHibernateSessionFactorySupport;
 import org.hbs.util.CommonValidator;
+import org.hbs.util.CustomException;
 import org.hbs.util.CustomLogger;
 import org.hbs.util.DataTableParam;
 import org.hbs.util.IParam;
@@ -29,9 +30,12 @@ public class BaseDAOImpl extends CommonHibernateSessionFactorySupport implements
 			StringBuffer sbSelectQry = new StringBuffer();
 			
 			if (CommonValidator.isNotNullNotEmpty(param.getSearchColumns()))
-				sbSelectQry.append(SELECT_DISTINCT + param.getSearchColumns());
+			{
+				sbSelectQry.append(SELECT + param.getSearchColumns());
+				param.setSearchBeanClassAlias(SPACE + param.getSearchBeanClassAlias() + SPACE);
+			}
 			
-			sbSelectQry.append(FROM + param.getSearchBeanClass().getCanonicalName() + WHERE_1_1);
+			sbSelectQry.append(FROM + param.getSearchBeanClass().getCanonicalName() + param.getSearchBeanClassAlias() + WHERE_1_1);
 			
 			for (String condKey : param.getSearchCondtionMap().keySet())
 			{
@@ -54,6 +58,8 @@ public class BaseDAOImpl extends CommonHibernateSessionFactorySupport implements
 		}
 		catch (Exception excep)
 		{
+			if (CommonValidator.isNotNullNotEmpty(param.getSearchBeanClassAlias()) == false)
+				logger.error(new CustomException("Set 'searchBeanClassAlias' in Query for in case of selecting Objects."));
 			logger.error(excep);
 		}
 		finally

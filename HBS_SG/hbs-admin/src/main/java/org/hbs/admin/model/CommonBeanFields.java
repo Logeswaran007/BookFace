@@ -115,7 +115,7 @@ public abstract class CommonBeanFields implements ICommonBeanFields, IConstPrope
 		return modifiedDateByTimeZone;
 	}
 	
-	@ManyToOne(targetEntity = Users.class, cascade = CascadeType.ALL)
+	@ManyToOne(targetEntity = Users.class) // cascade = CascadeType.ALL
 	@JoinColumn(name = "modifiedBy", nullable = true)
 	public IUsers getModifiedUser()
 	{

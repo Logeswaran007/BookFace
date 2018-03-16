@@ -17,8 +17,8 @@ import javax.persistence.Transient;
 
 import org.hbs.admin.model.CommonBeanFields;
 import org.hbs.admin.model.IProducers;
-import org.hbs.sg.model.accessors.ConsumerAssessment;
-import org.hbs.sg.model.accessors.IConsumerAssessment;
+import org.hbs.sg.model.accessors.ConsumerAssessmentGroup;
+import org.hbs.sg.model.accessors.IConsumerAssessmentGroup;
 import org.hbs.sg.model.accessors.IProducersAssessment;
 import org.hbs.sg.model.accessors.ProducersAssessment;
 import org.hbs.sg.model.course.Chapters;
@@ -44,19 +44,19 @@ public class Assessment extends CommonBeanFields implements IAssessment
 		Collobrative, Dedicated
 	}
 	
-	private static final long			serialVersionUID	= 8822621151755847600L;
+	private static final long				serialVersionUID			= 8822621151755847600L;
 	
-	protected String					assessmentId;
-	protected IChapters					chapter;
-	protected Set<IConsumerAssessment>	consumerAssessments	= new LinkedHashSet<IConsumerAssessment>(0);
-	protected ICourses					course;
-	protected AssessmentInformation		info;
-	protected String					name;
-	protected IAssessmentPattern		pattern;
-	protected Set<IProducersAssessment>	producersAssessment	= new LinkedHashSet<IProducersAssessment>(0);
-	protected Set<IAssessmentQuestion>	questions			= new LinkedHashSet<IAssessmentQuestion>(0);
-	protected String					repoMode			= EQuestionRepo.Dedicated.name();
-	protected String					type				= EAssessmentType.Aptitude.name();
+	protected String						assessmentId;
+	protected IChapters						chapter;
+	protected Set<IConsumerAssessmentGroup>	consumerAssessmentGroups	= new LinkedHashSet<IConsumerAssessmentGroup>(0);
+	protected ICourses						course;
+	protected AssessmentInformation			info;
+	protected String						name;
+	protected IAssessmentPattern			pattern;
+	protected Set<IProducersAssessment>		producersAssessment			= new LinkedHashSet<IProducersAssessment>(0);
+	protected Set<IAssessmentQuestion>		questions					= new LinkedHashSet<IAssessmentQuestion>(0);
+	protected String						repoMode					= EQuestionRepo.Dedicated.name();
+	protected String						type						= EAssessmentType.Aptitude.name();
 	
 	public Assessment()
 	{
@@ -103,10 +103,10 @@ public class Assessment extends CommonBeanFields implements IAssessment
 	}
 	
 	@Override
-	@OneToMany(targetEntity = ConsumerAssessment.class, fetch = FetchType.EAGER, mappedBy = "assessment")
-	public Set<IConsumerAssessment> getConsumerAssessments()
+	@OneToMany(targetEntity = ConsumerAssessmentGroup.class, fetch = FetchType.EAGER, mappedBy = "assessment")
+	public Set<IConsumerAssessmentGroup> getConsumerAssessmentGroups()
 	{
-		return consumerAssessments;
+		return consumerAssessmentGroups;
 	}
 	
 	@Override
@@ -180,9 +180,9 @@ public class Assessment extends CommonBeanFields implements IAssessment
 	}
 	
 	@Override
-	public void setConsumerAssessments(Set<IConsumerAssessment> consumerAssessments)
+	public void setConsumerAssessmentGroups(Set<IConsumerAssessmentGroup> consumerAssessmentGroups)
 	{
-		this.consumerAssessments = consumerAssessments;
+		this.consumerAssessmentGroups = consumerAssessmentGroups;
 	}
 	
 	@Override

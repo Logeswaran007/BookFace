@@ -31,6 +31,13 @@ public class AllocatedQuestions implements IAllocatedQuestions
 		super();
 	}
 	
+	public AllocatedQuestions(IConsumerAssessment consumerAssessment, IAssessmentQuestion question)
+	{
+		super();
+		this.consumerAssessment = consumerAssessment;
+		this.question = question;
+	}
+	
 	public AllocatedQuestions(String answerId, int autoId, IConsumerAssessment consumerAssessment, boolean unanswered)
 	{
 		super();
