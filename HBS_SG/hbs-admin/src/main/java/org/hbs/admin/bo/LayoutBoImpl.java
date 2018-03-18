@@ -25,6 +25,7 @@ public class LayoutBoImpl implements LayoutBo
 		DataTableParam param = new DataTableParam();
 		
 		param.searchBeanClass = Layouts.class;
+		param._OrderBy = " Order By displayOrder ASC";
 		
 		ENamed.EqualTo.param_AND(param, "layoutName", layoutName);
 		ENamed.GreaterThan.param_AND(param, "displayOrder", 0);

@@ -18,6 +18,8 @@ import org.hbs.util.model.LabelValueBean;
 public interface SGBo extends Serializable
 {
 	
+	public List<AuthKeyGen> getAuthKeyGenList(DataTableParam dtParam);
+	
 	public DataTableParam getAuthKeyGenList(DataTableParam dtParam, boolean isCount);
 	
 	public List<LabelValueBean> getComboBoxChaptersList(AssessmentParam assessmentParam) throws Exception;
@@ -27,6 +29,8 @@ public interface SGBo extends Serializable
 	public List<LabelValueBean> getComboBoxCourseList(AssessmentParam assessmentParam) throws Exception;
 	
 	public Map<String, String> getComboBoxSchemeMap(SchemeParam schemeParam) throws Exception;
+	
+	public ICourses getCourse(DataTableParam dtParam);
 	
 	public DataTableParam getCourseAttachmentList(DataTableParam dtParam, boolean isCount);
 	
@@ -43,7 +47,5 @@ public interface SGBo extends Serializable
 	public boolean saveOrUpdate(Organisation organisation);
 	
 	public boolean saveOrUpdate(Set<? extends IUploadImageOrDocuments> attachments);
-	
-	public ICourses getCourse(DataTableParam dtParam);
 	
 }

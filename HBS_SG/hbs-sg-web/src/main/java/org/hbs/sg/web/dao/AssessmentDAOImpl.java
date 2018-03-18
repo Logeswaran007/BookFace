@@ -1,7 +1,9 @@
 package org.hbs.sg.web.dao;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.Random;
 
 import org.hbs.sg.model.accessors.ConsumerAssessment;
 import org.hbs.sg.model.accessors.ConsumerAssessmentGroup;
@@ -66,13 +68,12 @@ public class AssessmentDAOImpl extends CommonHibernateSessionFactorySupport impl
 	@Override
 	public List<String> getSelectedAssessmentQuestions(DataTableParam dtParam)
 	{
-		// Object[0] = ConsumerAssessment;
-		// Object[1] = AssessmentPattern;
-		// Object[2] = assessmentId;
+		// Object[0] = AssessmentPattern;
+		// Object[1] = assessmentId;
 		
 		Object[] objects = (Object[]) dtParam.dataList.iterator().next();
 		
-		IAssessmentPattern pattern = (IAssessmentPattern) objects[1];
+		IAssessmentPattern pattern = (IAssessmentPattern) objects[0];
 		
 		calculateAssessmentBasedQuestionsCountByPattern(pattern, dtParam);
 		
@@ -95,7 +96,13 @@ public class AssessmentDAOImpl extends CommonHibernateSessionFactorySupport impl
 			
 			// Balance Shift To Other Weight-Age Logic
 			int balance = 0;
-			for (String assessmentId : pattern.getCalibrateHM().keySet())
+			List<String> assessmentKeyList = new ArrayList<String>(pattern.getCalibrateHM().keySet());
+			
+			// Assessment Id's will got shuffle, when consumer select multiple chapters, this will
+			// help in balance shift not to specific order
+			Collections.shuffle(assessmentKeyList, new Random());
+			
+			for (String assessmentId : assessmentKeyList)
 			{
 				for (String weightAge : pattern.getCalibrateHM().get(assessmentId).keySet())
 				{

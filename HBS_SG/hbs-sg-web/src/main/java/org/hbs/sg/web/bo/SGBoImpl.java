@@ -1,5 +1,6 @@
 package org.hbs.sg.web.bo;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -8,9 +9,9 @@ import org.hbs.admin.model.IAddress.AddressType;
 import org.hbs.admin.model.IUploadImageOrDocuments;
 import org.hbs.admin.model.UsersAddress;
 import org.hbs.edutel.model.AuthKeyGen;
+import org.hbs.edutel.model.IAuthKeyGen.EKeyGen;
 import org.hbs.sg.model.AlertsAndNotifications;
 import org.hbs.sg.model.concern.Organisation;
-import org.hbs.sg.model.concern.OrganisationAddress;
 import org.hbs.sg.model.course.ChapterAttachments;
 import org.hbs.sg.model.course.CourseAttachments;
 import org.hbs.sg.model.course.Courses;
@@ -51,8 +52,8 @@ public class SGBoImpl extends SGBoComboBoxImpl implements SGBo
 	{
 		dtParam.searchBeanClass = AuthKeyGen.class;
 		
-		ENamed.EqualTo.param_AND(dtParam, "status", true);
-		dtParam._OrderBy = " Order By createdDate,users.status Desc";
+		ENamed.EqualTo.param_AND(dtParam, "AKG.status", true);
+		dtParam._OrderBy = " Order By AKG.createdDate, AKG.users.status Desc";
 		
 		return iBaseDAO.getDataTableList(dtParam, isCount);
 	}
@@ -91,11 +92,9 @@ public class SGBoImpl extends SGBoComboBoxImpl implements SGBo
 	@Override
 	public DataTableParam getOrganisationList(DataTableParam dtParam, boolean isCount)
 	{
-		dtParam.searchBeanClass = OrganisationAddress.class;
-		
-		ENamed.EqualTo.param_AND(dtParam, "addressType", AddressType.CommunicationAddress.name());
-		ENamed.EqualTo.param_AND(dtParam, "organisation.status", true);
-		dtParam._OrderBy = " Order By organisation.createdDate Desc";
+		ENamed.EqualTo.param_AND(dtParam, "OA.addressType", AddressType.CommunicationAddress.name());
+		ENamed.EqualTo.param_AND(dtParam, "OA.organisation.status", true);
+		dtParam._OrderBy = " Order By OA.organisation.createdDate Desc";
 		
 		return iBaseDAO.getDataTableList(dtParam, isCount);
 	}
@@ -159,6 +158,38 @@ public class SGBoImpl extends SGBoComboBoxImpl implements SGBo
 			return datatList.iterator().next();
 		else
 			return null;
+	}
+	
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<AuthKeyGen> getAuthKeyGenList(DataTableParam dtParam)
+	{
+		
+		ArrayList<String> serialKeyList = new ArrayList<String>();
+		
+		for (String key : dtParam.searchValueMap.keySet())
+		{
+			if (CommonValidator.isEqual(key, "serialKey"))
+			{
+				if (dtParam.searchValueMap.get(key) instanceof String)
+				{
+					serialKeyList.add((String) dtParam.searchValueMap.get(key));
+				}
+				else if (dtParam.searchValueMap.get(key) instanceof ArrayList)
+				{
+					serialKeyList = (ArrayList<String>) dtParam.searchValueMap.get(key);
+				}
+			}
+		}
+		
+		dtParam.searchCondtionMap.clear();
+		dtParam.searchValueMap.clear();
+		dtParam.searchBeanClass = AuthKeyGen.class;
+		ENamed.In.param_AND(dtParam, "serialKey", serialKeyList);
+		ENamed.EqualTo.param_AND(dtParam, "users.status", true);
+		ENamed.EqualTo.param_AND(dtParam, "serialKeyStatus", EKeyGen.Not_Sold.getStatus());
+		
+		return (List<AuthKeyGen>) iBaseDAO.getDataList(dtParam).getDataList();
 	}
 	
 }

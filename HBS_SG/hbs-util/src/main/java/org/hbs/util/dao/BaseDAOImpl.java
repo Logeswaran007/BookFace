@@ -86,10 +86,13 @@ public class BaseDAOImpl extends CommonHibernateSessionFactorySupport implements
 			
 			sbSelectQry.append(isCount ? "Select Count(*)" : "");
 			
-			if (CommonValidator.isNotNullNotEmpty(dtParam.searchColumns))
-				sbSelectQry.append(SELECT + dtParam.searchColumns);
+			if (CommonValidator.isNotNullNotEmpty(dtParam.getSearchColumns()) && isCount == false)
+			{
+				sbSelectQry.append(SELECT + dtParam.getSearchColumns());
+				dtParam.setSearchBeanClassAlias(SPACE + dtParam.getSearchBeanClassAlias() + SPACE);
+			}
 			
-			sbSelectQry.append(FROM + dtParam.searchBeanClass.getCanonicalName() + WHERE_1_1);
+			sbSelectQry.append(FROM + dtParam.getSearchBeanClass().getCanonicalName() + dtParam.getSearchBeanClassAlias() + WHERE_1_1);
 			
 			for (String condKey : dtParam.searchCondtionMap.keySet())
 			{

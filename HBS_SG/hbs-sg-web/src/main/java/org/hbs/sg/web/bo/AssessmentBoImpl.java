@@ -105,6 +105,7 @@ public class AssessmentBoImpl implements AssessmentBo
 		ENamed.EqualTo.param_AND(dtParam, "status", true);
 		
 		List<IConsumerAssessment> dataList = (List<IConsumerAssessment>) iBaseDAO.getDataList(dtParam).getDataList();
+		
 		if (CommonValidator.isListFirstNotEmpty(dataList))
 			return dataList.iterator().next();
 		else
@@ -122,14 +123,12 @@ public class AssessmentBoImpl implements AssessmentBo
 			dtParam.searchBeanClass = ConsumerAssessmentGroup.class;
 			dtParam.iDisplayLength = 100;
 			dtParam.searchBeanClassAlias = "CAG";
-			dtParam.searchColumns = " CAG.consumerAssessment, CAG.assessment.pattern, CAG.assessment.assessmentId ";
+			dtParam.searchColumns = " CAG.assessment.pattern, CAG.assessment.assessmentId ";
 			String consumerExamId = (String) dtParam.searchValueMap.get("consumerExamId");
 			ENamed.EqualTo.param_AND(dtParam, "CAG.consumerAssessment.consumerExamId", consumerExamId);
 			List<Object[]> dataList = (List<Object[]>) iBaseDAO.getDataList(dtParam).getDataList();
 			if (CommonValidator.isListFirstNotEmpty(dataList))
 			{
-				cat = (ConsumerAssessment) dataList.iterator().next()[0];
-				
 				for (String iAQ : assessmentDAO.getSelectedAssessmentQuestions(dtParam))
 				{
 					// cat.getAllocatedQuestions().add(new AllocatedQuestions(cat, iAQ));

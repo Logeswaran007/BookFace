@@ -10,7 +10,6 @@ import java.util.Set;
 import javax.servlet.http.HttpServletRequest;
 
 import org.hbs.admin.IAdminPath;
-import org.hbs.admin.controller.param.DataTableImageViewParam;
 import org.hbs.admin.document.DocumentFactory;
 import org.hbs.admin.model.IImage.EUploadType;
 import org.hbs.admin.model.ILayouts;
@@ -27,6 +26,7 @@ import org.hbs.util.CustomLogger;
 import org.hbs.util.DataTableDynamicColumnDefs;
 import org.hbs.util.DataTableDynamicColumns;
 import org.hbs.util.DataTableObject;
+import org.hbs.util.DataTableParam;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -43,9 +43,8 @@ import com.google.gson.GsonBuilder;
 @Controller
 public class OrganisationController extends SGControllerBaseBo implements IAdminPath, ISGPath
 {
-	private static final long serialVersionUID = 1580742167460496210L;
+	private static final long	serialVersionUID	= 1580742167460496210L;
 	private final CustomLogger	logger				= new CustomLogger(this.getClass());
-
 	
 	@RequestMapping(value = ADD_ORGANISTATION, method = RequestMethod.POST)
 	public @ResponseBody String addOrganisation(@RequestParam("organisationForm") String formData, @RequestParam("docTypes") String[] docTypes,
@@ -138,27 +137,31 @@ public class OrganisationController extends SGControllerBaseBo implements IAdmin
 		return new ModelAndView(LOGIN);
 	}
 	
-	@SuppressWarnings("unchecked")
 	@RequestMapping(SEARCH_ORGANISTATION)
 	public @ResponseBody String searchOrganisation(HttpServletRequest request)
 	{
 		List<ILayouts> layoutList = layoutBo.getResultLayouts(OrganisationAddress.class.getSimpleName());
 		
-		DataTableImageViewParam dtParam = DataTableImageViewParam.getDataTableParamsFromRequest(request);
-		
-		List<IOrganisationAddress> dataList = (List<IOrganisationAddress>) sgBo.getOrganisationList(dtParam, false).dataList;
-		int dataListCount = (int) sgBo.getOrganisationList(dtParam, true).dataListCount;
-		
-		List<List<String>> mDataList = DataTableDynamicColumns.getJSONFromObject(dtParam, layoutList, dataList.toArray(new Object[dataList.size()]));
-		
-		DataTableObject dataTableObject = new DataTableObject();
-		dataTableObject.setAaData(mDataList);
-		dataTableObject.setiTotalDisplayRecords(dataListCount);
-		dataTableObject.setiTotalRecords(dataListCount);
-		
-		Gson gson = new GsonBuilder().setPrettyPrinting().create();
-		StringBuilder sb = new StringBuilder(gson.toJson(dataTableObject));
-		return sb.toString();
+		try
+		{
+			DataTableParam dtParam = DataTableParam.getDataTableParamsFromRequest(request, layoutList, OrganisationAddress.class, "OA");
+			
+			List<?> dataList = sgBo.getOrganisationList(dtParam, false).dataList;
+			int dataListCount = (int) sgBo.getOrganisationList(dtParam, true).dataListCount;
+			List<List<String>> mDataList = DataTableDynamicColumns.getJSONFromObjectByCols(dtParam, layoutList, dataList);
+			DataTableObject dataTableObject = new DataTableObject();
+			dataTableObject.setAaData(mDataList);
+			dataTableObject.setiTotalDisplayRecords(dataListCount);
+			dataTableObject.setiTotalRecords(dataListCount);
+			Gson gson = new GsonBuilder().setPrettyPrinting().create();
+			StringBuilder sb = new StringBuilder(gson.toJson(dataTableObject));
+			return sb.toString();
+		}
+		catch (Exception excep)
+		{
+			logger.error(excep);
+		}
+		return null;
 	}
 	
 	private void uploadDocumentAttachment(String[] docTypes, MultipartFile[] multiPartFiles, HttpServletRequest request, IUsers sessionUsers, Organisation org) throws Exception
