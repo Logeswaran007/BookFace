@@ -53,6 +53,12 @@ public class ConsumerAssessment extends CommonBeanFields implements IConsumerAss
 		this.assignedDate = CommonUtil.getDateInFormat(new Date(), DATE_FORMAT_DD_MMM_YYYY_HH_MM_AM_PM);
 	}
 	
+	public ConsumerAssessment(String consumerExamId)
+	{
+		super();
+		this.consumerExamId = consumerExamId;
+	}
+	
 	public ConsumerAssessment(String assessmentMode, String assignedDate, String consumerExamId, IConsumerUser users, Set<IAllocatedQuestions> allocatedQuestions,
 			Set<IConsumerAssessmentGroup> assessmentGroup)
 	{

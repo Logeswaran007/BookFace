@@ -156,7 +156,7 @@ public class AssessmentDAOImpl extends CommonHibernateSessionFactorySupport impl
 		
 		for (Object object : dtParam.dataList)
 		{
-			assessmentId = (String) ((Object[]) object)[2];
+			assessmentId = (String) ((Object[]) object)[1];
 			i = 0;
 			soFarCount = 0;
 			

@@ -18,8 +18,6 @@ public interface AssessmentBo extends Serializable
 	
 	public Response createConsumerAssessmentForPractise(DataTableParam dtParam, AssessmentForm assessmentForm, IUsers user);
 	
-	public IConsumerAssessment getConsumerAssessment(DataTableParam dtParam);
-	
 	public IConsumerAssessment getPractiseQuestions(DataTableParam dtParam);
 	
 }
