@@ -1,5 +1,6 @@
 package org.hbs.sg.web.bo;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -8,21 +9,19 @@ import org.hbs.admin.model.IAddress.AddressType;
 import org.hbs.admin.model.IUploadImageOrDocuments;
 import org.hbs.admin.model.UsersAddress;
 import org.hbs.edutel.model.AuthKeyGen;
+import org.hbs.edutel.model.IAuthKeyGen.EKeyGen;
 import org.hbs.sg.model.AlertsAndNotifications;
 import org.hbs.sg.model.concern.Organisation;
-import org.hbs.sg.model.concern.OrganisationAddress;
 import org.hbs.sg.model.course.ChapterAttachments;
 import org.hbs.sg.model.course.CourseAttachments;
 import org.hbs.sg.model.course.Courses;
 import org.hbs.sg.model.course.IChapterAttachments;
 import org.hbs.sg.model.course.ICourses;
 import org.hbs.sg.model.course.ICourses.ECourseUploadType;
-import org.hbs.sg.model.exam.Assessment;
-import org.hbs.sg.web.controller.AssessmentParam;
-import org.hbs.sg.web.dao.AssessmentDAO;
 import org.hbs.sg.web.dao.CoursesDAO;
 import org.hbs.sg.web.dao.KeyGenDAO;
 import org.hbs.util.CommonValidator;
+import org.hbs.util.CustomLogger;
 import org.hbs.util.DataTableParam;
 import org.hbs.util.IParam.ENamed;
 import org.hbs.util.IParam.IWrap;
@@ -34,9 +33,7 @@ import org.springframework.stereotype.Component;
 public class SGBoImpl extends SGBoComboBoxImpl implements SGBo
 {
 	private static final long	serialVersionUID	= -7942529344878869154L;
-	
-	@Autowired
-	protected AssessmentDAO		assessmentDAO;
+	final CustomLogger			logger				= new CustomLogger(this.getClass());
 	
 	@Autowired
 	protected CoursesDAO		coursesDAO;
@@ -51,23 +48,12 @@ public class SGBoImpl extends SGBoComboBoxImpl implements SGBo
 	protected UserDAO			userDAO;
 	
 	@Override
-	public DataTableParam getAssessmentList(DataTableParam dtParam, boolean isCount)
-	{
-		dtParam.searchBeanClass = Assessment.class;
-		
-		ENamed.EqualTo.param_AND(dtParam, "status", true);
-		dtParam._OrderBy = " Order By createdDate Desc";
-		
-		return iBaseDAO.getDataTableList(dtParam, isCount);
-	}
-	
-	@Override
 	public DataTableParam getAuthKeyGenList(DataTableParam dtParam, boolean isCount)
 	{
 		dtParam.searchBeanClass = AuthKeyGen.class;
 		
-		ENamed.EqualTo.param_AND(dtParam, "status", true);
-		dtParam._OrderBy = " Order By createdDate,users.status Desc";
+		ENamed.EqualTo.param_AND(dtParam, "AKG.status", true);
+		dtParam._OrderBy = " Order By AKG.createdDate, AKG.users.status Desc";
 		
 		return iBaseDAO.getDataTableList(dtParam, isCount);
 	}
@@ -106,11 +92,9 @@ public class SGBoImpl extends SGBoComboBoxImpl implements SGBo
 	@Override
 	public DataTableParam getOrganisationList(DataTableParam dtParam, boolean isCount)
 	{
-		dtParam.searchBeanClass = OrganisationAddress.class;
-		
-		ENamed.EqualTo.param_AND(dtParam, "addressType", AddressType.CommunicationAddress.name());
-		ENamed.EqualTo.param_AND(dtParam, "organisation.status", true);
-		dtParam._OrderBy = " Order By organisation.createdDate Desc";
+		ENamed.EqualTo.param_AND(dtParam, "OA.addressType", AddressType.CommunicationAddress.name());
+		ENamed.EqualTo.param_AND(dtParam, "OA.organisation.status", true);
+		dtParam._OrderBy = " Order By OA.organisation.createdDate Desc";
 		
 		return iBaseDAO.getDataTableList(dtParam, isCount);
 	}
@@ -132,12 +116,6 @@ public class SGBoImpl extends SGBoComboBoxImpl implements SGBo
 	{
 		return iBaseDAO.saveOrUpdate("AlertsAndNotifications", alerts);
 		
-	}
-	
-	@Override
-	public boolean saveOrUpdate(Assessment assessment)
-	{
-		return iBaseDAO.saveOrUpdate("Assessment", assessment);
 	}
 	
 	@Override
@@ -175,20 +153,43 @@ public class SGBoImpl extends SGBoComboBoxImpl implements SGBo
 		
 		ENamed.EqualTo.param_AND(dtParam, "status", true);
 		
-		List<ICourses> courseList = (List<ICourses>) iBaseDAO.getDataList(dtParam).getDataList();
-		if (CommonValidator.isListFirstNotEmpty(courseList))
-			return courseList.iterator().next();
+		List<ICourses> datatList = (List<ICourses>) iBaseDAO.getDataList(dtParam).getDataList();
+		if (CommonValidator.isListFirstNotEmpty(datatList))
+			return datatList.iterator().next();
 		else
 			return null;
 	}
-
+	
+	@SuppressWarnings("unchecked")
 	@Override
-	public ICourses getCoursesByCourseId(AssessmentParam param) {
+	public List<AuthKeyGen> getAuthKeyGenList(DataTableParam dtParam)
+	{
 		
-		param.searchBeanClass = Courses.class;
-		iBaseDAO.getDataList(param);
-		return ((ICourses) param.dataList.iterator().next());
+		ArrayList<String> serialKeyList = new ArrayList<String>();
 		
+		for (String key : dtParam.searchValueMap.keySet())
+		{
+			if (CommonValidator.isEqual(key, "serialKey"))
+			{
+				if (dtParam.searchValueMap.get(key) instanceof String)
+				{
+					serialKeyList.add((String) dtParam.searchValueMap.get(key));
+				}
+				else if (dtParam.searchValueMap.get(key) instanceof ArrayList)
+				{
+					serialKeyList = (ArrayList<String>) dtParam.searchValueMap.get(key);
+				}
+			}
+		}
+		
+		dtParam.searchCondtionMap.clear();
+		dtParam.searchValueMap.clear();
+		dtParam.searchBeanClass = AuthKeyGen.class;
+		ENamed.In.param_AND(dtParam, "serialKey", serialKeyList);
+		ENamed.EqualTo.param_AND(dtParam, "users.status", true);
+		ENamed.EqualTo.param_AND(dtParam, "serialKeyStatus", EKeyGen.Not_Sold.getStatus());
+		
+		return (List<AuthKeyGen>) iBaseDAO.getDataList(dtParam).getDataList();
 	}
 	
 }

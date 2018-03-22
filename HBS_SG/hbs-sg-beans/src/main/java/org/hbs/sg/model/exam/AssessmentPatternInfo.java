@@ -1,6 +1,8 @@
 
 package org.hbs.sg.model.exam;
 
+import java.util.LinkedHashMap;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -9,6 +11,9 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
+
+import org.hbs.util.CommonValidator;
 
 @Entity
 @Table(name = "assessmentpatterninfo")
@@ -17,9 +22,8 @@ public class AssessmentPatternInfo implements IAssessmentPatternInfo
 	
 	private static final long		serialVersionUID	= 3948412843084086L;
 	protected int					autoId;
-	protected String				infoName;
 	protected IAssessmentPattern	pattern;
-	protected String				percentage;
+	protected int					percentage;
 	protected boolean				status;
 	protected String				weightage;
 	
@@ -28,15 +32,33 @@ public class AssessmentPatternInfo implements IAssessmentPatternInfo
 		super();
 	}
 	
-	public AssessmentPatternInfo(int autoId, IAssessmentPattern pattern, String infoName, String percentage, String weightage, boolean status)
+	public AssessmentPatternInfo(int autoId, IAssessmentPattern pattern, int percentage, String weightage, boolean status)
 	{
 		super();
 		this.autoId = autoId;
 		this.pattern = pattern;
-		this.infoName = infoName;
 		this.percentage = percentage;
 		this.weightage = weightage;
 		this.status = status;
+	}
+	
+	@Transient
+	public int trackQuestionCalibrate(String assessmentId, long groupCount)
+	{
+		int calibrateCount = (int) Math.ceil(percentage * groupCount / 100.0);
+		initialise(assessmentId).setRequiredCount(calibrateCount);
+		return calibrateCount;
+	}
+	
+	@Transient
+	public QuestionCalibrate initialise(String assessmentId)
+	{
+		if (CommonValidator.isNotNullNotEmpty(pattern.getCalibrateHM().get(assessmentId)) == false)
+		{
+			pattern.getCalibrateHM().put(assessmentId, new LinkedHashMap<String, QuestionCalibrate>());
+		}
+		pattern.getCalibrateHM().get(assessmentId).put(weightage, new QuestionCalibrate());
+		return pattern.getCalibrateHM().get(assessmentId).get(weightage);
 	}
 	
 	@Override
@@ -49,13 +71,6 @@ public class AssessmentPatternInfo implements IAssessmentPatternInfo
 	}
 	
 	@Override
-	@Column(name = "infoName")
-	public String getInfoName()
-	{
-		return infoName;
-	}
-	
-	@Override
 	@ManyToOne(targetEntity = AssessmentPattern.class)
 	@JoinColumn(name = "patternId", nullable = false)
 	public IAssessmentPattern getPattern()
@@ -65,7 +80,7 @@ public class AssessmentPatternInfo implements IAssessmentPatternInfo
 	
 	@Override
 	@Column(name = "percentage")
-	public String getPercentage()
+	public int getPercentage()
 	{
 		return percentage;
 	}
@@ -91,19 +106,13 @@ public class AssessmentPatternInfo implements IAssessmentPatternInfo
 	}
 	
 	@Override
-	public void setInfoName(String infoName)
-	{
-		this.infoName = infoName;
-	}
-	
-	@Override
 	public void setPattern(IAssessmentPattern pattern)
 	{
 		this.pattern = pattern;
 	}
 	
 	@Override
-	public void setPercentage(String percentage)
+	public void setPercentage(int percentage)
 	{
 		this.percentage = percentage;
 	}

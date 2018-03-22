@@ -12,6 +12,7 @@ public class AssessmentForm implements Serializable
 	Assessment					assessment			= new Assessment();
 	String						assessmentName;
 	String						chapterId;
+	String[]					chapterIds;
 	String						courseGroupId;
 	String						courseId;
 	
@@ -41,6 +42,11 @@ public class AssessmentForm implements Serializable
 		return chapterId;
 	}
 	
+	public String[] getChapterIds()
+	{
+		return chapterIds;
+	}
+	
 	public String getCourseGroupId()
 	{
 		return courseGroupId;
@@ -66,6 +72,11 @@ public class AssessmentForm implements Serializable
 		this.chapterId = chapterId;
 	}
 	
+	public void setChapterIds(String[] chapterIds)
+	{
+		this.chapterIds = chapterIds;
+	}
+	
 	public void setCourseGroupId(String courseGroupId)
 	{
 		this.courseGroupId = courseGroupId;
@@ -75,5 +86,5 @@ public class AssessmentForm implements Serializable
 	{
 		this.courseId = courseId;
 	}
-
+	
 }

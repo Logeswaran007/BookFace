@@ -1,5 +1,6 @@
 package org.hbs.sg.model.exam;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -9,7 +10,7 @@ import javax.persistence.Embeddable;
 import org.hbs.util.CommonValidator;
 
 @Embeddable
-public class AssessmentCorrectAnswer implements IAssessmentCorrectAnswer
+public class AssessmentCorrectAnswer implements Serializable
 {
 	private static final long	serialVersionUID	= -4869171579268970177L;
 	private String				correctAnswer1;
@@ -33,7 +34,6 @@ public class AssessmentCorrectAnswer implements IAssessmentCorrectAnswer
 		this.markPerQuestion = markPerQuestion;
 	}
 	
-	@Override
 	public List<String> correctList()
 	{
 		List<String> answerList = new ArrayList<String>(1);
@@ -56,66 +56,56 @@ public class AssessmentCorrectAnswer implements IAssessmentCorrectAnswer
 		return answerList;
 	}
 	
-	@Override
 	@Column(name = "correctAnswer1")
 	public String getCorrectAnswer1()
 	{
 		return correctAnswer1;
 	}
 	
-	@Override
 	@Column(name = "correctAnswer2")
 	public String getCorrectAnswer2()
 	{
 		return correctAnswer2;
 	}
 	
-	@Override
 	@Column(name = "correctAnswer3")
 	public String getCorrectAnswer3()
 	{
 		return correctAnswer3;
 	}
 	
-	@Override
 	@Column(name = "correctAnswer4")
 	public String getCorrectAnswer4()
 	{
 		return correctAnswer4;
 	}
 	
-	@Override
 	@Column(name = "markPerQuestion")
 	public Double getMarkPerQuestion()
 	{
 		return markPerQuestion;
 	}
 	
-	@Override
 	public void setCorrectAnswer1(String correctAnswer1)
 	{
 		this.correctAnswer1 = correctAnswer1;
 	}
 	
-	@Override
 	public void setCorrectAnswer2(String correctAnswer2)
 	{
 		this.correctAnswer2 = correctAnswer2;
 	}
 	
-	@Override
 	public void setCorrectAnswer3(String correctAnswer3)
 	{
 		this.correctAnswer3 = correctAnswer3;
 	}
 	
-	@Override
 	public void setCorrectAnswer4(String correctAnswer4)
 	{
 		this.correctAnswer4 = correctAnswer4;
 	}
 	
-	@Override
 	public void setMarkPerQuestion(Double markPerQuestion)
 	{
 		this.markPerQuestion = markPerQuestion;

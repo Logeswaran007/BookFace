@@ -19,7 +19,7 @@ public interface IAssessmentQuestion extends IUploadImageOrDocuments, ICRUDBean
 	
 	public IAssessment getAssessment();
 	
-	public IAssessmentCorrectAnswer getCorrectAnswer();
+	public AssessmentCorrectAnswer getCorrectAnswer();
 	
 	public Set<IAssessmentExplanation> getExplanations();
 	
@@ -37,7 +37,7 @@ public interface IAssessmentQuestion extends IUploadImageOrDocuments, ICRUDBean
 	
 	public void setAssessment(IAssessment assessment);
 	
-	public void setCorrectAnswer(IAssessmentCorrectAnswer correctAnswer);
+	public void setCorrectAnswer(AssessmentCorrectAnswer correctAnswer);
 	
 	public void setExplanations(Set<IAssessmentExplanation> explanations);
 	

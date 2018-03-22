@@ -51,7 +51,8 @@ public class UserBoImpl extends UserBoComboBoxImpl implements UserBo, IConstProp
 		ENamed.EqualTo.param_AND(param, "status", true);
 		
 		iBaseDAO.getDataList(param);
-		if (CommonValidator.isListFirstNotEmpty(param.dataList))
+		
+		if (CommonValidator.isListFirstNotEmpty(param.getDataList()))
 			return (Producers) param.dataList.iterator().next();
 		else
 			return null;

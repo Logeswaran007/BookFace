@@ -7,11 +7,9 @@ public interface IAssessmentPatternInfo extends ICRUDBean
 	
 	public int getAutoId();
 	
-	public String getInfoName();
-	
 	public IAssessmentPattern getPattern();
 	
-	public String getPercentage();
+	public int getPercentage();
 	
 	public String getWeightage();
 	
@@ -19,14 +17,16 @@ public interface IAssessmentPatternInfo extends ICRUDBean
 	
 	public void setAutoId(int autoId);
 	
-	public void setInfoName(String infoName);
-	
 	public void setPattern(IAssessmentPattern pattern);
 	
-	public void setPercentage(String percentage);
+	public void setPercentage(int percentage);
 	
 	public void setStatus(boolean status);
 	
 	public void setWeightage(String weightage);
+	
+	public int trackQuestionCalibrate(String assessmentId, long groupCount);
+	
+	public QuestionCalibrate initialise(String assessmentId);
 	
 }

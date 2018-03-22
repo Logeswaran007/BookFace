@@ -3,7 +3,7 @@ package org.hbs.sg.model.exam;
 import java.util.Set;
 
 import org.hbs.admin.model.ICommonBeanFields;
-import org.hbs.sg.model.accessors.IConsumerAssessment;
+import org.hbs.sg.model.accessors.IConsumerAssessmentGroup;
 import org.hbs.sg.model.accessors.IProducersAssessment;
 import org.hbs.sg.model.course.IChapters;
 import org.hbs.sg.model.course.ICourses;
@@ -17,7 +17,7 @@ public interface IAssessment extends ICommonBeanFields, EBusinessKey, ICRUDBean
 	
 	public IChapters getChapter();
 	
-	public Set<IConsumerAssessment> getConsumerAssessments();
+	public Set<IConsumerAssessmentGroup> getConsumerAssessmentGroups();
 	
 	public ICourses getCourse();
 	
@@ -39,7 +39,7 @@ public interface IAssessment extends ICommonBeanFields, EBusinessKey, ICRUDBean
 	
 	public void setChapter(IChapters chapter);
 	
-	public void setConsumerAssessments(Set<IConsumerAssessment> consumerAssessments);
+	public void setConsumerAssessmentGroups(Set<IConsumerAssessmentGroup> consumerAssessmentGroups);
 	
 	public void setCourse(ICourses course);
 	

@@ -24,55 +24,56 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 public abstract class Param implements IParam, IConstProperty
 {
 	private static final long				serialVersionUID		= -7820466140069794475L;
-	private final CustomLogger	logger				= new CustomLogger(this.getClass());
-
+	private final CustomLogger				logger					= new CustomLogger(this.getClass());
+	
 	public EnumInterface					_AddEntityBean;
 	public String							_OrderBy				= "";
 	public String							_ProcedureName			= "";
 	public List<?>							dataList				= new ArrayList<>(0);
 	public long								dataListCount			= 0L;
-	public int								maxResults			= 0;
-	public int								minResults			= 0;
+	public int								maxResults				= 0;
+	public int								minResults				= 0;
 	public HttpServletRequest				request;
 	public LinkedHashMap<String, Object>	requestParamMap			= new LinkedHashMap<String, Object>(0);
 	public HttpServletResponse				response;
 	public Class<?>							searchBeanClass;
 	public String							searchColumns			= "";
+	public String							searchBeanClassAlias	= "";
 	public LinkedHashMap<String, Object>	searchCondtionMap		= new LinkedHashMap<String, Object>(0);
 	public LinkedHashMap<String, Object>	searchValueMap			= new LinkedHashMap<String, Object>(0);
 	public LinkedHashMap<String, Object>	sessionFilterValueMap	= new LinkedHashMap<String, Object>(0);
-
+	
 	public EnumInterface get_AddEntityBean()
 	{
 		return _AddEntityBean;
 	}
-
+	
 	public String get_OrderBy()
 	{
 		return _OrderBy;
 	}
-
+	
 	public String get_ProcedureName()
 	{
 		return _ProcedureName;
 	}
-
+	
 	public List<?> getDataList()
 	{
 		return dataList;
 	}
-
+	
 	public long getDataListCount()
 	{
 		return dataListCount;
 	}
-
+	
 	@Override
 	public String getImageVirtualUrl(Object traverseObject)
 	{
 		return null;
 	}
-
+	
 	public List<ILayoutElements> getLayoutElements(List<? extends ICommonLayout> iCLList)
 	{
 		List<ILayoutElements> eltList = new ArrayList<ILayoutElements>(iCLList.size());
@@ -82,13 +83,13 @@ public abstract class Param implements IParam, IConstProperty
 		}
 		return eltList;
 	}
-
+	
 	public void getMapOnConditionParams(List<? extends ILayoutElements> ieList) throws ClassNotFoundException
 	{
 		searchCondtionMap = new LinkedHashMap<String, Object>();
 		for (ILayoutElements elt : ieList)
 		{
-
+			
 			if (CommonValidator.isEqual(elt.getColumnType().toUpperCase(), EEltType.SESSION_USER.name()))
 			{
 				Object sessionUserEmployeeId = request.getAttribute("EmployeeId");
@@ -104,7 +105,7 @@ public abstract class Param implements IParam, IConstProperty
 				propertyKey = elt.getDisplayProperty();
 			}
 			Object object = searchValueMap.get(propertyKey);
-
+			
 			if (CommonValidator.isNotNullNotEmpty(object) && (object instanceof String || object instanceof ArrayList))
 			{
 				switch ( elt.getDataType() )
@@ -142,7 +143,7 @@ public abstract class Param implements IParam, IConstProperty
 					default :
 						break;
 				}
-
+				
 				switch ( EEltType.valueOf(elt.getColumnType().toUpperCase()) )
 				{
 					case TEXT :
@@ -181,7 +182,7 @@ public abstract class Param implements IParam, IConstProperty
 						}
 						break;
 					}
-
+					
 					default :
 						break;
 				}
@@ -190,30 +191,30 @@ public abstract class Param implements IParam, IConstProperty
 			{
 				searchValueMap.remove(propertyKey);
 			}
-
+			
 		}
 	}
-
+	
 	public int getMaxResults()
 	{
 		return maxResults;
 	}
-
+	
 	public int getMinResults()
 	{
 		return minResults;
 	}
-
+	
 	public void getParamMapFromRequest(HttpServletRequest request)
 	{
 		this.request = request;
-
+		
 		String param = request.getParameter("_p");
-
+		
 		if (CommonValidator.isNotNullNotEmpty(param))
 		{
 			String paramJson = new String(Base64.decodeBase64(param));
-
+			
 			ObjectMapper mapper = new ObjectMapper();
 			try
 			{
@@ -223,76 +224,76 @@ public abstract class Param implements IParam, IConstProperty
 			catch (JsonGenerationException excep)
 			{
 				logger.error(excep);
-
+				
 			}
 			catch (JsonMappingException excep)
 			{
 				logger.error(excep);
-
+				
 			}
 			catch (IOException excep)
 			{
 				logger.error(excep);
-
+				
 			}
 		}
 	}
-
+	
 	public HttpServletRequest getRequest()
 	{
 		return request;
 	}
-
+	
 	public LinkedHashMap<String, Object> getRequestParamMap()
 	{
 		return requestParamMap;
 	}
-
+	
 	public HttpServletResponse getResponse()
 	{
 		return response;
 	}
-
+	
 	public Class<?> getSearchBeanClass()
 	{
 		return searchBeanClass;
 	}
-
+	
 	public String getSearchColumns()
 	{
 		return searchColumns;
 	}
-
+	
 	public LinkedHashMap<String, Object> getSearchCondtionMap()
 	{
 		return searchCondtionMap;
 	}
-
+	
 	public LinkedHashMap<String, Object> getSearchValueMap()
 	{
 		return searchValueMap;
 	}
-
+	
 	public LinkedHashMap<String, Object> getSessionFilterValueMap()
 	{
 		return sessionFilterValueMap;
 	}
-
+	
 	public void set_AddEntityBean(EnumInterface _AddEntityBean)
 	{
 		this._AddEntityBean = _AddEntityBean;
 	}
-
+	
 	public void set_OrderBy(String _OrderBy)
 	{
 		this._OrderBy = _OrderBy;
 	}
-
+	
 	public void set_ProcedureName(String _ProcedureName)
 	{
 		this._ProcedureName = _ProcedureName;
 	}
-
+	
 	public void setConditionAndValueParamsForAutoComplete(List<? extends ILayoutElements> ieList, String autoCompleteCriteriaValue)
 	{
 		searchCondtionMap = new LinkedHashMap<String, Object>();
@@ -318,68 +319,78 @@ public abstract class Param implements IParam, IConstProperty
 						ENamed.Like.param_OR(this, iLE.getDisplayProperty(), autoCompleteCriteriaValue);
 				}
 			}
-
+			
 		}
 	}
-
+	
 	public void setDataList(List<?> dataList)
 	{
 		this.dataList = dataList;
 	}
-
+	
 	public void setDataListCount(long dataListCount)
 	{
 		this.dataListCount = dataListCount;
 	}
-
+	
 	public void setMaxResults(int maxResults)
 	{
 		this.maxResults = maxResults;
 	}
-
+	
 	public void setMinResults(int minResults)
 	{
 		this.minResults = minResults;
 	}
-
+	
 	public void setRequest(HttpServletRequest request)
 	{
 		this.request = request;
 	}
-
+	
 	public void setRequestParamMap(LinkedHashMap<String, Object> requestParamMap)
 	{
 		this.requestParamMap = requestParamMap;
 	}
-
+	
 	public void setResponse(HttpServletResponse response)
 	{
 		this.response = response;
 	}
-
+	
 	public void setSearchBeanClass(Class<?> searchBeanClass)
 	{
 		this.searchBeanClass = searchBeanClass;
 	}
-
+	
 	public void setSearchColumns(String searchColumns)
 	{
 		this.searchColumns = searchColumns;
 	}
-
+	
 	public void setSearchCondtionMap(LinkedHashMap<String, Object> searchCondtionMap)
 	{
 		this.searchCondtionMap = searchCondtionMap;
 	}
-
+	
 	public void setSearchValueMap(LinkedHashMap<String, Object> searchValueMap)
 	{
 		this.searchValueMap = searchValueMap;
 	}
-
+	
 	public void setSessionFilterValueMap(LinkedHashMap<String, Object> sessionFilterValueMap)
 	{
 		this.sessionFilterValueMap = sessionFilterValueMap;
 	}
-
+	
+	public String getSearchBeanClassAlias()
+	{
+		return searchBeanClassAlias;
+	}
+	
+	public void setSearchBeanClassAlias(String searchBeanClassAlias)
+	{
+		this.searchBeanClassAlias = searchBeanClassAlias;
+	}
+	
 }

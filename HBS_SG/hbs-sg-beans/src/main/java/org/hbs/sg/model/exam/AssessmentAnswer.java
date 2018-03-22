@@ -2,6 +2,7 @@ package org.hbs.sg.model.exam;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -16,7 +17,6 @@ public class AssessmentAnswer extends CommonFileUploadBase implements IAssessmen
 	private static final long		serialVersionUID	= -6214771334313143012L;
 	protected String				answerId;
 	protected IAssessmentQuestion	assessmentQuestion;
-	protected String				patternMode			= EPatternMode.Option.name();
 	protected String				textAnswer;
 	
 	public AssessmentAnswer()
@@ -24,13 +24,12 @@ public class AssessmentAnswer extends CommonFileUploadBase implements IAssessmen
 		super();
 	}
 	
-	public AssessmentAnswer(String textAnswer, String answerId, IAssessmentQuestion assessmentQuestion, String patternMode)
+	public AssessmentAnswer(String textAnswer, String answerId, IAssessmentQuestion assessmentQuestion)
 	{
 		super();
 		this.textAnswer = textAnswer;
 		this.answerId = answerId;
 		this.assessmentQuestion = assessmentQuestion;
-		this.patternMode = patternMode;
 	}
 	
 	@Id
@@ -41,18 +40,11 @@ public class AssessmentAnswer extends CommonFileUploadBase implements IAssessmen
 	}
 	
 	@Override
-	@ManyToOne(targetEntity = AssessmentQuestion.class)
+	@ManyToOne(targetEntity = AssessmentQuestion.class, fetch = FetchType.LAZY)
 	@JoinColumn(name = "questionId", nullable = false)
 	public IAssessmentQuestion getAssessmentQuestion()
 	{
 		return assessmentQuestion;
-	}
-	
-	@Override
-	@Column(name = "patternMode")
-	public String getPatternMode()
-	{
-		return patternMode;
 	}
 	
 	@Override
@@ -72,11 +64,6 @@ public class AssessmentAnswer extends CommonFileUploadBase implements IAssessmen
 	public void setAssessmentQuestion(IAssessmentQuestion assessmentQuestion)
 	{
 		this.assessmentQuestion = assessmentQuestion;
-	}
-	
-	public void setPatternMode(String patternMode)
-	{
-		this.patternMode = patternMode;
 	}
 	
 	@Override

@@ -1,5 +1,6 @@
 package org.hbs.sg.model.exam;
 
+import java.util.Map;
 import java.util.Set;
 
 import org.hbs.admin.model.ICommonBeanFields;
@@ -23,5 +24,7 @@ public interface IAssessmentPattern extends ICommonBeanFields, ICRUDBean
 	public void setPatternName(String patternName);
 	
 	public void setProducer(IProducers producer);
+	
+	public Map<String, Map<String, QuestionCalibrate>> getCalibrateHM();
 	
 }

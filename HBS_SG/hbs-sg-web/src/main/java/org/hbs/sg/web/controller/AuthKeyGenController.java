@@ -2,7 +2,6 @@ package org.hbs.sg.web.controller;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.sql.Timestamp;
@@ -22,14 +21,12 @@ import org.hbs.admin.model.IUsers.EUserType;
 import org.hbs.admin.model.IUsers.EUsers;
 import org.hbs.edutel.model.AuthKeyGen;
 import org.hbs.edutel.model.IAuthKeyGen;
-import org.hbs.edutel.model.IAuthKeyGen.EKeyGen;
 import org.hbs.util.CommonValidator;
 import org.hbs.util.CustomLogger;
 import org.hbs.util.DataTableDynamicColumnDefs;
 import org.hbs.util.DataTableDynamicColumns;
 import org.hbs.util.DataTableObject;
 import org.hbs.util.DataTableParam;
-import org.hbs.util.IParam.ENamed;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -59,15 +56,14 @@ public class AuthKeyGenController extends SGControllerBaseBo implements IAdminPa
 	private static final long	serialVersionUID	= 1580742167460496210L;
 	private final Font			normalFont			= FontFactory.getFont("Calibri", BaseFont.IDENTITY_H, true, 10, Font.NORMAL);
 	private final CustomLogger	logger				= new CustomLogger(this.getClass());
-
 	
 	@RequestMapping(value = ADD_AUTH_KEYGEN, method = RequestMethod.POST)
 	public @ResponseBody String addAuthKeyGen(@RequestBody AuthKeyGenForm authKeyGenForm, HttpServletRequest request)
 	{
 		try
 		{
-			IUsers users = EUsers.getSessionUser(request);
-			if (CommonValidator.isNotNullNotEmpty(users))
+			IUsers sessionUser = EUsers.getSessionUser(request);
+			if (CommonValidator.isNotNullNotEmpty(sessionUser))
 			{
 				List<AuthKeyGen> authKeyList = new ArrayList<AuthKeyGen>(authKeyGenForm.getNoOfKeys());
 				AuthKeyGen auth = null;
@@ -77,7 +73,7 @@ public class AuthKeyGenController extends SGControllerBaseBo implements IAdminPa
 					auth.setScheme(authKeyGenForm.getAuthKey().getScheme());
 					auth.setUsers(authKeyGenForm.getAuthKey().getUsers());
 					auth.setSellingPrice(authKeyGenForm.getAuthKey().getSellingPrice());
-					auth.setCreatedUser(users);
+					auth.setCreatedUser(sessionUser);
 					auth.setCreatedDate(new Timestamp(Calendar.getInstance().getTimeInMillis()));
 					authKeyList.add(auth);
 				}
@@ -98,90 +94,6 @@ public class AuthKeyGenController extends SGControllerBaseBo implements IAdminPa
 		return new AuthKeyGenForm();
 	}
 	
-	private String createSerialKeyPdf(List<AuthKeyGen> authKeyGenList, HttpServletRequest request, IUsers users) throws FileNotFoundException
-	{
-		
-		if (CommonValidator.isListFirstNotEmpty(authKeyGenList))
-		{
-			Document document = new Document(PageSize.A4);
-			PdfWriter writer = null;
-			PdfWriter bosWriter = null;
-			String pdfFilePath = "";
-			String fileName = UUID.randomUUID() + ".pdf";
-			try
-			{
-				
-				pdfFilePath = request.getServletContext().getRealPath("/content") + File.separator + request.getSession().getId();
-				
-				File pdfFile = new File(pdfFilePath);
-				File fileToDownload = new File(pdfFilePath + File.separator + fileName);
-				
-				String virtualPath = "/content/" + request.getSession().getId() + File.separator + fileName;
-				
-				if (pdfFile.exists() == false)
-				{
-					pdfFile.mkdirs();
-				}
-				
-				writer = PdfWriter.getInstance(document, new FileOutputStream(fileToDownload));
-				bosWriter = PdfWriter.getInstance(document, new ByteArrayOutputStream());
-				
-				document.setMargins(108, 72, 36, 72);
-				document.open();
-				for (AuthKeyGen serialKeyMap : authKeyGenList)
-				{
-					
-					PdfPTable pdfSerialKeyTable = new PdfPTable(1);
-					pdfSerialKeyTable.setHorizontalAlignment(Element.ALIGN_LEFT);
-					pdfSerialKeyTable.setTotalWidth(100);
-					pdfSerialKeyTable.setWidths(new float[] { 0.5f });
-					
-					PdfPCell cell = new PdfPCell(new Phrase(serialKeyMap.getSerialKey(), normalFont));
-					cell.setHorizontalAlignment(Element.ALIGN_LEFT);
-					cell.setBorder(Rectangle.NO_BORDER);
-					pdfSerialKeyTable.addCell(cell);
-					
-					cell = new PdfPCell(new Phrase(serialKeyMap.getSerialKey(), normalFont));
-					cell.setHorizontalAlignment(Element.ALIGN_LEFT);
-					cell.setBorder(Rectangle.NO_BORDER);
-					pdfSerialKeyTable.addCell(cell);
-					
-					cell = new PdfPCell(new Phrase("Rs. " + serialKeyMap.getSellingPrice(), normalFont));
-					cell.setHorizontalAlignment(Element.ALIGN_LEFT);
-					cell.setBorder(Rectangle.NO_BORDER);
-					pdfSerialKeyTable.addCell(cell);
-					
-					cell = new PdfPCell(new Phrase(serialKeyMap.getScheme().getSchemeName(), normalFont));
-					cell.setHorizontalAlignment(Element.ALIGN_LEFT);
-					cell.setBorder(Rectangle.NO_BORDER);
-					pdfSerialKeyTable.addCell(cell);
-					
-					document.add(pdfSerialKeyTable);
-					document.newPage();
-				}
-				return users.getProducer().getVirtualBasePath() + virtualPath;
-			}
-			catch (DocumentException | IOException docExcep)
-			{
-				
-				logger.error(docExcep);
-			}
-			
-			finally
-			{
-				if (document != null)
-					document.close();
-				if (writer != null)
-					writer.close();
-				if (bosWriter != null)
-					bosWriter.close();
-			}
-		}
-		return "";
-		
-	}
-	
-	@SuppressWarnings("unchecked")
 	@RequestMapping(GENERATE_PDF)
 	public @ResponseBody String generatePDF(HttpServletRequest request)
 	{
@@ -190,35 +102,88 @@ public class AuthKeyGenController extends SGControllerBaseBo implements IAdminPa
 			IUsers users = EUsers.getSessionUser(request);
 			if (CommonValidator.isNotNullNotEmpty(users))
 			{
-				ArrayList<String> serialKeyList = new ArrayList<String>();
+				
 				DataTableParam dtParam = DataTableParam.getDataTableParamsFromRequest(request);
 				
-				for (String key : dtParam.searchValueMap.keySet())
+				List<AuthKeyGen> authKeyGenList = sgBo.getAuthKeyGenList(dtParam);
+				
+				if (CommonValidator.isListFirstNotEmpty(authKeyGenList))
 				{
-					if (CommonValidator.isEqual(key, "serialKey"))
+					Document document = new Document(PageSize.A4);
+					PdfWriter writer = null;
+					PdfWriter bosWriter = null;
+					String pdfFilePath = "";
+					String fileName = UUID.randomUUID() + ".pdf";
+					try
 					{
-						if (dtParam.searchValueMap.get(key) instanceof String)
+						
+						pdfFilePath = request.getServletContext().getRealPath("/content") + File.separator + request.getSession().getId();
+						
+						File pdfFile = new File(pdfFilePath);
+						File fileToDownload = new File(pdfFilePath + File.separator + fileName);
+						
+						String virtualPath = "/content/" + request.getSession().getId() + File.separator + fileName;
+						
+						if (pdfFile.exists() == false)
 						{
-							serialKeyList.add((String) dtParam.searchValueMap.get(key));
+							pdfFile.mkdirs();
 						}
-						else if (dtParam.searchValueMap.get(key) instanceof ArrayList)
+						
+						writer = PdfWriter.getInstance(document, new FileOutputStream(fileToDownload));
+						bosWriter = PdfWriter.getInstance(document, new ByteArrayOutputStream());
+						
+						document.setMargins(108, 72, 36, 72);
+						document.open();
+						for (AuthKeyGen authKey : authKeyGenList)
 						{
-							serialKeyList = (ArrayList<String>) dtParam.searchValueMap.get(key);
+							
+							PdfPTable pdfSerialKeyTable = new PdfPTable(1);
+							pdfSerialKeyTable.setHorizontalAlignment(Element.ALIGN_LEFT);
+							pdfSerialKeyTable.setTotalWidth(100);
+							pdfSerialKeyTable.setWidths(new float[] { 0.5f });
+							
+							PdfPCell cell = new PdfPCell(new Phrase(authKey.getSerialKey(), normalFont));
+							cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+							cell.setBorder(Rectangle.NO_BORDER);
+							pdfSerialKeyTable.addCell(cell);
+							
+							cell = new PdfPCell(new Phrase(authKey.getSerialKey(), normalFont));
+							cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+							cell.setBorder(Rectangle.NO_BORDER);
+							pdfSerialKeyTable.addCell(cell);
+							
+							cell = new PdfPCell(new Phrase("Rs. " + authKey.getSellingPrice(), normalFont));
+							cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+							cell.setBorder(Rectangle.NO_BORDER);
+							pdfSerialKeyTable.addCell(cell);
+							
+							cell = new PdfPCell(new Phrase(authKey.getScheme().getSchemeName(), normalFont));
+							cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+							cell.setBorder(Rectangle.NO_BORDER);
+							pdfSerialKeyTable.addCell(cell);
+							
+							document.add(pdfSerialKeyTable);
+							document.newPage();
 						}
+						return users.getProducer().getVirtualBasePath() + virtualPath;
+					}
+					catch (DocumentException | IOException docExcep)
+					{
+						
+						logger.error(docExcep);
+					}
+					
+					finally
+					{
+						if (document != null)
+							document.close();
+						if (writer != null)
+							writer.close();
+						if (bosWriter != null)
+							bosWriter.close();
 					}
 				}
-				
-				dtParam.searchCondtionMap.clear();
-				dtParam.searchValueMap.clear();
-				
-				ENamed.In.param_AND(dtParam, "serialKey", serialKeyList);
-				ENamed.EqualTo.param_AND(dtParam, "users.status", true);
-				ENamed.EqualTo.param_AND(dtParam, "serialKeyStatus", EKeyGen.Not_Sold.getStatus());
-				
-				List<AuthKeyGen> authKeyGenList = (List<AuthKeyGen>) sgBo.getAuthKeyGenList(dtParam, false).dataList;
-				return createSerialKeyPdf(authKeyGenList, request, users);
 			}
-			
 		}
 		catch (Exception excep)
 		{
@@ -236,6 +201,7 @@ public class AuthKeyGenController extends SGControllerBaseBo implements IAdminPa
 			IUsers users = EUsers.getSessionUser(request);
 			ModelAndView modelView = new ModelAndView(SEARCH_AUTH_KEYGEN_PAGE);
 			List<ILayouts> layoutList = layoutBo.getResultLayouts(AuthKeyGen.class.getSimpleName());
+			
 			modelView.addObject("searchAuthKeyGenUrl", users.getDomainUrl(request) + SEARCH_AUTH_KEYGEN);
 			modelView.addObject("columnsList", DataTableDynamicColumns.getDynamicColumns(layoutList));
 			modelView.addObject("columnDefsList", DataTableDynamicColumnDefs.getDynamicColumnDefs(layoutList));
@@ -259,23 +225,30 @@ public class AuthKeyGenController extends SGControllerBaseBo implements IAdminPa
 	@RequestMapping(SEARCH_AUTH_KEYGEN)
 	public @ResponseBody String searchAuthKeyGen(HttpServletRequest request)
 	{
-		List<ILayouts> layoutList = layoutBo.getResultLayouts(AuthKeyGen.class.getSimpleName());
-		
-		DataTableParam dtParam = DataTableParam.getDataTableParamsFromRequest(request);
-		
-		List<IAuthKeyGen> dataList = (List<IAuthKeyGen>) sgBo.getAuthKeyGenList(dtParam, false).dataList;
-		int dataListCount = (int) sgBo.getAuthKeyGenList(dtParam, true).dataListCount;
-		
-		List<List<String>> mDataList = DataTableDynamicColumns.getJSONFromObject(dtParam, layoutList, dataList.toArray(new Object[dataList.size()]));
-		
-		DataTableObject dataTableObject = new DataTableObject();
-		dataTableObject.setAaData(mDataList);
-		dataTableObject.setiTotalDisplayRecords(dataListCount);
-		dataTableObject.setiTotalRecords(dataListCount);
-		
-		Gson gson = new GsonBuilder().setPrettyPrinting().create();
-		StringBuilder sb = new StringBuilder(gson.toJson(dataTableObject));
-		return sb.toString();
+		try
+		{
+			List<ILayouts> layoutList = layoutBo.getResultLayouts(AuthKeyGen.class.getSimpleName());
+			
+			DataTableParam dtParam = DataTableParam.getDataTableParamsFromRequest(request, layoutList, AuthKeyGen.class, "AKG");
+			
+			List<IAuthKeyGen> dataList = (List<IAuthKeyGen>) sgBo.getAuthKeyGenList(dtParam, false).dataList;
+			int dataListCount = (int) sgBo.getAuthKeyGenList(dtParam, true).dataListCount;
+			
+			List<List<String>> mDataList = DataTableDynamicColumns.getJSONFromObjectByCols(dtParam, layoutList, dataList);
+			
+			DataTableObject dataTableObject = new DataTableObject();
+			dataTableObject.setAaData(mDataList);
+			dataTableObject.setiTotalDisplayRecords(dataListCount);
+			dataTableObject.setiTotalRecords(dataListCount);
+			Gson gson = new GsonBuilder().setPrettyPrinting().create();
+			StringBuilder sb = new StringBuilder(gson.toJson(dataTableObject));
+			return sb.toString();
+		}
+		catch (Exception excep)
+		{
+			logger.error(excep);
+		}
+		return null;
 	}
 	
 	@RequestMapping(VALIDATE_AUTH_KEYGEN)

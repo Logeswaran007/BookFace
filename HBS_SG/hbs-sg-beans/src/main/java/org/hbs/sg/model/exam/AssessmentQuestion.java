@@ -25,7 +25,7 @@ public class AssessmentQuestion extends CommonFileUploadBase implements IAssessm
 	protected Set<IAssessmentAnswer>		answers					= new LinkedHashSet<IAssessmentAnswer>(0);
 	protected String						askedYears;
 	protected IAssessment					assessment;
-	protected IAssessmentCorrectAnswer		correctAnswer;
+	protected AssessmentCorrectAnswer		correctAnswer;
 	protected Set<IAssessmentExplanation>	explanations			= new LinkedHashSet<IAssessmentExplanation>(0);
 	protected Double						negativeMarkPerQuestion	= 0.0;
 	protected String						questionId;
@@ -35,10 +35,19 @@ public class AssessmentQuestion extends CommonFileUploadBase implements IAssessm
 	public AssessmentQuestion()
 	{
 		super();
+		this.correctAnswer = new AssessmentCorrectAnswer();
 		this.uploadDocumentForType = EAssessmentType.Aptitude.name();
 	}
 	
-	public AssessmentQuestion(Set<IAssessmentAnswer> answers, String askedYears, IAssessment assessment, IAssessmentCorrectAnswer correctAnswer, Set<IAssessmentExplanation> explanations,
+	public AssessmentQuestion(String questionId)
+	{
+		super();
+		this.questionId = questionId;
+		this.correctAnswer = new AssessmentCorrectAnswer();
+		this.uploadDocumentForType = EAssessmentType.Aptitude.name();
+	}
+	
+	public AssessmentQuestion(Set<IAssessmentAnswer> answers, String askedYears, IAssessment assessment, AssessmentCorrectAnswer correctAnswer, Set<IAssessmentExplanation> explanations,
 			Double negativeMarkPerQuestion, String questionId, String textQuestion, String weightage)
 	{
 		super();
@@ -78,7 +87,7 @@ public class AssessmentQuestion extends CommonFileUploadBase implements IAssessm
 	
 	@Override
 	@Embedded
-	public IAssessmentCorrectAnswer getCorrectAnswer()
+	public AssessmentCorrectAnswer getCorrectAnswer()
 	{
 		return correctAnswer;
 	}
@@ -137,7 +146,7 @@ public class AssessmentQuestion extends CommonFileUploadBase implements IAssessm
 	}
 	
 	@Override
-	public void setCorrectAnswer(IAssessmentCorrectAnswer correctAnswer)
+	public void setCorrectAnswer(AssessmentCorrectAnswer correctAnswer)
 	{
 		this.correctAnswer = correctAnswer;
 	}

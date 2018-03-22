@@ -1,11 +1,13 @@
 package org.hbs.sg.model.accessors;
 
+import java.util.Date;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -16,9 +18,8 @@ import javax.persistence.Transient;
 import org.hbs.admin.model.CommonBeanFields;
 import org.hbs.admin.model.Users;
 import org.hbs.sg.model.exam.AllocatedQuestions;
-import org.hbs.sg.model.exam.Assessment;
 import org.hbs.sg.model.exam.IAllocatedQuestions;
-import org.hbs.sg.model.exam.IAssessment;
+import org.hbs.util.CommonUtil;
 import org.hbs.util.CommonValidator;
 import org.hbs.util.IConstProperty;
 
@@ -27,37 +28,50 @@ import org.hbs.util.IConstProperty;
 public class ConsumerAssessment extends CommonBeanFields implements IConsumerAssessment, IConstProperty
 {
 	
-	private static final long			serialVersionUID	= 2330105986760101571L;
+	private static final long				serialVersionUID	= 2330105986760101571L;
 	
-	protected Set<IAllocatedQuestions>	allocatedQuestions	= new LinkedHashSet<IAllocatedQuestions>(0);
-	protected IAssessment				assessment;
-	protected String					assessmentMode		= EAssessmentMode.Practise.name();
-	protected String					assessmentStatus	= EAssessmentStatus.Ready.name();
-	protected String					assignedDate		= "";
-	protected String					consumerExamId;
-	protected String					consumerStatus;
-	protected Integer					noOfCorrect			= 0;
-	protected Integer					noOfIncorrect		= 0;
-	protected Integer					noOfPartialCorrect	= 0;
-	protected Integer					noOfQuestions		= 0;
-	protected Integer					noOfUnanswer		= 0;
-	protected Double					totalMarks			= 0.0;
-	protected IConsumerUser				users;
+	protected Set<IAllocatedQuestions>		allocatedQuestions	= new LinkedHashSet<IAllocatedQuestions>(0);
+	protected Set<IConsumerAssessmentGroup>	assessmentGroup		= new LinkedHashSet<IConsumerAssessmentGroup>(0);
+	protected String						assessmentMode		= EAssessmentMode.Practise.name();
+	protected String						assessmentStatus	= EAssessmentStatus.Ready.name();
+	protected String						assignedDate;
+	protected String						consumerExamId;
+	protected String						consumerStatus		= EConsumerStatus.Fail.name();
+	protected Integer						noOfCorrect			= 0;
+	protected Integer						noOfIncorrect		= 0;
+	protected Integer						noOfPartialCorrect	= 0;
+	protected Integer						noOfQuestions		= 0;
+	protected Integer						noOfUnanswer		= 0;
+	protected Double						totalMarks			= 0.0;
+	protected IConsumerUser					users;
 	
 	public ConsumerAssessment()
 	{
 		super();
+		this.consumerExamId = getBusinessKey();
+		this.assessmentGroup = new LinkedHashSet<IConsumerAssessmentGroup>(0);
+		this.assignedDate = CommonUtil.getDateInFormat(new Date(), DATE_FORMAT_DD_MMM_YYYY_HH_MM_AM_PM);
 	}
 	
-	public ConsumerAssessment(IAssessment assessment, String assessmentMode, String assignedDate, String consumerExamId, IConsumerUser users, Set<IAllocatedQuestions> allocatedQuestions)
+	public ConsumerAssessment(String consumerExamId)
 	{
 		super();
-		this.assessment = assessment;
+		this.consumerExamId = consumerExamId;
+	}
+	
+	public ConsumerAssessment(String assessmentMode, String assignedDate, String consumerExamId, IConsumerUser users, Set<IAllocatedQuestions> allocatedQuestions,
+			Set<IConsumerAssessmentGroup> assessmentGroup)
+	{
+		super();
 		this.assessmentMode = assessmentMode;
 		this.assignedDate = assignedDate;
-		this.consumerExamId = consumerExamId;
+		if (CommonValidator.isNotNullNotEmpty(consumerExamId))
+			this.consumerExamId = consumerExamId;
+		else
+			this.consumerExamId = getBusinessKey();
 		this.users = users;
 		this.allocatedQuestions = allocatedQuestions;
+		this.assessmentGroup = assessmentGroup;
 	}
 	
 	public void calculateAssessmentReport()
@@ -120,18 +134,17 @@ public class ConsumerAssessment extends CommonBeanFields implements IConsumerAss
 	}
 	
 	@Override
-	@OneToMany(mappedBy = "consumerAssessment", targetEntity = AllocatedQuestions.class)
+	@OneToMany(mappedBy = "consumerAssessment", targetEntity = AllocatedQuestions.class, fetch = FetchType.EAGER)
 	public Set<IAllocatedQuestions> getAllocatedQuestions()
 	{
 		return allocatedQuestions;
 	}
 	
 	@Override
-	@ManyToOne(targetEntity = Assessment.class)
-	@JoinColumn(name = "assessmentId", nullable = false)
-	public IAssessment getAssessment()
+	@OneToMany(mappedBy = "consumerAssessment", targetEntity = ConsumerAssessmentGroup.class)
+	public Set<IConsumerAssessmentGroup> getAssessmentGroup()
 	{
-		return assessment;
+		return assessmentGroup;
 	}
 	
 	@Override
@@ -152,6 +165,12 @@ public class ConsumerAssessment extends CommonBeanFields implements IConsumerAss
 	public String getAssignedDate()
 	{
 		return assignedDate;
+	}
+	
+	@Transient
+	public String getBusinessKey(String... combination)
+	{
+		return EKey.Auto("CAT");
 	}
 	
 	@Override
@@ -222,10 +241,9 @@ public class ConsumerAssessment extends CommonBeanFields implements IConsumerAss
 			this.noOfQuestions = allocatedQuestions.size();
 	}
 	
-	@Override
-	public void setAssessment(IAssessment assessment)
+	public void setAssessmentGroup(Set<IConsumerAssessmentGroup> assessmentGroup)
 	{
-		this.assessment = assessment;
+		this.assessmentGroup = assessmentGroup;
 	}
 	
 	@Override

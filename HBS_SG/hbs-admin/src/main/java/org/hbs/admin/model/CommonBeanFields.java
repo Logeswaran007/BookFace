@@ -9,6 +9,7 @@ import java.util.TimeZone;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
+import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.MappedSuperclass;
@@ -80,7 +81,7 @@ public abstract class CommonBeanFields implements ICommonBeanFields, IConstPrope
 		return createdDateByTimeZone;
 	}
 	
-	@ManyToOne(targetEntity = Users.class, cascade = CascadeType.ALL)
+	@ManyToOne(targetEntity = Users.class, cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	@JoinColumn(name = "createdBy", nullable = true)
 	public IUsers getCreatedUser()
 	{
@@ -115,7 +116,7 @@ public abstract class CommonBeanFields implements ICommonBeanFields, IConstPrope
 		return modifiedDateByTimeZone;
 	}
 	
-	@ManyToOne(targetEntity = Users.class, cascade = CascadeType.ALL)
+	@ManyToOne(targetEntity = Users.class, cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	@JoinColumn(name = "modifiedBy", nullable = true)
 	public IUsers getModifiedUser()
 	{
