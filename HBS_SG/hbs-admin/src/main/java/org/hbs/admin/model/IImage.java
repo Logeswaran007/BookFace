@@ -130,7 +130,7 @@ public interface IImage extends Serializable
 					{
 						try
 						{
-							destFile = new File(destDirectory.getAbsolutePath() + File.separator + iDocs.getUploadFileName());
+							destFile = new File(destDirectory.getAbsolutePath() + File.separator + iDocs.getUploadFileNameForDisplay());
 							if (destFile.exists() == false)
 							{
 								repoFilePath = iDocs.getUploadFileFolderURL() + File.separator + iDocs.getUploadFileName();
@@ -142,32 +142,32 @@ public interface IImage extends Serializable
 								}
 								catch (Exception excep)
 								{
-
 									
 								}
 							}
+							
 							sbLocalPath = new StringBuffer();
 							if (CommonValidator.isNotNullNotEmpty(producer.getVirtualBasePath()))
 								sbLocalPath.append(producer.getVirtualBasePath() + File.separator + CONTENT + File.separator);
 							else
 								sbLocalPath.append(request.getServletContext().getContextPath() + File.separator + CONTENT + File.separator);
-							sbLocalPath.append(request.getSession().getId() + File.separator + iDocs.getUploadFileName());
+							sbLocalPath.append(request.getSession().getId() + File.separator + iDocs.getUploadFileNameForDisplay());
 							iDocs.setUploadFileVirtualURL(sbLocalPath.toString());
 						}
 						finally
 						{
-						srcFile = null;
-						destFile = null;
-						sbLocalPath = null;
-						repoFilePath = null;
-
+							srcFile = null;
+							destFile = null;
+							sbLocalPath = null;
+							repoFilePath = null;
+							
+						}
 					}
 				}
 			}
-			}
 			catch (Exception excep)
 			{
-
+				
 			}
 		}
 		

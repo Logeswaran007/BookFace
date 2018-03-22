@@ -10,8 +10,12 @@ public interface IAssessmentQuestion extends IUploadImageOrDocuments, ICRUDBean
 {
 	public enum EWeightage implements EnumInterface
 	{
-		Default, High, Low, Medium;
+		High, Low, Medium;
 	}
+	
+	public boolean isAnswerMode();
+	
+	public void setAnswerMode(boolean answerMode);
 	
 	public Set<IAssessmentAnswer> getAnswers();
 	

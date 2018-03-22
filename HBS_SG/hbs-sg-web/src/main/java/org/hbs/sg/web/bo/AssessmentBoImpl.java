@@ -9,12 +9,12 @@ import java.util.Set;
 import org.hbs.admin.model.IUsers;
 import org.hbs.sg.model.accessors.ConsumerAssessment;
 import org.hbs.sg.model.accessors.ConsumerAssessmentGroup;
-import org.hbs.sg.model.accessors.IConsumerAssessment;
 import org.hbs.sg.model.accessors.IConsumerUser;
 import org.hbs.sg.model.exam.AllocatedQuestions;
 import org.hbs.sg.model.exam.Assessment;
 import org.hbs.sg.model.exam.AssessmentQuestion;
 import org.hbs.sg.model.exam.IAllocatedQuestions;
+import org.hbs.sg.model.exam.IAssessmentQuestion;
 import org.hbs.sg.web.controller.AssessmentForm;
 import org.hbs.sg.web.dao.AssessmentDAO;
 import org.hbs.util.CommonValidator;
@@ -102,42 +102,55 @@ public class AssessmentBoImpl implements AssessmentBo
 	
 	@SuppressWarnings("unchecked")
 	@Override
-	public IConsumerAssessment getPractiseQuestions(DataTableParam dtParam)
+	public Set<IAssessmentQuestion> getPractiseQuestions(DataTableParam dtParam)
 	{
 		String consumerExamId = (String) dtParam.searchValueMap.get("consumerExamId");
 		
-		dtParam.searchBeanClass = ConsumerAssessmentGroup.class;
-		dtParam.iDisplayLength = 100;
-		dtParam.searchBeanClassAlias = "CAG";
-		dtParam.searchColumns = " CAG.assessment.pattern, CAG.assessment.assessmentId ";
+		DataTableParam _dtParam = new DataTableParam();
 		
-		ENamed.EqualTo.param_AND(dtParam, "CAG.consumerAssessment.consumerExamId", consumerExamId);
+		_dtParam.searchBeanClass = AllocatedQuestions.class;
 		
-		List<Object[]> dataList = (List<Object[]>) iBaseDAO.getDataList(dtParam).getDataList();
+		ENamed.EqualTo.param_AND(_dtParam, "consumerAssessment.consumerExamId", consumerExamId);
+		ENamed.EqualTo.param_AND(_dtParam, "consumerAssessment.status", true);
+		ENamed.EqualTo.param_AND(_dtParam, "question.status", true);
 		
-		if (CommonValidator.isListFirstNotEmpty(dataList))
+		if (iBaseDAO.getDataTableList(_dtParam, true).dataListCount == 0L)
 		{
-			Set<IAllocatedQuestions> allocatedQuestions = new LinkedHashSet<IAllocatedQuestions>(0);
-			for (String iAQ : assessmentDAO.getSelectedAssessmentQuestions(dtParam))
+			dtParam.searchBeanClass = ConsumerAssessmentGroup.class;
+			dtParam.iDisplayLength = 100;
+			dtParam.searchBeanClassAlias = "CAG";
+			dtParam.searchColumns = " CAG.assessment.pattern, CAG.assessment.assessmentId, CAG.assessment.name ";
+			
+			ENamed.EqualTo.param_AND(dtParam, "CAG.consumerAssessment.consumerExamId", consumerExamId);
+			
+			List<Object[]> dataList = (List<Object[]>) iBaseDAO.getDataList(dtParam).getDataList();
+			
+			if (CommonValidator.isListFirstNotEmpty(dataList))
 			{
-				allocatedQuestions.add(new AllocatedQuestions(new ConsumerAssessment(consumerExamId), new AssessmentQuestion(iAQ)));
+				Set<IAllocatedQuestions> allocatedQuestions = new LinkedHashSet<IAllocatedQuestions>(0);
+				for (String iAQ : assessmentDAO.getSelectedAssessmentQuestions(dtParam))
+				{
+					allocatedQuestions.add(new AllocatedQuestions(new ConsumerAssessment(consumerExamId), new AssessmentQuestion(iAQ)));
+				}
+				iBaseDAO.saveOrUpdate("AllocatedQuestions", allocatedQuestions.toArray(new AllocatedQuestions[allocatedQuestions.size()]));
 			}
-			iBaseDAO.saveOrUpdate("AllocatedQuestions", allocatedQuestions.toArray(new AllocatedQuestions[allocatedQuestions.size()]));
 		}
 		
 		dtParam = new DataTableParam();
-		dtParam.searchBeanClass = ConsumerAssessment.class;
-		dtParam.iDisplayLength = 1;
+		dtParam.searchBeanClass = AllocatedQuestions.class;
+		dtParam.searchBeanClassAlias = "AQ";
+		dtParam.searchColumns = " AQ.question ";
+		dtParam.iDisplayLength = 300;
+		dtParam._OrderBy = " Order By AQ.question.questionId ASC ";
 		
-		ENamed.EqualTo.param_AND(dtParam, "consumerExamId", consumerExamId);
-		ENamed.EqualTo.param_AND(dtParam, "status", true);
+		ENamed.EqualTo.param_AND(dtParam, "AQ.consumerAssessment.consumerExamId", consumerExamId);
+		ENamed.EqualTo.param_AND(dtParam, "AQ.consumerAssessment.status", true);
+		ENamed.EqualTo.param_AND(dtParam, "AQ.question.status", true);
 		
-		List<IConsumerAssessment> catList = (List<IConsumerAssessment>) iBaseDAO.getDataList(dtParam).getDataList();
+		List<IAssessmentQuestion> iaqList = (List<IAssessmentQuestion>) iBaseDAO.getDataList(dtParam).getDataList();
 		
-		if (CommonValidator.isListFirstNotEmpty(catList))
-			return catList.iterator().next();
-		else
-			return null;
+		return new LinkedHashSet<IAssessmentQuestion>(iaqList);
+		
 	}
 	
 }

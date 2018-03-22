@@ -42,6 +42,7 @@ public class FileServerUpload implements DocumentUpload, IConstProperty
 	{
 		String uploadFileFolderURL = null;
 		File fileToCreate = null;
+		String exten = null;
 		for (IUploadImageOrDocuments iDoc : iDocs)
 		{
 			if (CommonValidator.isNotNullNotEmpty(iDoc.getUploadMultiPartFile()))
@@ -50,6 +51,8 @@ public class FileServerUpload implements DocumentUpload, IConstProperty
 				fileToCreate = new File(uploadFileFolderURL, iDoc.getUploadMultiPartFile().getOriginalFilename());
 				iDoc.getUploadMultiPartFile().transferTo(fileToCreate);
 				iDoc.setUploadFileName(iDoc.getUploadMultiPartFile().getOriginalFilename());
+				exten = iDoc.getUploadFileName().substring(iDoc.getUploadFileName().lastIndexOf("."));
+				iDoc.setUploadFileNameForDisplay(iDoc.getUploadFileNameForDisplay() + exten);
 				iDoc.setUploadFileFolderURL(iDoc.getUploadSubFolderPath());
 			}
 		}

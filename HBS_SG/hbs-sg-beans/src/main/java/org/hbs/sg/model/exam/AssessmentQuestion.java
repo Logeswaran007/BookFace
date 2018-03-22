@@ -22,6 +22,7 @@ public class AssessmentQuestion extends CommonFileUploadBase implements IAssessm
 {
 	
 	private static final long				serialVersionUID		= 2530625237472598780L;
+	protected boolean						answerMode				= false;
 	protected Set<IAssessmentAnswer>		answers					= new LinkedHashSet<IAssessmentAnswer>(0);
 	protected String						askedYears;
 	protected IAssessment					assessment;
@@ -30,19 +31,11 @@ public class AssessmentQuestion extends CommonFileUploadBase implements IAssessm
 	protected Double						negativeMarkPerQuestion	= 0.0;
 	protected String						questionId;
 	protected String						textQuestion;
-	protected String						weightage				= EWeightage.Default.name();
+	protected String						weightage				= EWeightage.Low.name();
 	
 	public AssessmentQuestion()
 	{
 		super();
-		this.correctAnswer = new AssessmentCorrectAnswer();
-		this.uploadDocumentForType = EAssessmentType.Aptitude.name();
-	}
-	
-	public AssessmentQuestion(String questionId)
-	{
-		super();
-		this.questionId = questionId;
 		this.correctAnswer = new AssessmentCorrectAnswer();
 		this.uploadDocumentForType = EAssessmentType.Aptitude.name();
 	}
@@ -63,6 +56,14 @@ public class AssessmentQuestion extends CommonFileUploadBase implements IAssessm
 		this.uploadDocumentForType = EAssessmentType.Aptitude.name();
 	}
 	
+	public AssessmentQuestion(String questionId)
+	{
+		super();
+		this.questionId = questionId;
+		this.correctAnswer = new AssessmentCorrectAnswer();
+		this.uploadDocumentForType = EAssessmentType.Aptitude.name();
+	}
+	
 	@Override
 	@OneToMany(targetEntity = AssessmentAnswer.class, fetch = FetchType.EAGER, mappedBy = "assessmentQuestion")
 	public Set<IAssessmentAnswer> getAnswers()
@@ -78,7 +79,7 @@ public class AssessmentQuestion extends CommonFileUploadBase implements IAssessm
 	}
 	
 	@Override
-	@ManyToOne(targetEntity = Assessment.class)
+	@ManyToOne(targetEntity = Assessment.class, fetch = FetchType.LAZY)
 	@JoinColumn(name = "assessmentId", nullable = false)
 	public IAssessment getAssessment()
 	{
@@ -125,6 +126,17 @@ public class AssessmentQuestion extends CommonFileUploadBase implements IAssessm
 	public String getWeightage()
 	{
 		return weightage;
+	}
+	
+	@Column(name = "answerMode")
+	public boolean isAnswerMode()
+	{
+		return answerMode;
+	}
+	
+	public void setAnswerMode(boolean answerMode)
+	{
+		this.answerMode = answerMode;
 	}
 	
 	@Override

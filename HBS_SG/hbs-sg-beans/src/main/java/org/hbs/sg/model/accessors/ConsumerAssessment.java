@@ -7,7 +7,6 @@ import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -134,7 +133,7 @@ public class ConsumerAssessment extends CommonBeanFields implements IConsumerAss
 	}
 	
 	@Override
-	@OneToMany(mappedBy = "consumerAssessment", targetEntity = AllocatedQuestions.class, fetch = FetchType.EAGER)
+	@OneToMany(mappedBy = "consumerAssessment", targetEntity = AllocatedQuestions.class)
 	public Set<IAllocatedQuestions> getAllocatedQuestions()
 	{
 		return allocatedQuestions;

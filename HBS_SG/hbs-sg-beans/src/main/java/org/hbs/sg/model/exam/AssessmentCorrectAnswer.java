@@ -17,7 +17,7 @@ public class AssessmentCorrectAnswer implements Serializable
 	private String				correctAnswer2;
 	private String				correctAnswer3;
 	private String				correctAnswer4;
-	protected Double			markPerQuestion		= 1.0;
+	private Double				markPerQuestion		= 1.0;
 	
 	public AssessmentCorrectAnswer()
 	{
