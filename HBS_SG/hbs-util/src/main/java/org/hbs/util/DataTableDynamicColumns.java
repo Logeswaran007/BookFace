@@ -13,6 +13,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.hbs.util.model.ICommonLayout;
 import org.hbs.util.transformer.ITransformer;
 
@@ -155,15 +157,7 @@ public class DataTableDynamicColumns
 									}
 									if (CommonValidator.isNotNullNotEmpty(method))
 									{
-										if (++count == getterArray.length && CommonValidator.isEqual("Image", iCL.getLayoutElements().getDataType()) && CommonValidator.isNotNullNotEmpty(param))
-										{
-											traverseObject = method.invoke(traverseObject, new Object[] {});
-											traverseObject = param.getImageVirtualUrl(traverseObject);
-										}
-										else
-										{
-											traverseObject = method.invoke(traverseObject, new Object[] {});
-										}
+										traverseObject = method.invoke(traverseObject, new Object[] {});
 										if (traverseObject == null)
 										{
 											break;
@@ -236,10 +230,11 @@ public class DataTableDynamicColumns
 						{
 							try
 							{
-								clazz = Class.forName(iCL.getLayoutElements().getBeanName());
-								Constructor<ITransformer> constructor = (Constructor<ITransformer>) clazz.getConstructor(new Class[] { String.class, List.class, Object[].class });
+								clazz = Class.forName(iCL.getLayoutElements().getTransformerBeanName());
+								Constructor<ITransformer> constructor = (Constructor<ITransformer>) clazz
+										.getConstructor(new Class[] { HttpServletRequest.class, String.class, List.class, Object[].class });
 								
-								transformer = constructor.newInstance(new Object[] { iCL.getDisplayScriptColumn(), elementList, rows });
+								transformer = constructor.newInstance(new Object[] { param.getRequest(), iCL.getDisplayScriptColumn(), elementList, rows });
 								transformerMethod = iCL.getLayoutElements().getDisplayPropertyGetter().replaceAll("\\(\\)", "");
 								
 								try

@@ -110,8 +110,7 @@
 		<div id="organisationTableId_wrapper"
 			class="dataTables_wrapper no-footer">
 			<div class="table-scrollable">
-				<table
-						class=table table-striped table-bordered table-hover dt-responsive dataTable no-footer dtr-inline collapsed"
+				<table class=table table-striped table-bordered table-hover dt-responsive dataTable no-footer dtr-inline collapsed" 
 					id="organisationTableId" role="grid"
 					aria-describedby="organisationTableId_info">
 				</table>

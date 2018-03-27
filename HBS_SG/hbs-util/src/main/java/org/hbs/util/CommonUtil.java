@@ -1,9 +1,5 @@
 package org.hbs.util;
 
-import java.io.File;
-import java.lang.reflect.Field;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 import java.sql.Timestamp;
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -13,117 +9,12 @@ import java.util.Date;
 import java.util.TimeZone;
 
 import org.apache.commons.codec.binary.Base64;
-import org.hbs.util.PropertyEnumUtil.EGeneral;
-import org.hbs.util.factory.PropFactory;
 
 public class CommonUtil implements IConstProperty
 {
-
+	
 	public static final long serialVersionUID = 5975112215738796905L;
 	
-	public static Timestamp convertTimeToDisplayTimeZone(Timestamp timeStamp)
-	{
-		try
-		{
-			Date date = new SimpleDateFormat(DATE_FORMAT_YYYY_MM_DD_HH_MM_SS_SSS_24).parse(timeStamp.toString());
-			DateFormat gmtFormat = new SimpleDateFormat();
-			gmtFormat.setTimeZone(TimeZone.getTimeZone(PropFactory.getInstance().getProperty(EGeneral.Display_Time_Zone)));
-			return new Timestamp(new SimpleDateFormat().parse(gmtFormat.format(date)).getTime());
-		}
-		catch (ParseException excep)
-		{
-			new CustomLogger(CommonUtil.class).info(excep);
-		
-			return timeStamp;
-		}
-	}
-
-	public static String convertTimeToIST(String cstTimeStamp)
-	{
-		try
-		{
-
-			SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMAT_YYYY_MM_DD_HH_MM_SS_SSS_24);
-			sdf.setTimeZone(TimeZone.getTimeZone(PropFactory.getInstance().getProperty(EGeneral.Display_Time_Zone)));
-			SimpleDateFormat sdfCurrent = new SimpleDateFormat(DATE_FORMAT_YYYY_MM_DD_HH_MM_SS_SSS_24);
-			return sdfCurrent.format(sdf.parse(cstTimeStamp));
-		}
-		catch (ParseException excep)
-		{
-			new CustomLogger(CommonUtil.class).info(excep);
-			return cstTimeStamp;
-		}
-	}
-
-	public static boolean deleteFiles(String delFileDir)
-	{
-		try
-		{
-			File file2Delete = new File(delFileDir);
-
-			if (file2Delete.exists())
-			{
-				File[] imageFileList = file2Delete.listFiles();
-				for (int idx = 0; idx < imageFileList.length; idx++)
-				{
-					imageFileList[idx].delete();
-				}
-				file2Delete.delete();
-				return true;
-			}
-
-		}
-		catch (Exception excep)
-		{
-			new CustomLogger(CommonUtil.class).info(excep);
-		}
-		return false;
-	}
-
-	public static Object getDataObject(Object object, Class<?> clazz) throws InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException
-	{
-		if (object != null)
-		{
-			Class<?> dataClass = object.getClass();
-			Field[] fields = clazz.getDeclaredFields();
-
-			if (CommonValidator.isNotNullNotEmpty(fields) == false)
-			{
-				fields = clazz.getSuperclass().getDeclaredFields();
-			}
-
-			Object returnObj = clazz.newInstance();
-			for (Field field : fields)
-			{
-				String mtdGetterName1 = GET + field.getName().toUpperCase();
-				String mtdGetterName2 = IS + field.getName().toUpperCase();
-				String mtdSetterName = SET + field.getName().toUpperCase();
-
-				for (Method method : dataClass.getMethods())
-				{
-					if (CommonValidator.isEqual(method.getName(), mtdGetterName1) || CommonValidator.isEqual(method.getName(), mtdGetterName2))
-					{
-						Object value = method.invoke(object, new Object[] {});
-						for (Method methodSetter : clazz.getMethods())
-						{
-							if (CommonValidator.isEqual(methodSetter.getName(), mtdSetterName))
-							{
-								methodSetter.invoke(returnObj, new Object[] { value });
-								break;
-							}
-						}
-						break;
-					}
-				}
-			}
-			return returnObj;
-		}
-		else
-		{
-			return null;
-		}
-	}
-
 	public static long getDateDifference(long startDate, long endDate, String format)
 	{
 		long diffFormat = 0;
@@ -156,13 +47,13 @@ public class CommonUtil implements IConstProperty
 			return diffFormat;
 		}
 	}
-
+	
 	public static String getDateInFormat(Date date, String dateFormat)
 	{
 		DateFormat dateFormatType = new SimpleDateFormat(dateFormat);
 		return dateFormatType != null ? dateFormatType.format(date) : "";
 	}
-
+	
 	public static Date getDateInFormat(String dateStr, String dateFormat)
 	{
 		try
@@ -174,7 +65,7 @@ public class CommonUtil implements IConstProperty
 			return null;
 		}
 	}
-
+	
 	public static String getDateStringInFormat(String dateStr, String dateFormat)
 	{
 		try
@@ -187,7 +78,7 @@ public class CommonUtil implements IConstProperty
 			return null;
 		}
 	}
-
+	
 	public static String getDateTimeZoneDateInFormat(Date date, String dateFormat, String timeZone)
 	{
 		DateFormat dateFormatType = new SimpleDateFormat(dateFormat);
@@ -195,22 +86,22 @@ public class CommonUtil implements IConstProperty
 			dateFormatType.setTimeZone(TimeZone.getTimeZone(timeZone.toUpperCase()));
 		return (dateFormatType != null) ? dateFormatType.format(date) : "";
 	}
-
+	
 	public static String getDecodeString(String str)
 	{
 		return new String(Base64.decodeBase64(str.getBytes()));
 	}
-
+	
 	public static String getEncodeString(String str)
 	{
 		return new String(Base64.encodeBase64(str.getBytes()));
 	}
-
+	
 	public static Timestamp getTimeZoneDateInFormat(Date date, String dateFormat, EnumInterface timeZone)
 	{
 		return getTimeZoneDateInFormat(date, dateFormat, timeZone.name());
 	}
-
+	
 	public static Timestamp getTimeZoneDateInFormat(Date date, String dateFormat, String timeZone)
 	{
 		DateFormat dateFormatType = new SimpleDateFormat(dateFormat);
@@ -220,7 +111,7 @@ public class CommonUtil implements IConstProperty
 		}
 		return Timestamp.valueOf(dateFormatType != null ? dateFormatType.format(date) : "");
 	}
-
+	
 	public static String getTimeZoneDateInStringFormat(Date date, String dateFormat, String timeZone)
 	{
 		DateFormat dateFormatType = new SimpleDateFormat(dateFormat);
@@ -230,19 +121,7 @@ public class CommonUtil implements IConstProperty
 		}
 		return (dateFormatType != null ? dateFormatType.format(date) : "");
 	}
-
-	public static String getDateByTimeZoneFormat(Timestamp timestamp, String dateFormat)
-	{
-		String $Display_Time_Zone = PropFactory.getInstance().getProperty(EGeneral.Display_Time_Zone);
-		if (CommonValidator.isNotNullNotEmpty(timestamp) && CommonValidator.isNotNullNotEmpty($Display_Time_Zone))
-		{
-			DateFormat dateFormatType = new SimpleDateFormat(dateFormat);
-			dateFormatType.setTimeZone(TimeZone.getTimeZone($Display_Time_Zone.toUpperCase()));
-			return dateFormatType.format(new Date(timestamp.getTime()));
-		}
-		return "";
-	}
-
+	
 	public static Timestamp getTimeZoneDateInFormat(int daysCount, Date date, String dateFormat, String timeZone)
 	{
 		Calendar cal = Calendar.getInstance();
@@ -251,7 +130,7 @@ public class CommonUtil implements IConstProperty
 		date = cal.getTime();
 		return getTimeZoneDateInFormat(date, dateFormat, timeZone);
 	}
-
+	
 	public static Timestamp getTimeZoneDateInFormat(String date, String dateFormat, String timeZone)
 	{
 		Date newDate = getDateInFormat(date, DATE_FORMAT_MM_DD_YYYY);
@@ -262,7 +141,7 @@ public class CommonUtil implements IConstProperty
 		}
 		return Timestamp.valueOf(dateFormatType != null ? dateFormatType.format(newDate) : "");
 	}
-
+	
 	public static Timestamp getTimeZoneDateInFormat(String date, String fromFormat, String toFormat, String timeZone)
 	{
 		Date newDate = getDateInFormat(date, fromFormat);
@@ -271,7 +150,7 @@ public class CommonUtil implements IConstProperty
 			toFormatType.setTimeZone(TimeZone.getTimeZone(timeZone.toUpperCase()));
 		return Timestamp.valueOf(toFormatType.format(newDate));
 	}
-
+	
 	public static String initCapsName(String name)
 	{
 		char[] nameArr = name.toLowerCase().toCharArray();
@@ -304,16 +183,16 @@ public class CommonUtil implements IConstProperty
 		}
 		return sbName.toString();
 	}
-
+	
 	public static String replaceSingleQuotes(String fieldValue)
 	{
-
+		
 		if (fieldValue != null)
 		{
 			fieldValue = fieldValue.replace("'", "''");
 		}
-
+		
 		return fieldValue;
-
+		
 	}
 }

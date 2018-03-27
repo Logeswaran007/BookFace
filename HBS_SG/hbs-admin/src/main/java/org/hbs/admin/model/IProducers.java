@@ -1,6 +1,7 @@
 package org.hbs.admin.model;
 
 import java.sql.Timestamp;
+import java.util.List;
 import java.util.Set;
 
 import org.hbs.util.EnumInterface;
@@ -24,13 +25,15 @@ public interface IProducers extends ICommonBeanFields, ICRUDBean
 	
 	public String getProducerName();
 	
+	public Set<IProducersProperty> getPropertyList();
+	
+	public List<IProducersProperty> getPropertyList(EnumInterface group);
+	
+	public IProducersProperty getProperty(EnumInterface group, String key);
+	
 	public Timestamp getPwdExpiryDays();
 	
-	public String getRepositoryBasePath();
-	
 	public IUsers getUsers();
-	
-	public String getVirtualBasePath();
 	
 	public void setActiveProducerId(String producerId);
 	
@@ -46,11 +49,10 @@ public interface IProducers extends ICommonBeanFields, ICRUDBean
 	
 	public void setProducerName(String producerName);
 	
-	public void setPwdExpiryDays(Timestamp csPwdExpiryDays);
+	public void setPropertyList(Set<IProducersProperty> propertyList);
 	
-	public void setRepositoryBasePath(String repositoryBasePath);
+	public void setPwdExpiryDays(Timestamp csPwdExpiryDays);
 	
 	public void setUsers(IUsers users);
 	
-	public void setVirtualBasePath(String virtualBasePath);
 }

@@ -24,7 +24,7 @@ import org.springframework.stereotype.Component;
 public class CustomLoginHandler extends ControllerBaseBo implements AuthenticationSuccessHandler, IAdminPath, ISGPath
 {
 	
-	private static final long serialVersionUID = 407818492923421819L;
+	private static final long	serialVersionUID	= 407818492923421819L;
 	private final CustomLogger	logger				= new CustomLogger(this.getClass());
 	
 	@Override
@@ -44,7 +44,7 @@ public class CustomLoginHandler extends ControllerBaseBo implements Authenticati
 				
 				if (CommonValidator.isNotNullNotEmpty(iDoc))
 				{
-					EImage.Attachment.getServerSessionVirtualPath(request, userParam.user.getProducer(), iDoc);
+					EImage.ResourceHandler.getServerSessionVirtualPath(request, userParam.user.getProducer(), iDoc);
 					userParam.user.setUsUserImage(iDoc.getUploadFileVirtualURL());
 				}
 				

@@ -12,7 +12,6 @@ import java.util.Calendar;
 import java.util.List;
 import java.util.TimerTask;
 
-import org.apache.commons.codec.binary.Base64;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpPost;
@@ -30,7 +29,6 @@ import org.hbs.admin.model.IUsersAddress;
 import org.hbs.admin.model.MessagesUserMapping;
 import org.hbs.admin.model.Users;
 import org.hbs.util.CommonValidator;
-import org.hbs.util.factory.PropFactory;
 
 public class ScheduledSMS extends TimerTask
 {
@@ -44,14 +42,14 @@ public class ScheduledSMS extends TimerTask
 	
 	private MessagesBo			messageBo;
 	
-	private String				password	= new String(Base64.decodeBase64(PropFactory.getInstance().getProperty(ESMS.Password)));
+	private String				password	= null;
 	
 	private IProducers			producer;
 	
-	private String				sender		= new String(Base64.decodeBase64(PropFactory.getInstance().getProperty(ESMS.Sender)));
+	private String				sender		= null;
 	private final String		USER_AGENT	= "Mozilla/5.0";
-	private String				userName	= new String(Base64.decodeBase64(PropFactory.getInstance().getProperty(ESMS.UserName)));
-	private String				websiteURL	= new String(Base64.decodeBase64(PropFactory.getInstance().getProperty(ESMS.WebsiteURL)));
+	private String				userName	= null;
+	private String				websiteURL	= null;
 	
 	public ScheduledSMS(IProducers producer, IMessages message, EAddress[] eAddresses)
 	{

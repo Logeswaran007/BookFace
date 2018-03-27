@@ -165,7 +165,7 @@ public class AuthKeyGenController extends SGControllerBaseBo implements IAdminPa
 							document.add(pdfSerialKeyTable);
 							document.newPage();
 						}
-						return users.getProducer().getVirtualBasePath() + virtualPath;
+						return users.getProducer().getDomainContext() + virtualPath;
 					}
 					catch (DocumentException | IOException docExcep)
 					{

@@ -7,6 +7,8 @@ import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.TimeZone;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.hbs.util.CommonUtil;
 import org.hbs.util.CommonValidator;
 import org.hbs.util.IConstProperty;
@@ -16,9 +18,9 @@ public class DateTimeTransformer extends Transformer implements IConstProperty
 {
 	private static final long serialVersionUID = 4611161905219190996L;
 	
-	public DateTimeTransformer(String currentColumn, List<? extends ICommonLayout> elementList, Object[] colsObject)
+	public DateTimeTransformer(HttpServletRequest request, String currentColumn, List<? extends ICommonLayout> elementList, Object[] colsObject)
 	{
-		super(currentColumn, elementList, colsObject);
+		super(request, currentColumn, elementList, colsObject);
 	}
 	
 	public String getCreatedDateByTimeZone()

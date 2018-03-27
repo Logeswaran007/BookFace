@@ -27,9 +27,8 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller
 public class PasswordController extends PasswordControllerBase implements IAdminPath
 {
-	private static final long serialVersionUID = 4736497573908842185L;
+	private static final long	serialVersionUID	= 4736497573908842185L;
 	private final CustomLogger	logger				= new CustomLogger(this.getClass());
-
 	
 	@RequestMapping(value = CHANGE_PASSWORD, method = RequestMethod.GET)
 	public ModelAndView changePassword(HttpServletRequest request)
@@ -64,7 +63,7 @@ public class PasswordController extends PasswordControllerBase implements IAdmin
 				SecurityContextHolder.getContext().setAuthentication(auth);
 				
 				IUploadImageOrDocuments iDoc = userParam.user.getAttachment(EUploadType.UserImage);
-				EImage.Attachment.getServerSessionVirtualPath(request, userParam.user.getProducer(), iDoc);
+				EImage.ResourceHandler.getServerSessionVirtualPath(request, userParam.user.getProducer(), iDoc);
 				userParam.user.setUsUserImage(iDoc.getUploadFileVirtualURL());
 				
 				request.getSession().setAttribute(EBean.User.name(), userParam.user);

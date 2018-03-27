@@ -1,6 +1,10 @@
 package org.hbs.admin.model;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.LinkedHashSet;
+import java.util.TimeZone;
 
 import javax.persistence.MappedSuperclass;
 import javax.persistence.Transient;
@@ -9,10 +13,8 @@ import javax.servlet.http.HttpServletRequest;
 import org.hbs.admin.PasswordEncrypt;
 import org.hbs.admin.model.IAddress.AddressType;
 import org.hbs.admin.model.IRoles.ERole;
-import org.hbs.util.CommonUtil;
 import org.hbs.util.CommonValidator;
 import org.hbs.util.EnumInterface;
-import org.hbs.util.IConstProperty;
 
 @MappedSuperclass
 public abstract class CommonUsers extends CommonUsersBase
@@ -110,9 +112,12 @@ public abstract class CommonUsers extends CommonUsersBase
 	public String getLastLoginTime()
 	{
 		IUserLog userLog = getLastLoginInformation();
-		if (CommonValidator.isNotNullNotEmpty(userLog))
+		if (CommonValidator.isNotNullNotEmpty(userLog) && CommonValidator.isNotNullNotEmpty(userLog.getUlUserLoginTime()))
 		{
-			return CommonUtil.getDateByTimeZoneFormat(userLog.getUlUserLoginTime(), IConstProperty.DATE_FORMAT_DD_MMM_YYYY_HH_MM_AM_PM);
+			DateFormat dateFormatType = new SimpleDateFormat(DATE_FORMAT_YYYY_MM_DD_HH_MM_SS_24);
+			dateFormatType.setTimeZone(TimeZone.getTimeZone(this.country.country));
+			return dateFormatType.format(new Date(userLog.getUlUserLoginTime().getTime()));
+			
 		}
 		return "";
 	}

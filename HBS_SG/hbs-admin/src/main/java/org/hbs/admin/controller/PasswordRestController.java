@@ -42,7 +42,7 @@ public class PasswordRestController extends PasswordControllerBase implements IA
 					case Default :
 					{
 						StringBuffer tokenURL = new StringBuffer();
-						tokenURL.append(userParam.user.getProducer().getVirtualBasePath());
+						tokenURL.append(userParam.user.getProducer().getDomainContext());
 						tokenURL.append(RESET_PASSWORD + "/" + Security.Token.generate(userBo, userParam.user, true));
 						Map<String, Object> dataMap = new LinkedHashMap<String, Object>(0);
 						dataMap.put("user", userParam.user);

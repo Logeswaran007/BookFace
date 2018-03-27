@@ -125,11 +125,11 @@ public class UserBoImpl extends UserBoComboBoxImpl implements UserBo, IConstProp
 		}
 		if (CommonValidator.isNotNullNotEmpty(dtParam.sSortDirection))
 		{
-			dtParam._OrderBy = ENamed.OrderBy.param("users.createdDate") + SPACE + dtParam.sSortDirection;
+			dtParam._OrderBy = ENamed.OrderBy.param("UA.users.createdDate") + SPACE + dtParam.sSortDirection;
 		}
 		else
 		{
-			dtParam._OrderBy = ENamed.OrderBy.param("users.createdDate") + DESC;
+			dtParam._OrderBy = ENamed.OrderBy.param("UA.users.createdDate") + DESC;
 		}
 		
 		return iBaseDAO.getDataTableList(dtParam, isCount);

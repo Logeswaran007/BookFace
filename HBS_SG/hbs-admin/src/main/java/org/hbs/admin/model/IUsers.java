@@ -13,6 +13,11 @@ import org.hbs.util.dao.ICRUDBean;
 
 public interface IUsers extends ICommonBeanFields, ICountryBase, IProducersBase, EBusinessKey, ICRUDBean
 {
+	public enum EResource implements EnumInterface
+	{
+		Profile, Default;
+	}
+	
 	public enum EUsers implements EnumInterface
 	{
 		Dummy, SuperAdmin, System, UserImage;
@@ -70,6 +75,8 @@ public interface IUsers extends ICommonBeanFields, ICountryBase, IProducersBase,
 	
 	public String getUsFatherName();
 	
+	public String getUsFolderToken();
+	
 	public String getUsLastName();
 	
 	public String getUsSex();
@@ -117,6 +124,8 @@ public interface IUsers extends ICommonBeanFields, ICountryBase, IProducersBase,
 	public void setUserRoleses(Set<IUserRoles> userRoleses);
 	
 	public void setUsFatherName(String usFatherName);
+	
+	public void setUsFolderToken(String usFolderToken);
 	
 	public void setUsLastName(String usLastName);
 	

@@ -6,11 +6,11 @@ import javax.persistence.Column;
 import javax.persistence.MappedSuperclass;
 import javax.persistence.Transient;
 
-import org.hbs.util.CommonValidator;
+import org.hbs.admin.model.IUsers.EResource;
 import org.springframework.web.multipart.MultipartFile;
 
 @MappedSuperclass
-public abstract class CommonFileUploadBase extends CommonBeanFields implements IUploadImageOrDocuments
+public class CommonFileUploadBase extends CommonBeanFields implements IUploadImageOrDocuments
 {
 	
 	private static final long	serialVersionUID		= 8419978751136386549L;
@@ -19,10 +19,10 @@ public abstract class CommonFileUploadBase extends CommonBeanFields implements I
 	protected String			uploadFileFolderURL;
 	protected Timestamp			uploadFileLastModifiedDate;
 	protected String			uploadFileName;
-	protected String			uploadFileNameForDisplay;
 	protected long				uploadFileSize			= 0L;
 	protected String			uploadFileVirtualURL	= "javascript:void(0);";
 	protected MultipartFile		uploadMultiPartFile;
+	protected String			uploadResourceHandler	= EResource.Default.name();
 	protected String			uploadSubFolderPath;
 	
 	public CommonFileUploadBase()
@@ -30,24 +30,27 @@ public abstract class CommonFileUploadBase extends CommonBeanFields implements I
 		super();
 	}
 	
-	public CommonFileUploadBase(IUsers createdUser, Timestamp createdDate, IUsers modifiedUser, Timestamp modifiedDate, Boolean status)
-	{
-		super(createdUser, createdDate, modifiedUser, modifiedDate, status);
-	}
-	
-	public CommonFileUploadBase(Timestamp uploadFileDate, String uploadFileFolderURL, Timestamp uploadFileLastModifiedDate, String uploadFileName, String uploadFileNameForDisplay, long uploadFileSize,
-			MultipartFile uploadMultiPartFile, String uploadDocumentForType, String uploadFileVirtualURL, String uploadSubFolderPath)
+	public CommonFileUploadBase(String uploadFileFolderURL, String uploadFileName, String uploadResourceHandler)
 	{
 		super();
+		this.uploadFileFolderURL = uploadFileFolderURL;
+		this.uploadFileName = uploadFileName;
+		this.uploadResourceHandler = uploadResourceHandler;
+	}
+	
+	public CommonFileUploadBase(String uploadDocumentForType, Timestamp uploadFileDate, String uploadFileFolderURL, Timestamp uploadFileLastModifiedDate, String uploadFileName, long uploadFileSize,
+			String uploadFileVirtualURL, MultipartFile uploadMultiPartFile, String uploadResourceHandler, String uploadSubFolderPath)
+	{
+		super();
+		this.uploadDocumentForType = uploadDocumentForType;
 		this.uploadFileDate = uploadFileDate;
 		this.uploadFileFolderURL = uploadFileFolderURL;
 		this.uploadFileLastModifiedDate = uploadFileLastModifiedDate;
 		this.uploadFileName = uploadFileName;
-		this.uploadFileNameForDisplay = uploadFileNameForDisplay;
 		this.uploadFileSize = uploadFileSize;
-		this.uploadMultiPartFile = uploadMultiPartFile;
-		this.uploadDocumentForType = uploadDocumentForType;
 		this.uploadFileVirtualURL = uploadFileVirtualURL;
+		this.uploadMultiPartFile = uploadMultiPartFile;
+		this.uploadResourceHandler = uploadResourceHandler;
 		this.uploadSubFolderPath = uploadSubFolderPath;
 	}
 	
@@ -81,12 +84,6 @@ public abstract class CommonFileUploadBase extends CommonBeanFields implements I
 		return uploadFileName;
 	}
 	
-	@Column(name = "uploadFileNameForDisplay")
-	public String getUploadFileNameForDisplay()
-	{
-		return uploadFileNameForDisplay;
-	}
-	
 	@Column(name = "uploadFileSize")
 	public long getUploadFileSize()
 	{
@@ -96,10 +93,6 @@ public abstract class CommonFileUploadBase extends CommonBeanFields implements I
 	@Transient
 	public String getUploadFileVirtualURL()
 	{
-		if (CommonValidator.isNotNullNotEmpty(uploadFileVirtualURL))
-		{
-			uploadFileVirtualURL = uploadFileVirtualURL.replaceAll("\\\\", "/");
-		}
 		return uploadFileVirtualURL;
 	}
 	
@@ -107,6 +100,12 @@ public abstract class CommonFileUploadBase extends CommonBeanFields implements I
 	public MultipartFile getUploadMultiPartFile()
 	{
 		return uploadMultiPartFile;
+	}
+	
+	@Column(name = "uploadResourceHandler")
+	public String getUploadResourceHandler()
+	{
+		return uploadResourceHandler;
 	}
 	
 	@Transient
@@ -140,11 +139,6 @@ public abstract class CommonFileUploadBase extends CommonBeanFields implements I
 		this.uploadFileName = uploadFileName;
 	}
 	
-	public void setUploadFileNameForDisplay(String uploadFileNameForDisplay)
-	{
-		this.uploadFileNameForDisplay = uploadFileNameForDisplay;
-	}
-	
 	public void setUploadFileSize(long uploadFileSize)
 	{
 		this.uploadFileSize = uploadFileSize;
@@ -158,6 +152,11 @@ public abstract class CommonFileUploadBase extends CommonBeanFields implements I
 	public void setUploadMultiPartFile(MultipartFile uploadMultiPartFile)
 	{
 		this.uploadMultiPartFile = uploadMultiPartFile;
+	}
+	
+	public void setUploadResourceHandler(String uploadResourceHandler)
+	{
+		this.uploadResourceHandler = uploadResourceHandler;
 	}
 	
 	public void setUploadSubFolderPath(String uploadSubFolderPath)

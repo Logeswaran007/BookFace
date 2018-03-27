@@ -18,9 +18,8 @@ import org.springframework.stereotype.Component;
 public class SessionListener extends ControllerBaseBo implements ApplicationListener<HttpSessionDestroyedEvent>
 {
 	
-	private static final long serialVersionUID = 1884717425289542411L;
+	private static final long	serialVersionUID	= 1884717425289542411L;
 	private final CustomLogger	logger				= new CustomLogger(this.getClass());
-
 	
 	public void onApplicationEvent(HttpSessionDestroyedEvent evt)
 	{
@@ -33,7 +32,7 @@ public class SessionListener extends ControllerBaseBo implements ApplicationList
 				userBo.userLogAtLogOut(new UserParam(user));
 			}
 			
-			String sessionFolder = EImage.Attachment.getServerSessionPhysicalPath(evt.getSession(), "");
+			String sessionFolder = EImage.ResourceHandler.getServerSessionPhysicalPath(evt.getSession());
 			if (CommonValidator.isNotNullNotEmpty(sessionFolder))
 			{
 				FileUtils.cleanDirectory(new File(sessionFolder));
@@ -43,7 +42,7 @@ public class SessionListener extends ControllerBaseBo implements ApplicationList
 		catch (Exception excep)
 		{
 			logger.error(excep);
-
+			
 		}
 	}
 }

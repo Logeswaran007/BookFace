@@ -11,7 +11,6 @@ import javax.persistence.EntityManagerFactory;
 
 import org.hbs.util.IParam.ENamed;
 import org.hbs.util.PropertyEnumUtil.EWrap;
-import org.hbs.util.factory.PropFactory;
 import org.hbs.util.model.ICommonLayout;
 import org.hbs.util.model.ILayoutElements;
 import org.hibernate.Session;
@@ -23,8 +22,6 @@ public abstract class CommonHibernateSessionFactorySupport implements IConstProp
 {
 	private static final long	serialVersionUID	= -2515673438608913557L;
 	private final CustomLogger	logger				= new CustomLogger(this.getClass());
-	
-	protected PropFactory		propFactory;
 	
 	@Autowired
 	EntityManagerFactory		entityManagerFactory;
@@ -96,11 +93,6 @@ public abstract class CommonHibernateSessionFactorySupport implements IConstProp
 		
 	}
 	
-	public PropFactory getPropFactory()
-	{
-		return propFactory;
-	}
-	
 	public Object getUpdatedDataObject(Class<?> returnClass, String primaryKey, Object inObject)
 	{
 		Session session = null;
@@ -162,11 +154,6 @@ public abstract class CommonHibernateSessionFactorySupport implements IConstProp
 			}
 		}
 		return null;
-	}
-	
-	public void setPropFactory(PropFactory propFactory)
-	{
-		this.propFactory = propFactory;
 	}
 	
 	public SessionFactory getSessionFactory()

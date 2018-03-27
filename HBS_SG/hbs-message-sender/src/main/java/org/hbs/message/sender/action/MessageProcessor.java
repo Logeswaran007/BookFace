@@ -16,8 +16,6 @@ import org.hbs.util.CustomLogger;
 import org.hbs.util.DataTableParam;
 import org.hbs.util.IConstProperty;
 import org.hbs.util.IParam.ENamed;
-import org.hbs.util.PropertyEnumUtil.EGeneral;
-import org.hbs.util.factory.PropFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -26,7 +24,6 @@ public class MessageProcessor implements IConstProperty
 {
 	private static final long	serialVersionUID	= 8417933923448309697L;
 	private final CustomLogger	logger				= new CustomLogger(this.getClass());
-
 	
 	@Autowired
 	protected MessagesBo		messagesBo;
@@ -34,7 +31,7 @@ public class MessageProcessor implements IConstProperty
 	@SuppressWarnings("unchecked")
 	public Map<String, List<MessagesUserMapping>> getScheduledMessageMapList()
 	{
-		Timestamp deliveryDateTime = CommonUtil.getTimeZoneDateInFormat(new Date(), DATE_FORMAT_YYYY_MM_DD_HH_MM_SS_24, PropFactory.getInstance().getProperty(EGeneral.Display_Time_Zone));
+		Timestamp deliveryDateTime = CommonUtil.getTimeZoneDateInFormat(new Date(), DATE_FORMAT_YYYY_MM_DD_HH_MM_SS_24, "IST");
 		ArrayList<String> msgStatuses = new ArrayList<String>(0);
 		msgStatuses.add(EMessage.Pending.name());
 		msgStatuses.add(EMessage.Retry.name());

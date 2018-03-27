@@ -65,9 +65,22 @@ public abstract class CommonUsersBase extends CountryBase implements IUsers
 	
 	protected String					usUsersType;
 	
+	protected String					usFolderToken;
+	
 	public CommonUsersBase()
 	{
 		super();
+	}
+	
+	@Column(name = "usFolderToken")
+	public String getUsFolderToken()
+	{
+		return usFolderToken;
+	}
+	
+	public void setUsFolderToken(String usFolderToken)
+	{
+		this.usFolderToken = usFolderToken;
 	}
 	
 	@OneToMany(targetEntity = UsersAddress.class, fetch = FetchType.EAGER, mappedBy = "users", cascade = CascadeType.ALL)

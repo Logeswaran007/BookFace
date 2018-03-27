@@ -1,8 +1,6 @@
 package org.hbs.util;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
 
 public interface IConstProperty extends Serializable
 {
@@ -10,27 +8,15 @@ public interface IConstProperty extends Serializable
 	{
 		Failure, Success
 	}
-
-	public enum ERestPath implements EnumInterface
-	{
-		e8f9594d0dc192baed7def10b61fef68, b5fb8c9453111565cf49a070c2fb81ca8d755155, f62b08bcd68a1b0a7af531f2ad7122bffb200a13, c85f98fce8bb61e7be3bea9d00c1b24dd36ebe7e, ec830f2deda896547836d9473dc910723174076a, b9162e50accd6d8ff5f2e50b6d1a76474f50a59c, a19efed796bf0b83b20173087109ed85e61fb445;
-
-		public static String[] getSecureDynaPaths()
-		{
-			List<String> paths = new ArrayList<String>(ERestPath.values().length);
-			for (ERestPath rest : ERestPath.values())
-				paths.add("/" + rest + "/**");
-			paths.add("/");
-			return paths.toArray(new String[paths.size()]);
-		}
-	}
-
+	
 	public String	ALL										= "all";
 	public String	ONE										= "one";
 	public String	TWO										= "two";
 	public String	THREE									= "three";
 	public String	EMPTY									= "";
 	public String	SLASH									= "/";
+	public String	FILE									= "file:";
+	public String	SLASH_STARS								= SLASH + "**";
 	public String	DBL_SLASH								= "//";
 	public String	BACKSLASH								= "\\";
 	public String	HASH									= "#";
@@ -96,7 +82,7 @@ public interface IConstProperty extends Serializable
 	public String	DATE_FORMAT_DD_MM_YYYY_HH_MM			= "dd-MM-yyyy HH:mm";
 	public String	DATE_FORMAT_DD_MMM_YYYY					= "dd-MMM-yyyy";
 	public String	DATE_FORMAT_DD_MMM_YYYY_SPACE			= "dd MMM yyyy";
-
+	
 	public String	DATE_FORMAT_DD_MMM_YYYY_HH_MM_SS_AM_PM	= "dd-MMM-yyyy hh:mm:ss a";
 	public String	DATE_FORMAT_DD_MMM_YYYY_HH_MM_AM_PM		= "dd-MMM-yyyy HH:mm a";
 	public String	DATE_FORMAT_MM_DD_YYYY					= "MM-dd-yyyy";
@@ -114,5 +100,5 @@ public interface IConstProperty extends Serializable
 	public String	DATE_FORMAT_DD_MM_YYYY					= "dd/MM/yyyy";
 	public String	DATE_FORMAT_DD_MM_YYYY_1				= "dd-MM-YYYY";
 	public String	DATE_FORMAT_DD_MMMM_YYYY_HH_MM_AM_PM	= "dd MMMM yyyy - hh:mm a";
-
+	
 }

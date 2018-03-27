@@ -41,20 +41,20 @@ public class ApplicationSecurity extends WebSecurityConfigurerAdapter implements
 	{
 		http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.ALWAYS);
 		http.sessionManagement().maximumSessions(2);
-		http.authorizeRequests().antMatchers(PRE_CONSUMER_REGISTER + "/**").permitAll();
-		http.authorizeRequests().antMatchers(CONSUMER_REGISTER + "/**").permitAll();
-		http.authorizeRequests().antMatchers(CHANGE_PASSWORD + "/**").permitAll();
-		http.authorizeRequests().antMatchers(RESET_PASSWORD + "/**").permitAll();
-		http.authorizeRequests().antMatchers(FORGET_PASSWORD + "/**").permitAll();
+		http.authorizeRequests().antMatchers(PRE_CONSUMER_REGISTER + SLASH_STARS).permitAll();
+		http.authorizeRequests().antMatchers(CONSUMER_REGISTER + SLASH_STARS).permitAll();
+		http.authorizeRequests().antMatchers(CHANGE_PASSWORD + SLASH_STARS).permitAll();
+		http.authorizeRequests().antMatchers(RESET_PASSWORD + SLASH_STARS).permitAll();
+		http.authorizeRequests().antMatchers(FORGET_PASSWORD + SLASH_STARS).permitAll();
 		
-		http.authorizeRequests().antMatchers(ABOUT_US + "/**").permitAll();
-		http.authorizeRequests().antMatchers(CAREERS + "/**").permitAll();
-		http.authorizeRequests().antMatchers(RESOURCE_TEAM + "/**").permitAll();
-		http.authorizeRequests().antMatchers(GALLERY + "/**").permitAll();
-		http.authorizeRequests().antMatchers(TERM_CONDITION + "/**").permitAll();
-		http.authorizeRequests().antMatchers(CONTACT_US + "/**").permitAll();
-		http.authorizeRequests().antMatchers(WE_ARE_WITH + "/**").permitAll();
-		http.authorizeRequests().antMatchers(ONLINE_SUPPORT + "/**").permitAll();
+		http.authorizeRequests().antMatchers(ABOUT_US + SLASH_STARS).permitAll();
+		http.authorizeRequests().antMatchers(CAREERS + SLASH_STARS).permitAll();
+		http.authorizeRequests().antMatchers(RESOURCE_TEAM + SLASH_STARS).permitAll();
+		http.authorizeRequests().antMatchers(GALLERY + SLASH_STARS).permitAll();
+		http.authorizeRequests().antMatchers(TERM_CONDITION + SLASH_STARS).permitAll();
+		http.authorizeRequests().antMatchers(CONTACT_US + SLASH_STARS).permitAll();
+		http.authorizeRequests().antMatchers(WE_ARE_WITH + SLASH_STARS).permitAll();
+		http.authorizeRequests().antMatchers(ONLINE_SUPPORT + SLASH_STARS).permitAll();
 		
 		http.authorizeRequests().antMatchers("/").permitAll().anyRequest().authenticated();
 		http.httpBasic().realmName("APJ Abdul Kalam Education Application");

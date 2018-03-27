@@ -11,6 +11,11 @@ public interface ISGPath extends Serializable
 		Employee, Producer, Student, SuperAdmin;
 	}
 	
+	public enum EResource implements EnumInterface
+	{
+		Assessment, EBooks, EKeyPoints;
+	}
+	
 	public String	ADD_ASSESSMENT_QUESTIONS			= "/b51c21875227c87bb362239f23fd1366";
 	public String	ADD_AUTH_KEYGEN						= "/c54b280767442e7485d0fd640980cfc1";
 	public String	ADD_EBOOKS							= "/a412ba0e3ffb38980d7c2f347967b3ca";

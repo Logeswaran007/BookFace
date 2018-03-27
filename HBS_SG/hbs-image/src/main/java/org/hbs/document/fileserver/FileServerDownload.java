@@ -28,7 +28,12 @@ public class FileServerDownload implements DocumentDownload, IConstProperty
 	
 	public void downloadFileFromRepository(HttpServletRequest request, Set<? extends IUploadImageOrDocuments> iDocs) throws Exception
 	{
-		EImage.Attachment.getServerSessionVirtualPath(request, producer, iDocs);
+		EImage.ResourceHandler.getServerSessionVirtualPath(request, producer, iDocs);
+	}
+	
+	public void downloadFileFromRepository(HttpServletRequest request, IUploadImageOrDocuments... iDocs) throws Exception
+	{
+		EImage.ResourceHandler.getServerSessionVirtualPath(request, producer, iDocs);
 	}
 	
 	public IProducers getProducer()
