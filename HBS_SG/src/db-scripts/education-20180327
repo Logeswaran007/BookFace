@@ -12,13 +12,13 @@
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
 
 
--- Dumping database structure for education
+-- Dumping database structure for education 
 CREATE DATABASE IF NOT EXISTS `education` /*!40100 DEFAULT CHARACTER SET utf8 */;
 USE `education`;
 
 -- Dumping structure for table education.alertsandnotifications
 CREATE TABLE IF NOT EXISTS `alertsandnotifications` (
-  `autoId` int(11) NOT NULL,
+  `autoId` int(11) NOT NULL, 
   `message` longtext NOT NULL,
   `messageType` varchar(20) NOT NULL,
   `producerId` varchar(50) DEFAULT NULL,
