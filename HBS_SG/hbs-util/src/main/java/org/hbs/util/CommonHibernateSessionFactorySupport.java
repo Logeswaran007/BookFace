@@ -1,8 +1,5 @@
 package org.hbs.util;
 
-import java.lang.reflect.Field;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
@@ -10,7 +7,6 @@ import java.util.List;
 import javax.persistence.EntityManagerFactory;
 
 import org.hbs.util.IParam.ENamed;
-import org.hbs.util.PropertyEnumUtil.EWrap;
 import org.hbs.util.model.ICommonLayout;
 import org.hbs.util.model.ILayoutElements;
 import org.hibernate.Session;
@@ -46,7 +42,7 @@ public abstract class CommonHibernateSessionFactorySupport implements IConstProp
 						if (valueObject instanceof String || valueObject instanceof Integer || valueObject instanceof Long || valueObject instanceof Float || valueObject instanceof Double
 								|| valueObject instanceof Character || valueObject instanceof Boolean || valueObject instanceof Timestamp)
 						{
-							if (namedParam.contains(LIKE))
+							if (namedParam.contains(ENamed.Like.name()))
 								query.setParameter(IParam.ENamed.create(condKey), EWrap.Percent.enclose(valueObject));
 							else
 								query.setParameter(IParam.ENamed.create(condKey), valueObject);
@@ -91,69 +87,6 @@ public abstract class CommonHibernateSessionFactorySupport implements IConstProp
 		}
 		return iLayoutElementList;
 		
-	}
-	
-	public Object getUpdatedDataObject(Class<?> returnClass, String primaryKey, Object inObject)
-	{
-		Session session = null;
-		
-		try
-		{
-			if (inObject != null)
-			{
-				Class<?> dataClass = inObject.getClass();
-				Field[] fields = returnClass.getDeclaredFields();
-				
-				if (CommonValidator.isNotNullNotEmpty(fields) == false)
-				{
-					fields = returnClass.getSuperclass().getDeclaredFields();
-				}
-				
-				session = (Session) sessionFactory.openSession();
-				Object returnObj = session.load(returnClass, primaryKey);
-				
-				for (Field field : fields)
-				{
-					String mtdGetterName1 = (GET + field.getName()).toUpperCase();
-					String mtdGetterName2 = (IS + field.getName()).toUpperCase();
-					String mtdSetterName = (SET + field.getName()).toUpperCase();
-					
-					for (Method method : dataClass.getMethods())
-					{
-						if (method.getName().equalsIgnoreCase(mtdGetterName1) || method.getName().equalsIgnoreCase(mtdGetterName2))
-						{
-							Object value = method.invoke(inObject, new Object[] {});
-							if (CommonValidator.isNotNullNotEmpty(value))
-							{
-								for (Method methodSetter : returnClass.getMethods())
-								{
-									if (methodSetter.getName().equalsIgnoreCase(mtdSetterName))
-									{
-										methodSetter.invoke(returnObj, new Object[] { value });
-										break;
-									}
-								}
-							}
-							break;
-						}
-					}
-				}
-				return returnObj;
-			}
-		}
-		catch (SecurityException | IllegalAccessException | IllegalArgumentException | InvocationTargetException excep)
-		{
-			logger.error(excep);
-		}
-		finally
-		{
-			if (session != null)
-			{
-				session.clear();
-				session.close();
-			}
-		}
-		return null;
 	}
 	
 	public SessionFactory getSessionFactory()

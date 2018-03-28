@@ -7,7 +7,7 @@ public interface IAdminPath extends IConstProperty
 {
 	public enum EBean implements EnumInterface
 	{
-		Consumer, DefaultImageDownload, DefaultImageUpload, Employee, ImageDownload, ImageUpload, Producer, Roles, User, UserAddress, UserLog, UserRoles
+		Consumer, Employee, Producer, Roles, User, UserAddress, UserLog, UserRoles
 	}
 	
 	public enum EUserTemplate implements EnumInterface

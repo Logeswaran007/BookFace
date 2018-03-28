@@ -11,7 +11,6 @@ import org.hbs.admin.bo.MessagesBo;
 import org.hbs.admin.model.IMessages.EMessage;
 import org.hbs.admin.model.IMessages.EMessageType;
 import org.hbs.admin.model.MessagesUserMapping;
-import org.hbs.util.CommonUtil;
 import org.hbs.util.CustomLogger;
 import org.hbs.util.DataTableParam;
 import org.hbs.util.IConstProperty;
@@ -31,7 +30,7 @@ public class MessageProcessor implements IConstProperty
 	@SuppressWarnings("unchecked")
 	public Map<String, List<MessagesUserMapping>> getScheduledMessageMapList()
 	{
-		Timestamp deliveryDateTime = CommonUtil.getTimeZoneDateInFormat(new Date(), DATE_FORMAT_YYYY_MM_DD_HH_MM_SS_24, "IST");
+		Timestamp deliveryDateTime = new Timestamp(new Date().getTime());
 		ArrayList<String> msgStatuses = new ArrayList<String>(0);
 		msgStatuses.add(EMessage.Pending.name());
 		msgStatuses.add(EMessage.Retry.name());

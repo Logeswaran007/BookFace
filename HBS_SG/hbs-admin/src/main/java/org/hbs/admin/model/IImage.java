@@ -59,7 +59,7 @@ public interface IImage extends IConstProperty
 		
 		public String getServerSessionPhysicalPath(HttpSession httpSession, String... externalPath) throws Exception
 		{
-			if (externalPath == null)
+			if (externalPath == null || externalPath.length == 0)
 				externalPath = new String[] { "" };
 			
 			if (CommonValidator.isNotNullNotEmpty(httpSession))

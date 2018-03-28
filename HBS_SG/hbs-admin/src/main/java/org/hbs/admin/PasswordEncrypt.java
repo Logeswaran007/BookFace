@@ -5,12 +5,9 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
 import org.apache.commons.codec.binary.Base64;
-import org.hbs.util.CommonUtil;
 import org.hbs.util.CustomLogger;
 
 public final class PasswordEncrypt
-
-
 {
 	public static synchronized String decrypt(String encryptText, String decoding)
 	{
@@ -22,7 +19,7 @@ public final class PasswordEncrypt
 		catch (UnsupportedEncodingException excep)
 		{
 			new CustomLogger(PasswordEncrypt.class).info(excep);
-
+			
 		}
 		return null;
 	}
@@ -45,12 +42,12 @@ public final class PasswordEncrypt
 		catch (NoSuchAlgorithmException excep)
 		{
 			new CustomLogger(PasswordEncrypt.class).info(excep);
-
+			
 		}
 		catch (UnsupportedEncodingException excep)
 		{
 			new CustomLogger(PasswordEncrypt.class).info(excep);
-
+			
 		}
 		return null;
 	}

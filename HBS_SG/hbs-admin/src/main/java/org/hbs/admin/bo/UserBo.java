@@ -37,4 +37,6 @@ public interface UserBo extends Serializable
 	
 	public boolean saveOrUpdate(IUsers users);
 	
+	public String getMenusByRoleHTML(UserParam userParam);
+	
 }

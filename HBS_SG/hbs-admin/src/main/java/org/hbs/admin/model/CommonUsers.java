@@ -1,10 +1,6 @@
 package org.hbs.admin.model;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.LinkedHashSet;
-import java.util.TimeZone;
 
 import javax.persistence.MappedSuperclass;
 import javax.persistence.Transient;
@@ -114,10 +110,7 @@ public abstract class CommonUsers extends CommonUsersBase
 		IUserLog userLog = getLastLoginInformation();
 		if (CommonValidator.isNotNullNotEmpty(userLog) && CommonValidator.isNotNullNotEmpty(userLog.getUlUserLoginTime()))
 		{
-			DateFormat dateFormatType = new SimpleDateFormat(DATE_FORMAT_YYYY_MM_DD_HH_MM_SS_24);
-			dateFormatType.setTimeZone(TimeZone.getTimeZone(this.country.country));
-			return dateFormatType.format(new Date(userLog.getUlUserLoginTime().getTime()));
-			
+			return EDate.DD_MMM_YYYY_HH_MM_SS_AM_PM.byTimeZone(userLog.getUlUserLoginTime().toString(), this.country.country, EDate.YYYY_MM_DD_HH_MM_SS_24);
 		}
 		return "";
 	}

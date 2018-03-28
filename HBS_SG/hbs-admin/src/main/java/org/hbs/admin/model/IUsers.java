@@ -20,7 +20,7 @@ public interface IUsers extends ICommonBeanFields, ICountryBase, IProducersBase,
 	
 	public enum EUsers implements EnumInterface
 	{
-		Dummy, SuperAdmin, System, UserImage;
+		Dummy, SuperAdmin, System;
 		
 		public static IUsers getSessionUser(HttpServletRequest request) throws Exception
 		{
