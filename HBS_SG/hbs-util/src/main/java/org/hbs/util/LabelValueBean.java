@@ -1,10 +1,7 @@
-package org.hbs.util.model;
+package org.hbs.util;
 
 import java.io.Serializable;
 import java.util.List;
-
-import org.hbs.util.CommonValidator;
-import org.hbs.util.EnumInterface;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;

@@ -6,7 +6,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 import org.hbs.admin.IAdminPath;
-import org.hbs.admin.controller.param.UserParam;
 import org.hbs.admin.model.IAddress;
 import org.hbs.admin.model.IImage.EImage;
 import org.hbs.admin.model.IImage.EUploadType;

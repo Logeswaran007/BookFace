@@ -5,7 +5,7 @@ import java.util.Set;
 import org.hbs.admin.model.ICommonBeanFields;
 import org.hbs.admin.model.IProducersBase;
 import org.hbs.sg.model.course.ICourseGroup;
-import org.hbs.util.dao.ICRUDBean;
+import org.hbs.util.ICRUDBean;
 
 public interface IScheme extends IProducersBase, ICommonBeanFields, ICRUDBean
 {

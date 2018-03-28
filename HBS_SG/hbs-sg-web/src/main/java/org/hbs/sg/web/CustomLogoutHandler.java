@@ -8,7 +8,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.io.FileUtils;
 import org.hbs.admin.IAdminPath;
 import org.hbs.admin.controller.ControllerBaseBo;
-import org.hbs.admin.controller.param.UserParam;
+import org.hbs.admin.controller.UserParam;
 import org.hbs.admin.model.IImage.EImage;
 import org.hbs.admin.model.Users;
 import org.hbs.util.CommonValidator;

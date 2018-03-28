@@ -1,4 +1,4 @@
-package org.hbs.admin.controller.param;
+package org.hbs.admin.controller;
 
 import java.sql.Timestamp;
 

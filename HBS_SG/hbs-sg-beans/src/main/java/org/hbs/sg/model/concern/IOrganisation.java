@@ -8,7 +8,7 @@ import org.hbs.admin.model.IProducersBase;
 import org.hbs.admin.model.IUploadImageOrDocuments;
 import org.hbs.admin.model.IUsers;
 import org.hbs.util.EBusinessKey;
-import org.hbs.util.dao.ICRUDBean;
+import org.hbs.util.ICRUDBean;
 
 public interface IOrganisation extends ICommonBeanFields, ICountryBase, IProducersBase, EBusinessKey, ICRUDBean
 {

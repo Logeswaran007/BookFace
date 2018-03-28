@@ -32,7 +32,7 @@ import javax.sql.rowset.serial.SerialException;
 import org.hbs.admin.model.IMessages.EAddress;
 import org.hbs.util.CommonValidator;
 import org.hbs.util.CustomLogger;
-import org.hbs.util.dao.ICRUDBean;
+import org.hbs.util.ICRUDBean;
 
 @Entity
 @Table(name = "messagesusermapping")

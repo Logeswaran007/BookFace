@@ -1,7 +1,7 @@
 package org.hbs.sg.model.exam;
 
 import org.hbs.sg.model.accessors.IConsumerAssessment;
-import org.hbs.util.dao.ICRUDBean;
+import org.hbs.util.ICRUDBean;
 
 public interface IAllocatedQuestions extends ICRUDBean
 {

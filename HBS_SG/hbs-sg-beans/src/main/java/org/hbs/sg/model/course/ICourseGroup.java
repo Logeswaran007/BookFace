@@ -3,7 +3,7 @@ package org.hbs.sg.model.course;
 import java.util.Set;
 
 import org.hbs.admin.model.IProducersBase;
-import org.hbs.util.dao.ICRUDBean;
+import org.hbs.util.ICRUDBean;
 
 public interface ICourseGroup extends IProducersBase, ICRUDBean
 {

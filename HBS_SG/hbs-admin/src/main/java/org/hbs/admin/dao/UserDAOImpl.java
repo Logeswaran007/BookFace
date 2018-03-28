@@ -4,7 +4,7 @@ import java.sql.Timestamp;
 import java.util.Calendar;
 import java.util.List;
 
-import org.hbs.admin.controller.param.UserParam;
+import org.hbs.admin.controller.UserParam;
 import org.hbs.admin.model.IUserLog;
 import org.hbs.admin.model.UserLog;
 import org.hbs.util.CommonHibernateSessionFactorySupport;

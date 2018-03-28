@@ -9,7 +9,7 @@ import org.hbs.admin.IAdminPath.EBean;
 import org.hbs.admin.model.IAddress.AddressType;
 import org.hbs.util.EBusinessKey;
 import org.hbs.util.EnumInterface;
-import org.hbs.util.dao.ICRUDBean;
+import org.hbs.util.ICRUDBean;
 
 public interface IUsers extends ICommonBeanFields, ICountryBase, IProducersBase, EBusinessKey, ICRUDBean
 {

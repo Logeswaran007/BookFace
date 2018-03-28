@@ -6,7 +6,7 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.hbs.admin.controller.param.UserParam;
+import org.hbs.admin.controller.UserParam;
 import org.hbs.admin.dao.UserDAO;
 import org.hbs.admin.model.Country;
 import org.hbs.admin.model.IUsers;

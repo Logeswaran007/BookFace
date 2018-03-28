@@ -1,6 +1,6 @@
 package org.hbs.edutel.model;
 
-import org.hbs.util.dao.ICRUDBean;
+import org.hbs.util.ICRUDBean;
 
 public interface IAuthKeyGenConsumer extends ICRUDBean
 {

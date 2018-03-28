@@ -3,7 +3,7 @@ package org.hbs.admin.model;
 import java.util.Set;
 
 import org.hbs.util.EnumInterface;
-import org.hbs.util.dao.ICRUDBean;
+import org.hbs.util.ICRUDBean;
 
 public interface IRoles extends java.io.Serializable, ICommonBeanFields, ICRUDBean
 {

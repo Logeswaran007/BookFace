@@ -1,7 +1,7 @@
 package org.hbs.sg.model.exam;
 
 import org.hbs.admin.model.IUploadImageOrDocuments;
-import org.hbs.util.dao.ICRUDBean;
+import org.hbs.util.ICRUDBean;
 
 public interface IAssessmentAnswer extends IUploadImageOrDocuments, ICRUDBean
 {

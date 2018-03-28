@@ -1,6 +1,6 @@
 package org.hbs.admin.model;
 
-import org.hbs.util.dao.ICRUDBean;
+import org.hbs.util.ICRUDBean;
 
 public interface IUsersAttachments extends ICommonBeanFields, ICommonFileUpload, ICRUDBean
 {

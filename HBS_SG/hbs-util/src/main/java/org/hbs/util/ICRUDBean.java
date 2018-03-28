@@ -1,4 +1,4 @@
-package org.hbs.util.dao;
+package org.hbs.util;
 
 import java.io.Serializable;
 

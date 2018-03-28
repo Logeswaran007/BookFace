@@ -8,7 +8,7 @@ import org.hbs.admin.model.ICommonBeanFields;
 import org.hbs.admin.model.IUsers;
 import org.hbs.sg.model.IScheme;
 import org.hbs.util.EnumInterface;
-import org.hbs.util.dao.ICRUDBean;
+import org.hbs.util.ICRUDBean;
 
 public interface IAuthKeyGen extends ICommonBeanFields, ICRUDBean
 {

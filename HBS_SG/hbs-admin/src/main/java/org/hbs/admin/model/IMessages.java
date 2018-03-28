@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.hbs.util.EnumInterface;
-import org.hbs.util.dao.ICRUDBean;
+import org.hbs.util.ICRUDBean;
 
 public interface IMessages extends ICRUDBean
 {

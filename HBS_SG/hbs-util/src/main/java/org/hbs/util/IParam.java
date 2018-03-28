@@ -6,8 +6,6 @@ import java.util.Random;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.hbs.util.model.LabelValueBean;
-
 public interface IParam
 {
 	public enum ENamed implements EnumInterface

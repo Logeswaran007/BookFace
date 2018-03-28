@@ -8,7 +8,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 import org.hbs.util.CommonValidator;
-import org.hbs.util.dao.ICRUDBean;
+import org.hbs.util.ICRUDBean;
 import org.jsoup.nodes.Element;
 
 @Entity

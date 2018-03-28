@@ -5,7 +5,7 @@ import java.util.Set;
 import org.hbs.sg.model.exam.IAllocatedQuestions;
 import org.hbs.util.EBusinessKey;
 import org.hbs.util.EnumInterface;
-import org.hbs.util.dao.ICRUDBean;
+import org.hbs.util.ICRUDBean;
 
 public interface IConsumerAssessment extends ICRUDBean, EBusinessKey
 {

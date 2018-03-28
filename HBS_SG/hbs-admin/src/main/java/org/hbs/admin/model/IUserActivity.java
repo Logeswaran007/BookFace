@@ -2,7 +2,7 @@ package org.hbs.admin.model;
 
 import java.io.IOException;
 
-import org.hbs.util.dao.ICRUDBean;
+import org.hbs.util.ICRUDBean;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 

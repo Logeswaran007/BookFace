@@ -2,7 +2,7 @@ package org.hbs.admin.model;
 
 import java.util.Set;
 
-import org.hbs.util.dao.ICRUDBean;
+import org.hbs.util.ICRUDBean;
 
 /**
  * UserRoles entity. @author MyEclipse Persistence Tools

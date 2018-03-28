@@ -8,7 +8,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.hbs.admin.IAdminPath;
 import org.hbs.admin.controller.ControllerBaseBo;
-import org.hbs.admin.controller.param.UserParam;
+import org.hbs.admin.controller.UserParam;
 import org.hbs.admin.model.IImage.EImage;
 import org.hbs.admin.model.IImage.EUploadType;
 import org.hbs.admin.model.IUploadImageOrDocuments;
