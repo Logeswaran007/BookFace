@@ -1,7 +1,7 @@
 package org.hbs.admin.model;
 
 import org.hbs.util.EnumInterface;
-import org.hbs.util.dao.ICRUDBean;
+import org.hbs.util.ICRUDBean;
 
 public interface IProducersAttachments extends ICommonFileUpload, IProducersBase, ICRUDBean
 {

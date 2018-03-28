@@ -4,7 +4,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import org.hbs.admin.controller.ControllerBaseBo;
-import org.hbs.admin.controller.param.UserParam;
+import org.hbs.admin.controller.UserParam;
 import org.hbs.admin.model.IUserRoles;
 import org.hbs.admin.model.IUsers.EUserStatus;
 import org.hbs.util.CustomLogger;

@@ -6,8 +6,6 @@ import java.util.Random;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.hbs.util.model.LabelValueBean;
-
 public interface IParam
 {
 	public enum ENamed implements EnumInterface
@@ -232,6 +230,8 @@ public interface IParam
 		
 	}
 	
+	public void addMultiBean(Class<?> searchBeanClass, String searchBeanAlias);
+	
 	public EnumInterface get_AddEntityBean();
 	
 	public String get_OrderBy();
@@ -240,23 +240,21 @@ public interface IParam
 	
 	public List<?> getDataList();
 	
-	public String getImageVirtualUrl(Object traverseObject);
-	
 	public int getMaxResults();
 	
 	public int getMinResults();
 	
-	public void getParamMapFromRequest(HttpServletRequest request);
-	
 	public HttpServletRequest getRequest();
 	
-	public LinkedHashMap<String, Object> getRequestParamMap();
-	
 	public Class<?> getSearchBeanClass();
+	
+	public String getSearchBeanClassAlias();
 	
 	public String getSearchColumns();
 	
 	public LinkedHashMap<String, Object> getSearchCondtionMap();
+	
+	public String getSearchMutliBeanClass();
 	
 	public LinkedHashMap<String, Object> getSearchValueMap();
 	
@@ -276,19 +274,17 @@ public interface IParam
 	
 	public void setRequest(HttpServletRequest request);
 	
-	public void setRequestParamMap(LinkedHashMap<String, Object> requestParamMap);
-	
 	public void setSearchBeanClass(Class<?> searchBeanClass);
+	
+	public void setSearchBeanClassAlias(String searchBeanClassAlias);
 	
 	public void setSearchColumns(String searchColumns);
 	
 	public void setSearchCondtionMap(LinkedHashMap<String, Object> searchCondtionMap);
 	
+	public void setSearchMutliBeanClass(String searchMutliBeanClass);
+	
 	public void setSearchValueMap(LinkedHashMap<String, Object> searchValueMap);
 	
 	public void setSessionFilterValueMap(LinkedHashMap<String, Object> sessionFilterValueMap);
-	
-	public String getSearchBeanClassAlias();
-	
-	public void setSearchBeanClassAlias(String searchBeanClassAlias);
 }

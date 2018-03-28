@@ -13,7 +13,7 @@ import java.util.UUID;
 import javax.servlet.http.HttpServletRequest;
 
 import org.hbs.admin.IAdminPath;
-import org.hbs.admin.controller.param.UserParam;
+import org.hbs.admin.controller.UserParam;
 import org.hbs.admin.model.ILayouts;
 import org.hbs.admin.model.ILayouts.EDataTable;
 import org.hbs.admin.model.IUsers;
@@ -165,7 +165,7 @@ public class AuthKeyGenController extends SGControllerBaseBo implements IAdminPa
 							document.add(pdfSerialKeyTable);
 							document.newPage();
 						}
-						return users.getProducer().getVirtualBasePath() + virtualPath;
+						return users.getProducer().getDomainContext() + virtualPath;
 					}
 					catch (DocumentException | IOException docExcep)
 					{

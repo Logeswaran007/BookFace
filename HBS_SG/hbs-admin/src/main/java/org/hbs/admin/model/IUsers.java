@@ -9,13 +9,18 @@ import org.hbs.admin.IAdminPath.EBean;
 import org.hbs.admin.model.IAddress.AddressType;
 import org.hbs.util.EBusinessKey;
 import org.hbs.util.EnumInterface;
-import org.hbs.util.dao.ICRUDBean;
+import org.hbs.util.ICRUDBean;
 
 public interface IUsers extends ICommonBeanFields, ICountryBase, IProducersBase, EBusinessKey, ICRUDBean
 {
+	public enum EResource implements EnumInterface
+	{
+		Profile, Default;
+	}
+	
 	public enum EUsers implements EnumInterface
 	{
-		Dummy, SuperAdmin, System, UserImage;
+		Dummy, SuperAdmin, System;
 		
 		public static IUsers getSessionUser(HttpServletRequest request) throws Exception
 		{
@@ -70,6 +75,8 @@ public interface IUsers extends ICommonBeanFields, ICountryBase, IProducersBase,
 	
 	public String getUsFatherName();
 	
+	public String getUsFolderToken();
+	
 	public String getUsLastName();
 	
 	public String getUsSex();
@@ -117,6 +124,8 @@ public interface IUsers extends ICommonBeanFields, ICountryBase, IProducersBase,
 	public void setUserRoleses(Set<IUserRoles> userRoleses);
 	
 	public void setUsFatherName(String usFatherName);
+	
+	public void setUsFolderToken(String usFolderToken);
 	
 	public void setUsLastName(String usLastName);
 	

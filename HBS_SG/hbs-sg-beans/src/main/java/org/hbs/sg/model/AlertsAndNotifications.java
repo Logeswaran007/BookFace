@@ -1,11 +1,7 @@
 package org.hbs.sg.model;
 
-import java.text.DateFormat;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.Date;
-import java.util.TimeZone;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -94,16 +90,11 @@ public class AlertsAndNotifications extends ProducersBase implements IAlertsAndN
 	{
 		if (CommonValidator.isNotNullNotEmpty(expiryDate, producer.getUsers(), producer.getUsers().getCountry()))
 		{
-			DateFormat dateFormat = new SimpleDateFormat(DATE_FORMAT_DD_MMM_YYYY_HH_MM_AM_PM);
-			Date expDate = dateFormat.parse(expiryDate);
+			Date expDate = EDate.DD_MMM_YYYY_HH_MM_AM_PM.formatted(expiryDate);
 			
-			Calendar calendar = Calendar.getInstance();
-			if (CommonValidator.isNotEqual(producer.getUsers().getCountry().getCountry(), "00"))
-			{
-				calendar.setTimeZone(TimeZone.getTimeZone(producer.getUsers().getCountry().getCountry()));
-			}
+			Date curDate = EDate.DD_MMM_YYYY_HH_MM_AM_PM.byTimeZone(new Date(), producer.getUsers().getCountry().getCountry());
 			
-			return expDate.getTime() >= calendar.getTime().getTime();
+			return expDate.getTime() >= curDate.getTime();
 			
 		}
 		return false;
@@ -114,18 +105,11 @@ public class AlertsAndNotifications extends ProducersBase implements IAlertsAndN
 	{
 		if (CommonValidator.isNotNullNotEmpty(scheduledDate, producer.getUsers(), producer.getUsers().getCountry()))
 		{
+			Date schDate = EDate.DD_MMM_YYYY_HH_MM_AM_PM.formatted(scheduledDate);
 			
-			DateFormat dateFormat = new SimpleDateFormat(DATE_FORMAT_DD_MMM_YYYY_HH_MM_AM_PM);
-			Date schDate = dateFormat.parse(scheduledDate);
+			Date curDate = EDate.DD_MMM_YYYY_HH_MM_AM_PM.byTimeZone(new Date(), producer.getUsers().getCountry().getCountry());
 			
-			Calendar calendar = Calendar.getInstance();
-			if (CommonValidator.isNotEqual(producer.getUsers().getCountry().getCountry(), "00"))
-			{
-				calendar.setTimeZone(TimeZone.getTimeZone(producer.getUsers().getCountry().getCountry()));
-			}
-			
-			return schDate.getTime() >= calendar.getTime().getTime();
-			
+			return schDate.getTime() >= curDate.getTime();
 		}
 		
 		return false;

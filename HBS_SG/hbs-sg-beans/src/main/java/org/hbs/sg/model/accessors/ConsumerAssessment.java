@@ -7,7 +7,6 @@ import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -19,7 +18,6 @@ import org.hbs.admin.model.CommonBeanFields;
 import org.hbs.admin.model.Users;
 import org.hbs.sg.model.exam.AllocatedQuestions;
 import org.hbs.sg.model.exam.IAllocatedQuestions;
-import org.hbs.util.CommonUtil;
 import org.hbs.util.CommonValidator;
 import org.hbs.util.IConstProperty;
 
@@ -50,7 +48,7 @@ public class ConsumerAssessment extends CommonBeanFields implements IConsumerAss
 		super();
 		this.consumerExamId = getBusinessKey();
 		this.assessmentGroup = new LinkedHashSet<IConsumerAssessmentGroup>(0);
-		this.assignedDate = CommonUtil.getDateInFormat(new Date(), DATE_FORMAT_DD_MMM_YYYY_HH_MM_AM_PM);
+		this.assignedDate = EDate.DD_MMM_YYYY_HH_MM_AM_PM.formatted(new Date());
 	}
 	
 	public ConsumerAssessment(String consumerExamId)
@@ -134,7 +132,7 @@ public class ConsumerAssessment extends CommonBeanFields implements IConsumerAss
 	}
 	
 	@Override
-	@OneToMany(mappedBy = "consumerAssessment", targetEntity = AllocatedQuestions.class, fetch = FetchType.EAGER)
+	@OneToMany(mappedBy = "consumerAssessment", targetEntity = AllocatedQuestions.class)
 	public Set<IAllocatedQuestions> getAllocatedQuestions()
 	{
 		return allocatedQuestions;

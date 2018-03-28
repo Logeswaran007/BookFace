@@ -2,7 +2,7 @@ package org.hbs.admin.model;
 
 import java.sql.Timestamp;
 
-import org.hbs.util.dao.ICRUDBean;
+import org.hbs.util.ICRUDBean;
 
 /**
  * UserLog entity. @author MyEclipse Persistence Tools

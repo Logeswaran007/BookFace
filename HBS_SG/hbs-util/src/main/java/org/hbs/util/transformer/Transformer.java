@@ -5,6 +5,8 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.hbs.util.CommonValidator;
 import org.hbs.util.model.ICommonLayout;
 
@@ -16,11 +18,13 @@ public abstract class Transformer implements Serializable
 	public Map<String, Object>			valueHM				= new LinkedHashMap<String, Object>();
 	public String						currentColumn;
 	public Object						rowsObject;
+	public HttpServletRequest			request;
 	
-	public Transformer(String currentColumn, List<? extends ICommonLayout> elementList, Object[] colsObject)
+	public Transformer(HttpServletRequest request, String currentColumn, List<? extends ICommonLayout> elementList, Object[] colsObject)
 	{
 		super();
 		this.currentColumn = currentColumn;
+		this.request = request;
 		int idx = 0;
 		
 		String key = null;

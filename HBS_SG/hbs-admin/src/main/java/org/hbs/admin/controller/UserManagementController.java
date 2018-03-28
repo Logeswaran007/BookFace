@@ -8,13 +8,12 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
 
 import org.hbs.admin.IAdminPath;
 import org.hbs.admin.controller.PasswordControllerBase.Security;
-import org.hbs.admin.controller.param.DataTableImageViewParam;
-import org.hbs.admin.controller.param.UserParam;
 import org.hbs.admin.document.DocumentFactory;
 import org.hbs.admin.model.IAddress.AddressType;
 import org.hbs.admin.model.IImage.EUploadType;
@@ -37,6 +36,7 @@ import org.hbs.util.CustomLogger;
 import org.hbs.util.DataTableDynamicColumnDefs;
 import org.hbs.util.DataTableDynamicColumns;
 import org.hbs.util.DataTableObject;
+import org.hbs.util.DataTableParam;
 import org.hbs.util.IParam.ENamed;
 import org.hbs.util.IParam.IWrap;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -98,6 +98,7 @@ public class UserManagementController extends ControllerBaseBo implements IAdmin
 						userForm.users.setProducer(sessionUser.getProducer());
 						userForm.users.setCountry(userForm.communication.getCountry());
 						userForm.users.setUsUserPwd(new BCryptPasswordEncoder().encode(userForm.users.getUsUserPwd()));
+						userForm.users.setUsFolderToken(UUID.randomUUID().toString());
 						
 						if (CommonValidator.isNotNullNotEmpty(userForm.communication))
 						{
@@ -123,7 +124,7 @@ public class UserManagementController extends ControllerBaseBo implements IAdmin
 						if (userBo.saveOrUpdate(userForm.users, userForm.getBaseRoles()))
 						{
 							StringBuffer tokenURL = new StringBuffer();
-							tokenURL.append(userForm.users.getProducer().getVirtualBasePath());
+							tokenURL.append(userForm.users.getProducer().getDomainContext());
 							tokenURL.append(RESET_PASSWORD + "/" + Security.Token.generate(userBo, userForm.users, false));
 							
 							Map<String, Object> dataMap = new LinkedHashMap<String, Object>(0);
@@ -215,6 +216,7 @@ public class UserManagementController extends ControllerBaseBo implements IAdmin
 				userForm.users.setUsEmployeeId(userForm.users.getBusinessKey());
 				userForm.users.getCommunicationAddress().setUsers(userForm.users);
 				userForm.users.setUsUserPwd(new BCryptPasswordEncoder().encode(userForm.users.getUsUserPwd()));
+				userForm.users.setUsFolderToken(UUID.randomUUID().toString());
 				
 				StringBuffer activateToken = Security.Token.generate(userBo, userForm.users, false);
 				
@@ -224,7 +226,7 @@ public class UserManagementController extends ControllerBaseBo implements IAdmin
 					redirectAttributes.addFlashAttribute("message", "Hi " + userForm.users.getUsUserName() + ", You had Registered successfully. Please check your email for activation link.");
 					
 					StringBuffer tokenURL = new StringBuffer();
-					tokenURL.append(userForm.users.getProducer().getVirtualBasePath());
+					tokenURL.append(userForm.users.getProducer().getDomainContext());
 					tokenURL.append(RESET_PASSWORD + "/" + activateToken);
 					
 					Map<String, Object> dataMap = new LinkedHashMap<String, Object>(0);
@@ -314,7 +316,7 @@ public class UserManagementController extends ControllerBaseBo implements IAdmin
 			IUsersAttachments attachment = null;
 			for (MultipartFile multiPartFile : multiPartFiles)
 			{
-				uploadSubFolderPath = user.getUsEmployeeId() + File.separator + EUploadType.valueOf(docTypes[idx]);
+				uploadSubFolderPath = user.getUsFolderToken() + File.separator + EUploadType.valueOf(docTypes[idx]);
 				attachment = new UsersAttachments(multiPartFile, uploadSubFolderPath, docTypes[idx++]);
 				attachment.setCreatedUser(sessionUsers);
 				attachment.setCreatedDate(new Timestamp(Calendar.getInstance().getTimeInMillis()));
@@ -326,7 +328,6 @@ public class UserManagementController extends ControllerBaseBo implements IAdmin
 		
 	}
 	
-	@SuppressWarnings("unchecked")
 	@RequestMapping(value = SEARCH_USER + "/{userType}", method = RequestMethod.POST)
 	public @ResponseBody String userSearch(HttpServletRequest request, @PathVariable String userType)
 	{
@@ -337,17 +338,19 @@ public class UserManagementController extends ControllerBaseBo implements IAdmin
 			if (CommonValidator.isNotNullNotEmpty(sessionUser))
 			{
 				List<ILayouts> layoutList = layoutBo.getResultLayouts(UsersAddress.class.getSimpleName(), userType);
-				DataTableImageViewParam dtParam = DataTableImageViewParam.getDataTableParamsFromRequest(request);
-				ENamed.EqualTo.param_AND(dtParam, "users.usUsersType", userType);
-				List<IUsers> usersList = (List<IUsers>) userBo.getUsersList(dtParam, false).dataList;
-				int userListCount = (int) userBo.getUsersList(dtParam, true).dataListCount;
+				DataTableParam dtParam = DataTableParam.getDataTableParamsFromRequest(request, layoutList, UsersAddress.class, "UA");
 				
-				List<List<String>> mDataList = DataTableDynamicColumns.getJSONFromObject(dtParam, layoutList, usersList.toArray(new Object[usersList.size()]));
+				ENamed.EqualTo.param_AND(dtParam, "UA.users.usUsersType", userType);
+				
+				List<?> dataList = userBo.getUsersList(dtParam, false).dataList;
+				int dataListCount = (int) userBo.getUsersList(dtParam, true).dataListCount;
+				
+				List<List<String>> mDataList = DataTableDynamicColumns.getJSONFromObjectByCols(dtParam, layoutList, dataList);
 				
 				DataTableObject dataTableObject = new DataTableObject();
 				dataTableObject.setAaData(mDataList);
-				dataTableObject.setiTotalDisplayRecords(userListCount);
-				dataTableObject.setiTotalRecords(userListCount);
+				dataTableObject.setiTotalDisplayRecords(dataListCount);
+				dataTableObject.setiTotalRecords(dataListCount);
 				
 				Gson gson = new GsonBuilder().setPrettyPrinting().create();
 				StringBuilder sb = new StringBuilder(gson.toJson(dataTableObject));

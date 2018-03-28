@@ -16,7 +16,6 @@ import org.hbs.sg.web.controller.AssessmentForm;
 import org.hbs.util.CommonHibernateSessionFactorySupport;
 import org.hbs.util.CustomLogger;
 import org.hbs.util.DataTableParam;
-import org.hbs.util.PropertyEnumUtil.EWrap;
 import org.hibernate.Session;
 import org.hibernate.query.Query;
 import org.springframework.stereotype.Component;
@@ -80,7 +79,7 @@ public class AssessmentDAOImpl extends CommonHibernateSessionFactorySupport impl
 		Session session = getSessionFactory().openSession();
 		String consumerExamId = (String) dtParam.searchValueMap.get("consumerExamId");
 		
-		List<String> assessmentIdList = new ArrayList<String>();
+		List<String> questionIdList = new ArrayList<String>();
 		
 		try
 		{
@@ -121,7 +120,7 @@ public class AssessmentDAOImpl extends CommonHibernateSessionFactorySupport impl
 					_QC.setAvailCount(qList.size());
 					balance = _QC.getBalance();
 					System.out.println(sbSelectQry.toString() + sbSubSelectQry.toString() + " >RQ> " + _QC.getRequiredCount() + " >AC> " + _QC.getAvailCount() + " >BL> " + _QC.getBalance());
-					assessmentIdList.addAll(qList);
+					questionIdList.addAll(qList);
 				}
 				
 			}
@@ -140,7 +139,7 @@ public class AssessmentDAOImpl extends CommonHibernateSessionFactorySupport impl
 			}
 		}
 		
-		return assessmentIdList;
+		return questionIdList;
 		
 	}
 	

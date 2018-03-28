@@ -18,7 +18,7 @@ import org.springframework.stereotype.Component;
 public class VTLEmailFactory
 {
 	
-	private static VTLEmailFactory	vtlFactory	= null;
+	private static VTLEmailFactory vtlFactory = null;
 	
 	public static VTLEmailFactory getInstance()
 	{
@@ -30,10 +30,10 @@ public class VTLEmailFactory
 	}
 	
 	@Autowired
-	private JavaMailSender			mailSender;
+	private JavaMailSender	mailSender;
 	
 	@Autowired
-	private MessagesBo				messageBo;
+	private MessagesBo		messageBo;
 	
 	private VTLEmailFactory()
 	{

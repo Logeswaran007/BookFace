@@ -14,11 +14,8 @@ import javax.persistence.Transient;
 
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.Velocity;
-import org.hbs.util.CommonUtil;
 import org.hbs.util.EnumInterface;
 import org.hbs.util.IConstProperty;
-import org.hbs.util.PropertyEnumUtil.EGeneral;
-import org.hbs.util.factory.PropFactory;
 
 @Entity
 @Table(name = "messages")
@@ -184,8 +181,6 @@ public class Messages extends CommonBeanFields implements IMessages, IConstPrope
 	public void setDeliveryDateTime(String deliveryDateTime)
 	{
 		this.deliveryDateTime = deliveryDateTime;
-		setDeliveryDate(CommonUtil.getTimeZoneDateInFormat(deliveryDateTime, DATE_FORMAT_DD_MM_YYYY_HH_MM, DATE_FORMAT_YYYY_MM_DD_HH_MM_SS_SSS_24,
-				PropFactory.getInstance().getProperty(EGeneral.Display_Time_Zone)));
 	}
 	
 	public void setMessage(String message)

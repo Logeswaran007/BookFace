@@ -3,7 +3,9 @@ package org.hbs.admin.model;
 
 import java.sql.Timestamp;
 import java.util.LinkedHashSet;
+import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -35,22 +37,36 @@ public class Producers extends CommonBeanFields implements IProducers, EBusiness
 	
 	protected Set<IProducersAttachments>	producerAttachmentList	= new LinkedHashSet<IProducersAttachments>(0);
 	
+	protected Set<IProducersProperty>		propertyList			= new LinkedHashSet<IProducersProperty>(0);
+	
 	protected String						producerId;
 	
 	protected String						producerName;
 	
 	protected Timestamp						pwdExpiryDays;
 	
-	protected String						repositoryBasePath;
-	
 	protected IUsers						users;
-	
-	protected String						virtualBasePath;
 	
 	public Producers()
 	{
 		super();
 		this.producerId = getBusinessKey();
+	}
+	
+	@Transient
+	public List<IProducersProperty> getPropertyList(EnumInterface group)
+	{
+		return propertyList.stream().filter(p -> p.getGroup().equals(group.name())).collect(Collectors.toList());
+	}
+	
+	@Transient
+	public IProducersProperty getProperty(EnumInterface group, String key)
+	{
+		List<IProducersProperty> iPPList = propertyList.stream().filter(p -> (p.getGroup().equals(group.name()) && p.getEnumKey().equals(key))).collect(Collectors.toList());
+		
+		if (CommonValidator.isListFirstNotEmpty(iPPList))
+			return iPPList.iterator().next();
+		return null;
 	}
 	
 	@Transient
@@ -103,6 +119,12 @@ public class Producers extends CommonBeanFields implements IProducers, EBusiness
 		return producerAttachmentList;
 	}
 	
+	@OneToMany(targetEntity = ProducersProperty.class, fetch = FetchType.EAGER, mappedBy = "producer")
+	public Set<IProducersProperty> getPropertyList()
+	{
+		return propertyList;
+	}
+	
 	@Id
 	@Column(name = "producerId", nullable = false)
 	public String getProducerId()
@@ -122,23 +144,11 @@ public class Producers extends CommonBeanFields implements IProducers, EBusiness
 		return pwdExpiryDays;
 	}
 	
-	@Column(name = "repositoryBasePath")
-	public String getRepositoryBasePath()
-	{
-		return repositoryBasePath;
-	}
-	
 	@ManyToOne(targetEntity = ProducerUsers.class)
 	@JoinColumn(name = "usEmployeeId", nullable = false)
 	public IUsers getUsers()
 	{
 		return users;
-	}
-	
-	@Column(name = "virtualBasePath")
-	public String getVirtualBasePath()
-	{
-		return CommonValidator.isNotNullNotEmpty(virtualBasePath) ? virtualBasePath : CommonValidator.isNotNullNotEmpty(domainContext) ? domainContext : "";
 	}
 	
 	public void setActiveProducerId(String activeProducerId)
@@ -166,6 +176,11 @@ public class Producers extends CommonBeanFields implements IProducers, EBusiness
 		this.producerAttachmentList = producerAttachmentList;
 	}
 	
+	public void setPropertyList(Set<IProducersProperty> propertyList)
+	{
+		this.propertyList = propertyList;
+	}
+	
 	public void setProducerId(String producerId)
 	{
 		this.producerId = producerId;
@@ -181,19 +196,9 @@ public class Producers extends CommonBeanFields implements IProducers, EBusiness
 		this.pwdExpiryDays = pwdExpiryDays;
 	}
 	
-	public void setRepositoryBasePath(String repositoryBasePath)
-	{
-		this.repositoryBasePath = repositoryBasePath;
-	}
-	
 	public void setUsers(IUsers users)
 	{
 		this.users = users;
-	}
-	
-	public void setVirtualBasePath(String virtualBasePath)
-	{
-		this.virtualBasePath = virtualBasePath;
 	}
 	
 }

@@ -5,7 +5,7 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.hbs.admin.controller.param.UserParam;
+import org.hbs.admin.controller.UserParam;
 import org.hbs.admin.model.IUsers;
 import org.hbs.admin.model.Producers;
 import org.hbs.admin.model.UserActivity;
@@ -36,5 +36,7 @@ public interface UserBo extends Serializable
 	public boolean saveOrUpdate(IUsers user, String... iRoles) throws InstantiationException, IllegalAccessException;
 	
 	public boolean saveOrUpdate(IUsers users);
+	
+	public String getMenusByRoleHTML(UserParam userParam);
 	
 }

@@ -2,7 +2,7 @@ package org.hbs.sg.model.concern;
 
 import org.hbs.admin.model.ICommonBeanFields;
 import org.hbs.admin.model.ICommonFileUpload;
-import org.hbs.util.dao.ICRUDBean;
+import org.hbs.util.ICRUDBean;
 
 public interface IOrganisationAttachments extends ICommonFileUpload, ICommonBeanFields, ICRUDBean
 {

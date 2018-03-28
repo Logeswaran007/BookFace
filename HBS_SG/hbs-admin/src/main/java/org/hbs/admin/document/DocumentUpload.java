@@ -15,5 +15,4 @@ public interface DocumentUpload
 	
 	public void uploadFileInRepository(HttpServletRequest request, Set<? extends IUploadImageOrDocuments> iDocs) throws Exception;
 	
-	public void uploadFileInRepositoryAndView(HttpServletRequest request, Set<? extends IUploadImageOrDocuments> iDocs) throws Exception;
 }

@@ -1,11 +1,6 @@
 package org.hbs.admin.model;
 
 import java.sql.Timestamp;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.GregorianCalendar;
-import java.util.TimeZone;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -13,9 +8,7 @@ import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.MappedSuperclass;
-import javax.persistence.Transient;
 
-import org.hbs.util.CommonValidator;
 import org.hbs.util.IConstProperty;
 
 @MappedSuperclass
@@ -58,29 +51,6 @@ public abstract class CommonBeanFields implements ICommonBeanFields, IConstPrope
 		return createdDate;
 	}
 	
-	@Transient
-	public String getCreatedDateByTimeZone()
-	{
-		if (CommonValidator.isNotNullNotEmpty(createdUser, createdUser.getCountry(), createdUser.getCountry().getCountry()))
-		{
-			DateFormat dateFormat = new SimpleDateFormat(DATE_FORMAT_DD_MMM_YYYY_HH_MM_AM_PM);
-			if (CommonValidator.isNotEqual(createdUser.getCountry().getCountry(), "00") && CommonValidator.isNotEqual(createdUser.getCountry().getCountry(), "IN"))
-			{
-				Calendar calendar = new GregorianCalendar();
-				calendar.setTimeInMillis(createdDate.getTime());
-				dateFormat.setCalendar(calendar);
-				dateFormat.setTimeZone(TimeZone.getTimeZone(createdUser.getCountry().getCountry()));
-				createdDateByTimeZone = dateFormat != null ? dateFormat.format(calendar.getTime()) + " (" + createdUser.getCountry().getCountry() + ")" : "";
-			}
-			else
-			{
-				createdDateByTimeZone = dateFormat != null ? dateFormat.format(createdDate.getTime()) + " (" + createdUser.getCountry().getCountry() + ")" : "";
-			}
-			
-		}
-		return createdDateByTimeZone;
-	}
-	
 	@ManyToOne(targetEntity = Users.class, cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	@JoinColumn(name = "createdBy", nullable = true)
 	public IUsers getCreatedUser()
@@ -92,28 +62,6 @@ public abstract class CommonBeanFields implements ICommonBeanFields, IConstPrope
 	public Timestamp getModifiedDate()
 	{
 		return modifiedDate;
-	}
-	
-	@Transient
-	public String getModifiedDateByTimeZone()
-	{
-		if (CommonValidator.isNotNullNotEmpty(modifiedUser, modifiedUser.getCountry(), modifiedUser.getCountry().getCountry()))
-		{
-			DateFormat dateFormat = new SimpleDateFormat(DATE_FORMAT_DD_MMM_YYYY_HH_MM_AM_PM);
-			if (CommonValidator.isNotEqual(createdUser.getCountry().getCountry(), "00") && CommonValidator.isNotEqual(createdUser.getCountry().getCountry(), "IN"))
-			{
-				Calendar calendar = new GregorianCalendar();
-				calendar.setTimeInMillis(modifiedDate.getTime());
-				dateFormat.setCalendar(calendar);
-				dateFormat.setTimeZone(TimeZone.getTimeZone(createdUser.getCountry().getCountry()));
-				modifiedDateByTimeZone = dateFormat != null ? dateFormat.format(calendar.getTime()) + " (" + createdUser.getCountry().getCountry() + ")" : "";
-			}
-			else
-			{
-				modifiedDateByTimeZone = dateFormat != null ? dateFormat.format(createdDate.getTime()) + " (" + createdUser.getCountry().getCountry() + ")" : "";
-			}
-		}
-		return modifiedDateByTimeZone;
 	}
 	
 	@ManyToOne(targetEntity = Users.class, cascade = CascadeType.ALL, fetch = FetchType.LAZY)

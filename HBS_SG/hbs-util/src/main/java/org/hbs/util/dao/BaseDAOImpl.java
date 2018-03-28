@@ -5,6 +5,7 @@ import org.hbs.util.CommonValidator;
 import org.hbs.util.CustomException;
 import org.hbs.util.CustomLogger;
 import org.hbs.util.DataTableParam;
+import org.hbs.util.ICRUDBean;
 import org.hbs.util.IParam;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;

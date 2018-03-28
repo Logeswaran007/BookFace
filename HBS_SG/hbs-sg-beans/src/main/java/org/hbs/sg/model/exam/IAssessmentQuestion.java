@@ -4,14 +4,18 @@ import java.util.Set;
 
 import org.hbs.admin.model.IUploadImageOrDocuments;
 import org.hbs.util.EnumInterface;
-import org.hbs.util.dao.ICRUDBean;
+import org.hbs.util.ICRUDBean;
 
 public interface IAssessmentQuestion extends IUploadImageOrDocuments, ICRUDBean
 {
 	public enum EWeightage implements EnumInterface
 	{
-		Default, High, Low, Medium;
+		High, Low, Medium;
 	}
+	
+	public boolean isAnswerMode();
+	
+	public void setAnswerMode(boolean answerMode);
 	
 	public Set<IAssessmentAnswer> getAnswers();
 	

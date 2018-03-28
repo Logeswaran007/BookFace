@@ -8,7 +8,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.hbs.admin.IAdminPath;
 import org.hbs.admin.controller.ControllerBaseBo;
-import org.hbs.admin.controller.param.UserParam;
+import org.hbs.admin.controller.UserParam;
 import org.hbs.admin.model.IImage.EImage;
 import org.hbs.admin.model.IImage.EUploadType;
 import org.hbs.admin.model.IUploadImageOrDocuments;
@@ -24,7 +24,7 @@ import org.springframework.stereotype.Component;
 public class CustomLoginHandler extends ControllerBaseBo implements AuthenticationSuccessHandler, IAdminPath, ISGPath
 {
 	
-	private static final long serialVersionUID = 407818492923421819L;
+	private static final long	serialVersionUID	= 407818492923421819L;
 	private final CustomLogger	logger				= new CustomLogger(this.getClass());
 	
 	@Override
@@ -44,7 +44,7 @@ public class CustomLoginHandler extends ControllerBaseBo implements Authenticati
 				
 				if (CommonValidator.isNotNullNotEmpty(iDoc))
 				{
-					EImage.Attachment.getServerSessionVirtualPath(request, userParam.user.getProducer(), iDoc);
+					EImage.ResourceHandler.getServerSessionVirtualPath(request, userParam.user.getProducer(), iDoc);
 					userParam.user.setUsUserImage(iDoc.getUploadFileVirtualURL());
 				}
 				

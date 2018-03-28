@@ -1,18 +1,22 @@
 package org.hbs.admin.bo;
 
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.LinkedHashSet;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.hbs.admin.controller.param.UserParam;
+import org.hbs.admin.controller.UserParam;
 import org.hbs.admin.dao.UserDAO;
 import org.hbs.admin.model.IAddress.AddressType;
 import org.hbs.admin.model.IRoles;
 import org.hbs.admin.model.IUserRoles;
 import org.hbs.admin.model.IUsers;
 import org.hbs.admin.model.IUsers.EUserStatus;
+import org.hbs.admin.model.MaMenu;
+import org.hbs.admin.model.MaMenuRole;
 import org.hbs.admin.model.Producers;
 import org.hbs.admin.model.Roles;
 import org.hbs.admin.model.UserActivity;
@@ -26,6 +30,9 @@ import org.hbs.util.IConstProperty;
 import org.hbs.util.IParam.ENamed;
 import org.hbs.util.IParam.IWrap;
 import org.hbs.util.dao.IBaseDAO;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -125,11 +132,11 @@ public class UserBoImpl extends UserBoComboBoxImpl implements UserBo, IConstProp
 		}
 		if (CommonValidator.isNotNullNotEmpty(dtParam.sSortDirection))
 		{
-			dtParam._OrderBy = ENamed.OrderBy.param("users.createdDate") + SPACE + dtParam.sSortDirection;
+			dtParam._OrderBy = " Order By UA.users.createdDate " + dtParam.sSortDirection;
 		}
 		else
 		{
-			dtParam._OrderBy = ENamed.OrderBy.param("users.createdDate") + DESC;
+			dtParam._OrderBy = " Order By UA.users.createdDate Desc";
 		}
 		
 		return iBaseDAO.getDataTableList(dtParam, isCount);
@@ -220,4 +227,33 @@ public class UserBoImpl extends UserBoComboBoxImpl implements UserBo, IConstProp
 		}
 	}
 	
+	@SuppressWarnings("unchecked")
+	public String getMenusByRoleHTML(UserParam userParam)
+	{
+		
+		List<String> rolesList = new ArrayList<String>(0);
+		for (IUserRoles userRole : userParam.user.getUserRoleses())
+		{
+			rolesList.add(userRole.getRoles().getRlRoleId());
+		}
+		
+		userParam.searchBeanClass = MaMenuRole.class;
+		userParam.searchBeanClassAlias = "MM";
+		userParam.searchColumns = "MM.maMenu";
+		userParam._OrderBy = " Order By MM.maMenu.level";
+		
+		ENamed.EqualTo.param_AND(userParam, "MM.producer.producerId", userParam.user.getProducer().getProducerId());
+		ENamed.In.param_AND(userParam, "MM.rlRoles.rlRoleId", rolesList);
+		
+		List<MaMenu> maMenuList = (List<MaMenu>) iBaseDAO.getDataList(userParam).getDataList();
+		Document doc = Jsoup.parse("<div></div>");
+		Element parent = doc.select("div").first();
+		MaMenu menu = null;
+		for (int i = 0; i < maMenuList.size(); i++)
+		{
+			menu = maMenuList.get(i);
+			menu._getMenuHTML(parent, (i == 0 ? "start active" : (i == maMenuList.size() - 1) ? "last " : ""));
+		}
+		return parent.html().replaceAll("\n", "");
+	}
 }

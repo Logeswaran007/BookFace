@@ -81,7 +81,7 @@ public class AssessmentPattern extends CommonBeanFields implements IAssessmentPa
 	}
 	
 	@Override
-	@ManyToOne(targetEntity = Producers.class)
+	@ManyToOne(targetEntity = Producers.class, fetch = FetchType.LAZY)
 	@JoinColumn(name = "producerId", nullable = false)
 	public IProducers getProducer()
 	{

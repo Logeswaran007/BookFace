@@ -16,13 +16,13 @@ public interface IUploadImageOrDocuments extends java.io.Serializable
 	
 	public String getUploadFileName();
 	
-	public String getUploadFileNameForDisplay();
-	
 	public long getUploadFileSize();
 	
 	public String getUploadFileVirtualURL();
 	
 	public MultipartFile getUploadMultiPartFile();
+	
+	public String getUploadResourceHandler();
 	
 	public String getUploadSubFolderPath();
 	
@@ -36,13 +36,13 @@ public interface IUploadImageOrDocuments extends java.io.Serializable
 	
 	public void setUploadFileName(String uploadFileName);
 	
-	public void setUploadFileNameForDisplay(String uploadFileNameForDisplay);
-	
 	public void setUploadFileSize(long uploadFileSize);
 	
 	public void setUploadFileVirtualURL(String uploadFileVirtualURL);
 	
 	public void setUploadMultiPartFile(MultipartFile uploadMultiPartFile);
+	
+	public void setUploadResourceHandler(String uploadResourceHandler);
 	
 	public void setUploadSubFolderPath(String uploadSubFolderPath);
 }

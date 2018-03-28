@@ -140,7 +140,7 @@ public class EBooksController extends SGControllerBaseBo implements IAdminPath, 
 		}
 		catch (Exception excep)
 		{
-		   logger.error(excep);
+			logger.error(excep);
 		}
 		return "Failure";
 	}
@@ -160,6 +160,7 @@ public class EBooksController extends SGControllerBaseBo implements IAdminPath, 
 			{
 				uploadSubFolderPath = course.getCourseId() + File.separator + ECourseUploadType.EBooks.name();
 				attachment = new CourseAttachments(multiPartFile, uploadSubFolderPath, ECourseUploadType.EBooks.name());
+				attachment.setUploadResourceHandler(EResource.EBooks.name());
 				attachment.setCreatedUser(sessionUsers);
 				attachment.setCreatedDate(new Timestamp(Calendar.getInstance().getTimeInMillis()));
 				attachment.setCourses(course);
@@ -185,6 +186,7 @@ public class EBooksController extends SGControllerBaseBo implements IAdminPath, 
 			{
 				uploadSubFolderPath = chapter.getChapterId() + File.separator + ECourseUploadType.EBooks.name();
 				attachment = new ChapterAttachments(multiPartFile, uploadSubFolderPath, ECourseUploadType.EBooks.name());
+				attachment.setUploadResourceHandler(EResource.EBooks.name());
 				attachment.setCreatedUser(sessionUsers);
 				attachment.setCreatedDate(new Timestamp(Calendar.getInstance().getTimeInMillis()));
 				attachment.setChapters(chapter);

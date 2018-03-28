@@ -13,9 +13,9 @@ import org.hbs.sg.model.course.CourseGroup;
 import org.hbs.sg.model.course.Courses;
 import org.hbs.sg.web.controller.AssessmentParam;
 import org.hbs.sg.web.controller.SchemeParam;
+import org.hbs.util.LabelValueBean;
 import org.hbs.util.IParam.ENamed;
 import org.hbs.util.dao.IBaseDAO;
-import org.hbs.util.model.LabelValueBean;
 import org.springframework.beans.factory.annotation.Autowired;
 
 public abstract class SGBoComboBoxImpl implements SGBo

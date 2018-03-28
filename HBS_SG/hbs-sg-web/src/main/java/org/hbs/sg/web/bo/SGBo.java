@@ -13,7 +13,7 @@ import org.hbs.sg.model.course.ICourses;
 import org.hbs.sg.web.controller.AssessmentParam;
 import org.hbs.sg.web.controller.SchemeParam;
 import org.hbs.util.DataTableParam;
-import org.hbs.util.model.LabelValueBean;
+import org.hbs.util.LabelValueBean;
 
 public interface SGBo extends Serializable
 {

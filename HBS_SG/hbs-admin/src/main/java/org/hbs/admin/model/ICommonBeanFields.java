@@ -7,13 +7,9 @@ public interface ICommonBeanFields extends Serializable
 {
 	public Timestamp getCreatedDate();
 	
-	public String getCreatedDateByTimeZone();
-	
 	public IUsers getCreatedUser();
 	
 	public Timestamp getModifiedDate();
-	
-	public String getModifiedDateByTimeZone();
 	
 	public IUsers getModifiedUser();
 	

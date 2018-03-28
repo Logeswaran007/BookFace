@@ -9,10 +9,8 @@ import javax.servlet.http.HttpServletRequest;
 import org.hbs.admin.PasswordEncrypt;
 import org.hbs.admin.model.IAddress.AddressType;
 import org.hbs.admin.model.IRoles.ERole;
-import org.hbs.util.CommonUtil;
 import org.hbs.util.CommonValidator;
 import org.hbs.util.EnumInterface;
-import org.hbs.util.IConstProperty;
 
 @MappedSuperclass
 public abstract class CommonUsers extends CommonUsersBase
@@ -110,9 +108,9 @@ public abstract class CommonUsers extends CommonUsersBase
 	public String getLastLoginTime()
 	{
 		IUserLog userLog = getLastLoginInformation();
-		if (CommonValidator.isNotNullNotEmpty(userLog))
+		if (CommonValidator.isNotNullNotEmpty(userLog) && CommonValidator.isNotNullNotEmpty(userLog.getUlUserLoginTime()))
 		{
-			return CommonUtil.getDateByTimeZoneFormat(userLog.getUlUserLoginTime(), IConstProperty.DATE_FORMAT_DD_MMM_YYYY_HH_MM_AM_PM);
+			return EDate.DD_MMM_YYYY_HH_MM_SS_AM_PM.byTimeZone(userLog.getUlUserLoginTime().toString(), this.country.country, EDate.YYYY_MM_DD_HH_MM_SS_24);
 		}
 		return "";
 	}

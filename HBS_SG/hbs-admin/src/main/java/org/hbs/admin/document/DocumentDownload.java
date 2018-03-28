@@ -11,6 +11,8 @@ public interface DocumentDownload
 {
 	public void downloadFileFromRepository(HttpServletRequest request, Set<? extends IUploadImageOrDocuments> iDocs) throws Exception;
 	
+	public void downloadFileFromRepository(HttpServletRequest request, IUploadImageOrDocuments... iDocs) throws Exception;
+	
 	public IProducers getProducer();
 	
 	public void setProducer(IProducers producer);

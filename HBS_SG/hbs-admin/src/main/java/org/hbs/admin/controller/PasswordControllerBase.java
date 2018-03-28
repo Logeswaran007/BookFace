@@ -6,7 +6,6 @@ import java.util.UUID;
 
 import org.apache.commons.codec.binary.Base64;
 import org.hbs.admin.bo.UserBo;
-import org.hbs.admin.controller.param.UserParam;
 import org.hbs.admin.model.IUsers;
 import org.hbs.admin.model.IUsers.EUserStatus;
 import org.hbs.util.CommonValidator;

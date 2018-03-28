@@ -1,6 +1,6 @@
 package org.hbs.sg.model.exam;
 
-import org.hbs.util.dao.ICRUDBean;
+import org.hbs.util.ICRUDBean;
 
 public interface IAssessmentInformation extends ICRUDBean
 {

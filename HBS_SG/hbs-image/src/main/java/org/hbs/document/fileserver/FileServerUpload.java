@@ -42,23 +42,18 @@ public class FileServerUpload implements DocumentUpload, IConstProperty
 	{
 		String uploadFileFolderURL = null;
 		File fileToCreate = null;
+		
 		for (IUploadImageOrDocuments iDoc : iDocs)
 		{
 			if (CommonValidator.isNotNullNotEmpty(iDoc.getUploadMultiPartFile()))
 			{
-				uploadFileFolderURL = EImage.Attachment.getRepositoryPhysicalPath(producer, iDoc.getUploadSubFolderPath());
+				uploadFileFolderURL = EImage.ResourceHandler.getRepositoryPhysicalPath(producer, iDoc.getUploadSubFolderPath(), iDoc.getUploadResourceHandler());
 				fileToCreate = new File(uploadFileFolderURL, iDoc.getUploadMultiPartFile().getOriginalFilename());
 				iDoc.getUploadMultiPartFile().transferTo(fileToCreate);
 				iDoc.setUploadFileName(iDoc.getUploadMultiPartFile().getOriginalFilename());
 				iDoc.setUploadFileFolderURL(iDoc.getUploadSubFolderPath());
 			}
 		}
-	}
-	
-	public void uploadFileInRepositoryAndView(HttpServletRequest request, Set<? extends IUploadImageOrDocuments> iDocs) throws Exception
-	{
-		uploadFileInRepository(request, iDocs);
-		EImage.Attachment.getServerSessionVirtualPath(request, producer, iDocs);
 	}
 	
 }

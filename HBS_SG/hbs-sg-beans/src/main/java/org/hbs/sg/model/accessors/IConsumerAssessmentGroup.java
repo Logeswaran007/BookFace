@@ -1,7 +1,7 @@
 package org.hbs.sg.model.accessors;
 
 import org.hbs.sg.model.exam.IAssessment;
-import org.hbs.util.dao.ICRUDBean;
+import org.hbs.util.ICRUDBean;
 
 public interface IConsumerAssessmentGroup extends ICRUDBean
 {
