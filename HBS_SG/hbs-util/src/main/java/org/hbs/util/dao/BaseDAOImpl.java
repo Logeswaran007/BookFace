@@ -1,8 +1,8 @@
 package org.hbs.util.dao;
 
+import org.hbs.util.ClassAndAlias;
 import org.hbs.util.CommonHibernateSessionFactorySupport;
 import org.hbs.util.CommonValidator;
-import org.hbs.util.CustomException;
 import org.hbs.util.CustomLogger;
 import org.hbs.util.DataTableParam;
 import org.hbs.util.ICRUDBean;
@@ -33,10 +33,9 @@ public class BaseDAOImpl extends CommonHibernateSessionFactorySupport implements
 			if (CommonValidator.isNotNullNotEmpty(param.getSearchColumns()))
 			{
 				sbSelectQry.append(SELECT + param.getSearchColumns());
-				param.setSearchBeanClassAlias(SPACE + param.getSearchBeanClassAlias() + SPACE);
 			}
 			
-			sbSelectQry.append(FROM + param.getSearchBeanClass().getCanonicalName() + param.getSearchBeanClassAlias() + WHERE_1_1);
+			sbSelectQry.append(getSearchBean(param, false));
 			
 			for (String condKey : param.getSearchCondtionMap().keySet())
 			{
@@ -59,8 +58,6 @@ public class BaseDAOImpl extends CommonHibernateSessionFactorySupport implements
 		}
 		catch (Exception excep)
 		{
-			if (CommonValidator.isNotNullNotEmpty(param.getSearchBeanClassAlias()) == false)
-				logger.error(new CustomException("Set 'searchBeanClassAlias' in Query for in case of selecting Objects."));
 			logger.error(excep);
 		}
 		finally
@@ -73,6 +70,42 @@ public class BaseDAOImpl extends CommonHibernateSessionFactorySupport implements
 		}
 		return param;
 		
+	}
+	
+	public String getSearchBean(IParam param, boolean isCount)
+	{
+		StringBuffer sbSelectQry = new StringBuffer();
+		
+		for (ClassAndAlias _CA : param.getSearchBeanClass())
+		{
+			sbSelectQry.append(_CA.getClazz().getCanonicalName() + SPACE + _CA.getAlias() + COMMA_SPACE);
+		}
+		
+		String classNames = sbSelectQry.toString().trim();
+		
+		if (classNames.endsWith(COMMA_SPACE.trim()))
+		{
+			classNames = classNames.substring(0, classNames.lastIndexOf(COMMA_SPACE.trim()));
+		}
+		
+		sbSelectQry = new StringBuffer(FROM + classNames);
+		
+		if (isCount == false)
+		{
+			for (String fetcher : param.getSearchFetchSet())
+			{
+				sbSelectQry.append(fetcher);
+			}
+		}
+		
+		sbSelectQry.append(WHERE_1_1);
+		
+		for (String joiner : param.getSearchJoinSet())
+		{
+			sbSelectQry.append(joiner);
+		}
+		
+		return sbSelectQry.toString();
 	}
 	
 	@Override
@@ -90,10 +123,9 @@ public class BaseDAOImpl extends CommonHibernateSessionFactorySupport implements
 			if (CommonValidator.isNotNullNotEmpty(dtParam.getSearchColumns()) && isCount == false)
 			{
 				sbSelectQry.append(SELECT + dtParam.getSearchColumns());
-				dtParam.setSearchBeanClassAlias(SPACE + dtParam.getSearchBeanClassAlias() + SPACE);
 			}
 			
-			sbSelectQry.append(FROM + dtParam.getSearchBeanClass().getCanonicalName() + dtParam.getSearchBeanClassAlias() + WHERE_1_1);
+			sbSelectQry.append(getSearchBean(dtParam, isCount));
 			
 			for (String condKey : dtParam.searchCondtionMap.keySet())
 			{

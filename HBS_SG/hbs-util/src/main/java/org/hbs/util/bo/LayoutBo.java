@@ -1,9 +1,9 @@
-package org.hbs.admin.bo;
+package org.hbs.util.bo;
 
 import java.io.Serializable;
 import java.util.List;
 
-import org.hbs.admin.model.ILayouts;
+import org.hbs.util.model.ILayouts;
 
 public interface LayoutBo extends Serializable
 {

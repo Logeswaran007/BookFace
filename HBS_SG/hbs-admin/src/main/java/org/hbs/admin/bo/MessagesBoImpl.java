@@ -21,12 +21,10 @@ public class MessagesBoImpl implements MessagesBo
 	public IMessages getMessage(EnumInterface enumInterface)
 	{
 		
-		DataTableParam dtParam = new DataTableParam();
+		DataTableParam dtParam = new DataTableParam(Messages.class, "M");
 		
-		dtParam.searchBeanClass = Messages.class;
-		
-		ENamed.EqualTo.param_AND(dtParam, "messageId", enumInterface.name());
-		ENamed.EqualTo.param_AND(dtParam, "status", true);
+		ENamed.EqualTo.param_AND(dtParam, "M.messageId", enumInterface.name());
+		ENamed.EqualTo.param_AND(dtParam, "M.status", true);
 		
 		iBaseDAO.getDataList(dtParam);
 		
@@ -39,9 +37,7 @@ public class MessagesBoImpl implements MessagesBo
 	@Override
 	public DataTableParam getMessagesList(DataTableParam dtParam, boolean isCount)
 	{
-		dtParam.searchBeanClass = Messages.class;
-		
-		ENamed.EqualTo.param_AND(dtParam, "status", true);
+		ENamed.EqualTo.param_AND(dtParam, "M.status", true);
 		
 		return iBaseDAO.getDataTableList(dtParam, isCount);
 	}
@@ -49,9 +45,7 @@ public class MessagesBoImpl implements MessagesBo
 	@Override
 	public DataTableParam getMessagesUserList(DataTableParam dtParam, boolean isCount)
 	{
-		dtParam.searchBeanClass = MessagesUserMapping.class;
-		
-		ENamed.EqualTo.param_AND(dtParam, "status", true);
+		ENamed.EqualTo.param_AND(dtParam, "MUM.status", true);
 		
 		return iBaseDAO.getDataTableList(dtParam, isCount);
 	}

@@ -15,6 +15,8 @@ import javax.persistence.Transient;
 
 import org.hbs.admin.model.IAddress.AddressType;
 import org.hbs.util.CommonValidator;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 import org.hibernate.annotations.Where;
 
 @MappedSuperclass
@@ -83,13 +85,15 @@ public abstract class CommonUsersBase extends CountryBase implements IUsers
 		this.usFolderToken = usFolderToken;
 	}
 	
-	@OneToMany(targetEntity = UsersAddress.class, fetch = FetchType.EAGER, mappedBy = "users", cascade = CascadeType.ALL)
+	@OneToMany(targetEntity = UsersAddress.class, fetch = FetchType.LAZY, mappedBy = "users", cascade = CascadeType.ALL)
+	@Fetch(FetchMode.JOIN)
 	public Set<IUsersAddress> getAddressList()
 	{
 		return addressList;
 	}
 	
-	@OneToMany(targetEntity = UsersAttachments.class, fetch = FetchType.EAGER, mappedBy = "users")
+	@OneToMany(targetEntity = UsersAttachments.class, fetch = FetchType.LAZY, mappedBy = "users", cascade = CascadeType.ALL)
+	@Fetch(FetchMode.JOIN)
 	public Set<IUsersAttachments> getAttachmentList()
 	{
 		return attachmentList;
@@ -128,7 +132,8 @@ public abstract class CommonUsersBase extends CountryBase implements IUsers
 		return usEmployeeId;
 	}
 	
-	@OneToMany(targetEntity = UserLog.class, fetch = FetchType.EAGER, mappedBy = "users")
+	@OneToMany(targetEntity = UserLog.class, fetch = FetchType.LAZY, mappedBy = "users")
+	@Fetch(FetchMode.JOIN)
 	@Where(clause = "ulFetchBlock = true")
 	@OrderBy("ulUserLoginTime DESC")
 	public Set<IUserLog> getUserLogs()
@@ -136,7 +141,8 @@ public abstract class CommonUsersBase extends CountryBase implements IUsers
 		return userLogs;
 	}
 	
-	@OneToMany(targetEntity = UserRoles.class, fetch = FetchType.EAGER, mappedBy = "users")
+	@OneToMany(targetEntity = UserRoles.class, fetch = FetchType.LAZY, mappedBy = "users")
+	@Fetch(FetchMode.JOIN)
 	public Set<IUserRoles> getUserRoleses()
 	{
 		return userRoleses;

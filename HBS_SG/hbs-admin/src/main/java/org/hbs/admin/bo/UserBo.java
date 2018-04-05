@@ -21,7 +21,7 @@ public interface UserBo extends Serializable
 	
 	public Map<String, String> getStateList(HttpServletRequest request);
 	
-	public void getUser(UserParam userParam) throws Exception;
+	public UserParam getLoginUser(UserParam userParam) throws Exception;
 	
 	public IUsers getUserByEmailOrMobileNo(UserParam userParam);
 	
@@ -38,5 +38,7 @@ public interface UserBo extends Serializable
 	public boolean saveOrUpdate(IUsers users);
 	
 	public String getMenusByRoleHTML(UserParam userParam);
+	
+	public UserParam getUserById(UserParam userParam);
 	
 }

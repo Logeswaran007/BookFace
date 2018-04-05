@@ -67,7 +67,7 @@ public class Roles extends CommonBeanFields implements IRoles, EBusinessKey
 		return isAdminRole;
 	}
 	
-	@OneToMany(targetEntity = MaMenuRole.class, fetch = FetchType.EAGER, mappedBy = "rlRoles")
+	@OneToMany(targetEntity = MaMenuRole.class, fetch = FetchType.LAZY, mappedBy = "roles")
 	public Set<MaMenuRole> getMenuRoles()
 	{
 		return menuRoles;

@@ -2,8 +2,8 @@ package org.hbs.sg.portlet;
 
 import java.io.Serializable;
 
-import org.hbs.admin.bo.LayoutBo;
 import org.hbs.sg.portlet.bo.PortletBo;
+import org.hbs.util.bo.LayoutBo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 

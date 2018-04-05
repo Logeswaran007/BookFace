@@ -10,8 +10,6 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.hbs.admin.IAdminPath;
 import org.hbs.admin.document.DocumentFactory;
-import org.hbs.admin.model.ILayouts;
-import org.hbs.admin.model.ILayouts.EDataTable;
 import org.hbs.admin.model.IUsers;
 import org.hbs.admin.model.IUsers.EUsers;
 import org.hbs.sg.model.course.ChapterAttachments;
@@ -28,6 +26,8 @@ import org.hbs.util.DataTableDynamicColumns;
 import org.hbs.util.DataTableObject;
 import org.hbs.util.DataTableParam;
 import org.hbs.util.IParam.ENamed;
+import org.hbs.util.model.ILayouts;
+import org.hbs.util.model.ILayouts.EDataTable;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;

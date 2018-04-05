@@ -23,8 +23,7 @@ public class UtilBoImpl implements UtilBo
 		DataTableParam dtParam = new DataTableParam();
 		try
 		{
-			dtParam.searchBeanClass = Class.forName("org.hbs.admin.model.ProducersProperty");
-			dtParam.searchBeanClassAlias = "PP";
+			dtParam.addBean(Class.forName("org.hbs.admin.model.ProducersProperty"), "PP");
 			dtParam.searchColumns = "PP.property, PP.value";
 			
 			ENamed.EqualTo.param_AND(dtParam, "PP.group", "ResourceHandler");

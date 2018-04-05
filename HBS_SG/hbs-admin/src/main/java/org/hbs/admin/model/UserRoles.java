@@ -14,6 +14,8 @@ import javax.persistence.OneToMany;
 import javax.persistence.OrderBy;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 import org.hibernate.annotations.Where;
 
 /**
@@ -54,7 +56,8 @@ public class UserRoles implements IUserRoles
 		return urAutoId;
 	}
 	
-	@OneToMany(targetEntity = PortletsUsersRoles.class, fetch = FetchType.EAGER, mappedBy = "userRoles")
+	@OneToMany(targetEntity = PortletsUsersRoles.class, fetch = FetchType.LAZY, mappedBy = "userRoles")
+	@Fetch(FetchMode.JOIN)
 	@Where(clause = "status = true")
 	@OrderBy("order ASC")
 	public Set<IPortletsUsersRoles> getUserRolePortlets()

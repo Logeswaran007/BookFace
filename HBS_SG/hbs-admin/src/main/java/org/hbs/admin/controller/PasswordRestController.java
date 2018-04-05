@@ -33,7 +33,7 @@ public class PasswordRestController extends PasswordControllerBase implements IA
 		
 		try
 		{
-			userBo.getUser(userParam);
+			userBo.getUserByEmailOrMobileNo(userParam);
 			if (CommonValidator.isNotNullNotEmpty(userParam.user))
 			{
 				switch ( Security.Token.isPasswordResetRecently(userParam.user) )

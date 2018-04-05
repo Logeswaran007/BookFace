@@ -14,14 +14,16 @@ public class LayoutElements implements ILayoutElements, EBusinessKey
 {
 	private static final long	serialVersionUID	= -8827883952227378070L;
 	
-	private String				transformerBeanName;
 	private String				columnType;
 	private String				dataType;
 	private String				displayName;
 	private String				displayProperty;
 	private String				displayPropertyGetter;
 	private String				elementId;
+	private boolean				isEmbeddedClass		= false;
 	private String				render;
+	private String				transformerBeanName;
+	private String				displayPropertyAlias;
 	
 	public LayoutElements()
 	{
@@ -41,10 +43,15 @@ public class LayoutElements implements ILayoutElements, EBusinessKey
 		this.render = render;
 	}
 	
-	@Column(name = "transformerBeanName")
-	public String getTransformerBeanName()
+	@Column(name = "displayPropertyAlias")
+	public String getDisplayPropertyAlias()
 	{
-		return transformerBeanName;
+		return displayPropertyAlias;
+	}
+	
+	public void setDisplayPropertyAlias(String displayPropertyAlias)
+	{
+		this.displayPropertyAlias = displayPropertyAlias;
 	}
 	
 	@Transient
@@ -96,9 +103,16 @@ public class LayoutElements implements ILayoutElements, EBusinessKey
 		return render;
 	}
 	
-	public void setTransformerBeanName(String transformerBeanName)
+	@Column(name = "transformerBeanName")
+	public String getTransformerBeanName()
 	{
-		this.transformerBeanName = transformerBeanName;
+		return transformerBeanName;
+	}
+	
+	@Column(name = "isEmbeddedClass")
+	public boolean isEmbeddedClass()
+	{
+		return isEmbeddedClass;
 	}
 	
 	public void setColumnType(String columnType)
@@ -131,8 +145,18 @@ public class LayoutElements implements ILayoutElements, EBusinessKey
 		this.elementId = elementId;
 	}
 	
+	public void setEmbeddedClass(boolean isEmbeddedClass)
+	{
+		this.isEmbeddedClass = isEmbeddedClass;
+	}
+	
 	public void setRender(String render)
 	{
 		this.render = render;
+	}
+	
+	public void setTransformerBeanName(String transformerBeanName)
+	{
+		this.transformerBeanName = transformerBeanName;
 	}
 }

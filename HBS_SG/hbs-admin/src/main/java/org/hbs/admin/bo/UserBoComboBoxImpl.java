@@ -42,12 +42,12 @@ public abstract class UserBoComboBoxImpl implements UserBo
 		
 		Map<String, String> hmComboMap = new LinkedHashMap<String, String>();
 		
-		param.searchBeanClass = Users.class;
-		param.searchColumns = " usEmployeeId, usUserName, usLastName";
+		param.addBean(Users.class, "U");
+		param.searchColumns = " U.usEmployeeId, U.usUserName, U.usLastName";
 		
-		ENamed.EqualTo.param_AND(param, "status", true);
-		ENamed.EqualTo.param_AND(param, "usUsersType", param.userType.name());
-		ENamed.EqualTo.param_AND(param, "producer.producerId", users.getProducer().getProducerId());
+		ENamed.EqualTo.param_AND(param, "U.status", true);
+		ENamed.EqualTo.param_AND(param, "U.usUsersType", param.userType.name());
+		ENamed.EqualTo.param_AND(param, "U.producer.producerId", users.getProducer().getProducerId());
 		
 		List<Object[]> objectList = (List<Object[]>) iBaseDAO.getDataList(param).getDataList();
 		
@@ -64,13 +64,11 @@ public abstract class UserBoComboBoxImpl implements UserBo
 	public Map<String, String> getCountryList()
 	{
 		Map<String, String> hmComboMap = new LinkedHashMap<String, String>();
-		UserParam param = new UserParam();
+		UserParam param = new UserParam(Country.class, "C");
+		param.searchColumns = " C.country, C.countryName ";
 		
-		param.searchBeanClass = Country.class;
-		param.searchColumns = " country, countryName ";
-		
-		ENamed.EqualTo.param_AND(param, "status", true);
-		param._OrderBy = " Order By displayOrder Asc";
+		ENamed.EqualTo.param_AND(param, "C.status", true);
+		param._OrderBy = " Order By C.displayOrder Asc";
 		
 		List<Object[]> objectList = (List<Object[]>) iBaseDAO.getDataList(param).getDataList();
 		
@@ -87,14 +85,13 @@ public abstract class UserBoComboBoxImpl implements UserBo
 	public Map<String, String> getStateList(HttpServletRequest request)
 	{
 		Map<String, String> hmComboMap = new LinkedHashMap<String, String>();
-		UserParam param = new UserParam();
+		UserParam param = new UserParam(State.class, "S");
 		
 		Object country = param.searchValueMap.get("country");
 		
-		param.searchBeanClass = State.class;
-		param.searchColumns = " state ";
+		param.searchColumns = " S.state ";
 		
-		ENamed.EqualTo.param_AND(param, "country.country", CommonValidator.isNotNullNotEmpty(country) ? country : "IN");
+		ENamed.EqualTo.param_AND(param, "S.country.country", CommonValidator.isNotNullNotEmpty(country) ? country : "IN");
 		
 		List<String> objectList = (List<String>) iBaseDAO.getDataList(param).getDataList();
 		

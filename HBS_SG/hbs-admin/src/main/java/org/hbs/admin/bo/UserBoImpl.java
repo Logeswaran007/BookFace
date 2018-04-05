@@ -1,7 +1,6 @@
 package org.hbs.admin.bo;
 
 import java.sql.Timestamp;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.LinkedHashSet;
 import java.util.List;
@@ -50,12 +49,10 @@ public class UserBoImpl extends UserBoComboBoxImpl implements UserBo, IConstProp
 	@Override
 	public Producers getProducers(HttpServletRequest request)
 	{
-		DataTableParam param = new DataTableParam();
+		DataTableParam param = new DataTableParam(Producers.class, "P");
 		
-		param.searchBeanClass = Producers.class;
-		
-		ENamed.EqualTo.param_AND(param, "domainContext", request.getServletContext().getContextPath());
-		ENamed.EqualTo.param_AND(param, "status", true);
+		ENamed.EqualTo.param_AND(param, "P.domainContext", request.getServletContext().getContextPath());
+		ENamed.EqualTo.param_AND(param, "P.status", true);
 		
 		iBaseDAO.getDataList(param);
 		
@@ -65,70 +62,68 @@ public class UserBoImpl extends UserBoComboBoxImpl implements UserBo, IConstProp
 			return null;
 	}
 	
-	public void getUser(UserParam userParam) throws Exception
+	public UserParam getLoginUser(UserParam userParam) throws Exception
 	{
 		if (userParam.userId.indexOf("@") > 0)
 		{
-			userParam.searchBeanClass = UsersAddress.class;
+			userParam.addBean(UsersAddress.class, "UA");
+			userParam.searchColumns = " UA.users.usEmployeeId, UA.users.usUserPwd, UA.users.usUserStatus, UR.roles.rlRoleId ";
+			userParam.join(" UA.users.userRoleses UR ");
+			userParam.equal("UA.users.usEmployeeId", "UR.users.usEmployeeId");
 			
 			ENamed.EqualTo.param_AND(userParam, "email", userParam.userId);
 			ENamed.EqualTo.param_AND(userParam, "addressType", AddressType.CommunicationAddress.name());
 		}
 		else if (userParam.userId.matches("[0-9]+") && userParam.userId.length() == 10)
 		{
-			userParam.searchBeanClass = UsersAddress.class;
-			ENamed.EqualTo.param_AND(userParam, "mobileNo", Long.parseLong(userParam.userId));
-			ENamed.EqualTo.param_AND(userParam, "addressType", AddressType.CommunicationAddress.name());
+			userParam.addBean(UsersAddress.class, "UA");
+			userParam.searchColumns = " UA.users.usEmployeeId, UA.users.usUserPwd, UA.users.usUserStatus, UR.roles.rlRoleId ";
+			userParam.join(" UA.users.userRoleses UR ");
+			userParam.equal("UA.users.usEmployeeId", "UR.users.usEmployeeId");
+			
+			ENamed.EqualTo.param_AND(userParam, "UA.mobileNo", Long.parseLong(userParam.userId));
+			ENamed.EqualTo.param_AND(userParam, "UA.addressType", AddressType.CommunicationAddress.name());
 		}
 		else
 		{
-			userParam.searchBeanClass = Users.class;
-			ENamed.EqualTo.param_AND(userParam, "usUserId", userParam.userId);
+			userParam.addBean(Users.class, "U");
+			userParam.searchColumns = " U.usEmployeeId, U.usUserPwd, U.usUserStatus, UR.roles.rlRoleId ";
+			userParam.join(" U.userRoleses UR ");
+			ENamed.EqualTo.param_AND(userParam, "U.usUserId", userParam.userId);
+			userParam.equal("U.usEmployeeId", "UR.users.usEmployeeId");
 		}
 		
 		iBaseDAO.getDataList(userParam);
 		
-		if (CommonValidator.isListFirstNotEmpty(userParam.dataList))
-		{
-			if (CommonValidator.isEqual(userParam.searchBeanClass.getCanonicalName(), UsersAddress.class.getCanonicalName()))
-			{
-				userParam.user = ((UsersAddress) userParam.dataList.iterator().next()).getUsers();
-			}
-			else
-			{
-				userParam.user = (Users) userParam.dataList.iterator().next();
-			}
-		}
-		
 		if (userParam.eUserStatus == EUserStatus.Validate)
 			validateAuthenticate(userParam);
-		
+		return userParam;
 	}
 	
-	public IUsers getUserByEmailOrMobileNo(UserParam param)
+	public IUsers getUserByEmailOrMobileNo(UserParam userParam)
 	{
-		param.searchBeanClass = UsersAddress.class;
-		iBaseDAO.getDataList(param);
-		return ((UsersAddress) param.dataList.iterator().next()).getUsers();
+		userParam.addBean(UsersAddress.class, "UA");
+		iBaseDAO.getDataList(userParam);
+		return userParam.user = ((UsersAddress) userParam.dataList.iterator().next()).getUsers();
 	}
 	
 	@Override
 	public DataTableParam getUsersList(DataTableParam dtParam, boolean isCount)
 	{
-		dtParam.searchBeanClass = UsersAddress.class;
+		dtParam.addBean(UsersAddress.class, "UA");
 		
 		if (CommonValidator.isNotNullNotEmpty(dtParam.sSearch) && isCount == false)
 		{
-			ENamed.Like.param_AND(dtParam, "users.usEmployeeId", dtParam.sSearch, IWrap.ST_BRACE1);
-			ENamed.Like.param_OR(dtParam, "users.usUserId", dtParam.sSearch);
-			ENamed.Like.param_OR(dtParam, "users.usUserName", dtParam.sSearch);
-			ENamed.Like.param_OR(dtParam, "users.usLastName", dtParam.sSearch);
-			ENamed.Like.param_OR(dtParam, "users.usDob", dtParam.sSearch);
-			ENamed.Like.param_OR(dtParam, "users.usSex", dtParam.sSearch);
-			ENamed.Like.param_OR(dtParam, "users.usUsersType", dtParam.sSearch);
-			ENamed.Like.param_OR(dtParam, "users.usDob", dtParam.sSearch);
-			ENamed.Like.param_OR(dtParam, "users.usSex", dtParam.sSearch);
-			ENamed.Like.param_OR(dtParam, "users.usUsersType", dtParam.sSearch, IWrap.ED_BRACE1);
+			ENamed.Like.param_AND(dtParam, "UA.users.usEmployeeId", dtParam.sSearch, IWrap.ST_BRACE1);
+			ENamed.Like.param_OR(dtParam, "UA.users.usUserId", dtParam.sSearch);
+			ENamed.Like.param_OR(dtParam, "UA.users.usUserName", dtParam.sSearch);
+			ENamed.Like.param_OR(dtParam, "UA.users.usLastName", dtParam.sSearch);
+			ENamed.Like.param_OR(dtParam, "UA.users.usDob", dtParam.sSearch);
+			ENamed.Like.param_OR(dtParam, "UA.users.usSex", dtParam.sSearch);
+			ENamed.Like.param_OR(dtParam, "UA.users.usUsersType", dtParam.sSearch);
+			ENamed.Like.param_OR(dtParam, "UA.users.usDob", dtParam.sSearch);
+			ENamed.Like.param_OR(dtParam, "UA.users.usSex", dtParam.sSearch);
+			ENamed.Like.param_OR(dtParam, "UA.users.usUsersType", dtParam.sSearch, IWrap.ED_BRACE1);
 		}
 		if (CommonValidator.isNotNullNotEmpty(dtParam.sSortDirection))
 		{
@@ -198,11 +193,11 @@ public class UserBoImpl extends UserBoComboBoxImpl implements UserBo, IConstProp
 	
 	private void validateAuthenticate(UserParam userParam) throws Exception
 	{
-		if (CommonValidator.isNullOrEmpty(userParam.user))
-			throw new Exception("User Id or Password is incorrect.");
-		else
+		if (CommonValidator.isListFirstNotEmpty(userParam.dataList))
 		{
-			switch ( EUserStatus.valueOf(userParam.user.getUsUserStatus()) )
+			Object[] userData = (Object[]) userParam.dataList.iterator().next();
+			
+			switch ( EUserStatus.valueOf(userData[2].toString()) )
 			{
 				case Pending :
 					throw new Exception("You Account not yet activated. Please contact Administrator.");
@@ -225,25 +220,20 @@ public class UserBoImpl extends UserBoComboBoxImpl implements UserBo, IConstProp
 					break;
 			}
 		}
+		else
+			throw new Exception("User Id or Password is incorrect.");
 	}
 	
 	@SuppressWarnings("unchecked")
 	public String getMenusByRoleHTML(UserParam userParam)
 	{
 		
-		List<String> rolesList = new ArrayList<String>(0);
-		for (IUserRoles userRole : userParam.user.getUserRoleses())
-		{
-			rolesList.add(userRole.getRoles().getRlRoleId());
-		}
+		userParam.addBean(MaMenuRole.class, "MR").addBean(UserRoles.class, "UR");
+		userParam.equal("MR.roles.rlRoleId", "UR.roles.rlRoleId");
+		userParam.searchColumns = " MR.maMenu ";
+		userParam._OrderBy = " Order By MR.maMenu.level";
 		
-		userParam.searchBeanClass = MaMenuRole.class;
-		userParam.searchBeanClassAlias = "MM";
-		userParam.searchColumns = "MM.maMenu";
-		userParam._OrderBy = " Order By MM.maMenu.level";
-		
-		ENamed.EqualTo.param_AND(userParam, "MM.producer.producerId", userParam.user.getProducer().getProducerId());
-		ENamed.In.param_AND(userParam, "MM.rlRoles.rlRoleId", rolesList);
+		ENamed.EqualTo.param_AND(userParam, "UR.users.usEmployeeId", userParam.user.getUsEmployeeId());
 		
 		List<MaMenu> maMenuList = (List<MaMenu>) iBaseDAO.getDataList(userParam).getDataList();
 		Document doc = Jsoup.parse("<div></div>");
@@ -256,4 +246,26 @@ public class UserBoImpl extends UserBoComboBoxImpl implements UserBo, IConstProp
 		}
 		return parent.html().replaceAll("\n", "");
 	}
+	
+	@Override
+	public UserParam getUserById(UserParam userParam)
+	{
+		
+		userParam.addBean(Users.class, "U");
+		userParam.fetch(" U.producer P"); // This is working
+		userParam.fetch(" U.country C");// This is working
+		userParam.fetch(" U.createdUser UC");// This is working
+		
+		ENamed.EqualTo.param_AND(userParam, "U.usEmployeeId", userParam.userId);
+		
+		iBaseDAO.getDataList(userParam);
+		
+		if (CommonValidator.isListFirstNotEmpty(userParam.dataList))
+		{
+			userParam.user = (IUsers) userParam.dataList.iterator().next();
+		}
+		
+		return userParam;
+	}
+	
 }

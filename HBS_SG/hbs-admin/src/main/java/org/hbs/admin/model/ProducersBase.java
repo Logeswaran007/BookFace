@@ -1,5 +1,6 @@
 package org.hbs.admin.model;
 
+import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.MappedSuperclass;
@@ -17,7 +18,7 @@ public abstract class ProducersBase extends CommonBeanFields implements IProduce
 		super();
 	}
 	
-	@ManyToOne(targetEntity = Producers.class)
+	@ManyToOne(targetEntity = Producers.class, fetch = FetchType.EAGER)
 	@JoinColumn(name = "producerId")
 	public IProducers getProducer()
 	{

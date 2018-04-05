@@ -36,7 +36,8 @@ public class CustomLoginHandler extends ControllerBaseBo implements Authenticati
 		
 		try
 		{
-			userBo.getUser(userParam);
+			userBo.getUserById(userParam);
+			
 			if (CommonValidator.isNotNullNotEmpty(userParam.user))
 			{
 				userBo.userLogAtLogin(userParam.user, request.getRemoteAddr());

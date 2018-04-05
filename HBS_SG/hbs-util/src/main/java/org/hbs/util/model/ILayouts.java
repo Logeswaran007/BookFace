@@ -1,11 +1,10 @@
-package org.hbs.admin.model;
+package org.hbs.util.model;
 
 import java.util.List;
 
 import org.hbs.util.CommonValidator;
 import org.hbs.util.EnumInterface;
 import org.hbs.util.ICRUDBean;
-import org.hbs.util.model.ICommonLayout;
 
 public interface ILayouts extends ICommonLayout, ICRUDBean
 {

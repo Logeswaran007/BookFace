@@ -5,6 +5,14 @@ package org.hbs.util.model;
  */
 public interface ILayoutElements extends java.io.Serializable
 {
+	public String getDisplayPropertyAlias();
+	
+	public void setDisplayPropertyAlias(String displayPropertyAlias);
+	
+	public boolean isEmbeddedClass();
+	
+	public void setEmbeddedClass(boolean isEmbeddedClass);
+	
 	public String getTransformerBeanName();
 	
 	public String getColumnType();

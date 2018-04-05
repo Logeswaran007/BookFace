@@ -69,7 +69,7 @@ public abstract class PasswordControllerBase extends ControllerBaseBo
 			
 			UserParam userParam = new UserParam();
 			userParam.userId = token[0];
-			userBo.getUser(userParam);
+			userBo.getUserByEmailOrMobileNo(userParam);
 			
 			if (CommonValidator.isNotNullNotEmpty(userParam.user))
 			{

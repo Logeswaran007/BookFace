@@ -7,11 +7,11 @@ import java.util.Set;
 import org.hbs.admin.dao.UserDAO;
 import org.hbs.admin.model.IAddress.AddressType;
 import org.hbs.admin.model.IUploadImageOrDocuments;
-import org.hbs.admin.model.UsersAddress;
 import org.hbs.edutel.model.AuthKeyGen;
 import org.hbs.edutel.model.IAuthKeyGen.EKeyGen;
 import org.hbs.sg.model.AlertsAndNotifications;
 import org.hbs.sg.model.concern.Organisation;
+import org.hbs.sg.model.concern.OrganisationAddress;
 import org.hbs.sg.model.course.ChapterAttachments;
 import org.hbs.sg.model.course.CourseAttachments;
 import org.hbs.sg.model.course.Courses;
@@ -50,7 +50,7 @@ public class SGBoImpl extends SGBoComboBoxImpl implements SGBo
 	@Override
 	public DataTableParam getAuthKeyGenList(DataTableParam dtParam, boolean isCount)
 	{
-		dtParam.searchBeanClass = AuthKeyGen.class;
+		dtParam.addBean(AuthKeyGen.class, "AKG");
 		
 		ENamed.EqualTo.param_AND(dtParam, "AKG.status", true);
 		dtParam._OrderBy = " Order By AKG.createdDate, AKG.users.status Desc";
@@ -60,11 +60,11 @@ public class SGBoImpl extends SGBoComboBoxImpl implements SGBo
 	
 	public DataTableParam getCourseAttachmentList(DataTableParam dtParam, boolean isCount)
 	{
-		dtParam.searchBeanClass = CourseAttachments.class;
+		dtParam.addBean(CourseAttachments.class, "CA");
 		
-		ENamed.EqualTo.param_AND(dtParam, "uploadDocumentForType", ECourseUploadType.EBooks.name());
-		ENamed.EqualTo.param_AND(dtParam, "status", true);
-		dtParam._OrderBy = " Order By createdDate Desc";
+		ENamed.EqualTo.param_AND(dtParam, "CA.uploadDocumentForType", ECourseUploadType.EBooks.name());
+		ENamed.EqualTo.param_AND(dtParam, "CA.status", true);
+		dtParam._OrderBy = " Order By CA.createdDate Desc";
 		
 		return iBaseDAO.getDataTableList(dtParam, isCount);
 	}
@@ -72,18 +72,18 @@ public class SGBoImpl extends SGBoComboBoxImpl implements SGBo
 	@Override
 	public DataTableParam getInformationAlertList(DataTableParam dtParam, boolean isCount)
 	{
-		dtParam.searchBeanClass = AlertsAndNotifications.class;
+		dtParam.addBean(AlertsAndNotifications.class, "AN");
 		
 		if (CommonValidator.isNotNullNotEmpty(dtParam.sSearch))
 		{
-			ENamed.Like.param_AND(dtParam, "message", dtParam.sSearch, IWrap.ST_BRACE1);
-			ENamed.Like.param_OR(dtParam, "messageType", dtParam.sSearch);
-			ENamed.Like.param_OR(dtParam, "scheduledDate", dtParam.sSearch);
-			ENamed.Like.param_OR(dtParam, "expiryDate", dtParam.sSearch);
-			ENamed.Like.param_OR(dtParam, "createdUser.usUserName", dtParam.sSearch, IWrap.ED_BRACE1);
+			ENamed.Like.param_AND(dtParam, "AN.message", dtParam.sSearch, IWrap.ST_BRACE1);
+			ENamed.Like.param_OR(dtParam, "AN.messageType", dtParam.sSearch);
+			ENamed.Like.param_OR(dtParam, "AN.scheduledDate", dtParam.sSearch);
+			ENamed.Like.param_OR(dtParam, "AN.expiryDate", dtParam.sSearch);
+			ENamed.Like.param_OR(dtParam, "AN.createdUser.usUserName", dtParam.sSearch, IWrap.ED_BRACE1);
 		}
-		ENamed.EqualTo.param_AND(dtParam, "status", true);
-		dtParam._OrderBy = " Order By createdDate Desc";
+		ENamed.EqualTo.param_AND(dtParam, "AN.status", true);
+		dtParam._OrderBy = " Order By AN.createdDate Desc";
 		
 		return iBaseDAO.getDataTableList(dtParam, isCount);
 		
@@ -92,21 +92,10 @@ public class SGBoImpl extends SGBoComboBoxImpl implements SGBo
 	@Override
 	public DataTableParam getOrganisationList(DataTableParam dtParam, boolean isCount)
 	{
+		dtParam.addBean(OrganisationAddress.class, "OA");
 		ENamed.EqualTo.param_AND(dtParam, "OA.addressType", AddressType.CommunicationAddress.name());
 		ENamed.EqualTo.param_AND(dtParam, "OA.organisation.status", true);
 		dtParam._OrderBy = " Order By OA.organisation.createdDate Desc";
-		
-		return iBaseDAO.getDataTableList(dtParam, isCount);
-	}
-	
-	@Override
-	public DataTableParam getUserList(DataTableParam dtParam, boolean isCount)
-	{
-		dtParam.searchBeanClass = UsersAddress.class;
-		
-		ENamed.EqualTo.param_AND(dtParam, "addressType", AddressType.CommunicationAddress.name());
-		ENamed.EqualTo.param_AND(dtParam, "users.status", true);
-		dtParam._OrderBy = " Order By users.createdDate Desc";
 		
 		return iBaseDAO.getDataTableList(dtParam, isCount);
 	}
@@ -148,10 +137,10 @@ public class SGBoImpl extends SGBoComboBoxImpl implements SGBo
 	@Override
 	public ICourses getCourse(DataTableParam dtParam)
 	{
-		dtParam.searchBeanClass = Courses.class;
+		dtParam.addBean(Courses.class, "C");
 		dtParam.iDisplayLength = 1;
 		
-		ENamed.EqualTo.param_AND(dtParam, "status", true);
+		ENamed.EqualTo.param_AND(dtParam, "C.status", true);
 		
 		List<ICourses> datatList = (List<ICourses>) iBaseDAO.getDataList(dtParam).getDataList();
 		if (CommonValidator.isListFirstNotEmpty(datatList))
@@ -184,10 +173,10 @@ public class SGBoImpl extends SGBoComboBoxImpl implements SGBo
 		
 		dtParam.searchCondtionMap.clear();
 		dtParam.searchValueMap.clear();
-		dtParam.searchBeanClass = AuthKeyGen.class;
-		ENamed.In.param_AND(dtParam, "serialKey", serialKeyList);
-		ENamed.EqualTo.param_AND(dtParam, "users.status", true);
-		ENamed.EqualTo.param_AND(dtParam, "serialKeyStatus", EKeyGen.Not_Sold.getStatus());
+		dtParam.addBean(AuthKeyGen.class, "AKG");
+		ENamed.In.param_AND(dtParam, "AKG.serialKey", serialKeyList);
+		ENamed.EqualTo.param_AND(dtParam, "AKG.users.status", true);
+		ENamed.EqualTo.param_AND(dtParam, "AKG.serialKeyStatus", EKeyGen.Not_Sold.getStatus());
 		
 		return (List<AuthKeyGen>) iBaseDAO.getDataList(dtParam).getDataList();
 	}

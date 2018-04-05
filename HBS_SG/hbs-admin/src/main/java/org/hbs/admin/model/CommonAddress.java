@@ -1,6 +1,7 @@
 package org.hbs.admin.model;
 
 import javax.persistence.Column;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -90,7 +91,7 @@ public abstract class CommonAddress implements IAddress
 	}
 	
 	@Override
-	@ManyToOne(targetEntity = Country.class)
+	@ManyToOne(targetEntity = Country.class, fetch = FetchType.LAZY)
 	@JoinColumn(name = "country", nullable = false)
 	public Country getCountry()
 	{
@@ -127,7 +128,7 @@ public abstract class CommonAddress implements IAddress
 		return primaryPhoneNo;
 	}
 	
-	@ManyToOne(targetEntity = State.class)
+	@ManyToOne(targetEntity = State.class, fetch = FetchType.LAZY)
 	@JoinColumn(name = "state", nullable = false)
 	public State getState()
 	{

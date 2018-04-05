@@ -35,12 +35,12 @@ public class MessageProcessor implements IConstProperty
 		msgStatuses.add(EMessage.Pending.name());
 		msgStatuses.add(EMessage.Retry.name());
 		
-		DataTableParam param = new DataTableParam();
+		DataTableParam param = new DataTableParam(MessagesUserMapping.class, "MUM");
 		
-		ENamed.EqualTo.param_AND(param, "status", true);
-		ENamed.In.param_AND(param, "messageStatus", msgStatuses);
-		ENamed.LessThan.param_AND(param, "retryCount", MessagesUserMapping.MAX_RETRY_COUNT);
-		ENamed.LessThanEqualTo.param_AND(param, "deliveryDate", deliveryDateTime);
+		ENamed.EqualTo.param_AND(param, "MUM.status", true);
+		ENamed.In.param_AND(param, "MUM.messageStatus", msgStatuses);
+		ENamed.LessThan.param_AND(param, "MUM.retryCount", MessagesUserMapping.MAX_RETRY_COUNT);
+		ENamed.LessThanEqualTo.param_AND(param, "MUM.deliveryDate", deliveryDateTime);
 		
 		List<MessagesUserMapping> messageUserList = (List<MessagesUserMapping>) messagesBo.getMessagesUserList(param, false).dataList;
 		

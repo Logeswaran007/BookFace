@@ -5,7 +5,6 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.hbs.admin.model.ILayouts;
 import org.hbs.admin.model.IUserLog;
 import org.hbs.admin.model.IUsers;
 import org.hbs.sg.portlet.PortletExecutorBase;
@@ -13,6 +12,7 @@ import org.hbs.util.DataTableDynamicColumnDefs;
 import org.hbs.util.DataTableDynamicColumns;
 import org.hbs.util.DataTableObject;
 import org.hbs.util.DataTableParam;
+import org.hbs.util.model.ILayouts;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;

@@ -1,12 +1,12 @@
-package org.hbs.admin.bo;
+package org.hbs.util.bo;
 
 import java.util.List;
 
-import org.hbs.admin.model.ILayouts;
-import org.hbs.admin.model.Layouts;
 import org.hbs.util.DataTableParam;
 import org.hbs.util.IParam.ENamed;
 import org.hbs.util.dao.IBaseDAO;
+import org.hbs.util.model.ILayouts;
+import org.hbs.util.model.Layouts;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -22,13 +22,12 @@ public class LayoutBoImpl implements LayoutBo
 	@Override
 	public List<ILayouts> getResultLayouts(String layoutName)
 	{
-		DataTableParam param = new DataTableParam();
+		DataTableParam param = new DataTableParam(Layouts.class, "L");
+		param.fetch(" L.layoutElements ");
+		param._OrderBy = " Order By L.displayOrder ASC";
 		
-		param.searchBeanClass = Layouts.class;
-		param._OrderBy = " Order By displayOrder ASC";
-		
-		ENamed.EqualTo.param_AND(param, "layoutName", layoutName);
-		ENamed.GreaterThan.param_AND(param, "displayOrder", 0);
+		ENamed.EqualTo.param_AND(param, "L.layoutName", layoutName);
+		ENamed.GreaterThan.param_AND(param, "L.displayOrder", 0);
 		
 		return (List<ILayouts>) iBaseDAO.getDataList(param).getDataList();
 	}
@@ -37,13 +36,12 @@ public class LayoutBoImpl implements LayoutBo
 	@Override
 	public List<ILayouts> getResultLayouts(String layoutName, String layoutSubName)
 	{
-		DataTableParam param = new DataTableParam();
+		DataTableParam param = new DataTableParam(Layouts.class, "L");
+		param.fetch(" L.layoutElements ");
 		
-		param.searchBeanClass = Layouts.class;
-		
-		ENamed.EqualTo.param_AND(param, "layoutName", layoutName);
-		ENamed.EqualTo.param_AND(param, "layoutSubName", layoutSubName);
-		ENamed.GreaterThan.param_AND(param, "displayOrder", 0);
+		ENamed.EqualTo.param_AND(param, "L.layoutName", layoutName);
+		ENamed.EqualTo.param_AND(param, "L.layoutSubName", layoutSubName);
+		ENamed.GreaterThan.param_AND(param, "L.displayOrder", 0);
 		
 		return (List<ILayouts>) iBaseDAO.getDataList(param).getDataList();
 	}

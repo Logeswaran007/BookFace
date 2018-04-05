@@ -1,10 +1,8 @@
-package org.hbs.admin.model;
+package org.hbs.util.model;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
-
-import org.hbs.util.model.CommonLayout;
 
 @Entity
 @Table(name = "layouts")

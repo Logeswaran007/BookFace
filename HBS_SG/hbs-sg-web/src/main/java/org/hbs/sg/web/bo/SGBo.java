@@ -38,8 +38,6 @@ public interface SGBo extends Serializable
 	
 	public DataTableParam getOrganisationList(DataTableParam dtParam, boolean isCount);
 	
-	public DataTableParam getUserList(DataTableParam dtParam, boolean isCount);
-	
 	public boolean saveOrUpdate(AlertsAndNotifications alerts);
 	
 	public boolean saveOrUpdate(List<AuthKeyGen> authKeyList);

@@ -25,19 +25,19 @@ public class MaMenuRole implements IProducersBase, ICRUDBean
 	
 	protected IProducers		producer;
 	
-	protected IRoles			rlRoles;
+	protected IRoles			roles;
 	
 	public MaMenuRole()
 	{
 		super();
 	}
 	
-	public MaMenuRole(int maMRAutoId, MaMenu maMenu, IRoles rlRoles, IProducers producer)
+	public MaMenuRole(int maMRAutoId, MaMenu maMenu, IRoles roles, IProducers producer)
 	{
 		super();
 		this.maMRAutoId = maMRAutoId;
 		this.maMenu = maMenu;
-		this.rlRoles = rlRoles;
+		this.roles = roles;
 		this.producer = producer;
 	}
 	
@@ -65,9 +65,9 @@ public class MaMenuRole implements IProducersBase, ICRUDBean
 	
 	@ManyToOne(targetEntity = Roles.class, fetch = FetchType.LAZY)
 	@JoinColumn(name = "rlRoleId")
-	public IRoles getRlRoles()
+	public IRoles getRoles()
 	{
-		return rlRoles;
+		return roles;
 	}
 	
 	public void setMaMenu(MaMenu maMenu)
@@ -85,9 +85,9 @@ public class MaMenuRole implements IProducersBase, ICRUDBean
 		this.producer = producer;
 	}
 	
-	public void setRlRoles(IRoles rlRoles)
+	public void setRoles(IRoles roles)
 	{
-		this.rlRoles = rlRoles;
+		this.roles = roles;
 	}
 	
 }
