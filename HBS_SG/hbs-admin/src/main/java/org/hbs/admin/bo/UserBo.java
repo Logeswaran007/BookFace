@@ -27,8 +27,6 @@ public interface UserBo extends Serializable
 	
 	public DataTableParam getUsersList(DataTableParam dtParam, boolean isCount);
 	
-	public boolean saveUserActivity(UserActivity userActivity);
-	
 	public boolean userLogAtLogin(IUsers user, String ipAddr);
 	
 	public boolean userLogAtLogOut(UserParam userParam);
@@ -40,5 +38,7 @@ public interface UserBo extends Serializable
 	public String getMenusByRoleHTML(UserParam userParam);
 	
 	public UserParam getUserById(UserParam userParam);
+	
+	public boolean saveOrUpdate(UserActivity userActivity);
 	
 }

@@ -12,6 +12,8 @@ import org.hbs.admin.controller.UserParam;
 import org.hbs.admin.model.IImage.EImage;
 import org.hbs.admin.model.IImage.EUploadType;
 import org.hbs.admin.model.IUploadImageOrDocuments;
+import org.hbs.admin.model.UserActivity;
+import org.hbs.admin.model.UserLog;
 import org.hbs.sg.web.controller.ISGPath;
 import org.hbs.util.CommonValidator;
 import org.hbs.util.CustomLogger;
@@ -41,6 +43,9 @@ public class CustomLoginHandler extends ControllerBaseBo implements Authenticati
 			if (CommonValidator.isNotNullNotEmpty(userParam.user))
 			{
 				userBo.userLogAtLogin(userParam.user, request.getRemoteAddr());
+				
+				userBo.saveOrUpdate(new UserActivity(EUploadType.UserImage, UserLog.class.getSimpleName(), null, null, "Login"));
+				
 				IUploadImageOrDocuments iDoc = userParam.user.getAttachment(EUploadType.UserImage);
 				
 				if (CommonValidator.isNotNullNotEmpty(iDoc))

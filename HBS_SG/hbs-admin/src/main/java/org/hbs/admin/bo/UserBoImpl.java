@@ -137,12 +137,6 @@ public class UserBoImpl extends UserBoComboBoxImpl implements UserBo, IConstProp
 		return iBaseDAO.getDataTableList(dtParam, isCount);
 	}
 	
-	@Override
-	public boolean saveUserActivity(UserActivity userActivity)
-	{
-		return iBaseDAO.saveOrUpdate("UserActivity", userActivity);
-	}
-	
 	public boolean userLogAtLogin(IUsers user, String ipAddr)
 	{
 		UserLog userLog = new UserLog();
@@ -266,6 +260,12 @@ public class UserBoImpl extends UserBoComboBoxImpl implements UserBo, IConstProp
 		}
 		
 		return userParam;
+	}
+	
+	@Override
+	public boolean saveOrUpdate(UserActivity userActivity)
+	{
+		return iBaseDAO.saveOrUpdate("UserActivity", userActivity);
 	}
 	
 }

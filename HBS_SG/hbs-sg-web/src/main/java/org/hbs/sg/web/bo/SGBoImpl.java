@@ -7,6 +7,7 @@ import java.util.Set;
 import org.hbs.admin.dao.UserDAO;
 import org.hbs.admin.model.IAddress.AddressType;
 import org.hbs.admin.model.IUploadImageOrDocuments;
+import org.hbs.admin.model.UserActivity;
 import org.hbs.edutel.model.AuthKeyGen;
 import org.hbs.edutel.model.IAuthKeyGen.EKeyGen;
 import org.hbs.sg.model.AlertsAndNotifications;
@@ -179,6 +180,12 @@ public class SGBoImpl extends SGBoComboBoxImpl implements SGBo
 		ENamed.EqualTo.param_AND(dtParam, "AKG.serialKeyStatus", EKeyGen.Not_Sold.getStatus());
 		
 		return (List<AuthKeyGen>) iBaseDAO.getDataList(dtParam).getDataList();
+	}
+	
+	@Override
+	public boolean saveOrUpdate(UserActivity userActivity)
+	{
+		return iBaseDAO.saveOrUpdate("UserActivity", userActivity);
 	}
 	
 }
