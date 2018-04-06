@@ -51,7 +51,7 @@ public abstract class CommonBeanFields implements ICommonBeanFields, IConstPrope
 		return createdDate;
 	}
 	
-	@ManyToOne(targetEntity = Users.class, cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	@ManyToOne(targetEntity = Users.class, cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	@JoinColumn(name = "createdBy", nullable = true)
 	public IUsers getCreatedUser()
 	{
@@ -64,7 +64,7 @@ public abstract class CommonBeanFields implements ICommonBeanFields, IConstPrope
 		return modifiedDate;
 	}
 	
-	@ManyToOne(targetEntity = Users.class, cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	@ManyToOne(targetEntity = Users.class, cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	@JoinColumn(name = "modifiedBy", nullable = true)
 	public IUsers getModifiedUser()
 	{

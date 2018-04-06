@@ -33,14 +33,14 @@ public class PortletBoImpl implements PortletBo
 			String usUsersType = (String) dtParam.searchValueMap.get("usUsersType");
 			
 			dtParam.searchValueMap.clear();
+			dtParam.addBean(UserActivity.class, "ACT");
 			
 			if (CommonValidator.isEqual(usUsersType, EUserType.Consumer))
-				ENamed.EqualTo.param_AND(dtParam, "createdUser.usUserType", usUsersType);
+				ENamed.EqualTo.param_AND(dtParam, "ACT.createdUser.usUserType", usUsersType);
 			else
-				ENamed.EqualTo.param_AND(dtParam, "createdUser.usEmployeeId", usEmployeeId);
+				ENamed.EqualTo.param_AND(dtParam, "ACT.createdUser.usEmployeeId", usEmployeeId);
 			
-			dtParam._OrderBy = " Order By createdDate Desc";
-			dtParam.searchBeanClass = UserActivity.class;
+			dtParam._OrderBy = " Order By ACT.createdDate Desc";
 			
 			return iBaseDAO.getDataTableList(dtParam, isCount);
 		}
@@ -56,11 +56,11 @@ public class PortletBoImpl implements PortletBo
 	{
 		String usEmployeeId = (String) dtParam.searchValueMap.get("usEmployeeId");
 		dtParam.searchValueMap.clear();
+		dtParam.addBean(ConsumerAssessment.class, "CA");
 		
-		ENamed.EqualTo.param_AND(dtParam, "users.usEmployeeId", usEmployeeId);
-		ENamed.NotEqualTo.param_AND(dtParam, "assessmentMode", EAssessmentMode.Practise.name());
-		dtParam._OrderBy = " Order By createdDate Desc";
-		dtParam.searchBeanClass = ConsumerAssessment.class;
+		ENamed.EqualTo.param_AND(dtParam, "CA.users.usEmployeeId", usEmployeeId);
+		ENamed.NotEqualTo.param_AND(dtParam, "CA.assessmentMode", EAssessmentMode.Practise.name());
+		dtParam._OrderBy = " Order By CA.createdDate Desc";
 		
 		return iBaseDAO.getDataTableList(dtParam, isCount);
 	}
@@ -70,11 +70,11 @@ public class PortletBoImpl implements PortletBo
 	{
 		String usEmployeeId = (String) dtParam.searchValueMap.get("usEmployeeId");
 		dtParam.searchValueMap.clear();
+		dtParam.addBean(ConsumerAssessment.class, "CA");
 		
-		ENamed.EqualTo.param_AND(dtParam, "users.usEmployeeId", usEmployeeId);
-		ENamed.EqualTo.param_AND(dtParam, "assessmentMode", EAssessmentMode.Practise.name());
-		dtParam._OrderBy = " Order By createdDate Desc";
-		dtParam.searchBeanClass = ConsumerAssessment.class;
+		ENamed.EqualTo.param_AND(dtParam, "CA.users.usEmployeeId", usEmployeeId);
+		ENamed.EqualTo.param_AND(dtParam, "CA.assessmentMode", EAssessmentMode.Practise.name());
+		dtParam._OrderBy = " Order By CA.createdDate Desc";
 		
 		return iBaseDAO.getDataTableList(dtParam, isCount);
 	}
@@ -85,11 +85,11 @@ public class PortletBoImpl implements PortletBo
 	{
 		String usEmployeeId = (String) dtParam.searchValueMap.get("usEmployeeId");
 		dtParam.searchValueMap.clear();
+		dtParam.addBean(ConsumerAssessment.class, "CA");
 		
-		ENamed.EqualTo.param_AND(dtParam, "users.usEmployeeId", usEmployeeId);
-		ENamed.EqualTo.param_AND(dtParam, "assessmentMode", EAssessmentMode.Practise.name());
-		dtParam._OrderBy = " Order By createdDate Desc";
-		dtParam.searchBeanClass = ConsumerAssessment.class;
+		ENamed.EqualTo.param_AND(dtParam, "CA.users.usEmployeeId", usEmployeeId);
+		ENamed.EqualTo.param_AND(dtParam, "CA.assessmentMode", EAssessmentMode.Practise.name());
+		dtParam._OrderBy = " Order By CA.createdDate Desc";
 		
 		List<ConsumerAssessment> caList = (List<ConsumerAssessment>) iBaseDAO.getDataTableList(dtParam, isCount).dataList;
 		
@@ -103,11 +103,11 @@ public class PortletBoImpl implements PortletBo
 	{
 		String usEmployeeId = (String) dtParam.searchValueMap.get("usEmployeeId");
 		dtParam.searchValueMap.clear();
+		dtParam.addBean(UserLog.class, "UL");
 		
-		ENamed.EqualTo.param_AND(dtParam, "users.usEmployeeId", usEmployeeId);
+		ENamed.EqualTo.param_AND(dtParam, "UL.users.usEmployeeId", usEmployeeId);
 		
-		dtParam._OrderBy = " Order By ulUserLoginTime Desc";
-		dtParam.searchBeanClass = UserLog.class;
+		dtParam._OrderBy = " Order By UL.ulUserLoginTime Desc";
 		
 		return iBaseDAO.getDataTableList(dtParam, isCount);
 	}
@@ -117,10 +117,10 @@ public class PortletBoImpl implements PortletBo
 	{
 		String producerId = (String) dtParam.searchValueMap.get("producerId");
 		dtParam.searchValueMap.clear();
+		dtParam.addBean(Users.class, "U");
 		
-		ENamed.EqualTo.param_AND(dtParam, "producer.producerId", producerId);
-		dtParam._OrderBy = " Order By createdDate Desc";
-		dtParam.searchBeanClass = Users.class;
+		ENamed.EqualTo.param_AND(dtParam, "U.producer.producerId", producerId);
+		dtParam._OrderBy = " Order By U.createdDate Desc";
 		
 		return iBaseDAO.getDataTableList(dtParam, isCount);
 	}

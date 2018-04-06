@@ -6,6 +6,7 @@ import java.util.Map;
 import java.util.Set;
 
 import org.hbs.admin.model.IUploadImageOrDocuments;
+import org.hbs.admin.model.UserActivity;
 import org.hbs.edutel.model.AuthKeyGen;
 import org.hbs.sg.model.AlertsAndNotifications;
 import org.hbs.sg.model.concern.Organisation;
@@ -38,8 +39,6 @@ public interface SGBo extends Serializable
 	
 	public DataTableParam getOrganisationList(DataTableParam dtParam, boolean isCount);
 	
-	public DataTableParam getUserList(DataTableParam dtParam, boolean isCount);
-	
 	public boolean saveOrUpdate(AlertsAndNotifications alerts);
 	
 	public boolean saveOrUpdate(List<AuthKeyGen> authKeyList);
@@ -47,5 +46,7 @@ public interface SGBo extends Serializable
 	public boolean saveOrUpdate(Organisation organisation);
 	
 	public boolean saveOrUpdate(Set<? extends IUploadImageOrDocuments> attachments);
+	
+	public boolean saveOrUpdate(UserActivity userActivity);
 	
 }

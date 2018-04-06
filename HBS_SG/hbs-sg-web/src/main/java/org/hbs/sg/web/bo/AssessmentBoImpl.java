@@ -46,10 +46,10 @@ public class AssessmentBoImpl implements AssessmentBo
 	@Override
 	public DataTableParam getAssessmentList(DataTableParam dtParam, boolean isCount)
 	{
-		dtParam.searchBeanClass = Assessment.class;
+		dtParam.addBean(Assessment.class, "A");
 		
-		ENamed.EqualTo.param_AND(dtParam, "status", true);
-		dtParam._OrderBy = " Order By createdDate Desc";
+		ENamed.EqualTo.param_AND(dtParam, "A.status", true);
+		dtParam._OrderBy = " Order By A.createdDate Desc";
 		
 		return iBaseDAO.getDataTableList(dtParam, isCount);
 	}
@@ -85,12 +85,12 @@ public class AssessmentBoImpl implements AssessmentBo
 	@SuppressWarnings("unchecked")
 	private void updateConsumerAssessmentGroup(ConsumerAssessment cat, DataTableParam dtParam, AssessmentForm aForm)
 	{
-		dtParam.searchBeanClass = Assessment.class;
-		dtParam.searchColumns = " assessmentId ";
+		dtParam.addBean(Assessment.class, "A");
+		dtParam.searchColumns = " A.assessmentId ";
 		
-		ENamed.EqualTo.param_AND(dtParam, "course.courseId", aForm.getCourseId());
-		ENamed.In.param_AND(dtParam, "chapter.chapterId", aForm.getChapterIds());
-		ENamed.EqualTo.param_AND(dtParam, "status", true);
+		ENamed.EqualTo.param_AND(dtParam, "A.course.courseId", aForm.getCourseId());
+		ENamed.In.param_AND(dtParam, "A.chapter.chapterId", aForm.getChapterIds());
+		ENamed.EqualTo.param_AND(dtParam, "A.status", true);
 		
 		List<String> assessmentIdList = (List<String>) iBaseDAO.getDataList(dtParam).getDataList();
 		
@@ -106,19 +106,16 @@ public class AssessmentBoImpl implements AssessmentBo
 	{
 		String consumerExamId = (String) dtParam.searchValueMap.get("consumerExamId");
 		
-		DataTableParam _dtParam = new DataTableParam();
+		DataTableParam _dtParam = new DataTableParam(AllocatedQuestions.class, "AQ");
 		
-		_dtParam.searchBeanClass = AllocatedQuestions.class;
-		
-		ENamed.EqualTo.param_AND(_dtParam, "consumerAssessment.consumerExamId", consumerExamId);
-		ENamed.EqualTo.param_AND(_dtParam, "consumerAssessment.status", true);
-		ENamed.EqualTo.param_AND(_dtParam, "question.status", true);
+		ENamed.EqualTo.param_AND(_dtParam, "AQ.consumerAssessment.consumerExamId", consumerExamId);
+		ENamed.EqualTo.param_AND(_dtParam, "AQ.consumerAssessment.status", true);
+		ENamed.EqualTo.param_AND(_dtParam, "AQ.question.status", true);
 		
 		if (iBaseDAO.getDataTableList(_dtParam, true).dataListCount == 0L)
 		{
-			dtParam.searchBeanClass = ConsumerAssessmentGroup.class;
+			dtParam.addBean(ConsumerAssessmentGroup.class, "CAG");
 			dtParam.iDisplayLength = 100;
-			dtParam.searchBeanClassAlias = "CAG";
 			dtParam.searchColumns = " CAG.assessment.pattern, CAG.assessment.assessmentId, CAG.assessment.name ";
 			
 			ENamed.EqualTo.param_AND(dtParam, "CAG.consumerAssessment.consumerExamId", consumerExamId);
@@ -136,9 +133,7 @@ public class AssessmentBoImpl implements AssessmentBo
 			}
 		}
 		
-		dtParam = new DataTableParam();
-		dtParam.searchBeanClass = AllocatedQuestions.class;
-		dtParam.searchBeanClassAlias = "AQ";
+		dtParam = new DataTableParam(AllocatedQuestions.class, "AQ");
 		dtParam.searchColumns = " AQ.question ";
 		dtParam.iDisplayLength = 300;
 		dtParam._OrderBy = " Order By AQ.question.questionId ASC ";

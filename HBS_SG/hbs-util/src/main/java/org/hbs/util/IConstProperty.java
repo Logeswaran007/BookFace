@@ -20,6 +20,7 @@ public interface IConstProperty extends Serializable
 	public String	FROM			= " From ";
 	public String	SELECT_DISTINCT	= " Select Distinct ";
 	public String	SPACE			= " ";
+	public String	EQUALTO			= " = ";
 	public String	DOT				= ".";
 	public String	WHERE_1_1		= " Where 1=1 ";
 	public String	SELECT			= " Select ";

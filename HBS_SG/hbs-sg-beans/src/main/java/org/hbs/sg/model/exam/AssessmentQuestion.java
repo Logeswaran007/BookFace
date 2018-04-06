@@ -12,9 +12,11 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import org.hbs.admin.model.CommonFileUploadBase;
 import org.hbs.sg.model.exam.Assessment.EAssessmentType;
+import org.hbs.util.EBusinessKey.EKey;
 
 @Entity
 @Table(name = "assessmentquestion")
@@ -36,6 +38,7 @@ public class AssessmentQuestion extends CommonFileUploadBase implements IAssessm
 	public AssessmentQuestion()
 	{
 		super();
+		this.questionId=getBusinessKey();
 		this.correctAnswer = new AssessmentCorrectAnswer();
 		this.uploadDocumentForType = EAssessmentType.Aptitude.name();
 	}
@@ -189,6 +192,12 @@ public class AssessmentQuestion extends CommonFileUploadBase implements IAssessm
 	public void setWeightage(String weightage)
 	{
 		this.weightage = weightage;
+	}
+	
+	@Transient
+	public String getBusinessKey(String... combination)
+	{
+		return EKey.Auto("ASTQSN");
 	}
 	
 }

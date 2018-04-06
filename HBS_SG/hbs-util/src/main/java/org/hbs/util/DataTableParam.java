@@ -28,32 +28,38 @@ public class DataTableParam extends Param implements Serializable, IDataTablePar
 		return dtParam;
 	}
 	
-	public static DataTableParam getDataTableParamsFromRequest(HttpServletRequest request, List<? extends ICommonLayout> layoutList, Class<?> clazz, String aliasName) throws CustomException
+	public static DataTableParam getDataTableParamsFromRequest(HttpServletRequest request, List<? extends ICommonLayout> layoutList) throws CustomException
 	{
-		if (CommonValidator.isNotNullNotEmpty(aliasName))
+		DataTableParam dtParam = new DataTableParam(request);
+		initDataTableParam(request, dtParam);
+		String columnName = null;
+		
+		for (ICommonLayout iCL : layoutList)
 		{
-			DataTableParam dtParam = new DataTableParam(request);
-			initDataTableParam(request, dtParam);
-			dtParam.searchBeanClass = clazz;
-			dtParam.searchBeanClassAlias = aliasName;
+			columnName = iCL.getLayoutElements().getDisplayProperty();
 			
-			for (ICommonLayout iCL : layoutList)
+			if (CommonValidator.isNotNullNotEmpty(columnName))
 			{
-				if (CommonValidator.isNotNullNotEmpty(iCL.getLayoutElements().getDisplayProperty()))
-					dtParam.searchColumns += aliasName + DOT + iCL.getLayoutElements().getDisplayProperty() + COMMA_SPACE;
-				else
-					dtParam.searchColumns += "''" + COMMA_SPACE;
+				dtParam.searchColumns += iCL.getLayoutElements().getDisplayPropertyAlias() + DOT + columnName + COMMA_SPACE;
+				// if (iCL.getLayoutElements().isEmbeddedClass() == false && columnName.indexOf(DOT)
+				// > 0)
+				// {
+				// columnName = columnName.substring(0, columnName.lastIndexOf(DOT));
+				// // Don't REMOVE. Will be done in future implementation
+				// // dtParam.fetch(columnName + SPACE +
+				// // iCL.getLayoutElements().getDisplayPropertyAlias());
+				// }
 			}
+			else
+				dtParam.searchColumns += "''" + COMMA_SPACE;
 			
-			if (dtParam.searchColumns.endsWith(COMMA_SPACE))
-			{
-				dtParam.searchColumns = dtParam.searchColumns.substring(0, dtParam.searchColumns.lastIndexOf(COMMA_SPACE));
-			}
-			return dtParam;
 		}
-		else
-			
-			throw new CustomException("Alias name for Search Bean is Mandatory...");
+		
+		if (dtParam.searchColumns.endsWith(COMMA_SPACE))
+		{
+			dtParam.searchColumns = dtParam.searchColumns.substring(0, dtParam.searchColumns.lastIndexOf(COMMA_SPACE));
+		}
+		return dtParam;
 		
 	}
 	
@@ -114,6 +120,11 @@ public class DataTableParam extends Param implements Serializable, IDataTablePar
 	public DataTableParam()
 	{
 		
+	}
+	
+	public DataTableParam(Class<?> clazz, String aliasName)
+	{
+		this.searchBeanClass.add(new ClassAndAlias(clazz, aliasName));
 	}
 	
 	public DataTableParam(HttpServletRequest request)

@@ -24,7 +24,7 @@ public class UserParam extends Param
 	public String				password;
 	public String				status;
 	public String				usEmployeeIds;								// Comma_Separate_Can_Be_Used
-	public IUsers				user;
+	public IUsers				user				= null;
 	public String				userId;
 	public EUserType			userType;
 	public String				usUserIds;									// Comma_Separate_Can_Be_Used
@@ -34,6 +34,11 @@ public class UserParam extends Param
 	public UserParam()
 	{
 		
+	}
+	
+	public UserParam(Class<?> clazz, String aliasName)
+	{
+		addBean(clazz, aliasName);
 	}
 	
 	public UserParam(HttpServletRequest request)

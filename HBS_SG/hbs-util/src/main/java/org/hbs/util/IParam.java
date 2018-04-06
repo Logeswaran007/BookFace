@@ -1,8 +1,10 @@
 package org.hbs.util;
 
 import java.util.LinkedHashMap;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Random;
+import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -16,11 +18,6 @@ public interface IParam
 		public static String create(String param)
 		{
 			return param.replaceAll("\\.", "").trim();
-		}
-		
-		public static void proc(IParam param, String condition, Object value)
-		{
-			param.getSearchValueMap().put(condition, value);
 		}
 		
 		public static void remove(IParam param, String key)
@@ -77,7 +74,7 @@ public interface IParam
 			{
 				if (condition.indexOf(ENamed.OrderBy.paramCode()) >= 0)
 					return condition;
-				return IWrap.AND.get() + condition;
+				return IWrap.AND.prepend(condition);
 			}
 			return "";
 		}
@@ -99,7 +96,7 @@ public interface IParam
 			{
 				if (condition.indexOf(ENamed.OrderBy.paramCode()) >= 0)
 					return condition;
-				return IWrap.OR.get() + condition;
+				return IWrap.OR.prepend(condition);
 			}
 			return "";
 		}
@@ -177,7 +174,7 @@ public interface IParam
 						case ST_BRACE4 :
 						case ST_BRACE5 :
 						{
-							String qCondition = _AndOr.get() + iWrap.get() + lbParam.getValue();
+							String qCondition = _AndOr.prepend(iWrap.prepend(lbParam.getValue()));
 							param.getSearchCondtionMap().put(lbParam.getLabel(), qCondition);
 							param.getSearchValueMap().put(lbParam.getLabel(), value);
 							break;
@@ -188,7 +185,7 @@ public interface IParam
 						case ED_BRACE4 :
 						case ED_BRACE5 :
 						{
-							String qCondition = _AndOr.get() + lbParam.getValue() + iWrap.get();
+							String qCondition = _AndOr.prepend(iWrap.append(lbParam.getValue()));
 							param.getSearchCondtionMap().put(lbParam.getLabel(), qCondition);
 							param.getSearchValueMap().put(lbParam.getLabel(), value);
 							break;
@@ -203,7 +200,7 @@ public interface IParam
 				}
 				else
 				{
-					String qCondition = _AndOr.get() + lbParam.getValue();
+					String qCondition = _AndOr.prepend(lbParam.getValue());
 					param.getSearchCondtionMap().put(lbParam.getLabel(), qCondition);
 					param.getSearchValueMap().put(lbParam.getLabel(), value);
 				}
@@ -213,24 +210,33 @@ public interface IParam
 	
 	public enum IWrap implements EnumInterface
 	{
-		AND(" AND "), ED_BRACE1(" ) "), ED_BRACE2(" )) "), ED_BRACE3(" ))) "), ED_BRACE4(" )))) "), ED_BRACE5(" ))))) "), OR(" OR "), ST_BRACE1(" ( "), ST_BRACE2(" (( "), ST_BRACE3(
-				" ((( "), ST_BRACE4(" (((( "), ST_BRACE5(" ((((( ");
+		AND(" AND "), LEFT(" LEFT JOIN "), JOIN(" JOIN "), FETCH(" JOIN FETCH "), ED_BRACE1(" ) "), ED_BRACE2(" )) "), ED_BRACE3(" ))) "), ED_BRACE4(" )))) "), ED_BRACE5(" ))))) "), OR(
+				" OR "), ST_BRACE1(" ( "), ST_BRACE2(" (( "), ST_BRACE3(" ((( "), ST_BRACE4(" (((( "), ST_BRACE5(" ((((( ");
 		
-		private String append;
+		private String datum;
 		
-		IWrap(String append)
+		IWrap(String datum)
 		{
-			this.append = append;
+			this.datum = datum;
 		}
 		
-		public String get()
+		public String prepend(String data)
 		{
-			return append;
+			return datum + data;
+		}
+		
+		public String append(String data)
+		{
+			return data + datum;
 		}
 		
 	}
 	
-	public void addMultiBean(Class<?> searchBeanClass, String searchBeanAlias);
+	public IParam fetch(String fetch);
+	
+	public IParam equal(String lhs, String rhs);
+	
+	public IParam addBean(Class<?> clazz, String aliasName);
 	
 	public EnumInterface get_AddEntityBean();
 	
@@ -246,19 +252,13 @@ public interface IParam
 	
 	public HttpServletRequest getRequest();
 	
-	public Class<?> getSearchBeanClass();
-	
-	public String getSearchBeanClassAlias();
+	public Set<ClassAndAlias> getSearchBeanClass();
 	
 	public String getSearchColumns();
 	
 	public LinkedHashMap<String, Object> getSearchCondtionMap();
 	
-	public String getSearchMutliBeanClass();
-	
 	public LinkedHashMap<String, Object> getSearchValueMap();
-	
-	public LinkedHashMap<String, Object> getSessionFilterValueMap();
 	
 	public void set_AddEntityBean(EnumInterface _AddEntityBean);
 	
@@ -274,17 +274,16 @@ public interface IParam
 	
 	public void setRequest(HttpServletRequest request);
 	
-	public void setSearchBeanClass(Class<?> searchBeanClass);
-	
-	public void setSearchBeanClassAlias(String searchBeanClassAlias);
+	public void setSearchBeanClass(Set<ClassAndAlias> searchBeanClass);
 	
 	public void setSearchColumns(String searchColumns);
 	
 	public void setSearchCondtionMap(LinkedHashMap<String, Object> searchCondtionMap);
 	
-	public void setSearchMutliBeanClass(String searchMutliBeanClass);
-	
 	public void setSearchValueMap(LinkedHashMap<String, Object> searchValueMap);
 	
-	public void setSessionFilterValueMap(LinkedHashMap<String, Object> sessionFilterValueMap);
+	public LinkedHashSet<String> getSearchJoinSet();
+	
+	public LinkedHashSet<String> getSearchFetchSet();
+	
 }

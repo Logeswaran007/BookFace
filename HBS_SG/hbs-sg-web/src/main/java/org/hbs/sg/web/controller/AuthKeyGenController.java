@@ -14,8 +14,6 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.hbs.admin.IAdminPath;
 import org.hbs.admin.controller.UserParam;
-import org.hbs.admin.model.ILayouts;
-import org.hbs.admin.model.ILayouts.EDataTable;
 import org.hbs.admin.model.IUsers;
 import org.hbs.admin.model.IUsers.EUserType;
 import org.hbs.admin.model.IUsers.EUsers;
@@ -27,6 +25,8 @@ import org.hbs.util.DataTableDynamicColumnDefs;
 import org.hbs.util.DataTableDynamicColumns;
 import org.hbs.util.DataTableObject;
 import org.hbs.util.DataTableParam;
+import org.hbs.util.model.ILayouts;
+import org.hbs.util.model.ILayouts.EDataTable;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -229,7 +229,7 @@ public class AuthKeyGenController extends SGControllerBaseBo implements IAdminPa
 		{
 			List<ILayouts> layoutList = layoutBo.getResultLayouts(AuthKeyGen.class.getSimpleName());
 			
-			DataTableParam dtParam = DataTableParam.getDataTableParamsFromRequest(request, layoutList, AuthKeyGen.class, "AKG");
+			DataTableParam dtParam = DataTableParam.getDataTableParamsFromRequest(request, layoutList);
 			
 			List<IAuthKeyGen> dataList = (List<IAuthKeyGen>) sgBo.getAuthKeyGenList(dtParam, false).dataList;
 			int dataListCount = (int) sgBo.getAuthKeyGenList(dtParam, true).dataListCount;

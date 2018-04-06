@@ -5,8 +5,8 @@ import java.util.Set;
 
 import org.hbs.admin.controller.ControllerBaseBo;
 import org.hbs.admin.controller.UserParam;
-import org.hbs.admin.model.IUserRoles;
 import org.hbs.admin.model.IUsers.EUserStatus;
+import org.hbs.util.CommonValidator;
 import org.hbs.util.CustomLogger;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -21,10 +21,10 @@ import org.springframework.transaction.annotation.Transactional;
 public class UserDetailsServiceImpl extends ControllerBaseBo implements UserDetailsService
 {
 	
-	private static final long serialVersionUID = 7087428004256710898L;
+	private static final long	serialVersionUID	= 7087428004256710898L;
 	private final CustomLogger	logger				= new CustomLogger(this.getClass());
-
 	
+	@SuppressWarnings("unchecked")
 	@Override
 	public UserDetails loadUserByUsername(String userId) throws UsernameNotFoundException
 	{
@@ -35,20 +35,22 @@ public class UserDetailsServiceImpl extends ControllerBaseBo implements UserDeta
 		
 		try
 		{
-			userBo.getUser(userParam);
-			
-			for (IUserRoles userRole : userParam.user.getUserRoleses())
+			if (CommonValidator.isListFirstNotEmpty(userBo.getLoginUser(userParam).dataList))
 			{
-				grantedAuthorities.add(new SimpleGrantedAuthority(userRole.getRoles().getRlRoleId()));
+				Object[] object = (Object[]) userParam.dataList.iterator().next();
+				
+				for (Object userData : userParam.dataList)
+				{
+					grantedAuthorities.add(new SimpleGrantedAuthority(((Object[]) userData)[3].toString()));
+				}
+				return new org.springframework.security.core.userdetails.User(object[0].toString(), object[1].toString(), grantedAuthorities);
 			}
 		}
 		catch (Exception excep)
 		{
 			logger.error(excep);
-
 		}
-		return new org.springframework.security.core.userdetails.User(userId, userParam.user.getUsUserPwd(), grantedAuthorities);
-		
+		throw new UsernameNotFoundException("User Credentials Invalid Or User NOT registered");
 	}
 	
 }

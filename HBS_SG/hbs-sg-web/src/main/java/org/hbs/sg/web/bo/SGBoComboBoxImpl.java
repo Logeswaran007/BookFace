@@ -13,8 +13,8 @@ import org.hbs.sg.model.course.CourseGroup;
 import org.hbs.sg.model.course.Courses;
 import org.hbs.sg.web.controller.AssessmentParam;
 import org.hbs.sg.web.controller.SchemeParam;
-import org.hbs.util.LabelValueBean;
 import org.hbs.util.IParam.ENamed;
+import org.hbs.util.LabelValueBean;
 import org.hbs.util.dao.IBaseDAO;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -35,11 +35,11 @@ public abstract class SGBoComboBoxImpl implements SGBo
 	{
 		List<LabelValueBean> lbList = new ArrayList<LabelValueBean>();
 		
-		param.searchBeanClass = Chapters.class;
-		param.searchColumns = " chapterId, chapterName ";
+		param.addBean(Chapters.class, "C");
+		param.searchColumns = " C.chapterId, C.chapterName ";
 		
-		ENamed.EqualTo.param_AND(param, "course.courseId", param.courseId);
-		ENamed.EqualTo.param_AND(param, "status", true);
+		ENamed.EqualTo.param_AND(param, "C.course.courseId", param.courseId);
+		ENamed.EqualTo.param_AND(param, "C.status", true);
 		
 		List<Object[]> objectList = (List<Object[]>) iBaseDAO.getDataList(param).getDataList();
 		
@@ -58,10 +58,10 @@ public abstract class SGBoComboBoxImpl implements SGBo
 		Map<String, String> hmComboMap = new LinkedHashMap<String, String>();
 		IUsers sessionUser = EUsers.getSessionUser(param.request);
 		
-		param.searchBeanClass = CourseGroup.class;
-		param.searchColumns = "courseGroupId, courseDesc";
+		param.addBean(CourseGroup.class, "CG");
+		param.searchColumns = "CG.courseGroupId, CG.courseDesc";
 		
-		ENamed.EqualTo.param_AND(param, "producer.producerId", sessionUser.getProducer().getProducerId());
+		ENamed.EqualTo.param_AND(param, "CG.producer.producerId", sessionUser.getProducer().getProducerId());
 		
 		List<Object[]> objectList = (List<Object[]>) iBaseDAO.getDataList(param).getDataList();
 		
@@ -79,12 +79,12 @@ public abstract class SGBoComboBoxImpl implements SGBo
 		List<LabelValueBean> lbList = new ArrayList<LabelValueBean>();
 		IUsers sessionUser = EUsers.getSessionUser(param.request);
 		
-		param.searchBeanClass = Courses.class;
-		param.searchColumns = "courseId, courseName";
+		param.addBean(Courses.class, "C");
+		param.searchColumns = "C.courseId, C.courseName";
 		
-		ENamed.EqualTo.param_AND(param, "courseGroup.producer.producerId", sessionUser.getProducer().getProducerId());
-		ENamed.EqualTo.param_AND(param, "courseGroup.courseGroupId", param.courseGroupId);
-		ENamed.EqualTo.param_AND(param, "status", true);
+		ENamed.EqualTo.param_AND(param, "C.courseGroup.producer.producerId", sessionUser.getProducer().getProducerId());
+		ENamed.EqualTo.param_AND(param, "C.courseGroup.courseGroupId", param.courseGroupId);
+		ENamed.EqualTo.param_AND(param, "C.status", true);
 		
 		List<Object[]> objectList = (List<Object[]>) iBaseDAO.getDataList(param).getDataList();
 		
@@ -103,10 +103,10 @@ public abstract class SGBoComboBoxImpl implements SGBo
 		Map<String, String> hmComboMap = new LinkedHashMap<String, String>();
 		IUsers users = EUsers.getSessionUser(param.request);
 		
-		param.searchBeanClass = Scheme.class;
-		param.searchColumns = "schemeId, schemeCost, schemeName";
-		ENamed.EqualTo.param_AND(param, "producer.producerId", users.getProducer().getProducerId());
-		ENamed.EqualTo.param_AND(param, "status", true);
+		param.addBean(Scheme.class, "S");
+		param.searchColumns = "S.schemeId, S.schemeCost, S.schemeName";
+		ENamed.EqualTo.param_AND(param, "S.producer.producerId", users.getProducer().getProducerId());
+		ENamed.EqualTo.param_AND(param, "S.status", true);
 		
 		List<Object[]> objectList = (List<Object[]>) iBaseDAO.getDataList(param).getDataList();
 		

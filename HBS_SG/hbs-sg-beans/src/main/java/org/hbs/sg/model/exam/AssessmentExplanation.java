@@ -7,8 +7,10 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import org.hbs.admin.model.CommonFileUploadBase;
+import org.hbs.util.EBusinessKey.EKey;
 
 @Entity
 @Table(name = "assessmentexplanation")
@@ -22,6 +24,12 @@ public class AssessmentExplanation extends CommonFileUploadBase implements IAsse
 	public AssessmentExplanation()
 	{
 		super();
+	}
+	public AssessmentExplanation(IAssessmentQuestion assessmentQuestion)
+	{
+		super();
+		this.assessmentQuestion = assessmentQuestion;
+		this.explanationId = getBusinessKey();
 	}
 	
 	public AssessmentExplanation(IAssessmentQuestion assessmentQuestion, String explanation, String explanationId)
@@ -71,4 +79,9 @@ public class AssessmentExplanation extends CommonFileUploadBase implements IAsse
 		this.explanationId = explanationId;
 	}
 	
+	@Transient
+	public String getBusinessKey(String... combination)
+	{
+		return EKey.Auto("ASTEXPL");
+	}
 }

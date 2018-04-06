@@ -7,8 +7,10 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import org.hbs.admin.model.CommonFileUploadBase;
+import org.hbs.util.EBusinessKey.EKey;
 
 @Entity
 @Table(name = "assessmentanswer")
@@ -24,12 +26,21 @@ public class AssessmentAnswer extends CommonFileUploadBase implements IAssessmen
 		super();
 	}
 	
+	public AssessmentAnswer(IAssessmentQuestion assessmentQuestion)
+	{
+		super();
+		this.assessmentQuestion=assessmentQuestion;
+		this.answerId= getBusinessKey();
+	}
+	
+	
 	public AssessmentAnswer(String textAnswer, String answerId, IAssessmentQuestion assessmentQuestion)
 	{
 		super();
 		this.textAnswer = textAnswer;
 		this.answerId = answerId;
 		this.assessmentQuestion = assessmentQuestion;
+		
 	}
 	
 	@Id
@@ -70,6 +81,11 @@ public class AssessmentAnswer extends CommonFileUploadBase implements IAssessmen
 	public void setTextAnswer(String textAnswer)
 	{
 		this.textAnswer = textAnswer;
+	}
+	@Transient
+	public String getBusinessKey(String... combination)
+	{
+		return EKey.Auto("ASTANS");
 	}
 	
 }

@@ -1,5 +1,6 @@
 package org.hbs.admin.model;
 
+import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.MappedSuperclass;
@@ -12,7 +13,7 @@ public abstract class CountryBase extends ProducersBase implements ICountryBase
 	protected Country			country;
 	
 	@Override
-	@ManyToOne(targetEntity = Country.class)
+	@ManyToOne(targetEntity = Country.class, fetch = FetchType.EAGER)
 	@JoinColumn(name = "country", nullable = false)
 	public Country getCountry()
 	{

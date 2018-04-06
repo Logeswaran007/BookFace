@@ -2,7 +2,9 @@ package org.hbs.util;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
+import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -12,27 +14,51 @@ import org.hbs.util.model.ILayoutElements;
 
 public abstract class Param implements IParam, IConstProperty
 {
-	private static final long				serialVersionUID		= -7820466140069794475L;
+	private static final long				serialVersionUID	= -7820466140069794475L;
 	public EnumInterface					_AddEntityBean;
-	public String							_OrderBy				= "";
-	public String							_ProcedureName			= "";
-	public List<?>							dataList				= new ArrayList<>(0);
-	public long								dataListCount			= 0L;
-	public int								maxResults				= 0;
-	public int								minResults				= 0;
+	public String							_OrderBy			= "";
+	public String							_ProcedureName		= "";
+	public List<?>							dataList			= new ArrayList<>(0);
+	public long								dataListCount		= 0L;
+	public int								maxResults			= 0;
+	public int								minResults			= 0;
 	public HttpServletRequest				request;
 	public HttpServletResponse				response;
-	public Class<?>							searchBeanClass;
-	public String							searchBeanClassAlias	= "";
-	public String							searchColumns			= "";
-	public LinkedHashMap<String, Object>	searchCondtionMap		= new LinkedHashMap<String, Object>(0);
-	private String							searchMutliBeanClass	= "";
-	public LinkedHashMap<String, Object>	searchValueMap			= new LinkedHashMap<String, Object>(0);
-	public LinkedHashMap<String, Object>	sessionFilterValueMap	= new LinkedHashMap<String, Object>(0);
+	public Set<ClassAndAlias>				searchBeanClass		= new LinkedHashSet<ClassAndAlias>(1);
+	public String							searchColumns		= "";
+	public LinkedHashMap<String, Object>	searchCondtionMap	= new LinkedHashMap<String, Object>(0);
+	public LinkedHashMap<String, Object>	searchValueMap		= new LinkedHashMap<String, Object>(0);
+	public LinkedHashSet<String>			searchJoinSet		= new LinkedHashSet<String>(0);
+	public LinkedHashSet<String>			searchFetchSet		= new LinkedHashSet<String>(0);
 	
-	public void addMultiBean(Class<?> searchBeanClass, String searchBeanAlias)
+	public IParam addBean(Class<?> clazz, String aliasName)
 	{
-		searchMutliBeanClass += searchBeanClass.getCanonicalName() + " " + searchBeanAlias + COMMA_SPACE;
+		this.searchBeanClass.add(new ClassAndAlias(clazz, aliasName));
+		return this;
+	}
+	
+	public IParam equal(String lhs, String rhs)
+	{
+		this.searchJoinSet.add(IWrap.AND.prepend(lhs + EQUALTO + rhs));
+		return this;
+	}
+	
+	public IParam leftJoin(String left)
+	{
+		this.searchFetchSet.add(IWrap.LEFT.prepend(left));
+		return this;
+	}
+	
+	public IParam join(String join)
+	{
+		this.searchFetchSet.add(IWrap.JOIN.prepend(join));
+		return this;
+	}
+	
+	public IParam fetch(String fetch)
+	{
+		this.searchFetchSet.add(IWrap.FETCH.prepend(fetch));
+		return this;
 	}
 	
 	public EnumInterface get_AddEntityBean()
@@ -90,14 +116,9 @@ public abstract class Param implements IParam, IConstProperty
 		return response;
 	}
 	
-	public Class<?> getSearchBeanClass()
+	public Set<ClassAndAlias> getSearchBeanClass()
 	{
 		return searchBeanClass;
-	}
-	
-	public String getSearchBeanClassAlias()
-	{
-		return searchBeanClassAlias;
 	}
 	
 	public String getSearchColumns()
@@ -110,19 +131,9 @@ public abstract class Param implements IParam, IConstProperty
 		return searchCondtionMap;
 	}
 	
-	public String getSearchMutliBeanClass()
-	{
-		return searchMutliBeanClass;
-	}
-	
 	public LinkedHashMap<String, Object> getSearchValueMap()
 	{
 		return searchValueMap;
-	}
-	
-	public LinkedHashMap<String, Object> getSessionFilterValueMap()
-	{
-		return sessionFilterValueMap;
 	}
 	
 	public void set_AddEntityBean(EnumInterface _AddEntityBean)
@@ -199,14 +210,9 @@ public abstract class Param implements IParam, IConstProperty
 		this.response = response;
 	}
 	
-	public void setSearchBeanClass(Class<?> searchBeanClass)
+	public void setSearchBeanClass(Set<ClassAndAlias> searchBeanClass)
 	{
 		this.searchBeanClass = searchBeanClass;
-	}
-	
-	public void setSearchBeanClassAlias(String searchBeanClassAlias)
-	{
-		this.searchBeanClassAlias = searchBeanClassAlias;
 	}
 	
 	public void setSearchColumns(String searchColumns)
@@ -219,19 +225,19 @@ public abstract class Param implements IParam, IConstProperty
 		this.searchCondtionMap = searchCondtionMap;
 	}
 	
-	public void setSearchMutliBeanClass(String searchMutliBeanClass)
-	{
-		this.searchMutliBeanClass = searchMutliBeanClass;
-	}
-	
 	public void setSearchValueMap(LinkedHashMap<String, Object> searchValueMap)
 	{
 		this.searchValueMap = searchValueMap;
 	}
 	
-	public void setSessionFilterValueMap(LinkedHashMap<String, Object> sessionFilterValueMap)
+	public LinkedHashSet<String> getSearchJoinSet()
 	{
-		this.sessionFilterValueMap = sessionFilterValueMap;
+		return searchJoinSet;
+	}
+	
+	public LinkedHashSet<String> getSearchFetchSet()
+	{
+		return searchFetchSet;
 	}
 	
 }

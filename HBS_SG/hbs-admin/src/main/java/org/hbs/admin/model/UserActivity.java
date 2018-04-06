@@ -9,12 +9,15 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import org.hbs.util.CommonValidator;
 import org.hbs.util.EnumInterface;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.flipkart.zjsonpatch.JsonDiff;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 @Entity
 @Table(name = "useractivity")
@@ -43,14 +46,18 @@ public class UserActivity extends CommonBeanFields implements IUserActivity
 	{
 	}
 	
-	public UserActivity(int autoId, String action, String className, String before, String after, String group)
+	public UserActivity(EnumInterface eAction, String className, Object before, Object after, String group)
 	{
 		super();
-		this.autoId = autoId;
-		this.action = action;
+		
+		Gson gson = new GsonBuilder().setPrettyPrinting().create();
+		
+		this.action = eAction.name();
 		this.className = className;
-		this.before = before;
-		this.after = after;
+		if (CommonValidator.isNotNullNotEmpty(before))
+			this.before = new StringBuilder(gson.toJson(before)).toString();
+		if (CommonValidator.isNotNullNotEmpty(after))
+			this.after = new StringBuilder(gson.toJson(after)).toString();
 		this.group = group;
 	}
 	

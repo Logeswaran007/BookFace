@@ -17,8 +17,6 @@ import org.hbs.admin.controller.PasswordControllerBase.Security;
 import org.hbs.admin.document.DocumentFactory;
 import org.hbs.admin.model.IAddress.AddressType;
 import org.hbs.admin.model.IImage.EUploadType;
-import org.hbs.admin.model.ILayouts;
-import org.hbs.admin.model.ILayouts.EDataTable;
 import org.hbs.admin.model.IMessages.EAddress;
 import org.hbs.admin.model.IRoles.ERole;
 import org.hbs.admin.model.IUsers;
@@ -39,6 +37,8 @@ import org.hbs.util.DataTableObject;
 import org.hbs.util.DataTableParam;
 import org.hbs.util.IParam.ENamed;
 import org.hbs.util.IParam.IWrap;
+import org.hbs.util.model.ILayouts;
+import org.hbs.util.model.ILayouts.EDataTable;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -79,8 +79,8 @@ public class UserManagementController extends ControllerBaseBo implements IAdmin
 				ObjectMapper mapper = new ObjectMapper();
 				UserForm userForm = mapper.readValue(formData, UserForm.class);
 				
-				UserParam userParam = new UserParam();
-				userParam.searchBeanClass = UsersAddress.class;
+				UserParam userParam = new UserParam(UsersAddress.class, "UA");
+				
 				ENamed.EqualTo.param_AND(userParam, "email", userForm.users.getCommunicationAddress().getEmail(), IWrap.ST_BRACE1);
 				ENamed.EqualTo.param_OR(userParam, "mobileNo", userForm.users.getCommunicationAddress().getMobileNo(), IWrap.ED_BRACE1);
 				ENamed.EqualTo.param_AND(userParam, "addressType", AddressType.CommunicationAddress.name());
@@ -195,13 +195,11 @@ public class UserManagementController extends ControllerBaseBo implements IAdmin
 	@RequestMapping(value = CONSUMER_REGISTER, method = RequestMethod.POST)
 	public String justInConsumerRegistration(@ModelAttribute("userForm") UserForm userForm, final RedirectAttributes redirectAttributes)
 	{
-		UserParam userParam = new UserParam();
+		UserParam userParam = new UserParam(UsersAddress.class, "UA");
 		
-		userParam.searchBeanClass = UsersAddress.class;
-		
-		ENamed.EqualTo.param_AND(userParam, "email", userForm.users.getCommunicationAddress().getEmail(), IWrap.ST_BRACE1);
-		ENamed.EqualTo.param_OR(userParam, "mobileNo", userForm.users.getCommunicationAddress().getMobileNo(), IWrap.ED_BRACE1);
-		ENamed.EqualTo.param_AND(userParam, "addressType", AddressType.CommunicationAddress.name());
+		ENamed.EqualTo.param_AND(userParam, "UA.email", userForm.users.getCommunicationAddress().getEmail(), IWrap.ST_BRACE1);
+		ENamed.EqualTo.param_OR(userParam, "UA.mobileNo", userForm.users.getCommunicationAddress().getMobileNo(), IWrap.ED_BRACE1);
+		ENamed.EqualTo.param_AND(userParam, "UA.addressType", AddressType.CommunicationAddress.name());
 		
 		if (CommonValidator.isNotNullNotEmpty(userBo.getUserByEmailOrMobileNo(userParam)))
 		{
@@ -338,7 +336,8 @@ public class UserManagementController extends ControllerBaseBo implements IAdmin
 			if (CommonValidator.isNotNullNotEmpty(sessionUser))
 			{
 				List<ILayouts> layoutList = layoutBo.getResultLayouts(UsersAddress.class.getSimpleName(), userType);
-				DataTableParam dtParam = DataTableParam.getDataTableParamsFromRequest(request, layoutList, UsersAddress.class, "UA");
+				DataTableParam dtParam = DataTableParam.getDataTableParamsFromRequest(request, layoutList);
+				dtParam.addBean(UsersAddress.class, "UA");
 				
 				ENamed.EqualTo.param_AND(dtParam, "UA.users.usUsersType", userType);
 				
