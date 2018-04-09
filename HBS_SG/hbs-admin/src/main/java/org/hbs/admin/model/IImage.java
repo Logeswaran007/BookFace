@@ -180,4 +180,9 @@ public interface IImage extends IConstProperty
 	{
 		Identification, ProducerImage, ProfileImage, Registration, TINNumber, UserImage;
 	}
+	
+	public enum EUserAction implements EnumInterface
+	{
+		Login, Logout,add_Organisation
+	}
 }

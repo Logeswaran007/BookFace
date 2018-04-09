@@ -76,7 +76,7 @@ public class UserActivity extends CommonBeanFields implements IUserActivity
 		return action;
 	}
 	
-	@Column(name = "after")
+	@Column(name = "afterMsg")
 	public String getAfter()
 	{
 		return after;
@@ -90,7 +90,7 @@ public class UserActivity extends CommonBeanFields implements IUserActivity
 		return autoId;
 	}
 	
-	@Column(name = "before")
+	@Column(name = "beforeMsg")
 	public String getBefore()
 	{
 		return before;
@@ -102,7 +102,7 @@ public class UserActivity extends CommonBeanFields implements IUserActivity
 		return className;
 	}
 	
-	@Column(name = "group")
+	@Column(name = "groupName")
 	public String getGroup()
 	{
 		return group;
