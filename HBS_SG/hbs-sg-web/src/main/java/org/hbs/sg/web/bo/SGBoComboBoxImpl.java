@@ -62,7 +62,6 @@ public abstract class SGBoComboBoxImpl implements SGBo
 		param.searchColumns = "CG.courseGroupId, CG.courseDesc";
 		
 		ENamed.EqualTo.param_AND(param, "CG.producer.producerId", sessionUser.getProducer().getProducerId());
-		
 		List<Object[]> objectList = (List<Object[]>) iBaseDAO.getDataList(param).getDataList();
 		
 		for (Object[] object : objectList)

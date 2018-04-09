@@ -10,10 +10,15 @@ import org.hbs.admin.model.IUsers;
 import org.hbs.sg.model.accessors.ConsumerAssessment;
 import org.hbs.sg.model.accessors.ConsumerAssessmentGroup;
 import org.hbs.sg.model.accessors.IConsumerUser;
+import org.hbs.sg.model.concern.OrganisationAddress;
+import org.hbs.sg.model.course.ChapterAttachments;
+import org.hbs.sg.model.course.CourseAttachments;
+import org.hbs.sg.model.course.CourseGroup;
 import org.hbs.sg.model.exam.AllocatedQuestions;
 import org.hbs.sg.model.exam.Assessment;
 import org.hbs.sg.model.exam.AssessmentQuestion;
 import org.hbs.sg.model.exam.IAllocatedQuestions;
+import org.hbs.sg.model.exam.IAssessment;
 import org.hbs.sg.model.exam.IAssessmentQuestion;
 import org.hbs.sg.web.controller.AssessmentForm;
 import org.hbs.sg.web.dao.AssessmentDAO;
@@ -147,5 +152,67 @@ public class AssessmentBoImpl implements AssessmentBo
 		return new LinkedHashSet<IAssessmentQuestion>(iaqList);
 		
 	}
-	
+
+	@Override
+	public DataTableParam getAssessmentQuestionList(DataTableParam dtParam, boolean isCount)
+	{
+		dtParam.addBean(AssessmentQuestion.class, "AQ");
+		ENamed.EqualTo.param_AND(dtParam, "AQ.status", true);
+		dtParam._OrderBy = " Order By AQ.createdDate Desc";
+
+		return iBaseDAO.getDataTableList(dtParam, isCount);
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public IAssessment getAssessment(DataTableParam dtParam)
+	{
+		ENamed.EqualTo.param_AND(dtParam, "A.status", true);
+
+		List<IAssessment> datatList = (List<IAssessment>) iBaseDAO.getDataList(dtParam).getDataList();
+		if (CommonValidator.isListFirstNotEmpty(datatList))
+			return datatList.iterator().next();
+		else
+			return null;
+	}
+
+	@Override
+	public boolean saveOrUpdate(AssessmentQuestion assessmentQuestion)
+	{
+		return iBaseDAO.saveOrUpdate("AssessmentQuestion", assessmentQuestion);
+	}
+
+	@Override
+	public DataTableParam getChapterAttachmentList(DataTableParam dtParam, boolean isCount)
+	{
+		dtParam.addBean(ChapterAttachments.class, "CHA");
+		ENamed.EqualTo.param_AND(dtParam, "CHA.status", true);
+		dtParam._OrderBy = " Order By CHA.createdDate Desc";
+
+		return iBaseDAO.getDataTableList(dtParam, isCount);
+
+	}
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<String> getCourseGroupDescriptionList(DataTableParam dtParam)
+	{
+		dtParam.searchColumns = "courseDesc";
+
+		List<String> dataList = (List<String>) iBaseDAO.getDataList(dtParam).getDataList();
+
+		return dataList;
+	}
+
+	@Override
+	public DataTableParam getCourseAttachmentList(DataTableParam dtParam, boolean isCount)
+	{
+		dtParam.addBean(CourseAttachments.class, "CRA");
+		
+		ENamed.EqualTo.param_AND(dtParam, "CRA.status", true);
+		dtParam._OrderBy = " Order By CRA.createdDate Desc";
+
+		return iBaseDAO.getDataTableList(dtParam, isCount);
+
+	}
+
 }

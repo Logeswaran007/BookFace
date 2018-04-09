@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.hbs.admin.controller.UserParam;
 import org.hbs.admin.model.IUploadImageOrDocuments;
 import org.hbs.admin.model.UserActivity;
 import org.hbs.edutel.model.AuthKeyGen;
@@ -48,5 +49,9 @@ public interface SGBo extends Serializable
 	public boolean saveOrUpdate(Set<? extends IUploadImageOrDocuments> attachments);
 	
 	public boolean saveOrUpdate(UserActivity userActivity);
+	
+	public Map<String, String> getComboBoxUserTypeMap(UserParam userParam) throws Exception;
+	
+	
 	
 }
