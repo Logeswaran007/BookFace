@@ -41,4 +41,14 @@ public interface UserBo extends Serializable
 	
 	public boolean saveOrUpdate(UserActivity userActivity);
 	
+	public DataTableParam getNumberOfUsersCount(DataTableParam dtParam, boolean isCount);
+	
+	public DataTableParam getNumberOfConsumersCount(DataTableParam dtParam, boolean isCount);
+	
+	public DataTableParam getNumberOfActiveUsersCount(DataTableParam dtParam, boolean isCount);
+	
+	public DataTableParam getNumberOfKYCUsersCount(DataTableParam dtParam, boolean isCount);
+	
+	
+	
 }

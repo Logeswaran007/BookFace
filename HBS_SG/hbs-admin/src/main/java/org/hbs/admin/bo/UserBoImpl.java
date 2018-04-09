@@ -14,6 +14,8 @@ import org.hbs.admin.model.IRoles;
 import org.hbs.admin.model.IUserRoles;
 import org.hbs.admin.model.IUsers;
 import org.hbs.admin.model.IUsers.EUserStatus;
+import org.hbs.admin.model.IUsers.EUserType;
+import org.hbs.admin.model.IUsers.EUsers;
 import org.hbs.admin.model.MaMenu;
 import org.hbs.admin.model.MaMenuRole;
 import org.hbs.admin.model.Producers;
@@ -33,6 +35,7 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.ansi.AnsiOutput.Enabled;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -267,5 +270,46 @@ public class UserBoImpl extends UserBoComboBoxImpl implements UserBo, IConstProp
 	{
 		return iBaseDAO.saveOrUpdate("UserActivity", userActivity);
 	}
+
+	@Override
+	public DataTableParam getNumberOfUsersCount(DataTableParam dtParam, boolean isCount)
+	{
+		dtParam.addBean(Users.class, "U");
+		ENamed.EqualTo.param_AND(dtParam, "U.status", true);
+		
+		return iBaseDAO.getDataTableList(dtParam, isCount);
+		
+	}
+
+	@Override
+	public DataTableParam getNumberOfConsumersCount(DataTableParam dtParam, boolean isCount)
+	{
+		dtParam.addBean(Users.class, "U");
+		ENamed.EqualTo.param_AND(dtParam,"U.usUsersType",EUserType.Consumer.name());
+		ENamed.EqualTo.param_AND(dtParam, "U.status", true);
+		
+		return iBaseDAO.getDataTableList(dtParam, isCount);
+	}
+	@Override
+	public DataTableParam getNumberOfActiveUsersCount(DataTableParam dtParam, boolean isCount)
+	{
+		dtParam.addBean(Users.class, "U");
+		ENamed.EqualTo.param_AND(dtParam,"U.usUserStatus",EUserStatus.Activated.name());
+		ENamed.EqualTo.param_AND(dtParam, "U.status", true);
+		
+		return iBaseDAO.getDataTableList(dtParam, isCount);
+	}
+
+	@Override
+	public DataTableParam getNumberOfKYCUsersCount(DataTableParam dtParam, boolean isCount)
+	{
+		dtParam.addBean(Users.class, "U");
+		ENamed.EqualTo.param_AND(dtParam,"U.usUserStatus",EUserStatus.Pending.name());
+		ENamed.EqualTo.param_AND(dtParam, "U.status", true);
+		
+		return iBaseDAO.getDataTableList(dtParam, isCount);
+	}
+	
+	
 	
 }
