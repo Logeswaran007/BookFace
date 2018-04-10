@@ -4,9 +4,7 @@ import java.sql.Timestamp;
 import java.util.Calendar;
 import java.util.LinkedHashSet;
 import java.util.List;
-
 import javax.servlet.http.HttpServletRequest;
-
 import org.hbs.admin.controller.UserParam;
 import org.hbs.admin.dao.UserDAO;
 import org.hbs.admin.model.IAddress.AddressType;
@@ -15,7 +13,6 @@ import org.hbs.admin.model.IUserRoles;
 import org.hbs.admin.model.IUsers;
 import org.hbs.admin.model.IUsers.EUserStatus;
 import org.hbs.admin.model.IUsers.EUserType;
-import org.hbs.admin.model.IUsers.EUsers;
 import org.hbs.admin.model.MaMenu;
 import org.hbs.admin.model.MaMenuRole;
 import org.hbs.admin.model.Producers;
@@ -35,7 +32,6 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.ansi.AnsiOutput.Enabled;
 import org.springframework.stereotype.Component;
 
 @Component

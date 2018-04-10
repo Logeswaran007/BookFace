@@ -12,10 +12,8 @@ import javax.servlet.http.HttpServletRequest;
 import org.hbs.admin.IAdminPath;
 import org.hbs.admin.document.DocumentFactory;
 import org.hbs.admin.model.IImage.EUploadType;
-import org.hbs.admin.model.IImage.EUserAction;
 import org.hbs.admin.model.IUsers;
 import org.hbs.admin.model.UserActivity;
-import org.hbs.admin.model.UserLog;
 import org.hbs.admin.model.IUsers.EUsers;
 import org.hbs.sg.model.concern.IOrganisationAddress;
 import org.hbs.sg.model.concern.IOrganisationAttachments;
@@ -48,7 +46,7 @@ public class OrganisationController extends SGControllerBaseBo implements IAdmin
 {
 	private static final long	serialVersionUID	= 1580742167460496210L;
 	private final CustomLogger	logger				= new CustomLogger(this.getClass());
-	
+
 	@RequestMapping(value = ADD_ORGANISTATION, method = RequestMethod.POST)
 	public @ResponseBody String addOrganisation(@RequestParam("organisationForm") String formData, @RequestParam("docTypes") String[] docTypes,
 			@RequestParam("uploadMultiPartFiles") MultipartFile[] multiPartFiles, HttpServletRequest request)
@@ -60,7 +58,7 @@ public class OrganisationController extends SGControllerBaseBo implements IAdmin
 			{
 				ObjectMapper mapper = new ObjectMapper();
 				OrganisationForm orgForm = mapper.readValue(formData, OrganisationForm.class);
-				
+
 				orgForm.organisation.setOrganisationId(orgForm.organisation.getBusinessKey());
 				orgForm.organisation.setCreatedUser(sessionUser);
 				orgForm.organisation.setCreatedDate(new Timestamp(Calendar.getInstance().getTimeInMillis()));
@@ -72,11 +70,15 @@ public class OrganisationController extends SGControllerBaseBo implements IAdmin
 				getFilteredAddressList(orgForm.organisation.getAddressList(), orgForm.communication);
 				getFilteredAddressList(orgForm.organisation.getAddressList(), orgForm.permanent);
 				getFilteredAddressList(orgForm.organisation.getAddressList(), orgForm.present);
-				
+
 				// Uploading Images and Documents and update user object via reference
 				uploadDocumentAttachment(docTypes, multiPartFiles, request, sessionUser, orgForm.organisation);
-				
-				return sgBo.saveOrUpdate(orgForm.organisation) + "";
+				if (sgBo.saveOrUpdate(orgForm.organisation))
+				{
+					userBo.saveOrUpdate(new UserActivity(EUserAction.Add_Organisation, "",Organisation.class.getSimpleName(), ""));
+					return "true";
+				}
+
 			}
 		}
 		catch (Exception excep)
@@ -85,13 +87,13 @@ public class OrganisationController extends SGControllerBaseBo implements IAdmin
 		}
 		return "Failure";
 	}
-	
+
 	@ModelAttribute("organisationForm")
 	public OrganisationForm createOrganisationForm()
 	{
 		return new OrganisationForm();
 	}
-	
+
 	private boolean getFilteredAddressList(Set<IOrganisationAddress> addSet, IOrganisationAddress address)
 	{
 		if (CommonValidator.isNotNullNotEmpty(address.getAddressId()))
@@ -108,7 +110,7 @@ public class OrganisationController extends SGControllerBaseBo implements IAdmin
 		}
 		return false;
 	}
-	
+
 	@RequestMapping(PRE_SEARCH_ORGANISTATION)
 	public ModelAndView preSearchOrganisation(HttpServletRequest request)
 	{
@@ -123,32 +125,32 @@ public class OrganisationController extends SGControllerBaseBo implements IAdmin
 				modelView.addObject("columnsList", DataTableDynamicColumns.getDynamicColumns(layoutList));
 				modelView.addObject("columnDefsList", DataTableDynamicColumnDefs.getDynamicColumnDefs(layoutList));
 				modelView.addObject("displayOrderList", EDataTable.Cols.getOrder(layoutList));
-				
 				// Add Organisation Form OnLoad Values
 				modelView.addObject("organisationForm", createOrganisationForm());
 				modelView.addObject("countryList", userBo.getCountryList());
 				modelView.addObject("stateList", userBo.getStateList(request));
-				
+
 				return modelView;
 			}
 		}
 		catch (Exception excep)
 		{
 			logger.error(excep);
-			
+
 		}
 		return new ModelAndView(LOGIN);
 	}
-	
+
 	@RequestMapping(SEARCH_ORGANISTATION)
 	public @ResponseBody String searchOrganisation(HttpServletRequest request)
 	{
 		List<ILayouts> layoutList = layoutBo.getResultLayouts(OrganisationAddress.class.getSimpleName());
-		
+
 		try
 		{
+			userBo.saveOrUpdate(new UserActivity(EUserAction.Search_Organisation, "",Organisation.class.getSimpleName(), ""));
 			DataTableParam dtParam = DataTableParam.getDataTableParamsFromRequest(request, layoutList);
-			
+
 			List<?> dataList = sgBo.getOrganisationList(dtParam, false).dataList;
 			int dataListCount = (int) sgBo.getOrganisationList(dtParam, true).dataListCount;
 			List<List<String>> mDataList = DataTableDynamicColumns.getJSONFromObjectByCols(dtParam, layoutList, dataList);
@@ -166,7 +168,7 @@ public class OrganisationController extends SGControllerBaseBo implements IAdmin
 		}
 		return null;
 	}
-	
+
 	private void uploadDocumentAttachment(String[] docTypes, MultipartFile[] multiPartFiles, HttpServletRequest request, IUsers sessionUsers, Organisation org) throws Exception
 	{
 		if (CommonValidator.isArrayFirstNotNull(multiPartFiles))
@@ -186,7 +188,7 @@ public class OrganisationController extends SGControllerBaseBo implements IAdmin
 			}
 			DocumentFactory.getInstance().forUpload(sessionUsers.getProducer()).uploadFileInRepository(request, org.getAttachmentList());
 		}
-		
+
 	}
-	
+
 }

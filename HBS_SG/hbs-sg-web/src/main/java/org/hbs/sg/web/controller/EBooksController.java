@@ -7,12 +7,11 @@ import java.util.Calendar;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
-
 import javax.servlet.http.HttpServletRequest;
-
 import org.hbs.admin.IAdminPath;
 import org.hbs.admin.document.DocumentFactory;
 import org.hbs.admin.model.IUsers;
+import org.hbs.admin.model.UserActivity;
 import org.hbs.admin.model.IUsers.EUsers;
 import org.hbs.sg.model.course.ChapterAttachments;
 import org.hbs.sg.model.course.CourseAttachments;
@@ -40,7 +39,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
-
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -91,7 +89,8 @@ public class EBooksController extends SGControllerBaseBo implements IAdminPath, 
 		List<ILayouts> layoutList = layoutBo.getResultLayouts(CourseAttachments.class.getSimpleName());
 		try
 		{
-
+			userBo.saveOrUpdate(new UserActivity(EUserAction.Add_EBookCourseAttachment, "", CourseAttachments.class.getSimpleName(), ""));
+			
 			DataTableParam dtParam = DataTableParam.getDataTableParamsFromRequest(request, layoutList);
 
 			List<?> dataList = assessmentBo.getCourseAttachmentList(dtParam, false).dataList;
@@ -122,6 +121,7 @@ public class EBooksController extends SGControllerBaseBo implements IAdminPath, 
 		List<ILayouts> layoutList = layoutBo.getResultLayouts(ChapterAttachments.class.getSimpleName());
 		try
 		{
+			userBo.saveOrUpdate(new UserActivity(EUserAction.Add_EBookChapterAttachment, "", ChapterAttachments.class.getSimpleName()));
 			DataTableParam dtParam = DataTableParam.getDataTableParamsFromRequest(request, layoutList);
 
 			List<?> dataList = assessmentBo.getChapterAttachmentList(dtParam, false).dataList;
@@ -177,12 +177,20 @@ public class EBooksController extends SGControllerBaseBo implements IAdminPath, 
 					{
 
 						uploadDocumentAttachment(docTypes, multiPartFiles, request, sessionUser, chapter);
-						return sgBo.saveOrUpdate(chapter.getAttachments()) + "";
+						if(sgBo.saveOrUpdate(chapter.getAttachments()))
+						{
+							userBo.saveOrUpdate(new UserActivity(EUserAction.Add_EBookChapterAttachment, "", ChapterAttachments.class.getSimpleName(), ""));
+							return "true";
+						}
 					}
 					else
 					{
 						uploadDocumentAttachment(docTypes, multiPartFiles, request, sessionUser, course);
-						return sgBo.saveOrUpdate(course.getAttachments()) + "";
+						if(sgBo.saveOrUpdate(course.getAttachments()))
+						{
+							userBo.saveOrUpdate(new UserActivity(EUserAction.Add_EBookCourseAttachment, "", CourseAttachments.class.getSimpleName(), ""));
+							return "true";
+						}
 					}
 				}
 				

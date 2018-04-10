@@ -7,10 +7,13 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 
 import org.hbs.admin.IAdminPath;
+import org.hbs.admin.IAdminPath.EUserAction;
 import org.hbs.admin.model.IUsers;
+import org.hbs.admin.model.UserActivity;
 import org.hbs.admin.model.IUsers.EUsers;
 import org.hbs.sg.model.accessors.IProducersAssessment;
 import org.hbs.sg.model.accessors.ProducersAssessment;
+import org.hbs.sg.model.concern.Organisation;
 import org.hbs.sg.model.course.ICourses;
 import org.hbs.sg.model.exam.Assessment;
 import org.hbs.sg.model.exam.AssessmentAnswer;
@@ -65,7 +68,7 @@ public class AssessmentController extends SGControllerBaseBo implements IAdminPa
 
 				AssessmentForm assessmentForm = mapper.readValue(formData, AssessmentForm.class);
 
-				DataTableParam dtParam = new DataTableParam(Assessment.class,"A");
+				DataTableParam dtParam = new DataTableParam(Assessment.class, "A");
 				ENamed.EqualTo.param_AND(dtParam, "A.courseId", assessmentForm.courseId);
 
 				ICourses courses = (ICourses) sgBo.getCourse(dtParam);
@@ -88,7 +91,12 @@ public class AssessmentController extends SGControllerBaseBo implements IAdminPa
 
 					assessment.getProducersAssessment().add(producerAssessment);
 
-					return assessmentBo.saveOrUpdate(assessment) + "";
+					if (assessmentBo.saveOrUpdate(assessment))
+					{
+						userBo.saveOrUpdate(new UserActivity(EUserAction.Add_Assessment, "", Assessment.class.getSimpleName(), ""));
+						return "true";
+					}
+
 				}
 
 			}
@@ -159,8 +167,8 @@ public class AssessmentController extends SGControllerBaseBo implements IAdminPa
 			modelView.addObject("chapterList", null);
 
 			String assessmentId = (String) dtParam.searchValueMap.get("assessmentId");
-			
-			dtParam=new DataTableParam(Assessment.class,"A");
+
+			dtParam = new DataTableParam(Assessment.class, "A");
 			if (CommonValidator.isNotNullNotEmpty(assessmentId))
 			{
 				ENamed.EqualTo.param_AND(dtParam, "A.assessmentId", assessmentId);
@@ -186,6 +194,7 @@ public class AssessmentController extends SGControllerBaseBo implements IAdminPa
 
 		try
 		{
+			userBo.saveOrUpdate(new UserActivity(EUserAction.Search_AssessmentQuestion, "", AssessmentQuestion.class.getSimpleName(), ""));
 			DataTableParam dtParam = DataTableParam.getDataTableParamsFromRequest(request, layoutList);
 
 			String assessmentId = (String) dtParam.searchValueMap.get("assessmentId");
@@ -194,7 +203,7 @@ public class AssessmentController extends SGControllerBaseBo implements IAdminPa
 			{
 				dtParam.dataList.clear();
 				dtParam.searchValueMap.clear();
-				
+
 				ENamed.EqualTo.param_AND(dtParam, "AQ.assessment.assessmentId", assessmentId);
 				List<?> dataList = assessmentBo.getAssessmentQuestionList(dtParam, false).dataList;
 				int dataListCount = (int) assessmentBo.getAssessmentQuestionList(dtParam, true).dataListCount;
@@ -248,6 +257,8 @@ public class AssessmentController extends SGControllerBaseBo implements IAdminPa
 		List<ILayouts> layoutList = layoutBo.getResultLayouts(Assessment.class.getSimpleName());
 		try
 		{
+			userBo.saveOrUpdate(new UserActivity(EUserAction.Search_Assessment, "",Assessment.class.getSimpleName(), ""));
+			
 			DataTableParam dtParam = DataTableParam.getDataTableParamsFromRequest(request, layoutList);
 
 			List<?> dataList = assessmentBo.getAssessmentList(dtParam, false).dataList;
@@ -296,7 +307,7 @@ public class AssessmentController extends SGControllerBaseBo implements IAdminPa
 				assessmentQuestion.setCreatedUser(sessionUser);
 				assessmentQuestion.setCreatedDate(new Timestamp(Calendar.getInstance().getTimeInMillis()));
 
-				DataTableParam dtParam = new DataTableParam(Assessment.class,"A");
+				DataTableParam dtParam = new DataTableParam(Assessment.class, "A");
 				ENamed.EqualTo.param_AND(dtParam, "A.assessmentId", assessmentQuestionForm.assessmentId);
 				ENamed.EqualTo.param_AND(dtParam, "A.status", true);
 				IAssessment assessment = (IAssessment) assessmentBo.getAssessment(dtParam);
@@ -304,27 +315,22 @@ public class AssessmentController extends SGControllerBaseBo implements IAdminPa
 					assessmentQuestion.setAssessment(assessment);
 
 				IAssessmentExplanation assessmentExplaination = new AssessmentExplanation(assessmentQuestion);
-				// assessmentExplaination.setAssessmentQuestion(assessmentQuestion);
 				assessmentExplaination.setExplanation(assessmentQuestionForm.getTextExplanation());
 				assessmentQuestion.getExplanations().add(assessmentExplaination);
 
 				IAssessmentAnswer assessmentAnswer = new AssessmentAnswer(assessmentQuestion);
-				// assessmentAnswer.setAssessmentQuestion(assessmentQuestion);
 				assessmentAnswer.setTextAnswer(assessmentQuestionForm.getTextAnswer1());
 				assessmentQuestion.getAnswers().add(assessmentAnswer);
 
 				assessmentAnswer = new AssessmentAnswer(assessmentQuestion);
-				// assessmentAnswer.setAssessmentQuestion(assessmentQuestion);
 				assessmentAnswer.setTextAnswer(assessmentQuestionForm.getTextAnswer2());
 				assessmentQuestion.getAnswers().add(assessmentAnswer);
 
 				assessmentAnswer = new AssessmentAnswer(assessmentQuestion);
-				// assessmentAnswer.setAssessmentQuestion(assessmentQuestion);
 				assessmentAnswer.setTextAnswer(assessmentQuestionForm.getTextAnswer3());
 				assessmentQuestion.getAnswers().add(assessmentAnswer);
 
 				assessmentAnswer = new AssessmentAnswer(assessmentQuestion);
-				// assessmentAnswer.setAssessmentQuestion(assessmentQuestion);
 				assessmentAnswer.setTextAnswer(assessmentQuestionForm.getTextAnswer4());
 				assessmentQuestion.getAnswers().add(assessmentAnswer);
 
@@ -334,8 +340,12 @@ public class AssessmentController extends SGControllerBaseBo implements IAdminPa
 				assessmentCorrectAnswer.setCorrectAnswer3(assessmentQuestionForm.getCorrectAnswer3());
 				assessmentCorrectAnswer.setCorrectAnswer4(assessmentQuestionForm.getCorrectAnswer4());
 				assessmentQuestion.setCorrectAnswer(assessmentCorrectAnswer);
+				if (assessmentBo.saveOrUpdate(assessmentQuestion))
+				{
+					userBo.saveOrUpdate(new UserActivity(EUserAction.Add_AssessmentQuestion, "", AssessmentQuestion.class.getSimpleName(), ""));
+					return "true";
+				}
 
-				return assessmentBo.saveOrUpdate(assessmentQuestion) + "";
 			}
 		}
 		catch (Exception excep)
