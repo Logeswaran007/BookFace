@@ -211,6 +211,7 @@ public class AuthKeyGenController extends SGControllerBaseBo implements IAdminPa
 			modelView.addObject("authKeyGenForm", createAuthKeyGenForm());
 			modelView.addObject("employeeList", userBo.getComboBoxUserMap(new UserParam(request, EUserType.Employee)));
 			modelView.addObject("schemeList", sgBo.getComboBoxSchemeMap(new SchemeParam(request)));
+		//	modelView.addObject("userTyeList", sgBo.getComboBoxUserTypeMap(new UserParam(request)));
 			
 			return modelView;
 		}
@@ -229,7 +230,9 @@ public class AuthKeyGenController extends SGControllerBaseBo implements IAdminPa
 		{
 			List<ILayouts> layoutList = layoutBo.getResultLayouts(AuthKeyGen.class.getSimpleName());
 			
+			
 			DataTableParam dtParam = DataTableParam.getDataTableParamsFromRequest(request, layoutList);
+			
 			
 			List<IAuthKeyGen> dataList = (List<IAuthKeyGen>) sgBo.getAuthKeyGenList(dtParam, false).dataList;
 			int dataListCount = (int) sgBo.getAuthKeyGenList(dtParam, true).dataListCount;

@@ -20,11 +20,11 @@ ${displayOrderList}
     				{
     					"search" : "",
     					"lengthMenu" : "_MENU_",
-    					"emptyTable" : "<center>No Authentication Key Available.</center>"
+    					"emptyTable" : "<center>No Assessment Questions Available.</center>"
     				},
     			 	"ajax":
     			 	{
-    					"url": "${searchOnlineExamUrl}",
+    					"url": "${searchAssessmentQuestionUrl}",
     					"type": "POST"
     				},
     				"columns": ${columnsList},
@@ -78,14 +78,6 @@ ${displayOrderList}
 			    });
 		};
 	};
-    	
-	
-	
-	function onCreateExam()
-	{
-		alert("WELL");
-	}
-    	
 	
 </script>
 
@@ -106,8 +98,8 @@ ${displayOrderList}
 				<div class="col-md-6">
 					<div class="btn-group">
 						<button type="button" class="btn green btn-outline"
-							data-toggle="modal" data-target="#addAssessmentDivId">
-							Create Assessment Question Block <i class="fa fa-plus"></i>
+							data-toggle="modal" data-target="#addAssessmentQuestionDivId">
+							Create Assessment Question <i class="fa fa-plus"></i>
 						</button>
 					</div>
 				</div>

@@ -35,20 +35,27 @@ public interface ISGPath extends Serializable
 	public String	PRACTISE_ASSESSMENT_PAGE			= "/content/assessment";
 	public String	PRE_SEARCH_ASSESSMENT				= "/d0f9600d5f8d0b22a87adf6d58b32059";
 	public String	PRE_SEARCH_ASSESSMENT_QUESTIONS		= "/bd73b98a32ed8d14650cb948dee7d408";
+	public String	SEARCH_ASSESSMENT_QUESTIONS			= "/bd0065691c9c62eb2f2a5f34410157e7";
 	public String	PRE_SEARCH_AUTH_KEYGEN				= "/a9dc3f7729b51d26dc20af48c03dfee6";
 	public String	PRE_SEARCH_EBOOKS					= "/a500fe2139d875b2f6d9679600577191";
 	public String	PRE_SEARCH_INFORMATION_ALERT		= "/dc58d3e1b340addb4a1bcc6968a4533d";
 	public String	PRE_SEARCH_ORGANISTATION			= "/ba6443f8aa1c6e707ccb0cd4f03aa1e9";
 	public String	SEARCH_ASSESSMENT					= "/abc97070154d606a0fa140bee2f18a0f";
-	
+
 	public String	SEARCH_ASSESSMENT_PAGE				= "/content/search-assessment";
 	public String	SEARCH_ASSESSMENT_QUESTIONS_PAGE	= "/content/search-assessment-question";
 	public String	SEARCH_AUTH_KEYGEN					= "/f241266cd5b6cdff9a50a61f6348f2f9";
 	public String	SEARCH_AUTH_KEYGEN_PAGE				= "/content/search-auth-keygen";
-	public String	SEARCH_EBOOKS						= "/b5610fae7ed7b4b0170d8832a978c938";
+	public String	SEARCH_COURSE_EBOOKS				= "/b5610fae7ed7b4b0170d8832a978c938";
+	public String	SEARCH_CHAPTER_EBOOKS				= "/b8ca07dd95df569a5b001828cca73d89";
 	public String	SEARCH_EBOOKS_PAGE					= "/content/search-ebooks";
 	public String	SEARCH_ORGANISTATION				= "/f37b3a1c4eb15d15374d94f66b6ff3de";
 	public String	SEARCH_ORGANISTATION_PAGE			= "/content/search-organisation";
 	public String	VALIDATE_AUTH_KEYGEN				= "/ec00467b6343568e825c8987727352ea";
-	
+
+	public String	ADD_ASSESSMENT_QUSTIONS_BLOCK		= "fb145feeb82b758b81870c5fd6db7f38";
+	public String	VIEW_COURSE_EBOOKS_PDF				= "/cb4ccbb888a3058b8a7884d886d2e4d5/{courseId}";
+	public String	VIEW_CHAPTER_EBOOKS_PDF				= "/ea983cfe76e3f63681e133aa95d84393/{chapterId}";
+	public String	PRE_E_BOOKS_VIEW					= "/6d1ebf572dba98851c34e281efec5de2/{page}";
+
 }

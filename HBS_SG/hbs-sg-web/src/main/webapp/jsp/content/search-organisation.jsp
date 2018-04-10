@@ -2,12 +2,16 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <c:set var="root" value="${pageContext.request.contextPath}" />
+
+ 
+
 <script>
 	${displayOrderList}
 	var data = {};
 	var organisationTable;
 	$(document).ready(function()  
 	{
+		 $('[rel="tooltip"]').tooltip({trigger: "hover"});
 		organisationTable = $('#organisationTableId').DataTable(
 		{
 			"lengthMenu": [[10, 25, 50, 100], [10, 25, 50, 100]],
@@ -16,6 +20,7 @@
 			"jQueryUI" : true,
 			"pagingType" : "full_numbers",
 		 	"order" : [ 1, 'desc' ],
+		 
 		 	"language" : 
 			{
 				"search" : "",
@@ -33,12 +38,18 @@
 	                "target": 'tr'
 	            }
 	        },
+	    	dom: "<'row'<'col-md-6 col-sm-6'l><'col-md-6 col-sm-6'f<'create'>>r><'table-scrollable't><'row'<'col-md-5 col-sm-12'i><'col-md-7 col-sm-12'p>>",
+			   initComplete: function(){
+			      $("div.create")
+			         .html(getCreateOrganizationHTML());           
+			   }, 
 			"columns": ${columnsList},
 			"columnDefs": ${columnDefsList}
 		});
 	 	$('div.dataTables_filter input').addClass('form-control');
 	 	$('div.dataTables_length select').addClass('form-control');
 	 	$('.dataTables_filter input').attr('placeholder','Search');
+	 	 $("div.toolbar").html('<b>Custom tool bar! Text/images etc.</b>');
 	 	
 	 	$.fn.dataTable.Responsive.breakpoints = [
 	 	    { name: 'desktop', width: Infinity },
@@ -48,6 +59,13 @@
 	 	];
 	
 	});
+	
+	function getCreateOrganizationHTML()
+	{
+	/* 	var CreateOrganization ="<span style=\"float:right!important\"> <i class=\"fa fa-plus-square\" title=\"Hello World!\" style=\"font-size:20px; color:green;\"></i> </span>"; */
+	var CreateOrganization ="<button type=\"button\" class=\"btn btn-success pull-right\" data-placement=\"bottom\" rel=\"tooltip\" data-toggle=\"modal tooltip\" data-target=\"#organistationDivId\">Create Organisation <i class=\"fa fa-plus\"></i></button>";	
+	return CreateOrganization;
+	}
 	
 </script>
 <style>
@@ -63,6 +81,34 @@
 	padding:2px;
 }
 
+
+.tooltip {
+    position: relative;
+    display: inline-block;
+    border-bottom: 1px dotted black;
+}
+
+.tooltip .tooltiptext {
+    visibility: hidden;
+    width: 120px;
+    background-color: black;
+    color: #fff;
+    text-align: center;
+    border-radius: 6px;
+    padding: 5px 0;
+    
+    /* Position the tooltip */
+    position: absolute;
+    z-index: 1;
+    bottom: 100%;
+    left: 50%;
+    margin-left: -60px;
+}
+
+.tooltip:hover .tooltiptext {
+    visibility: visible;
+}
+
 </style>
 
 <!-- BEGIN CONTENT -->
@@ -76,37 +122,7 @@
 		</ul>
 	</div>
 	<div class="page-content-body">
-		<div class="table-toolbar">
-			<div class="row">
-				<div class="col-md-6">
-					<div class="btn-group">
-						<button type="button" class="btn btn-success"
-							data-toggle="modal" data-target="#organistationDivId">
-							Create Organisation <i class="fa fa-plus"></i>
-						</button>
-					</div>
-				</div>
-				<div class="col-md-6">
-					<div class="btn-group pull-right">
-						<button class="btn green  btn-outline dropdown-toggle"
-							data-toggle="dropdown" aria-expanded="false">
-							Tools <i class="fa fa-angle-down"></i>
-						</button>
-						<ul class="dropdown-menu pull-right">
-							<li><a href="javascript:;"> <i class="fa fa-print"></i>
-									Print
-							</a></li>
-							<li><a href="javascript:;"> <i class="fa fa-file-pdf-o"></i>
-									Save as PDF
-							</a></li>
-							<li><a href="javascript:;"> <i
-									class="fa fa-file-excel-o"></i> Export to Excel
-							</a></li>
-						</ul>
-					</div>
-				</div>
-			</div>
-		</div>
+		
 		<div id="organisationTableId_wrapper"
 			class="dataTables_wrapper no-footer">
 			<div class="table-scrollable">

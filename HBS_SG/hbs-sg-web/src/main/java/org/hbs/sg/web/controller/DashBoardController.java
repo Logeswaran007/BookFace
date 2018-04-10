@@ -8,6 +8,7 @@ import org.hbs.admin.controller.UserParam;
 import org.hbs.admin.model.IUsers;
 import org.hbs.admin.model.IUsers.EUsers;
 import org.hbs.util.CustomLogger;
+import org.hbs.util.DataTableParam;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,12 +19,13 @@ public class DashBoardController extends DashBoardControllerData implements IAdm
 {
 	private static final long	serialVersionUID	= 2742202215975142838L;
 	private final CustomLogger	logger				= new CustomLogger(this.getClass());
-	
+
 	@RequestMapping(DASHBOARD)
 	public ModelAndView getDashBoard(HttpServletRequest request, HttpServletResponse response)
 	{
 		try
 		{
+			DataTableParam dtParam=new DataTableParam();
 			IUsers users = EUsers.getSessionUser(request);
 			ModelAndView modelView = new ModelAndView(DASHBOARD_PAGE);
 			modelView.addObject("usEmployeeId", users.getUsEmployeeId());
@@ -32,6 +34,10 @@ public class DashBoardController extends DashBoardControllerData implements IAdm
 			modelView.addObject("lastLoginTime", users.getLastLoginTime());
 			modelView.addObject("loginUserImage", users.getUsUserImage());
 			modelView.addObject("leftSideMenu", userBo.getMenusByRoleHTML(new UserParam(users)));
+			modelView.addObject("noOfEmployees",(int)userBo.getNumberOfUsersCount(dtParam,true).dataListCount);
+			modelView.addObject("noOfConsumers",(int)userBo.getNumberOfConsumersCount(dtParam,true).dataListCount);
+			modelView.addObject("noOfActiveUsers",(int)userBo.getNumberOfActiveUsersCount(dtParam,true).dataListCount);
+			modelView.addObject("noOfKYC",(int)userBo.getNumberOfKYCUsersCount(dtParam,true).dataListCount);
 			portletProcessor.executor(request, response, modelView, users.getUserRoleses());
 			return modelView;
 		}
@@ -42,12 +48,12 @@ public class DashBoardController extends DashBoardControllerData implements IAdm
 			return new ModelAndView(LOGIN);
 		}
 	}
-	
+
 	@RequestMapping(PRE_LOAD_PAGE)
 	public ModelAndView loadPrePage(HttpServletRequest request, @PathVariable String page)
 	{
 		return new ModelAndView("/content/" + page);
-		
+
 	}
-	
+
 }

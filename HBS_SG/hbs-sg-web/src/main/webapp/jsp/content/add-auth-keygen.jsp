@@ -79,6 +79,26 @@
 									</div>
 								</div>
 							</div>
+							
+							<%-- <div class="row">
+								<div class="col-md-6">
+									<div class="form-group">
+										<div class="input-icon left">
+											<i class="fa fa-user"></i>
+											<form:select path="authKey.users.usUserType"
+												id="usUserType" class="form-control">
+												<form:option value="" label="--- Select UserType ---" />
+												<form:options items="${userTyeList}" />
+											</form:select>
+										</div>
+									</div>
+								</div>
+								<div class="col-md-6">
+									<div class="form-group">
+										
+									</div>
+								</div>
+							</div> --%>
 							<div class="clearfix"></div>
 							<div class="row">
 								<div class="col-md-6">

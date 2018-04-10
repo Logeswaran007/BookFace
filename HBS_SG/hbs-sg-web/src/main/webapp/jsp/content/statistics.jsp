@@ -4,11 +4,12 @@
 		<a class="dashboard-stat dashboard-stat-light blue-soft"
 			href="javascript:;">
 			<div class="visual">
-				<i class="fa fa-comments"></i>
+				<i class="fa fa-users"></i>
 			</div>
 			<div class="details">
-				<div class="number">1349</div>
-				<div class="desc">New Feedbacks</div>
+			<div class="number">${noOfEmployees}</div>
+			<div class="desc">Users</div>
+			
 			</div>
 		</a>
 	</div>
@@ -19,8 +20,8 @@
 				<i class="fa fa-trophy"></i>
 			</div>
 			<div class="details">
-				<div class="number">12,5M$</div>
-				<div class="desc">Total Profit</div>
+				<div class="number">${noOfConsumers}</div>
+				<div class="desc">Consumers</div>
 			</div>
 		</a>
 	</div>
@@ -28,11 +29,11 @@
 		<a class="dashboard-stat dashboard-stat-light green-soft"
 			href="javascript:;">
 			<div class="visual">
-				<i class="fa fa-shopping-cart"></i>
+				<i class="fa fa-user-plus"></i>
 			</div>
 			<div class="details">
-				<div class="number">549</div>
-				<div class="desc">New Orders</div>
+				<div class="number">${noOfActiveUsers}</div>
+				<div class="desc">Active Users</div>
 			</div>
 		</a>
 	</div>
@@ -43,8 +44,8 @@
 				<i class="fa fa-globe"></i>
 			</div>
 			<div class="details">
-				<div class="number">+89%</div>
-				<div class="desc">Brand Popularity</div>
+				<div class="number">${noOfKYC}</div>
+				<div class="desc">Know your Customers</div>
 			</div>
 		</a>
 	</div>

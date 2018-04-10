@@ -7,7 +7,14 @@
 <!--[if lt IE 9]>
 <script src="${root}/assets/global/plugins/respond.min.js"></script>
 <script src="${root}/assets/global/plugins/excanvas.min.js"></script> 
-<![endif]-->
+
+ <!-- START TINY MCE EDITOR PLUGINS -->
+<script type="text/javascript" src="${root}/assets/edutel/plugins/tinymce/js/tinymce/tinymce.min.js"></script>
+<!-- END TINY MCE EDITOR PLUGINS -->
+
+<script type="text/javascript" src="${root}/assets/edutel/js/encdec.js"></script>
+<script type="text/javascript" src="${root}/assets/edutel/js/edutel.js"></script>
+<script type="text/javascript" src="${root}/assets/edutel/js/commonUtil.js"></script>
 <!-- BEGIN CORE PLUGINS -->
  <script src="${root}/assets/global/plugins/jquery.min.js" type="text/javascript"></script>
  <script src="${root}/assets/global/plugins/bootstrap/js/bootstrap.min.js" type="text/javascript"></script>
@@ -16,6 +23,19 @@
  <script src="${root}/assets/global/plugins/jquery.blockui.min.js" type="text/javascript"></script>
  <script src="${root}/assets/global/plugins/bootstrap-switch/js/bootstrap-switch.min.js" type="text/javascript"></script>
  <!-- END CORE PLUGINS -->
+ 
+ <!-- BEGIN THEME GLOBAL SCRIPTS -->
+ <script src="${root}/assets/global/scripts/app.min.js" type="text/javascript"></script>
+ <!-- END THEME GLOBAL SCRIPTS -->
+ 
+ <!-- BEGIN THEME LAYOUT SCRIPTS -->
+ <script src="${root}/assets/layouts/layout/scripts/layout.min.js" type="text/javascript"></script>
+ <script src="${root}/assets/layouts/layout/scripts/demo.min.js" type="text/javascript"></script>
+ <script src="${root}/assets/layouts/global/scripts/quick-sidebar.min.js" type="text/javascript"></script>
+ <script src="${root}/assets/layouts/global/scripts/quick-nav.min.js" type="text/javascript"></script>
+ <!-- END THEME LAYOUT SCRIPTS -->
+ 
+ 
  <!-- BEGIN PAGE LEVEL PLUGINS -->
  <script src="${root}/assets/global/plugins/moment.min.js" type="text/javascript"></script>
  <script src="${root}/assets/global/plugins/bootstrap-daterangepicker/daterangepicker.min.js" type="text/javascript"></script>
@@ -53,9 +73,10 @@
  <script src="${root}/assets/global/plugins/datatables/datatables.min.js" type="text/javascript"></script>
  <script src="${root}/assets/global/plugins/datatables/plugins/bootstrap/datatables.bootstrap.js" type="text/javascript"></script>
  <!-- END PAGE LEVEL PLUGINS -->
- <!-- BEGIN THEME GLOBAL SCRIPTS -->
- <script src="${root}/assets/global/scripts/app.min.js" type="text/javascript"></script>
- <!-- END THEME GLOBAL SCRIPTS -->
+ 
+
+
+ 
  <!-- BEGIN PAGE LEVEL SCRIPTS -->
  <script src="${root}/assets/pages/scripts/table-datatables-responsive.min.js" type="text/javascript"></script>
  <!-- END PAGE LEVEL SCRIPTS -->
@@ -65,9 +86,4 @@
   <!-- BEGIN PAGE LEVEL SCRIPTS -->
  <script src="${root}/assets/pages/scripts/table-datatables-managed.min.js" type="text/javascript"></script>
  <!-- END PAGE LEVEL SCRIPTS -->
- <!-- BEGIN THEME LAYOUT SCRIPTS -->
- <script src="${root}/assets/layouts/layout/scripts/layout.min.js" type="text/javascript"></script>
- <script src="${root}/assets/layouts/layout/scripts/demo.min.js" type="text/javascript"></script>
- <script src="${root}/assets/layouts/global/scripts/quick-sidebar.min.js" type="text/javascript"></script>
- <script src="${root}/assets/layouts/global/scripts/quick-nav.min.js" type="text/javascript"></script>
- <!-- END THEME LAYOUT SCRIPTS -->
+ 

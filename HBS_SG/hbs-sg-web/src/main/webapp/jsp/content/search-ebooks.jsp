@@ -6,10 +6,12 @@
 ${displayOrderList}
 var data = {};
 var msg={};
-var eBooksTable;
+var eBooksCourseTableId;
+var eBooksChapterTableId;
+
 $(document).ready(function()
 {
-	eBooksTable = $('#eBooksTableId').DataTable(
+	eBooksCourseTableId = $('#eBooksCourseTableId').DataTable(
     {
         "lengthMenu": [
             [10, 25, 50, 100],
@@ -24,62 +26,95 @@ $(document).ready(function()
         {
             "search": "",
             "lengthMenu": "_MENU_",
-            "emptyTable": "<center>No eBooks data  Available.</center>"
+            "emptyTable": "<center>No E-Books available for Courses</center>"
         },	
         "ajax":
         {
-            "url": "${searchEBooksUrl}",
+            "url": "${searchCourseEBooksUrl}",
             "type": "POST"
         },
-        "columns": ${columnsList},
-        "columnDefs": ${columnDefsList}
+        "columns": ${columnsCourseList},
+        "columnDefs": ${columnCourseDefsList}
     });
-    $('div.dataTables_filter input').addClass('form-control');
-    $('div.dataTables_length select').addClass('form-control');
-    $('.dataTables_filter input').attr('placeholder', 'Search');
+
+
+	eBooksChapterTableId = $('#eBooksChapterTableId').DataTable(
+    {
+        "lengthMenu": [
+            [10, 25, 50, 100],
+            [10, 25, 50, 100]
+        ],
+        "processing": true,
+        "serverSide": true,
+        "jQueryUI": true,
+        "pagingType": "full_numbers",
+        "order": [1, 'desc'],
+        "language":
+        {
+            "search": "",
+            "lengthMenu": "_MENU_",
+            "emptyTable": "<center>No E-Books available for Chapters.</center>"
+        },	
+        "ajax":
+        {
+            "url": "${searchChapterEBooksUrl}",
+            "type": "POST"
+        },
+        "columns": ${columnsChapterList},
+        "columnDefs": ${columnChapterDefsList}
+    });
+
 });
 
-function getCourseList()
-{
-	if( $("#courseGroupId").val() != "")
-	{
-	    $.ajax(
-	    {
-	        type: "GET",
-	        dataType : "json",
-	        contentType : "application/json; charset=utf-8",
-	        url: '${root}/f68ac3a11b5644835aa0ec1a40019393/' + $("#courseGroupId").val(),
-	    success: function(data)
-	    { 
-	    	$('#chapterId').find('courseId').remove().end();
-	    	
-	    	$.each(data.lbBeanList, function(i, d) { 
-	    		$('#courseId').append('<option value="' + d.value+ '">' + d.label + '</option>'); }); 
-	    	}
-	    });
-	};
-}
 
-function getChapterList()
+function loadCourseEBooksPDFDownload(courseId)
 {
-	if( $("#courseId").val() != "")
-	{
-	    $.ajax(
-	    {
-	        type: "GET",
-	        dataType : "json",
-	        contentType : "application/json; charset=utf-8",
-	        url: '${root}/f4593337ee57632604ffdf95306f3d67/' + $("#courseId").val(),
-	        success: function(data)
-	        { 
-	        	$('#chapterId').find('option').remove().end();
-	        	
-		    	$.each(data.lbBeanList, function(i, d) { 
-		    		$('#chapterId').append('<option value="' + d.value+ '">' + d.label + '</option>'); }); 
-		    	}
-		    });
-	};
-};
+	
+	if( $(courseId!= ""))
+			{
+		 $.ajax(  {
+			            type: "POST",
+				        url: '${root}/cb4ccbb888a3058b8a7884d886d2e4d5/'+courseId,
+				        success: function(url)
+				         {
+				        	eBooksCourseTableId.ajax.reload();
+				        	if(url!= "")
+				        		{
+				           		 window.open(url);
+				        		}
+				        	else
+				        		alert("Not able to generate PDF contact support team.");
+				         }
+				        
+		                
+					    });
+		
+			}
+
+}
+function loadChapterEBooksPDFDownload(chapterId)
+{
+	if( $(chapterId!= ""))
+			{
+		 $.ajax(  {
+			            type: "POST",
+				        url: '${root}/ea983cfe76e3f63681e133aa95d84393/'+chapterId,
+				        success: function(url)
+				         {
+				        	eBooksChapterTableId.ajax.reload();
+				        	if(url!= "")
+				        		{
+				           		window.open(url);
+				        		}
+				        	else
+				        		alert("Not able to generate PDF contact support team.");
+				         }
+					    });
+	    
+		
+			}
+
+}
 
 </script>
 <style>
@@ -135,14 +170,39 @@ function getChapterList()
 				</div>
 			</div>
 		</div>
-		<div id="eBooksTableId_wrapper" class="dataTables_wrapper no-footer">
-			<div class="table-scrollable">
-				<table
-					class="table table-striped table-bordered table-hover table-checkable order-column dataTable no-footer"
-					id="eBooksTableId" role="grid"
-					aria-describedby="eBooksTableId_info">
-				</table>
+		<div id="eBooksCourseTableId_wrapper"
+			class="dataTables_wrapper no-footer">
+			<div class="tabbable tabbable-tabdrop">
+				<ul class="nav nav-tabs">
+					<li class="active"><a href="#tab1" data-toggle="tab">Course
+							EBooks </a></li>
+					<li><a href="#tab2" data-toggle="tab">Chapter EBooks</a></li>
+
+				</ul>
+				<div class="tab-content">
+					<div class="tab-pane active" id="tab1">
+						<div class="table-scrollable">
+							<table
+								class="table table-striped table-bordered table-hover table-checkable order-column dataTable no-footer"
+								id="eBooksCourseTableId" role="grid"
+								aria-describedby="eBooksCourseTableId_info">
+							</table>
+						</div>
+					</div>
+					<div class="tab-pane" id="tab2">
+						<div class="table-scrollable">
+							<table
+								class="table table-striped table-bordered table-hover table-checkable order-column dataTable no-footer"
+								id="eBooksChapterTableId" role="grid"
+								aria-describedby="eBooksChapterTableId_info">
+							</table>
+						</div>
+					</div>
+
+				</div>
 			</div>
+
+
 		</div>
 	</div>
 </div>

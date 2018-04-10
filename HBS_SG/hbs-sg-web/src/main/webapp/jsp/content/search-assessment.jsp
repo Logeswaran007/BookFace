@@ -2,6 +2,11 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <c:set var="root" value="${pageContext.request.contextPath}" />
+
+  
+
+
+<script src="${root}/common/js/encdec.js" type="text/javascript"></script>
 <script>
 ${displayOrderList}
 	var data = {};
@@ -36,7 +41,34 @@ ${displayOrderList}
 	 	$('.dataTables_filter input').attr('placeholder','Search');
 	});
     	 
-    	
+function loadAssessmentQuestionPage(action, assessmentId, tips) {
+		
+		if (tips == "true") {
+			$("#page-content-div").html($("#portlet-tips").html());
+		} else {
+			$("#page-content-div").html($("#processing").html());
+		}
+
+		var _URL = "${root}/" + action;
+		
+
+		if (assessmentId != "") {
+		 var data = {};
+		    data["assessmentId"] = assessmentId;
+		    var encodedParams = Base64.encode(JSON.stringify(data));
+		   
+			_URL += "?searchCriteria=" + encodedParams + '&uid=' + Math.random();
+			
+		}
+
+		jQuery.ajax({
+			type : "POST",
+			url : _URL,
+			success : function(data) {
+				$("#page-content-div").html(data);
+			}
+		});
+	}
     	
 	
 </script>
@@ -56,11 +88,14 @@ ${displayOrderList}
 		<div class="table-toolbar">
 			<div class="row">
 				<div class="col-md-6">
+				
 					<div class="btn-group">
+					    <div class="color-demo tooltips" data-original-title="Click to view demos for this color" data-toggle="modal" data-target="#demo_modal_white">
 						<button type="button" class="btn green btn-outline"
-							data-toggle="modal" data-target="#onlineExamDivId">
+							data-toggle="modal" data-target="#addAssessmentDivId">
 							Create Assessment Panel <i class="fa fa-plus"></i>
 						</button>
+						</div>
 					</div>
 				</div>
 				<div class="col-md-6">
@@ -98,7 +133,7 @@ ${displayOrderList}
 <div class="clearfix"></div>
 <!-- START onlineExam ADD -->
 <!-- ----------------------------------------------------------- -->
- <jsp:include page="add-assessment-question.jsp" flush="true" /> 
+ <jsp:include page="add-assessment.jsp" flush="true" /> 
 <!-- ----------------------------------------------------------- -->
 <!-- END  onlineExam ADD -->
 
