@@ -32,6 +32,11 @@ ${displayOrderList}
     					"url": "${searchOnlineExamUrl}",
     					"type": "POST"
     				},
+    				dom: "<'row'<'col-md-6 col-sm-6'l><'col-md-6 col-sm-6'f<'create'>>r><'table-scrollable't><'row'<'col-md-5 col-sm-12'i><'col-md-7 col-sm-12'p>>",
+    				   initComplete: function(){
+    				      $("div.create")
+    				         .html(getCreateAssessmentPanelHTML());           
+    				   }, 
     				"columns": ${columnsList},
     				"columnDefs": ${columnDefsList}
     			});	
@@ -69,6 +74,13 @@ function loadAssessmentQuestionPage(action, assessmentId, tips) {
 			}
 		});
 	}
+function getCreateAssessmentPanelHTML()
+{
+	
+var CreateAssessmentPanel ="<button type=\'button\' class=\'btn green btn-outline pull-right\' data-placement=\'bottom\' rel=\'tooltip\' data-original-title=\'Click to view demos for this color\' data-toggle=\'modal\' data-target=\'#addAssessmentDivId\'>Create Assessment Panel<i class=\'fa fa-plus\'></i></button>";
+ 	
+return CreateAssessmentPanel;
+}
     	
 	
 </script>
@@ -85,40 +97,7 @@ function loadAssessmentQuestionPage(action, assessmentId, tips) {
 		</ul>
 	</div>
 	<div class="page-content-body">
-		<div class="table-toolbar">
-			<div class="row">
-				<div class="col-md-6">
-				
-					<div class="btn-group">
-					    <div class="color-demo tooltips" data-original-title="Click to view demos for this color" data-toggle="modal" data-target="#demo_modal_white">
-						<button type="button" class="btn green btn-outline"
-							data-toggle="modal" data-target="#addAssessmentDivId">
-							Create Assessment Panel <i class="fa fa-plus"></i>
-						</button>
-						</div>
-					</div>
-				</div>
-				<div class="col-md-6">
-					<div class="btn-group pull-right">
-						<button class="btn green  btn-outline dropdown-toggle"
-							data-toggle="dropdown" aria-expanded="false">
-							Tools <i class="fa fa-angle-down"></i>
-						</button>
-						<ul class="dropdown-menu pull-right">
-							<li><a href="javascript:;"> <i class="fa fa-print"></i>
-									Print
-							</a></li>
-							<li><a href="javascript:;"> <i class="fa fa-file-pdf-o"></i>
-									Save as PDF
-							</a></li>
-							<li><a href="javascript:;"> <i
-									class="fa fa-file-excel-o"></i> Export to Excel
-							</a></li>
-						</ul>
-					</div>
-				</div>
-			</div>
-		</div>
+		
 		 <div id="onlineExamTableId_wrapper"
 			class="dataTables_wrapper no-footer">
 			<div class="table-scrollable">

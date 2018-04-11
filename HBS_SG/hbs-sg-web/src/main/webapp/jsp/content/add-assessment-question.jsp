@@ -2,6 +2,12 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<c:set var="root" value="${pageContext.request.contextPath}" />
+
+<link href="${root}/assets/global/plugins/bootstrap-summernote/summernote.css"
+	rel="stylesheet">
+<script src="${root}/assets/global/plugins/bootstrap-summernote/summernote.min.js"
+	rel="stylesheet"></script>
 <style>
 .caption-subject {
 	font-family: "Open Sans", sans-serif;
@@ -165,6 +171,7 @@ body {
 								</div>
 								<div class="col-md-8">
 									<div class="form-group">
+									
 										<form:textarea path="textQuestion" id="textQuestionId"
 											class="form-control"
 											onkeyup="setReadOnlyImageField(this, '${questionId}Q');"
@@ -302,6 +309,49 @@ body {
 
 
 <script type="text/javascript">
+
+//$(document).ready(function() {
+	
+	//	loadTinyMCE();
+
+	//	$("#delImage" + quesId + "Q").hide();
+	//	$("#delImage" + quesId + "E").hide();
+	//	$("#delImage" + quesId + "A1").hide();
+
+	//	$("#delImageQ").hide();
+	//	$("#delImageE").hide();
+	//	$("#delImageA1").hide();
+
+	//	$("#addFiles").show();
+	//	$("#btnDelImgUpload").show();
+
+//	});
+
+var reqCnt = 6;
+	var fileCnt = 5;
+	var ansCnt = 2;
+	var quesId = "${assessmentQuestionId}";
+
+    jQuery(document).ready(function() {
+    	
+    	$('#textQuestionId').summernote({
+    		height :200,
+    		resize:false
+    	});
+    	
+    	$("#delImage" + quesId + "Q").hide();
+    	$("#delImage" + quesId + "E").hide();
+    	$("#delImage" + quesId + "A1").hide();
+
+    	$("#delImageQ").hide();
+    	$("#delImageE").hide();
+    	$("#delImageA1").hide();
+
+    	$("#addFiles").show();
+    	$("#btnDelImgUpload").show();
+    });
+
+
 	function setCorrectAnswer(id) {
 		if (id.is(':checked')) {
 			alert("Well");
@@ -310,6 +360,9 @@ body {
 			return false;
 
 	}
+	
+	
+	
 
 	$("#assessmentForm").submit(function(e) {
 
@@ -342,27 +395,8 @@ body {
 		});
 	});
 
-	var reqCnt = 6;
-	var fileCnt = 5;
-	var ansCnt = 2;
-	var quesId = "${assessmentQuestionId}";
-
-	$(document).ready(function() {
-		
-		loadTinyMCE();
-
-		$("#delImage" + quesId + "Q").hide();
-		$("#delImage" + quesId + "E").hide();
-		$("#delImage" + quesId + "A1").hide();
-
-		$("#delImageQ").hide();
-		$("#delImageE").hide();
-		$("#delImageA1").hide();
-
-		$("#addFiles").show();
-		$("#btnDelImgUpload").show();
-
-	});
+	
+	
 
 	window.onload = function() {
 		onLoadAll();
@@ -588,18 +622,18 @@ body {
 	}
 
 	function onsubmitCalled(isNext) {
+		alert("well");
+	//	var question=tinymce.get('textQuestionId').getContent();
 		
-		var question=tinymce.get('textQuestionId').getContent();
-		
-		alert("Question "+question);
-		alert("status " + isNext);
+	//	alert("Question "+question);
+	//	alert("status " + isNext);
 		var data = {};
 
 		data["assessmentId"] = $("#assessmentId").val();
-	//	data["textQuestion"] = $("#textQuestionId").val();
-	   data["textQuestion"] =tinymce.get('textQuestionId').getContent();
-		data["textExplanation"] = tinymce.get('textExplanationId').getContent();
-		data["textAnswer1"] =  tinymce.get('textAnswer1ID').getContent();
+		data["textQuestion"] = $("#textQuestionId").val();
+	//   data["textQuestion"] =tinymce.get('textQuestionId').getContent();
+	//	data["textExplanation"] = tinymce.get('textExplanationId').getContent();
+///		data["textAnswer1"] =  tinymce.get('textAnswer1ID').getContent();
 		data["textAnswer2"] = $("#textAnswer2ID").val();
 		data["textAnswer3"] = $("#textAnswer3ID").val();
 		data["textAnswer4"] = $("#textAnswer4ID").val();

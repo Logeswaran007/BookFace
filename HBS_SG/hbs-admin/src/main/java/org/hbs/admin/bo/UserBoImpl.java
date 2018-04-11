@@ -113,10 +113,10 @@ public class UserBoImpl extends UserBoComboBoxImpl implements UserBo, IConstProp
 		
 		if (CommonValidator.isNotNullNotEmpty(dtParam.sSearch) && isCount == false)
 		{
-			ENamed.Like.param_AND(dtParam, "UA.users.usEmployeeId", dtParam.sSearch, IWrap.ST_BRACE1);
-			ENamed.Like.param_OR(dtParam, "UA.users.usUserId", dtParam.sSearch);
-			ENamed.Like.param_OR(dtParam, "UA.users.usUserName", dtParam.sSearch);
-			ENamed.Like.param_OR(dtParam, "UA.users.usLastName", dtParam.sSearch);
+			ENamed.Like.param_AND(dtParam, "UA.usEmployeeId", dtParam.sSearch, IWrap.ST_BRACE1);
+			ENamed.Like.param_OR(dtParam, "UA.usUserId", dtParam.sSearch);
+			ENamed.Like.param_OR(dtParam, "UA.usUserName", dtParam.sSearch);
+			ENamed.Like.param_OR(dtParam, "UA.usLastName", dtParam.sSearch);
 			ENamed.Like.param_OR(dtParam, "UA.users.usDob", dtParam.sSearch);
 			ENamed.Like.param_OR(dtParam, "UA.users.usSex", dtParam.sSearch);
 			ENamed.Like.param_OR(dtParam, "UA.users.usUsersType", dtParam.sSearch);

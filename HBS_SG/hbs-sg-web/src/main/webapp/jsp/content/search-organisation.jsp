@@ -4,14 +4,13 @@
 <c:set var="root" value="${pageContext.request.contextPath}" />
 
  
-
 <script>
 	${displayOrderList}
 	var data = {};
 	var organisationTable;
 	$(document).ready(function()  
 	{
-		 $('[rel="tooltip"]').tooltip({trigger: "hover"});
+		
 		organisationTable = $('#organisationTableId').DataTable(
 		{
 			"lengthMenu": [[10, 25, 50, 100], [10, 25, 50, 100]],
@@ -62,8 +61,8 @@
 	
 	function getCreateOrganizationHTML()
 	{
-	/* 	var CreateOrganization ="<span style=\"float:right!important\"> <i class=\"fa fa-plus-square\" title=\"Hello World!\" style=\"font-size:20px; color:green;\"></i> </span>"; */
-	var CreateOrganization ="<button type=\"button\" class=\"btn btn-success pull-right\" data-placement=\"bottom\" rel=\"tooltip\" data-toggle=\"modal tooltip\" data-target=\"#organistationDivId\">Create Organisation <i class=\"fa fa-plus\"></i></button>";	
+		var CreateOrganization ="<button type=\'button\' class=\'btn green btn-outline pull-right\' data-placement=\'bottom\' rel=\'tooltip\' data-toggle=\'modal\' data-target=\'#organistationDivId\'>Create Organisation<i class=\'fa fa-plus\'></i></button>";	
+		
 	return CreateOrganization;
 	}
 	

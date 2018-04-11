@@ -341,9 +341,10 @@ public class UserManagementController extends ControllerBaseBo implements IAdmin
 				
 				ENamed.EqualTo.param_AND(dtParam, "UA.users.usUsersType", userType);
 				
-				List<?> dataList = userBo.getUsersList(dtParam, false).dataList;
+		        List<?> dataList = userBo.getUsersList(dtParam, false).dataList;
+			
 				int dataListCount = (int) userBo.getUsersList(dtParam, true).dataListCount;
-				
+			
 				List<List<String>> mDataList = DataTableDynamicColumns.getJSONFromObjectByCols(dtParam, layoutList, dataList);
 				
 				DataTableObject dataTableObject = new DataTableObject();

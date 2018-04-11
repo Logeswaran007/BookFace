@@ -122,7 +122,7 @@
 			formData.append('uploadMultiPartFiles', file);
 		});
 
-		$.ajax({
+		/* $.ajax({
 			type : "POST",
 			enctype : 'multipart/form-data',
 			url : "${root}/bf08745da5c91a28f4ef52f00f069480",
@@ -135,7 +135,7 @@
 				$("#organistationDivId").modal('hide');
 				organisationTable.ajax.reload();
 			}
-		});
+		}); */
 	});
 
 	
